@@ -8,3 +8,9 @@
 * Nome do cupom (String)
 * Status do cupom (String / Int)
 * Data de expiração (Timestamp)
+
+## Usuário
+
+* Email (String)
+* Senha (String)
+* Status (String)
