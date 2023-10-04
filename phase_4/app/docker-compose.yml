@@ -20,18 +20,18 @@ services:
     volumes:
       - ./api/:/usr/app/
       - /usr/app/node_modules
-  # database:
-  #   image: mysql
-  #   ports:
-  #     - '3306:3306'
-  #   container_name: livrum_database
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=root
-  #     - MYSQL_DATABASE=livrum
-  #   networks:
-  #     - livrum-network
-  #   volumes:
-  #     - ${MYSQL_VOLUME_PATH:-./mysql}:/var/lib/mysql
+  database:
+    image: mysql
+    ports:
+      - '3306:3306'
+    container_name: livrum_database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: livrum
+    networks:
+      - livrum-network
+    volumes:
+      - ${MYSQL_VOLUME_PATH:-./mysql}:/var/lib/mysql
 
 networks:
   livrum-network:
