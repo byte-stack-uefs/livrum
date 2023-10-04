@@ -8,4 +8,4 @@ RUN npm install && npm cache clean --force
 
 COPY . .
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev-livrum"]
