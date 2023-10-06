@@ -6,10 +6,23 @@
  * Além disso, ele será utilizado nas páginas do cliente (é o mesmo layout com um menu lateral)
  */
 
+import Image from "next/image";
+
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (
         <div>
-            <section className="bg-livrum-primary">Topbar</section>
+            <section className="bg-white">
+                <div className="flex justify-between">
+                    <div>
+                        <Image alt="Livrum TopBar Logo" src="/livrum-lateral.png" width={300} height={120} />
+                    </div>
+                    <div className="bg-gray-300">Campo de busca</div>
+                    <div className="flex justify-evenly">
+                        <div className="text-livrum-dark bold">Ícone Carrinho</div>
+                        <div>Ícone usuário</div>
+                    </div>
+                </div>
+            </section>
             <section>{children}</section>
             <footer className="bg-livrum-primary text-center text-white">
                 <p className="p-2">Fale Conosco</p>
