@@ -36,3 +36,5 @@ next-env.d.ts
 
 storybook-static
 .storybook
+
+package-lock.json
