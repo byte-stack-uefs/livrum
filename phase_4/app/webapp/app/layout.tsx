@@ -5,7 +5,10 @@ import { Source_Sans_3 } from "next/font/google";
 const font = Source_Sans_3({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-    title: process.env.APP_NAME,
+    title: {
+        template: "%s | " + process.env.APP_NAME,
+        default: process.env.APP_NAME + '',
+    },
     description: "Livrum website",
 };
 
