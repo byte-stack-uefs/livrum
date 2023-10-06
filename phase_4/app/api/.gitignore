@@ -134,3 +134,5 @@ lib-cov
 
 swagger/*
 !swagger/.gitkeep
+
+package-lock.json
