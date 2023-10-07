@@ -10,8 +10,8 @@ export default function TopBar() {
                 <div className="flex justify-between">
                     <div className="flex w-1/3 justify-around">
                         <LivrumLogo scale={0.20} />
-                        <p className={outfit.className + ' text-livrum-dark'} style={{ fontSize: 60 }}>
-                            LIVRUM
+                        <p className={outfit.className + ' text-livrum-dark'} style={{ fontSize: 60, textTransform: 'uppercase' }}>
+                            {process.env.APP_NAME}
                         </p>
                     </div>
                     <div className="bg-gray-300 text-center self-center w-1/3">Campo de busca</div>
