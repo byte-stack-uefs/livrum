@@ -4,8 +4,17 @@ const defaultWidth = 304;
 const defaultHeight = 448;
 
 export interface LogoProps {
+    /**
+     * A largura da imagem
+     */
     width?: number,
+    /**
+     * A altura da imagem
+     */
     height?: number,
+    /**
+     * A proporção da imagem
+     */
     scale?: number
 };
 
