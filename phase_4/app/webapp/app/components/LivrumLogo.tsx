@@ -1,26 +1,33 @@
-import Image from "next/image";
+import SizableImage from "./SizableImage";
 
 const defaultWidth = 304;
 const defaultHeight = 448;
 
 export interface LogoProps {
     /**
+     * O caminho para a logo
+     */
+    src?: string;
+    /**
      * A largura da imagem
      */
-    width?: number,
+    width?: number;
     /**
      * A altura da imagem
      */
-    height?: number,
+    height?: number;
     /**
      * A proporção da imagem
      */
-    scale?: number
-};
+    scale?: number;
+}
 
-export default function LivrumLogo({ width = defaultWidth, height = defaultHeight, scale = 1 }: LogoProps) {
+const logoPath = require("/public/livrum.png");
 
-    return (
-        <Image alt="Livrum Logo" src="/livrum.png" width={width * scale} height={height * scale} />
-    );
+/**
+ * Esse componente permite exibir a logo da Livrum
+ * de forma reutilizável.
+ */
+export default function LivrumLogo({ src = logoPath, width = defaultWidth, height = defaultHeight, scale = 1 }: LogoProps) {
+    return <SizableImage src={src} alt="Livrum Logo" scale={scale} width={width} height={height} />;
 }
