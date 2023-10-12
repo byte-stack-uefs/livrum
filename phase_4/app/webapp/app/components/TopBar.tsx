@@ -1,16 +1,19 @@
 import LivrumLogo from "./LivrumLogo";
 
 import { Outfit } from "next/font/google";
-const outfit = Outfit({ weight: '900', display: 'swap', subsets: ['latin'] })
+const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
 
+/**
+ * Esse componente é responsável para renderizar a Barra Superior do sistema
+ */
 export default function TopBar() {
     return (
         <div>
             <section className="bg-white">
                 <div className="flex justify-between">
                     <div className="flex w-1/3 justify-around">
-                        <LivrumLogo scale={0.20} />
-                        <p className={outfit.className + ' text-livrum-dark'} style={{ fontSize: 60, textTransform: 'uppercase' }}>
+                        <LivrumLogo scale={0.2} />
+                        <p className={outfit.className + " text-livrum-dark"} style={{ fontSize: 60, textTransform: "uppercase" }}>
                             {process.env.APP_NAME}
                         </p>
                     </div>
@@ -29,6 +32,5 @@ export default function TopBar() {
                 </div>
             </section>
         </div>
-
     );
 }
