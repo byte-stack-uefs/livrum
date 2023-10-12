@@ -1,17 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
 import TopBar from "../app/components/TopBar";
 
+import { Meta, StoryObj } from "@storybook/react";
+
 const meta = {
-    title: 'TopBar',
+    title: "TopBar",
     component: TopBar,
-    tags: ['autodocs'],
-} satisfies Meta<typeof TopBar>
+    tags: ["autodocs"],
+} satisfies Meta<typeof TopBar>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Top: Story = {
-
-}
+export const Top: Story = {};
