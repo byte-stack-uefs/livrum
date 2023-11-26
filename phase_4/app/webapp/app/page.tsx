@@ -1,3 +1,4 @@
+import PublicLayout from "./components/layouts/PublicLayout";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,10 +7,13 @@ export const metadata: Metadata = {
 
 export default function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-center">
-            <p style={{ fontSize: 100, fontWeight: 'bold', textTransform: 'uppercase' }}>
-                {process.env.APP_NAME}
-            </p>
-        </main>
+
+        <PublicLayout>
+            <main className="flex min-h-screen flex-col items-center justify-center">
+                <p style={{ fontSize: 100, fontWeight: 'bold', textTransform: 'uppercase' }}>
+                    {process.env.APP_NAME}
+                </p>
+            </main>
+        </PublicLayout>
     );
 }

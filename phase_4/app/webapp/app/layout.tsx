@@ -2,8 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Source_Sans_3 } from "next/font/google";
 
-import PublicLayout from "./components/layouts/PublicLayout";
-
 const font = Source_Sans_3({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
@@ -18,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={font.className + " min-h-screen"}>
-                <PublicLayout>{children}</PublicLayout>
+                {children}
             </body>
         </html>
     );
