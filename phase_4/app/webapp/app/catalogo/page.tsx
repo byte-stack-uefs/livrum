@@ -11,6 +11,8 @@ export default function Page() {
                     <button>Buscar</button>
                     <br />
                     Gênero
+                    <br />
+                    Idioma
                 </div>
                 <div>Exibindo resultados</div>
             </div>
