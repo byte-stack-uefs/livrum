@@ -1,3 +1,4 @@
+import { Person2, ShoppingCart } from "@mui/icons-material";
 import LivrumLogo from "./LivrumLogo";
 
 import { Outfit } from "next/font/google";
@@ -19,8 +20,8 @@ export default function TopBar() {
                     </div>
                     <div className="bg-gray-300 text-center self-center w-1/3">Campo de busca</div>
                     <div className="flex justify-evenly text-livrum-dark font-bold w-1/3 items-center">
-                        <div>Ícone Carrinho</div>
-                        <div>Ícone usuário</div>
+                        <ShoppingCart />
+                        <Person2 />
                     </div>
                 </div>
             </section>
