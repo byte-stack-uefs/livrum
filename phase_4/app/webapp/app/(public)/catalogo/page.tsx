@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import EbookCard from "../../components/EbookCard";
-import Book from "../../interfaces/Book";
 
 export default function Page() {
     const [name, setName] = useState("LIVRUM");
@@ -40,10 +39,6 @@ export default function Page() {
         },
     ]);
 
-    document.title = name;
-
-    // const books: Book[] = ;
-
     return (
         <div>
             <h5>Catálogo</h5>
@@ -68,13 +63,6 @@ export default function Page() {
                     Idioma
                 </div>
                 <div>Exibindo resultados</div>
-
-                <br />
-
-                {name}
-                <br />
-                {name}
-                <br />
 
                 <br />
 
