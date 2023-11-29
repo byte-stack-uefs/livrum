@@ -1,4 +1,4 @@
-export default interface Book {
+export default interface Ebook {
     title: string;
     author: string;
     releaseDate: string;
