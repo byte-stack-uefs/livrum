@@ -1,33 +1,64 @@
-import PublicLayout from "./components/layouts/PublicLayout";
 import { Metadata } from "next";
+import PublicLayout from "./components/layouts/PublicLayout";
+import HomePageBooksContainer from "./components/HomePageBooksContainer";
 
 export const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
 };
 
 export default function Home() {
+    const containers = [
+        {
+            title: "Mais Vendidos",
+            books: [
+                {
+                    title: "A",
+                    author: "Almir",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+            ],
+        },
+        {
+            title: "Lançamentos",
+            books: [],
+        },
+        {
+            title: "Mais Acessados",
+            books: [],
+        },
+    ];
 
     return (
-
         <PublicLayout>
             <main className="flex min-h-screen flex-col items-center">
-                <section id="most-bought">
-                    <h5>
-                        Mais Vendidos
-                    </h5>
-
-                </section>
-                <section id="new">
-                    <h5>
-                        Mais Vendidos
-                    </h5>
-                </section>
-                <section id="most-accessed">
-                    <h5>
-                        Mais Vendidos
-                    </h5>
-                </section>
-
+                {containers.map((e) => {
+                    return <HomePageBooksContainer title={e.title} books={e.books} />;
+                })}
             </main>
         </PublicLayout>
     );
