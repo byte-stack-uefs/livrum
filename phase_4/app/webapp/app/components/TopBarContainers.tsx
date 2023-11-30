@@ -31,7 +31,7 @@ export function TopSecond(props: { pros: Array<any>; theme: Theme }) {
 
     return (
         <Container sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, height: "3rem" }} maxWidth={false}>
-            <Grid container xs={12} sx={{ textAlign: "center", height: "100%" }}>
+            <Grid container sx={{ textAlign: "center", height: "100%" }}>
                 {pros.map((e, idx) => {
                     return (
                         <Grid key={e} item md={4} sx={{ paddingY: 1, alignSelf: "center" }}>

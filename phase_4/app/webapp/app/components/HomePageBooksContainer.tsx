@@ -27,14 +27,14 @@ function ContainerBookCard({ book }: { book: any }) {
 
 export default function HomePageBooksContainer({ title = "", books = [] }: { title: string; books: Array<any> }) {
     return (
-        <div>
+        <div className="text-center">
             <h3 className="text-livrum-dark text-4xl font-bold">{title}</h3>
             <Divider className="border-livrum-primary-500" style={{ height: 5, borderColor: "blue" }} />
 
-            <Grid xs={12} container>
+            <Grid container>
                 {books.map((e) => {
                     return (
-                        <Grid item={true} xs={12} md={4}>
+                        <Grid item xs={12} md={4}>
                             <ContainerBookCard book={e} />
                         </Grid>
                     );
