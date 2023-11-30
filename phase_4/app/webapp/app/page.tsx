@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import PublicLayout from "./components/layouts/PublicLayout";
 import HomePageBooksContainer from "./components/HomePageBooksContainer";
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
 };
 
@@ -55,7 +55,7 @@ export default function Home() {
 
     return (
         <PublicLayout>
-            <main className="flex min-h-screen flex-col items-center">
+            <main>
                 {containers.map((e) => {
                     return <HomePageBooksContainer title={e.title} books={e.books} />;
                 })}
