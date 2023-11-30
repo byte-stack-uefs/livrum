@@ -1,20 +1,27 @@
+"use client";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { Button, Divider, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 
 import Image from "next/image";
+import Divider from "./Divider";
+
+import { theme } from "@/app/theme";
 
 function ContainerBookCard({ book }: { book: any }) {
     return (
-        <div className="text-center p-4">
+        <div>
             <div
                 style={{
                     height: 300,
                     width: 300,
+                    margin: "auto",
                 }}
             >
                 <Image width={300} height={300} style={{ objectFit: "cover", height: "100%" }} alt={book.title} src={book.image} />
             </div>
-            <p className="font-bold">{book.title}</p>
+
+            <Typography sx={{ color: theme.palette.darker.main, fontWeight: "bold" }}>{book.title}</Typography>
+
             <p>{book.author}</p>
             <div>
                 <Button variant="contained" startIcon={<AddShoppingCartIcon />}>
@@ -27,9 +34,12 @@ function ContainerBookCard({ book }: { book: any }) {
 
 export default function HomePageBooksContainer({ title = "", books = [] }: { title: string; books: Array<any> }) {
     return (
-        <div className="text-center">
-            <h3 className="text-livrum-dark text-4xl font-bold">{title}</h3>
-            <Divider className="border-livrum-primary-500" style={{ height: 5, borderColor: "blue" }} />
+        <Box sx={{ textAlign: "center" }}>
+            <Typography variant="h4" sx={{ fontWeight: "bold", color: theme.palette.darker.main }}>
+                {title}
+            </Typography>
+
+            <Divider theme={theme} width="5%" />
 
             <Grid container>
                 {books.map((e) => {
@@ -40,6 +50,6 @@ export default function HomePageBooksContainer({ title = "", books = [] }: { tit
                     );
                 })}
             </Grid>
-        </div>
+        </Box>
     );
 }

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import PublicLayout from "./components/layouts/PublicLayout";
 import HomePageBooksContainer from "./components/HomePageBooksContainer";
+import { Container } from "@mui/material";
 
 const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
@@ -56,9 +57,11 @@ export default function Home() {
     return (
         <PublicLayout>
             <main>
-                {containers.map((e) => {
-                    return <HomePageBooksContainer title={e.title} books={e.books} />;
-                })}
+                <Container maxWidth="xl">
+                    {containers.map((e) => {
+                        return <HomePageBooksContainer title={e.title} books={e.books} />;
+                    })}
+                </Container>
             </main>
         </PublicLayout>
     );
