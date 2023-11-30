@@ -38,7 +38,7 @@ export function TopSecond(props: { pros: Array<any>; theme: Theme }) {
             <Grid container sx={{ textAlign: "center", height: "100%" }}>
                 {pros.map((e, idx) => {
                     return (
-                        <Grid key={e} item md={4} sx={{ paddingY: 1, alignSelf: "center" }}>
+                        <Grid key={e} item xs={4} sx={{ paddingY: 1, alignSelf: "center" }}>
                             <Box sx={{ borderRight: idx != 2 ? "1px solid white" : "", height: "100%" }}>
                                 <span>{e}</span>
                             </Box>
