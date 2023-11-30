@@ -2,7 +2,7 @@
 import { Person2, ShoppingCart } from "@mui/icons-material";
 import LivrumLogo from "./LivrumLogo";
 
-import { Container, Divider, Grid, TextField, Theme, Toolbar, Typography } from "@mui/material";
+import { Box, Container, Divider, Grid, TextField, Theme, Toolbar, Typography } from "@mui/material";
 import { Outfit } from "next/font/google";
 const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
 
@@ -31,11 +31,13 @@ export function TopSecond(props: { pros: Array<any>; theme: Theme }) {
 
     return (
         <Container sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, height: "3rem" }} maxWidth={false}>
-            <Grid container xs={12} sx={{ textAlign: "center" }}>
-                {pros.map((e) => {
+            <Grid container xs={12} sx={{ textAlign: "center", height: "100%" }}>
+                {pros.map((e, idx) => {
                     return (
-                        <Grid key={e} item md={4}>
-                            <p>{e}</p>
+                        <Grid key={e} item md={4} sx={{ paddingY: 1, alignSelf: "center" }}>
+                            <Box sx={{ borderRight: idx != 2 ? "1px solid white" : "", height: "100%" }}>
+                                <span>{e}</span>
+                            </Box>
                         </Grid>
                     );
                 })}
