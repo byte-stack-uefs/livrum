@@ -59,7 +59,7 @@ export default function Home() {
             <main>
                 <Container maxWidth={false} sx={{ marginY: 8 }}>
                     {containers.map((e) => {
-                        return <HomePageBooksContainer title={e.title} books={e.books} />;
+                        return <HomePageBooksContainer key={e.title} title={e.title} books={e.books} />;
                     })}
                 </Container>
             </main>

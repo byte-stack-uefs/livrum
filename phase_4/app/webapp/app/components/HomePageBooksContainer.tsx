@@ -44,7 +44,7 @@ export default function HomePageBooksContainer({ title = "", books = [] }: { tit
             <Grid container sx={{ marginTop: 4 }}>
                 {books.map((e) => {
                     return (
-                        <Grid item xs={12} md={4}>
+                        <Grid key={e} item xs={12} md={4}>
                             <ContainerBookCard book={e} />
                         </Grid>
                     );
