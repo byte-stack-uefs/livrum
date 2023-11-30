@@ -13,14 +13,18 @@ export function TopMain(props: { title?: string; theme: Theme }) {
             <Toolbar sx={{ textTransform: "uppercase" }}>
                 <LivrumLogo scale={0.2} />
 
-                <Typography sx={{ fontSize: 60, color: theme.palette.darker.main }} variant="h1" className={outfit.className}>
+                <Typography sx={{ fontSize: 60, color: theme.palette.darker.main, marginX: 4 }} variant="h1" className={outfit.className}>
                     {title}
                 </Typography>
 
-                <TextField sx={{ flexGrow: 1 }} />
+                <Box sx={{ flexGrow: 1, textAlign: "center" }}>
+                    <TextField sx={{ width: "50%" }} />
+                </Box>
 
-                <ShoppingCart fontSize="large" color="darker" />
-                <Person2 fontSize="large" color="darker" />
+                <Box sx={{ marginX: 4 }}>
+                    <ShoppingCart fontSize="large" color="darker" />
+                    <Person2 fontSize="large" color="darker" />
+                </Box>
             </Toolbar>
         </Container>
     );
