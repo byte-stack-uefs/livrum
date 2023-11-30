@@ -2,7 +2,7 @@ import { Person2, ShoppingCart } from "@mui/icons-material";
 import LivrumLogo from "./LivrumLogo";
 
 import { Outfit } from "next/font/google";
-import { AppBar, Container, TextField, Toolbar, Typography } from "@mui/material";
+import { AppBar, Container, Grid, TextField, Toolbar, Typography } from "@mui/material";
 
 const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
 
@@ -10,9 +10,11 @@ const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
  * Esse componente é responsável para renderizar a Barra Superior do sistema
  */
 export default function TopBar() {
+    const pros = ["Mais Econômico", "Super Rápido", "Sustentável"];
+
     return (
         <div>
-            <AppBar sx={{ backgroundColor: "#fff", color: "red" }}>
+            <AppBar sx={{ backgroundColor: "#fff", color: "red" }} position="static">
                 <Container maxWidth={false}>
                     <Toolbar sx={{ textTransform: "uppercase" }}>
                         <LivrumLogo scale={0.2} />
@@ -23,32 +25,22 @@ export default function TopBar() {
 
                         <TextField sx={{ flexGrow: 1 }} />
 
-                        <ShoppingCart />
-                        <Person2 />
+                        <ShoppingCart fontSize="large" />
+                        <Person2 fontSize="large" />
                     </Toolbar>
                 </Container>
+                <Container sx={{ backgroundColor: "orange", height: "3rem" }} maxWidth={false}>
+                    <Grid container xs={12} sx={{ textAlign: "center" }}>
+                        {pros.map((e) => {
+                            return (
+                                <Grid item md={4}>
+                                    <p>{e}</p>
+                                </Grid>
+                            );
+                        })}
+                    </Grid>
+                </Container>
             </AppBar>
-            <section className="bg-white">
-                <div className="flex justify-between">
-                    <div className="flex w-1/3 justify-around">
-                        <p className={outfit.className + " text-livrum-dark"} style={{ fontSize: 60, textTransform: "uppercase" }}>
-                            {process.env.APP_NAME}
-                        </p>
-                    </div>
-                    <div className="bg-gray-300 text-center self-center w-1/3">Campo de busca</div>
-                    <div className="flex justify-evenly text-livrum-dark font-bold w-1/3 items-center">
-                        <ShoppingCart />
-                        <Person2 />
-                    </div>
-                </div>
-            </section>
-            <section className="bg-livrum-primary text-white h-12">
-                <div className="flex justify-around h-full items-center divide-x">
-                    <div className="w-1/3 text-center">Mais Econômico</div>
-                    <div className="w-1/3 text-center">Super Rápido</div>
-                    <div className="w-1/3 text-center">Sustentável</div>
-                </div>
-            </section>
         </div>
     );
 }
