@@ -2,6 +2,8 @@ import { Person2, ShoppingCart } from "@mui/icons-material";
 import LivrumLogo from "./LivrumLogo";
 
 import { Outfit } from "next/font/google";
+import { AppBar, Container, TextField, Toolbar, Typography } from "@mui/material";
+
 const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
 
 /**
@@ -10,10 +12,25 @@ const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
 export default function TopBar() {
     return (
         <div>
+            <AppBar sx={{ backgroundColor: "#fff", color: "red" }}>
+                <Container maxWidth={false}>
+                    <Toolbar sx={{ textTransform: "uppercase" }}>
+                        <LivrumLogo scale={0.2} />
+
+                        <Typography color="primary" sx={{ fontSize: 60 }} variant="h1" className={outfit.className}>
+                            {process.env.APP_NAME}
+                        </Typography>
+
+                        <TextField sx={{ flexGrow: 1 }} />
+
+                        <ShoppingCart />
+                        <Person2 />
+                    </Toolbar>
+                </Container>
+            </AppBar>
             <section className="bg-white">
                 <div className="flex justify-between">
                     <div className="flex w-1/3 justify-around">
-                        <LivrumLogo scale={0.2} />
                         <p className={outfit.className + " text-livrum-dark"} style={{ fontSize: 60, textTransform: "uppercase" }}>
                             {process.env.APP_NAME}
                         </p>
