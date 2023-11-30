@@ -41,7 +41,7 @@ export default function HomePageBooksContainer({ title = "", books = [] }: { tit
 
             <Divider theme={theme} width="5%" />
 
-            <Grid container>
+            <Grid container sx={{ marginTop: 4 }}>
                 {books.map((e) => {
                     return (
                         <Grid item xs={12} md={4}>

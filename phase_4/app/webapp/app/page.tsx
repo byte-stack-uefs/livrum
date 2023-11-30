@@ -57,7 +57,7 @@ export default function Home() {
     return (
         <PublicLayout>
             <main>
-                <Container maxWidth="xl">
+                <Container maxWidth={false} sx={{ marginY: 8 }}>
                     {containers.map((e) => {
                         return <HomePageBooksContainer title={e.title} books={e.books} />;
                     })}
