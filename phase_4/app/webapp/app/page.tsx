@@ -1,120 +1,34 @@
 import { Metadata } from "next";
+import Ebook from "./interfaces/Ebook";
 import { Container } from "@mui/material";
+import { makeid } from "./helpers/helpers";
 import PublicLayout from "./components/layouts/PublicLayout";
 import HomePageBooksContainer from "./components/HomePageBooksContainer";
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
 };
 
 export default function Home() {
-    const containers = [
-        {
-            title: "Mais Vendidos",
-            books: [
-                {
-                    title: "A",
-                    author: "Almir",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "Bwqdwq",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "Bdqwdqw",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "qdsaB",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "qwde31B",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-            ],
-        },
-        {
-            title: "Lançamentos",
-            books: [
-                {
-                    title: "Book",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "123bB",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "Bane1",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "B12ea",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "B8w",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-            ],
-        },
-        {
-            title: "Mais Acessados",
-            books: [
-                {
-                    title: "A4g ",
-                    author: "Almir",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "BREAG423",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "B1easfd",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "By89rfx",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-                {
-                    title: "Bsmy4",
-                    author: "Neto",
-                    releaseDate: "",
-                    cover: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
-                },
-            ],
-        },
+    const image = "https://m.media-amazon.com/images/I/61zBhzjS4LL._AC_UF1000,1000_QL80_.jpg";
+
+    const containers: Array<{ title: string; books: Array<Ebook> }> = [
+        { title: "Mais Vendidos", books: [] },
+        { title: "Lançamentos", books: [] },
+        { title: "Mais Acessados", books: [] },
     ];
+
+    // Example
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 10; j++) {
+            containers[i].books.push({
+                title: makeid(10),
+                author: makeid(6),
+                releaseDate: "01/11/2023",
+                cover: image,
+            });
+        }
+    }
 
     return (
         <PublicLayout>
