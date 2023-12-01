@@ -1,7 +1,7 @@
 import { Metadata } from "next";
+import { Container } from "@mui/material";
 import PublicLayout from "./components/layouts/PublicLayout";
 import HomePageBooksContainer from "./components/HomePageBooksContainer";
-import { Container } from "@mui/material";
 
 const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
@@ -46,11 +46,73 @@ export default function Home() {
         },
         {
             title: "Lançamentos",
-            books: [],
+            books: [
+                {
+                    title: "Book",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+            ],
         },
         {
             title: "Mais Acessados",
-            books: [],
+            books: [
+                {
+                    title: "A",
+                    author: "Almir",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+                {
+                    title: "B",
+                    author: "Neto",
+                    releaseDate: "",
+                    image: "https://m.media-amazon.com/images/I/6175IU0qFgL._AC_UF1000,1000_QL80_.jpg",
+                },
+            ],
         },
     ];
 

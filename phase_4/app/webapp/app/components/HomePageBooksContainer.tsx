@@ -5,9 +5,9 @@ import Image from "next/image";
 import "swiper/css/navigation";
 import Divider from "./Divider";
 import { theme } from "@/app/theme";
-import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Box, Button, Grid, Typography } from "@mui/material";
+import { FreeMode, Autoplay, Navigation } from "swiper/modules";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 function ContainerBookCard({ book }: { book: any }) {
@@ -45,7 +45,15 @@ export default function HomePageBooksContainer({ title = "", books = [] }: { tit
             <Divider theme={theme} width="5%" />
 
             <Grid container sx={{ marginTop: 4 }}>
-                <Swiper loop={true} slidesPerView={4} spaceBetween={20} navigation={true} modules={[Navigation]}>
+                <Swiper
+                    loop={true}
+                    slidesPerView={books.length < 4 ? books.length : 4}
+                    spaceBetween={20}
+                    navigation={true}
+                    modules={[Autoplay, Navigation, FreeMode]}
+                    freeMode={true}
+                    autoplay={true}
+                >
                     {books.map((e) => {
                         return (
                             <SwiperSlide key={e}>
