@@ -1,16 +1,15 @@
 "use client";
 
-import "swiper/css";
 import Image from "next/image";
-import "swiper/css/navigation";
+
 import Divider from "./Divider";
+import Carousel from "./Carousel";
 import { theme } from "@/app/theme";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Ebook from "../interfaces/Ebook";
 import { Box, Button, Grid, Typography } from "@mui/material";
-import { FreeMode, Autoplay, Navigation } from "swiper/modules";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
-function ContainerBookCard({ book }: { book: any }) {
+function ContainerBookCard(book: Ebook) {
     return (
         <div>
             <div
@@ -20,7 +19,7 @@ function ContainerBookCard({ book }: { book: any }) {
                     margin: "auto",
                 }}
             >
-                <Image width={300} height={300} style={{ objectFit: "cover", height: "100%" }} alt={book.title} src={book.image} />
+                <Image width={300} height={300} style={{ objectFit: "cover", height: "100%" }} alt={book.title} src={book.cover} />
             </div>
 
             <Typography sx={{ color: theme.palette.darker.main, fontWeight: "bold" }}>{book.title}</Typography>
@@ -45,23 +44,7 @@ export default function HomePageBooksContainer({ title = "", books = [] }: { tit
             <Divider theme={theme} width="5%" />
 
             <Grid container sx={{ marginTop: 4 }}>
-                <Swiper
-                    loop={true}
-                    slidesPerView={books.length < 4 ? books.length : 4}
-                    spaceBetween={20}
-                    navigation={true}
-                    modules={[Autoplay, Navigation, FreeMode]}
-                    freeMode={true}
-                    autoplay={true}
-                >
-                    {books.map((e) => {
-                        return (
-                            <SwiperSlide key={e}>
-                                <ContainerBookCard book={e} />
-                            </SwiperSlide>
-                        );
-                    })}
-                </Swiper>
+                <Carousel items={books} Child={ContainerBookCard} />
             </Grid>
         </Box>
     );
