@@ -35,6 +35,11 @@ const ClientRegister = () => {
   const [agencyNumber, setAgencyNumber] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const maxWidthPage = "500px";
+  const fontText = {
+    fontFamily: 'Roboto',
+    fontSize: '14px', 
+    margin: '10px',
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -70,8 +75,8 @@ const ClientRegister = () => {
       >
         <form onSubmit={handleSubmitClient}>
           <Tabs value={value} onChange={handleChange} centered>
-            <Tab label="Cliente" />
-            <Tab label="Autor" />
+            <Tab style={fontText} label="Cliente" />
+            <Tab style={fontText} label="Autor" />
           </Tabs>
           <Grid
             container
@@ -79,29 +84,35 @@ const ClientRegister = () => {
             justifyContent="center"
             alignItems="center"
           >
+            <Grid item xs={7}></Grid>
+            <Grid item xs={5}>
+              <label style={fontText}>Dados obrigatórios* </label>
+            </Grid>
             <Grid item xs={7}>
               <TextField
-                label="Nome Completo:"
+                label="Nome Completo*"
                 variant="outlined"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 fullWidth
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             <Grid item xs={5}>
               <TextField
-                label="CPF"
+                label="CPF*"
                 variant="outlined"
                 value={cpf}
                 onChange={(e) => setCpf(e.target.value)}
                 fullWidth
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             <Grid item xs={7}>
               <TextField
-                label="Data de nascimento"
+                label="Data de nascimento*"
                 variant="outlined"
                 value={birthday}
                 type="date"
@@ -109,54 +120,63 @@ const ClientRegister = () => {
                 fullWidth
                 InputLabelProps={{ shrink: true }}
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             <Grid item xs={5}>
               <TextField
-                label="Telefone"
+                label="Telefone*"
                 variant="outlined"
                 value={telephone}
                 onChange={(e) => setTelephone(e.target.value)}
                 fullWidth
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                label="Email"
+                label="E-mail*"
                 variant="outlined"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 fullWidth
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Senha"
+                label="Senha*"
                 variant="outlined"
                 value={password}
                 type="password"
                 fullWidth
                 onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Confirme sua senha"
+                label="Confirme sua senha*"
                 variant="outlined"
                 value={passwordConfirm}
                 type="password"
                 fullWidth
                 onChange={(e) => setPasswordConfirm(e.target.value)}
                 margin="normal"
+                style={fontText}
               />
             </Grid>
             {value === 1 && (
               <>
-              
+                <Grid item xs={12}>
+                  <label style={fontText}>
+                    Dados bancários
+                  </label>
+                </Grid>
                 <Grid item xs={4}>
                   <TextField
                     label="Número de operação"
@@ -165,6 +185,7 @@ const ClientRegister = () => {
                     onChange={(e) => setOperationNumber(e.target.value)}
                     margin="normal"
                     fullWidth
+                    style={fontText}
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -175,6 +196,7 @@ const ClientRegister = () => {
                     onChange={(e) => setAgencyNumber(e.target.value)}
                     margin="normal"
                     fullWidth
+                    style={fontText}
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -185,6 +207,7 @@ const ClientRegister = () => {
                     onChange={(e) => setAccountNumber(e.target.value)}
                     margin="normal"
                     fullWidth
+                    style={fontText}
                   />
                 </Grid>
               </>
@@ -195,29 +218,24 @@ const ClientRegister = () => {
                   required
                   control={<Checkbox />}
                   label="Li os termos e estou de acordo com as politicas de uso"
+                  style={fontText}
                 />
               </FormGroup>
             </Grid>
             <Grid item xs={3}>
-              <Button type="submit" variant="contained" color="primary" flex-end>
-                Cadastrar
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                flex-end
+                style={fontText}
+              >
+                Prosseguir
               </Button>
             </Grid>
           </Grid>
         </form>
       </Box>
-
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "end",
-          margin: "auto", // Centraliza horizontalmente
-          maxWidth: "500px",
-          justifyContent: "center",
-          height: "100%", // Adiciona altura para centralizar verticalmente
-        }}
-      ></Box>
     </>
   );
 };
