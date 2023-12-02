@@ -4,6 +4,8 @@ import { Container } from "@mui/material";
 import { makeid } from "./helpers/helpers";
 import PublicLayout from "./components/layouts/PublicLayout";
 import HomePageBooksContainer from "./components/HomePageBooksContainer";
+import CategoriesContainer from "./components/CategoriesContainer";
+import { Category } from "./interfaces/Category";
 
 export const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
@@ -30,13 +32,41 @@ export default function Home() {
         }
     }
 
+    const categories: Category[] = [
+        {
+            name: "Ação",
+            cover: image
+        },
+        {
+            name: "Comédia",
+            cover: image
+        },
+        {
+            name: "Terror",
+            cover: image
+        },
+        {
+            name: "Aventura",
+            cover: image
+        },
+        {
+            name: "Romance",
+            cover: image
+        }
+    ];
+
     return (
         <PublicLayout>
             <main>
                 <Container maxWidth={false} sx={{ marginY: 8 }}>
-                    {containers.map((e) => {
-                        return <HomePageBooksContainer key={e.title} title={e.title} books={e.books} />;
-                    })}
+                    <div>
+                        {containers.map((e) => {
+                            return <HomePageBooksContainer key={e.title} title={e.title} books={e.books} />;
+                        })}
+                    </div>
+                    <div>
+                        <CategoriesContainer title="Categorias" categories={categories}></CategoriesContainer>
+                    </div>
                 </Container>
             </main>
         </PublicLayout>
