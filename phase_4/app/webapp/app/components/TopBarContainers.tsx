@@ -16,7 +16,7 @@ export function TopMain(props: { title?: string; theme: Theme }) {
 
     const categories = [
         {
-            title: 'TODOS',
+            title: 'Todos',
             value: 'all'
         },
         {
