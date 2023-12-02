@@ -15,6 +15,7 @@ declare module "@mui/material/styles" {
         info?: PaletteColorOptions;
         error?: PaletteColorOptions;
         success?: PaletteColorOptions;
+        dark?: PaletteColorOptions;
     }
     interface Theme {
         palette: {
@@ -24,6 +25,7 @@ declare module "@mui/material/styles" {
             info: any;
             error: any;
             success: any;
+            dark: any;
         };
     }
     // allow configuration using `createTheme`
@@ -46,6 +48,9 @@ export const theme: Theme = createTheme({
         darker: {
             main: "#153C7F",
         },
+        dark: {
+            main: "#1E3345"
+        }
     },
 });
 
