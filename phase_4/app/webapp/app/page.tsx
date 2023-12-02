@@ -10,7 +10,7 @@ const metadata: Metadata = {
 export default function Home() {
     const containers = [
         {
-            title: "Mais Vendidosssss",
+            title: "Mais Vendidos",
             books: [
                 {
                     title: "A",
