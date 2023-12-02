@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Container, Paper } from "@mui/material";
+import { Container, Grid, Paper } from "@mui/material";
 
 import { theme } from '@/app/theme'
 
@@ -18,14 +18,23 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                 width: '90%',
                 height: '85%',
                 borderRadius: 6,
-                backgroundColor: '#F1F1F1'
+                overflow: 'hidden',
+                backgroundColor: '#F1F1F1',
             }}>
-                <div>
 
-                </div>
-                <div>
-                    {children}
-                </div>
+                <Grid container sx={{
+                    height: '100%'
+                }}>
+                    <Grid sx={{
+                        height: '100%',
+                        backgroundColor: 'blue',
+                    }} >
+                        AQUI VAI FICAR O SIDEBAR, IGNOREM
+                    </Grid>
+                    <Grid sm={8}>
+                        {children}
+                    </Grid>
+                </Grid>
             </Paper>
         </Container>
     );
