@@ -1,30 +1,28 @@
 "use client";
-import { Person2, ShoppingCart } from "@mui/icons-material";
-import LivrumLogo from "./LivrumLogo";
 
-import { Box, Container, Divider, Grid, TextField, Theme, Toolbar, Typography } from "@mui/material";
-import { Outfit } from "next/font/google";
-const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
+import AccountHeader from "./AccountHeader";
+import { Person, ShoppingCart } from "@mui/icons-material";
+import { Box, Container, Grid, TextField, Theme, Toolbar } from "@mui/material";
 
 export function TopMain(props: { title?: string; theme: Theme }) {
     const { title, theme } = props;
     return (
         <Container maxWidth={false}>
             <Toolbar sx={{ textTransform: "uppercase" }}>
-                <LivrumLogo scale={0.2} />
 
-                <Typography sx={{ fontSize: 60, color: theme.palette.darker.main, marginX: 4 }} variant="h1" className={outfit.className}>
-                    {title}
-                </Typography>
+                <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                    <Grid item sm={4} md={3} sx={{ display: 'flex' }}>
+                        <AccountHeader title={title} theme={theme} />
+                    </Grid>
+                    <Grid item sm={4} md={6}>
+                        <TextField sx={{ width: "75%" }} />
+                    </Grid>
+                    <Grid item sm={4} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                        <ShoppingCart sx={{ fontSize: 48 }} color="darker" />
+                        <Person sx={{ fontSize: 48 }} color="darker" />
+                    </Grid>
+                </Grid>
 
-                <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-                    <TextField sx={{ width: "50%" }} />
-                </Box>
-
-                <Box sx={{ marginX: 4 }}>
-                    <ShoppingCart fontSize="large" color="darker" />
-                    <Person2 fontSize="large" color="darker" />
-                </Box>
             </Toolbar>
         </Container>
     );

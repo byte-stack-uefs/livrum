@@ -13,13 +13,12 @@ services:
   api:
     build: './api'
     ports:
-      - '3000:1337'
+      - '3000:8000'
     container_name: livrum_api
     networks:
       - livrum-network
     volumes:
       - ./api/:/usr/app/
-      - /usr/app/node_modules
   database:
     image: mysql
     ports:
