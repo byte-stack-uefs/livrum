@@ -1,10 +1,8 @@
 "use client";
-import { Person, ShoppingCart } from "@mui/icons-material";
-import LivrumLogo from "./LivrumLogo";
 
-import { Box, Container, Divider, Grid, TextField, Theme, Toolbar, Typography } from "@mui/material";
-import { Outfit } from "next/font/google";
-const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
+import AccountHeader from "./AccountHeader";
+import { Person, ShoppingCart } from "@mui/icons-material";
+import { Box, Container, Grid, TextField, Theme, Toolbar } from "@mui/material";
 
 export function TopMain(props: { title?: string; theme: Theme }) {
     const { title, theme } = props;
@@ -14,10 +12,7 @@ export function TopMain(props: { title?: string; theme: Theme }) {
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                     <Grid item sm={4} md={3} sx={{ display: 'flex' }}>
-                        <LivrumLogo scale={0.2} />
-                        <Typography sx={{ fontSize: 60, color: theme.palette.darker.main, alignItems: 'center', display: 'flex', marginX: 4 }} variant="h1" className={outfit.className}>
-                            {title}
-                        </Typography>
+                        <AccountHeader title={title} theme={theme} />
                     </Grid>
                     <Grid item sm={4} md={6}>
                         <TextField sx={{ width: "75%" }} />
