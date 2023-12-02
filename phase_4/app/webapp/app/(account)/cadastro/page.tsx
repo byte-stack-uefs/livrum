@@ -61,10 +61,12 @@ const ClientRegister = () => {
                     justifyContent: "center",
                     height: "100%", // Adiciona altura para centralizar verticalmente
                     flexGrow: 1,
+                   
                 }}
             >
-                <form onSubmit={handleSubmitClient}>
-                    <Tabs value={value} onChange={handleChange} centered>
+                <form onSubmit={handleSubmitClient}> 
+                    <Tabs value={value} onChange={handleChange} centered  indicatorColor= "white"
+                    margin = 'none'>
                         <Tab style={fontText} label="Cliente" />
                         <Tab style={fontText} label="Autor" />
                     </Tabs>
@@ -73,6 +75,7 @@ const ClientRegister = () => {
                         spacing={2}
                         justifyContent="center"
                         alignItems="center"
+                        style={{ backgroundColor: '#E5E2E2' }}
                     >
                         <Grid item xs={7}></Grid>
                         <Grid item xs={5}>
@@ -80,29 +83,34 @@ const ClientRegister = () => {
                         </Grid>
                         <Grid item xs={7}>
                             <TextField
-                                label="Nome Completo*"
+                                required
+                                label="Nome Completo"
                                 variant="outlined"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 fullWidth
-                                margin="normal"
+                                margin="normal" 
                                 style={fontText}
+                                size="small"
                             />
                         </Grid>
                         <Grid item xs={5}>
                             <TextField
-                                label="CPF*"
+                                required
+                                label="CPF"
                                 variant="outlined"
                                 value={cpf}
                                 onChange={(e) => setCpf(e.target.value)}
                                 fullWidth
                                 margin="normal"
                                 style={fontText}
+                                size="small"
                             />
                         </Grid>
                         <Grid item xs={7}>
                             <TextField
-                                label="Data de nascimento*"
+                                required
+                                label="Data de nascimento"
                                 variant="outlined"
                                 value={birthday}
                                 type="date"
@@ -111,22 +119,26 @@ const ClientRegister = () => {
                                 InputLabelProps={{ shrink: true }}
                                 margin="normal"
                                 style={fontText}
-                            />
+                                size="small"
+                                />
                         </Grid>
                         <Grid item xs={5}>
                             <TextField
-                                label="Telefone*"
+                                required
+                                label="Telefone"
                                 variant="outlined"
                                 value={telephone}
                                 onChange={(e) => setTelephone(e.target.value)}
                                 fullWidth
                                 margin="normal"
                                 style={fontText}
+                                size="small"
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                label="E-mail*"
+                                required
+                                label="E-mail"
                                 variant="outlined"
                                 type="email"
                                 value={email}
@@ -134,11 +146,13 @@ const ClientRegister = () => {
                                 fullWidth
                                 margin="normal"
                                 style={fontText}
+                                size="small"
                             />
                         </Grid>
                         <Grid item xs={6}>
                             <TextField
-                                label="Senha*"
+                                required
+                                label="Senha"
                                 variant="outlined"
                                 value={password}
                                 type="password"
@@ -146,11 +160,13 @@ const ClientRegister = () => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 margin="normal"
                                 style={fontText}
+                                size="small"
                             />
                         </Grid>
                         <Grid item xs={6}>
                             <TextField
-                                label="Confirme sua senha*"
+                                required
+                                label="Confirme sua senha"
                                 variant="outlined"
                                 value={passwordConfirm}
                                 type="password"
@@ -158,6 +174,7 @@ const ClientRegister = () => {
                                 onChange={(e) => setPasswordConfirm(e.target.value)}
                                 margin="normal"
                                 style={fontText}
+                                size="small"
                             />
                         </Grid>
                         {value === 1 && (
@@ -176,6 +193,7 @@ const ClientRegister = () => {
                                         margin="normal"
                                         fullWidth
                                         style={fontText}
+                                        size="small"
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
@@ -187,6 +205,7 @@ const ClientRegister = () => {
                                         margin="normal"
                                         fullWidth
                                         style={fontText}
+                                        size="small"
                                     />
                                 </Grid>
                                 <Grid item xs={4}>
@@ -198,6 +217,7 @@ const ClientRegister = () => {
                                         margin="normal"
                                         fullWidth
                                         style={fontText}
+                                        size="small"
                                     />
                                 </Grid>
                             </>
