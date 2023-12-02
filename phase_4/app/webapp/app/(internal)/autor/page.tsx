@@ -2,7 +2,7 @@ export default function Page() {
 
     return (
         <p>
-            Lindo
+            DASHBOARD AUTOR
         </p>
     );
 }
