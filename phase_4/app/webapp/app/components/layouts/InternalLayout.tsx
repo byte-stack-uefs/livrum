@@ -20,7 +20,12 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                 borderRadius: 6,
                 backgroundColor: '#F1F1F1'
             }}>
-                {children}
+                <div>
+
+                </div>
+                <div>
+                    {children}
+                </div>
             </Paper>
         </Container>
     );
