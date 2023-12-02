@@ -5,4 +5,4 @@ app = FastAPI()
 
 @app.get("/")
 def hello():
-    return "Sim, sou eu o PYTHON"
+    return "Default route"

@@ -136,3 +136,5 @@ swagger/*
 !swagger/.gitkeep
 
 package-lock.json
+
+__pycache__
