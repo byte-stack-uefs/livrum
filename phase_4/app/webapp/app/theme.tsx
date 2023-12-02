@@ -37,6 +37,7 @@ declare module "@mui/material/styles" {
 const dark = "#1E3345";
 const darker = "#153C7F";
 const primary = "#2665BE";
+const secondary = "#F4F2F2"
 
 export const theme: Theme = createTheme({
     palette: {
@@ -54,6 +55,9 @@ export const theme: Theme = createTheme({
         },
         dark: {
             main: dark
+        },
+        secondary: {
+            main: secondary
         }
     },
     components: {
