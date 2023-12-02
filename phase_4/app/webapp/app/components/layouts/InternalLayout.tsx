@@ -1,18 +1,20 @@
-"use client";
-
 import React from "react";
 import { Container, Grid, Paper } from "@mui/material";
 
 import { theme } from '@/app/theme'
+import AccountHeader from "../AccountHeader";
+
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
+    const title = process.env.APP_NAME;
+
     return (
         <Container maxWidth={false} disableGutters={true} sx={{
             height: '100vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: theme.palette.dark.main,
+            backgroundColor: '#1E3345'
         }}>
             <Paper elevation={0} sx={{
                 width: '90%',
@@ -27,11 +29,13 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                 }}>
                     <Grid sx={{
                         height: '100%',
-                        backgroundColor: 'blue',
-                    }} >
-                        AQUI VAI FICAR O SIDEBAR, IGNOREM
+                        backgroundColor: '#fff',
+                    }} sm={3} item>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <AccountHeader logoScale={0.15} fontSize={32} theme={theme} title={title} />
+                        </div>
                     </Grid>
-                    <Grid sm={8}>
+                    <Grid item sm={9}>
                         {children}
                     </Grid>
                 </Grid>
