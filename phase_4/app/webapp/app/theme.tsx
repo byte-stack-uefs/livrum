@@ -34,10 +34,14 @@ declare module "@mui/material/styles" {
     }
 }
 
+const dark = "#1E3345";
+const darker = "#153C7F";
+const primary = "#2665BE";
+
 export const theme: Theme = createTheme({
     palette: {
         primary: {
-            main: "#2665BE",
+            main: primary,
         },
         success: {
             main: "#8CD087",
@@ -46,12 +50,28 @@ export const theme: Theme = createTheme({
             main: "#D95D56",
         },
         darker: {
-            main: "#153C7F",
+            main: darker,
         },
         dark: {
-            main: "#1E3345"
+            main: dark
         }
     },
+    components: {
+        MuiListItemText: {
+            styleOverrides: {
+                root: {
+                    color: dark
+                }
+            }
+        },
+        MuiListItemIcon: {
+            styleOverrides: {
+                root: {
+                    color: dark
+                }
+            }
+        }
+    }
 });
 
 export default function ThemeRegistry(props: React.PropsWithChildren) {
