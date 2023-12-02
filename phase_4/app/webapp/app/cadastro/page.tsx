@@ -9,6 +9,10 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
+import { CheckBox } from "@mui/icons-material";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -72,7 +76,6 @@ const ClientRegister = () => {
           <Grid
             container
             spacing={2}
-     
             justifyContent="center"
             alignItems="center"
           >
@@ -85,7 +88,6 @@ const ClientRegister = () => {
                 fullWidth
                 margin="normal"
               />
-
             </Grid>
             <Grid item xs={5}>
               <TextField
@@ -96,11 +98,8 @@ const ClientRegister = () => {
                 fullWidth
                 margin="normal"
               />
-        
             </Grid>
             <Grid item xs={7}>
-        
-
               <TextField
                 label="Data de nascimento"
                 variant="outlined"
@@ -113,7 +112,6 @@ const ClientRegister = () => {
               />
             </Grid>
             <Grid item xs={5}>
-            
               <TextField
                 label="Telefone"
                 variant="outlined"
@@ -143,7 +141,6 @@ const ClientRegister = () => {
                 fullWidth
                 onChange={(e) => setPassword(e.target.value)}
                 margin="normal"
-              
               />
             </Grid>
             <Grid item xs={6}>
@@ -159,6 +156,7 @@ const ClientRegister = () => {
             </Grid>
             {value === 1 && (
               <>
+              
                 <Grid item xs={4}>
                   <TextField
                     label="Número de operação"
@@ -166,6 +164,7 @@ const ClientRegister = () => {
                     value={operationNumber}
                     onChange={(e) => setOperationNumber(e.target.value)}
                     margin="normal"
+                    fullWidth
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -175,6 +174,7 @@ const ClientRegister = () => {
                     value={agencyNumber}
                     onChange={(e) => setAgencyNumber(e.target.value)}
                     margin="normal"
+                    fullWidth
                   />
                 </Grid>
                 <Grid item xs={4}>
@@ -182,17 +182,31 @@ const ClientRegister = () => {
                     label="Número da conta"
                     variant="outlined"
                     value={accountNumber}
-
                     onChange={(e) => setAccountNumber(e.target.value)}
                     margin="normal"
+                    fullWidth
                   />
                 </Grid>
               </>
             )}
+            <Grid item xs={9}>
+              <FormGroup>
+                <FormControlLabel
+                  required
+                  control={<Checkbox />}
+                  label="Li os termos e estou de acordo com as politicas de uso"
+                />
+              </FormGroup>
+            </Grid>
+            <Grid item xs={3}>
+              <Button type="submit" variant="contained" color="primary" flex-end>
+                Cadastrar
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Box>
-     
+
       <Box
         sx={{
           display: "flex",
@@ -203,24 +217,11 @@ const ClientRegister = () => {
           justifyContent: "center",
           height: "100%", // Adiciona altura para centralizar verticalmente
         }}
-      >
-          <Grid
-            container
-            spacing={2}
-     
-            justifyContent="center"
-            alignItems="center"
-          >
-
-
-
-          </Grid>
-        <Button type="submit" variant="contained" color="primary">
-          Cadastrar
-        </Button>
-      </Box>
+      ></Box>
     </>
   );
 };
 
 export default ClientRegister;
+// tenho que mudar as cores do botao, textfield, tab, texto de termos de uso, grid
+// baixar a biblioteca de estilização da tab
