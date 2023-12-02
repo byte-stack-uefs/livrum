@@ -32,6 +32,8 @@ declare module "@mui/material/styles" {
     }
 }
 
+const darkerColor = '#153C7F';
+
 export const theme: Theme = createTheme({
     palette: {
         primary: {
@@ -44,9 +46,22 @@ export const theme: Theme = createTheme({
             main: "#D95D56",
         },
         darker: {
-            main: "#153C7F",
+            main: darkerColor,
         },
     },
+    components: {
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    '&.Mui-selected': {
+                        backgroundColor: darkerColor,
+                        color: '#fff',
+                        transition: 'all 0.5s',
+                    }
+                }
+            }
+        }
+    }
 });
 
 export default function ThemeRegistry(props: React.PropsWithChildren) {
