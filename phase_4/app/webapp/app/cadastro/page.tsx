@@ -227,7 +227,6 @@ const ClientRegister = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                flex-end
                 style={fontText}
               >
                 Prosseguir
