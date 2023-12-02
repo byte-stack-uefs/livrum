@@ -1,11 +1,8 @@
-FROM node:18.18-alpine
+FROM python:3.11-alpine
 
 WORKDIR /usr/app
-
-COPY package*.json ./
-
-RUN npm install && npm cache clean --force
-
 COPY . .
 
-CMD ["npx", "sails", "lift"]
+RUN pip install --no-cache-dir -r requirements.txt
+
+CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0"]
