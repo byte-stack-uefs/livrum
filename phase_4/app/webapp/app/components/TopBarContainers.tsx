@@ -58,10 +58,10 @@ export function TopMain(props: { title?: string; theme: Theme }) {
             <Toolbar sx={{ textTransform: "uppercase" }}>
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                    <Grid item sm={4} md={4} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <AccountHeader title={title} theme={theme} />
+                    <Grid item sm={3} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                        <AccountHeader logoScale={0.17} fontSize={42} title={title} theme={theme} />
                     </Grid>
-                    <Grid item sm={4} md={6}>
+                    <Grid item sm={4} md={7}>
                         <FormControl fullWidth>
                             <OutlinedInput
                                 size="small"
@@ -74,8 +74,8 @@ export function TopMain(props: { title?: string; theme: Theme }) {
                         </FormControl>
                     </Grid>
                     <Grid item sm={4} md={2} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <ShoppingCart sx={{ fontSize: 48 }} color="darker" />
-                        <Person sx={{ fontSize: 48 }} color="darker" />
+                        <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                        <Person sx={{ fontSize: 40 }} color="darker" />
                     </Grid>
                 </Grid>
 
