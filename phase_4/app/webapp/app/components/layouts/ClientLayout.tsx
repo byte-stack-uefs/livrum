@@ -1,6 +1,7 @@
 import PublicLayout from "./PublicLayout";
+import LivrumButtonMenu from "../LivrumButtonMenu";
+import { Container, Grid, Paper } from "@mui/material";
 import { AccountBox, CreditCard, LibraryBooks, Person, ReceiptLong } from "@mui/icons-material";
-import { Container, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
 
@@ -38,18 +39,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                                     <Person sx={{ fontSize: 48 }} color="dark" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <List>
-                                        {buttons.map(e => {
-                                            return (<ListItem disablePadding>
-                                                <ListItemButton selected={false}>
-                                                    <ListItemIcon>
-                                                        {e.icon}
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={e.label} />
-                                                </ListItemButton>
-                                            </ListItem>)
-                                        })}
-                                    </List>
+                                    <LivrumButtonMenu buttons={buttons} />
                                 </Grid>
                             </Grid>
                         </Paper>
