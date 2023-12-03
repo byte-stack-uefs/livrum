@@ -1,11 +1,18 @@
 "use client";
+
+import { theme } from '@/app/theme';
 import { Email } from "@mui/icons-material";
-import { Grid, Theme } from "@mui/material";
+import { Grid } from "@mui/material";
+import { useSystem } from "../services/SystemService";
 
 /**
  * Esse componente é responsável por renderizar o Rodapé da área pública do sistema
  */
-export default function PublicFooter({ email, company, theme }: { theme: Theme; email?: string; company?: string }) {
+export default function Footer() {
+
+    const system = useSystem();
+    const { email, company } = system;
+
     return (
         <Grid container sx={{ textAlign: "center", backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText }}>
             <Grid item xs={12} sx={{ paddingY: 2 }}>

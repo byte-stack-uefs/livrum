@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { theme } from '@/app/theme';
 import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
 import { Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, Toolbar } from "@mui/material";
@@ -83,8 +84,8 @@ export function TopMain() {
     );
 }
 
-export function TopSecond(props: { pros: Array<any>; theme: Theme }) {
-    const { theme, pros } = props;
+export function TopSecond(props: { pros: Array<any>; }) {
+    const { pros } = props;
 
     return (
         <Container sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, height: "3rem" }} maxWidth={false}>

@@ -40,7 +40,7 @@ export default function HomePageBooksContainer({ title = "", books = [] }: { tit
                 {title}
             </Typography>
 
-            <Divider theme={theme} width="5%" />
+            <Divider width="5%" />
 
             <Grid container sx={{ marginTop: 4 }}>
                 <Carousel items={books} Child={ContainerBookCard} />

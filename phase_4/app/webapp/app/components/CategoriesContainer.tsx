@@ -26,8 +26,7 @@ export default function CategoriesContainer({ title, categories }: { title: stri
             {title}
         </Typography>
 
-        <Divider theme={theme} width="5%" />
-
+        <Divider width="5%" />
 
         <Container maxWidth='md' sx={{ marginTop: 4, background: 'radial-gradient(rgb(26 70 133 / 58%),#007aff66, #e6e6e6)', padding: 5 }}>
             <Carousel items={categories} Child={CategoryItem} navigation={false} />

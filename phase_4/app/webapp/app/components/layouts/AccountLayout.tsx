@@ -1,5 +1,4 @@
-import { theme } from "@/app/theme";
-import PublicFooter from "../Footer";
+import Footer from "../Footer";
 import AccountHeader from "../AccountHeader";
 import { Container, Grid } from "@mui/material";
 
@@ -12,7 +11,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
                 </Grid>
             </Container>
             <section>{children}</section>
-            <PublicFooter theme={theme} email={process.env.APP_EMAIL} company={process.env.COMPANY} />
+            <Footer />
         </div>
     );
 }

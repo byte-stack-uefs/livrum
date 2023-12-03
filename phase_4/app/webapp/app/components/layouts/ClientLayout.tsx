@@ -9,22 +9,22 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     const buttons: LivrumButtonMenuItems[] = [
         {
             icon: <AccountBox />,
-            label: 'Meus dados',
+            label: 'Meus Dados',
             visible: true
         },
         {
             icon: <CreditCard />,
-            label: 'Meus cartões',
+            label: 'Meus Cartões',
             visible: true
         },
         {
             icon: <LibraryBooks />,
-            label: 'Minha biblioteca',
+            label: 'Minha Biblioteca',
             visible: true
         },
         {
             icon: <ReceiptLong />,
-            label: 'Histórico de compras',
+            label: 'Histórico de Compras',
             visible: true
         },
     ];

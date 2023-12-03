@@ -1,7 +1,7 @@
-
-
 export function useSystem() {
     return {
-        title: 'Livrum'
+        title: 'Livrum',
+        email: 'livrum@gmail.com',
+        company: 'ByteStack'
     };
 }

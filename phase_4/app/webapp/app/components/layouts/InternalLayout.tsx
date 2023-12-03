@@ -17,7 +17,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
 
     const buttons: LivrumButtonMenuItems[] = [
         {
-            label: 'Minha conta',
+            label: 'Minha Conta',
             icon: <Person />,
             visible: true
         },
@@ -32,7 +32,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
             visible: userLevel == UserLevel.ADMIN
         },
         {
-            label: "Minhas obras",
+            label: "Minhas Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.AUTHOR
         },
