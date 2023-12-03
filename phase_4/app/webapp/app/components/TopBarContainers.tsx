@@ -1,15 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { theme } from '@/app/theme';
 import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
-import { Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, Toolbar, Tooltip } from "@mui/material";
-import Link from "next/link";
+import { Badge, Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Toolbar, Tooltip } from "@mui/material";
 
 export function TopMain() {
 
     const [category, setCategory] = useState('all');
+    const [numCartItems, setNumCartItems] = useState(1);
 
     const handleChange = (event: SelectChangeEvent) => {
         setCategory(event.target.value as string);
@@ -79,7 +80,12 @@ export function TopMain() {
                     <Grid item sm={4} md={2} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
                         <Link href="/carrinho">
                             <Tooltip title="Ver carrinho" arrow>
-                                <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                                <Badge anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right'
+                                }} badgeContent={numCartItems} color="primary">
+                                    <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                                </Badge>
                             </Tooltip>
                         </Link>
                         <Person sx={{ fontSize: 40 }} color="darker" />
