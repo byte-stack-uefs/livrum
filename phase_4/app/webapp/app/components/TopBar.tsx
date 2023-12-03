@@ -1,7 +1,5 @@
-import { AppBar, Container, Grid, TextField, Toolbar, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-
 import { theme } from "@/app/theme";
+import { AppBar } from "@mui/material";
 import { TopMain, TopSecond } from "./TopBarContainers";
 
 /**

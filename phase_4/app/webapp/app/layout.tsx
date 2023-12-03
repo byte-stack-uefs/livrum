@@ -4,9 +4,9 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
+import ThemeRegistry from "./theme";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import ThemeRegistry from "./theme";
 
 const font = Roboto({ subsets: ["latin"], display: "swap", weight: ["300", "400", "500", "700"] });
 

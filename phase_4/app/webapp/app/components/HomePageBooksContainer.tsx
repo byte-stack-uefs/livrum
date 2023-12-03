@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-
 import Divider from "./Divider";
 import Carousel from "./Carousel";
 import { theme } from "@/app/theme";

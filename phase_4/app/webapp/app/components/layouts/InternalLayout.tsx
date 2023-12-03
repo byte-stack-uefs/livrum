@@ -1,9 +1,7 @@
 import React from "react";
-import { Container, Grid, Paper } from "@mui/material";
-
 import { theme } from '@/app/theme'
 import AccountHeader from "../AccountHeader";
-
+import { Container, Grid, Paper } from "@mui/material";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
     const title = process.env.APP_NAME;

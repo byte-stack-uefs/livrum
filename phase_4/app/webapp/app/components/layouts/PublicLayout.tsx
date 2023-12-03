@@ -7,9 +7,8 @@
  */
 
 import TopBar from "../TopBar";
-import PublicFooter from "../Footer";
-
 import { theme } from "@/app/theme";
+import PublicFooter from "../Footer";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (

@@ -1,11 +1,7 @@
-import PublicFooter from "../Footer";
-
 import { theme } from "@/app/theme";
-
-import { Container, Grid } from "@mui/material";
-
+import PublicFooter from "../Footer";
 import AccountHeader from "../AccountHeader";
-
+import { Container, Grid } from "@mui/material";
 
 export default function AccountLayout({ children }: { children: React.ReactNode }) {
     return (
