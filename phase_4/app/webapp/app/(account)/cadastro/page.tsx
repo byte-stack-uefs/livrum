@@ -25,11 +25,13 @@ const ClientRegister = () => {
     const [agencyNumber, setAgencyNumber] = useState("");
     const [accountNumber, setAccountNumber] = useState("");
     const maxWidthPage = "500px";
-    const fontText = {
+    const customStyles = (widthParam) => ({
         fontFamily: 'Roboto',
         fontSize: '14px',
-        margin: '10px',
-    };
+        margin: 0, 
+        width: widthParam
+    });
+    
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -51,25 +53,36 @@ const ClientRegister = () => {
 
     return (
         <>
+
             <Box
                 sx={{
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    margin: "auto", // Centraliza horizontalmente
+                    margin: "auto",
                     maxWidth: "500px",
                     justifyContent: "center",
-                    height: "100%", // Adiciona altura para centralizar verticalmente
+                    height: "100%", 
                     flexGrow: 1,
                    
                 }}
+
             >
+                <Tabs value={value} scrollButtons={false} onChange={handleChange} centered style={{ margin: '16px'}} TabIndicatorProps={{ style: { display: 'none' }  }} >
+                <Tab
+                    label="Cliente"
+                    sx={{
+                    borderRadius: "12px 0 0 0", // Ajuste os valores conforme necessário
+                        }}
+                />
+                <Tab
+                    label="Autor"
+                    sx={{
+                    borderRadius: "0 12px 0 0", // Ajuste os valores conforme necessário
+                    }}
+                />
+                </Tabs>
                 <form onSubmit={handleSubmitClient}> 
-                    <Tabs value={value} onChange={handleChange} centered  indicatorColor= "white"
-                    margin = 'none'>
-                        <Tab style={fontText} label="Cliente" />
-                        <Tab style={fontText} label="Autor" />
-                    </Tabs>
                     <Grid
                         container
                         spacing={2}
@@ -79,7 +92,7 @@ const ClientRegister = () => {
                     >
                         <Grid item xs={7}></Grid>
                         <Grid item xs={5}>
-                            <label style={fontText}>Dados obrigatórios* </label>
+                            <label style={customStyles("")}>Dados obrigatórios* </label>
                         </Grid>
                         <Grid item xs={7}>
                             <TextField
@@ -88,9 +101,7 @@ const ClientRegister = () => {
                                 variant="outlined"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                fullWidth
-                                margin="normal" 
-                                style={fontText}
+                                style={customStyles("90%")}
                                 size="small"
                             />
                         </Grid>
@@ -101,13 +112,24 @@ const ClientRegister = () => {
                                 variant="outlined"
                                 value={cpf}
                                 onChange={(e) => setCpf(e.target.value)}
-                                fullWidth
-                                margin="normal"
-                                style={fontText}
+                                style={customStyles("90%")}
                                 size="small"
                             />
                         </Grid>
+    
                         <Grid item xs={7}>
+                            <TextField
+                                required
+                                label="Telefone"
+                                variant="outlined"
+                                value={telephone}
+                                onChange={(e) => setTelephone(e.target.value)}
+                                style={customStyles("90%")}
+                                size="small"
+                            />
+                        </Grid>
+
+                        <Grid item xs={5}>
                             <TextField
                                 required
                                 label="Data de nascimento"
@@ -115,25 +137,10 @@ const ClientRegister = () => {
                                 value={birthday}
                                 type="date"
                                 onChange={(e) => setBirthday(e.target.value)}
-                                fullWidth
                                 InputLabelProps={{ shrink: true }}
-                                margin="normal"
-                                style={fontText}
+                                style={customStyles("90%")}
                                 size="small"
                                 />
-                        </Grid>
-                        <Grid item xs={5}>
-                            <TextField
-                                required
-                                label="Telefone"
-                                variant="outlined"
-                                value={telephone}
-                                onChange={(e) => setTelephone(e.target.value)}
-                                fullWidth
-                                margin="normal"
-                                style={fontText}
-                                size="small"
-                            />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
@@ -143,9 +150,7 @@ const ClientRegister = () => {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                fullWidth
-                                margin="normal"
-                                style={fontText}
+                                style={customStyles("96%")}
                                 size="small"
                             />
                         </Grid>
@@ -156,10 +161,8 @@ const ClientRegister = () => {
                                 variant="outlined"
                                 value={password}
                                 type="password"
-                                fullWidth
                                 onChange={(e) => setPassword(e.target.value)}
-                                margin="normal"
-                                style={fontText}
+                                style={customStyles("92%")}
                                 size="small"
                             />
                         </Grid>
@@ -170,74 +173,66 @@ const ClientRegister = () => {
                                 variant="outlined"
                                 value={passwordConfirm}
                                 type="password"
-                                fullWidth
                                 onChange={(e) => setPasswordConfirm(e.target.value)}
-                                margin="normal"
-                                style={fontText}
+                                style={customStyles("92%")}
                                 size="small"
                             />
                         </Grid>
                         {value === 1 && (
                             <>
                                 <Grid item xs={12}>
-                                    <label style={fontText}>
+                                    <label style={customStyles("")}>
                                         Dados bancários
                                     </label>
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={3}>
                                     <TextField
-                                        label="Número de operação"
+                                        label="Operação"
                                         variant="outlined"
                                         value={operationNumber}
                                         onChange={(e) => setOperationNumber(e.target.value)}
-                                        margin="normal"
-                                        fullWidth
-                                        style={fontText}
+                                        style={customStyles("90%")}
                                         size="small"
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={3}>
                                     <TextField
-                                        label="Número da agência"
+                                        label="Agência"
                                         variant="outlined"
                                         value={agencyNumber}
                                         onChange={(e) => setAgencyNumber(e.target.value)}
-                                        margin="normal"
-                                        fullWidth
-                                        style={fontText}
-                                        size="small"
+                                        style={customStyles("90%")}
+                                        size="small"    
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={6}>
                                     <TextField
-                                        label="Número da conta"
+                                        label="Conta"
                                         variant="outlined"
                                         value={accountNumber}
                                         onChange={(e) => setAccountNumber(e.target.value)}
-                                        margin="normal"
-                                        fullWidth
-                                        style={fontText}
+                                        style={customStyles("92%")}
                                         size="small"
                                     />
                                 </Grid>
                             </>
                         )}
-                        <Grid item xs={9}>
+                        <Grid item xs={8.4}>
                             <FormGroup>
                                 <FormControlLabel
                                     required
                                     control={<Checkbox />}
                                     label="Li os termos e estou de acordo com as politicas de uso"
-                                    style={fontText}
+                                    style={customStyles("")}
                                 />
                             </FormGroup>
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={3.6}>
                             <Button
                                 type="submit"
                                 variant="contained"
                                 color="primary"
-                                style={fontText}
+                                style={customStyles("")}
                             >
                                 Prosseguir
                             </Button>

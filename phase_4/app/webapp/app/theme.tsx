@@ -57,11 +57,12 @@ export const theme: Theme = createTheme({
             backgroundColor: "#E5E2E2",
             color: "#2665BE",
             transition: "all 0.5s",
-            borderRadius: 0,
+            borderRadius: "20px 20px 0 0"
           },
           "&:not(.Mui-selected)": {
             backgroundColor: "#1E3345",
             color: "#fff",
+            borderRadius: "20px 20px 0 0"
           },
           
         },
