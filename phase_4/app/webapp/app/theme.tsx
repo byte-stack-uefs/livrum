@@ -74,7 +74,25 @@ export const theme: Theme = createTheme({
                     color: dark
                 }
             }
-        }
+        },
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    "&:not(.Mui-selected)": {
+                        backgroundColor: "white",
+                        color: "#163760",
+                        transition: "all 0.5s",
+                        borderRadius: "10px 10px 0 0"
+                    },
+                    "&.Mui-selected": {
+                        backgroundColor: "#1E3345",
+                        color: "#D9D9D9",
+                        borderRadius: "10px 10px 0 0"
+                    },
+
+                },
+            },
+        },
     }
 });
 
