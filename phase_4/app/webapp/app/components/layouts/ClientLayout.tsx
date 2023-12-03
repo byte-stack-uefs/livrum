@@ -29,7 +29,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
     return (
         <PublicLayout>
-            <Container maxWidth={false} sx={{ marginY: 8 }}>
+            <Container maxWidth={false} sx={{ marginY: 8 }} disableGutters={true}>
                 <Grid container>
                     <Grid item xs={3}>
                         <Paper sx={{ overflow: 'hidden' }}>
@@ -55,7 +55,9 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                         </Paper>
                     </Grid>
                     <Grid item xs={9}>
-                        {children}
+                        <Container maxWidth={false}>
+                            {children}
+                        </Container>
                     </Grid>
                 </Grid>
 
