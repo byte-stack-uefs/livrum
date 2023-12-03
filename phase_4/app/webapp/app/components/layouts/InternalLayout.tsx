@@ -1,8 +1,9 @@
 import React from "react";
 import { theme } from '@/app/theme'
 import AccountHeader from "../AccountHeader";
-import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import LivrumButtonMenu from "../LivrumButtonMenu";
+import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
+import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
@@ -12,7 +13,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     const email = "email@gmail.com";
     const avatarSrc = 'https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg';
 
-    const buttons: any[] = [
+    const buttons: LivrumButtonMenuItems[] = [
         {
             label: 'Minha conta',
             icon: <Person />

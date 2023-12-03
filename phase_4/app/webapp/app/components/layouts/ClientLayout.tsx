@@ -1,30 +1,27 @@
 import PublicLayout from "./PublicLayout";
 import LivrumButtonMenu from "../LivrumButtonMenu";
 import { Container, Grid, Paper } from "@mui/material";
+import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
 import { AccountBox, CreditCard, LibraryBooks, Person, ReceiptLong } from "@mui/icons-material";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
 
-    const buttons = [
+    const buttons: LivrumButtonMenuItems[] = [
         {
             icon: <AccountBox />,
-            label: 'Meus dados',
-            route: ''
+            label: 'Meus dados'
         },
         {
             icon: <CreditCard />,
             label: 'Meus cartões',
-            route: '',
         },
         {
             icon: <LibraryBooks />,
-            label: 'Minha biblioteca',
-            route: ''
+            label: 'Minha biblioteca'
         },
         {
             icon: <ReceiptLong />,
-            label: 'Histórico de compras',
-            route: ''
+            label: 'Histórico de compras'
         },
     ];
 

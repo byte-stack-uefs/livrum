@@ -1,8 +1,9 @@
 import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { LivrumButtonMenuItems } from "../interfaces/LivrumButtonMenuProps";
 
 export default function LivrumButtonMenu({
     buttons
-}: { buttons: any[] }) {
+}: { buttons: LivrumButtonMenuItems[] }) {
 
     return (<List>
         {buttons.map(e => {
