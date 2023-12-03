@@ -6,7 +6,7 @@ const outfit = Outfit({ weight: "900", display: "swap", subsets: ["latin"] });
 
 import { theme } from '@/app/theme'
 
-export default function AccountHeader({ fontSize = 60, logoScale = 0.2 }: { theme: Theme, fontSize?: number, logoScale?: number }) {
+export default function AccountHeader({ fontSize = 60, logoScale = 0.2 }: { fontSize?: number, logoScale?: number }) {
 
     const system = useSystem();
     const title = system.title;

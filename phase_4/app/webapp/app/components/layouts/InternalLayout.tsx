@@ -1,6 +1,5 @@
 "use client";
 
-import { theme } from '@/app/theme'
 import React, { useState } from "react";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
@@ -81,7 +80,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
 
                         <Grid container>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                                <AccountHeader logoScale={0.15} fontSize={32} theme={theme} />
+                                <AccountHeader logoScale={0.15} fontSize={32} />
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 1.5 }}>
                                 <Avatar sx={{ margin: 'auto', width: 56, height: 56 }} src={avatarSrc} />

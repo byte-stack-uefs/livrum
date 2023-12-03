@@ -5,9 +5,8 @@ import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
 import { Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, Toolbar } from "@mui/material";
 
-export function TopMain(props: { title?: string; theme: Theme }) {
+export function TopMain() {
 
-    const { title, theme } = props;
     const [category, setCategory] = useState('all');
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -59,7 +58,7 @@ export function TopMain(props: { title?: string; theme: Theme }) {
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                     <Grid item sm={3} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <AccountHeader logoScale={0.17} fontSize={42} theme={theme} />
+                        <AccountHeader logoScale={0.17} fontSize={42} />
                     </Grid>
                     <Grid item sm={4} md={7}>
                         <FormControl fullWidth>
