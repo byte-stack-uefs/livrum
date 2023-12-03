@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import React, { useState } from "react";
+import { redirect } from "next/navigation";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
 import LivrumButtonMenu from "../LivrumButtonMenu";
@@ -53,6 +55,10 @@ export default function InternalLayout({ children }: { children: React.ReactNode
         }
     ];
 
+    function handleLogout() {
+        window.location.replace('/login')
+    }
+
     return (
         <Container maxWidth={false} disableGutters={true} sx={{
             height: '100vh',
@@ -79,8 +85,10 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                     }} sm={3} item>
 
                         <Grid container sx={{ height: '100%' }}>
-                            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                                <AccountHeader logoScale={0.15} fontSize={32} />
+                            <Grid item xs={12} >
+                                <Link href={userLevel == UserLevel.ADMIN ? '/admin' : '/autor'} style={{ display: 'flex', justifyContent: 'space-evenly', textDecoration: 'none' }}>
+                                    <AccountHeader logoScale={0.15} fontSize={32} />
+                                </Link>
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 1.5 }}>
                                 <Avatar sx={{ margin: 'auto', width: 56, height: 56 }} src={avatarSrc} />
@@ -91,7 +99,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                                 <LivrumButtonMenu buttons={buttons} />
                             </Grid>
                             <Grid item xs={12} sx={{ alignSelf: 'flex-end' }}>
-                                <Button startIcon={<Logout />} fullWidth color="dark">
+                                <Button size="large" startIcon={<Logout />} fullWidth color="dark" onClick={(e) => { handleLogout() }}>
                                     Sair
                                 </Button>
                             </Grid>
