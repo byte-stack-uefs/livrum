@@ -59,8 +59,10 @@ export function TopMain() {
             <Toolbar sx={{ textTransform: "uppercase" }}>
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                    <Grid item sm={3} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <AccountHeader logoScale={0.17} fontSize={42} />
+                    <Grid item sm={3}>
+                        <Link href="/" style={{ display: 'flex', justifyContent: 'space-evenly', textDecoration: 'none' }}>
+                            <AccountHeader logoScale={0.17} fontSize={42} />
+                        </Link>
                     </Grid>
                     <Grid item sm={4} md={7}>
                         <FormControl fullWidth>
