@@ -3,7 +3,7 @@ import { theme } from '@/app/theme'
 import AccountHeader from "../AccountHeader";
 import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import LivrumButtonMenu from "../LivrumButtonMenu";
-import { AccountBox, ArrowForward, Book, Home, Logout, People, Tag } from "@mui/icons-material";
+import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
 
@@ -15,7 +15,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     const buttons: any[] = [
         {
             label: 'Minha conta',
-            icon: <AccountBox />
+            icon: <Person />
         },
         {
             label: "Painel",
@@ -23,19 +23,19 @@ export default function InternalLayout({ children }: { children: React.ReactNode
         },
         {
             label: "Obras",
-            icon: <Book />
+            icon: <LibraryBooks />
         },
         {
             label: "Usuários",
-            icon: <People />
+            icon: <Groups />
         },
         {
             label: "Cupons",
-            icon: <Tag />
+            icon: <Discount />
         },
         {
             label: "Submeter",
-            icon: <ArrowForward />
+            icon: <SubdirectoryArrowRight />
         }
     ];
 
