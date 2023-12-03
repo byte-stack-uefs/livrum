@@ -4,7 +4,8 @@ import { useState } from "react";
 import { theme } from '@/app/theme';
 import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
-import { Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, Toolbar } from "@mui/material";
+import { Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, Toolbar, Tooltip } from "@mui/material";
+import Link from "next/link";
 
 export function TopMain() {
 
@@ -74,7 +75,11 @@ export function TopMain() {
                         </FormControl>
                     </Grid>
                     <Grid item sm={4} md={2} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                        <Link href="/carrinho">
+                            <Tooltip title="Ver carrinho" arrow>
+                                <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                            </Tooltip>
+                        </Link>
                         <Person sx={{ fontSize: 40 }} color="darker" />
                     </Grid>
                 </Grid>
