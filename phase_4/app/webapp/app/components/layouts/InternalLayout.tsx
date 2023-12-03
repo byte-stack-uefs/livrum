@@ -1,6 +1,9 @@
-import React from "react";
+"use client";
+
 import { theme } from '@/app/theme'
+import React, { useState } from "react";
 import AccountHeader from "../AccountHeader";
+import { UserLevel } from "@/app/interfaces/User";
 import LivrumButtonMenu from "../LivrumButtonMenu";
 import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
 import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
@@ -8,35 +11,46 @@ import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrow
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
 
-    const title = process.env.APP_NAME;
     const name = "Username";
     const email = "email@gmail.com";
     const avatarSrc = 'https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg';
+    const [userLevel, setUserLevel] = useState(UserLevel.ADMIN);
 
     const buttons: LivrumButtonMenuItems[] = [
         {
             label: 'Minha conta',
-            icon: <Person />
+            icon: <Person />,
+            visible: true
         },
         {
             label: "Painel",
-            icon: <Home />
+            icon: <Home />,
+            visible: true
         },
         {
             label: "Obras",
-            icon: <LibraryBooks />
+            icon: <LibraryBooks />,
+            visible: userLevel == UserLevel.ADMIN
+        },
+        {
+            label: "Minhas obras",
+            icon: <LibraryBooks />,
+            visible: userLevel == UserLevel.AUTHOR
         },
         {
             label: "Usuários",
-            icon: <Groups />
+            icon: <Groups />,
+            visible: userLevel == UserLevel.ADMIN
         },
         {
             label: "Cupons",
-            icon: <Discount />
+            icon: <Discount />,
+            visible: true
         },
         {
             label: "Submeter",
-            icon: <SubdirectoryArrowRight />
+            icon: <SubdirectoryArrowRight />,
+            visible: userLevel == UserLevel.AUTHOR
         }
     ];
 
@@ -67,7 +81,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
 
                         <Grid container>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                                <AccountHeader logoScale={0.15} fontSize={32} theme={theme} title={title} />
+                                <AccountHeader logoScale={0.15} fontSize={32} theme={theme} />
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 1.5 }}>
                                 <Avatar sx={{ margin: 'auto', width: 56, height: 56 }} src={avatarSrc} />

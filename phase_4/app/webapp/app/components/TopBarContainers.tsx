@@ -59,7 +59,7 @@ export function TopMain(props: { title?: string; theme: Theme }) {
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
                     <Grid item sm={3} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <AccountHeader logoScale={0.17} fontSize={42} title={title} theme={theme} />
+                        <AccountHeader logoScale={0.17} fontSize={42} theme={theme} />
                     </Grid>
                     <Grid item sm={4} md={7}>
                         <FormControl fullWidth>

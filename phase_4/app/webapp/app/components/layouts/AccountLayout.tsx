@@ -8,7 +8,7 @@ export default function AccountLayout({ children }: { children: React.ReactNode 
         <div>
             <Container maxWidth='md' sx={{ marginTop: 8 }}>
                 <Grid sx={{ display: 'flex', justifyContent: 'center' }}>
-                    <AccountHeader title={process.env.APP_NAME} theme={theme} />
+                    <AccountHeader theme={theme} />
                 </Grid>
             </Container>
             <section>{children}</section>
