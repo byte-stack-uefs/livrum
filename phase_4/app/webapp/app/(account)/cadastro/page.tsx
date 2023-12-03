@@ -64,11 +64,11 @@ const ClientRegister = () => {
                     justifyContent: "center",
                     height: "100%", 
                     flexGrow: 1,
-                   
+                    
                 }}
 
             >
-                <Tabs value={value} scrollButtons={false} onChange={handleChange} centered style={{ margin: '16px'}} TabIndicatorProps={{ style: { display: 'none' }  }} >
+                <Tabs value={value} scrollButtons={false} onChange={handleChange} centered style={{ marginBottom: "16px", marginLeft: "-16px"}} TabIndicatorProps={{ style: { display: 'none'  }  }} >
                 <Tab
                     label="Cliente"
                     sx={{
@@ -83,12 +83,15 @@ const ClientRegister = () => {
                 />
                 </Tabs>
                 <form onSubmit={handleSubmitClient}> 
+    
+
+              
                     <Grid
                         container
                         spacing={2}
                         justifyContent="center"
                         alignItems="center"
-                        style={{ backgroundColor: '#E5E2E2' }}
+                        style={{ backgroundColor: '#E5E2E2', flexBasis: '500px', borderRadius: "0 0 12px 12px" , padding: '30px' }}
                     >
                         <Grid item xs={7}></Grid>
                         <Grid item xs={5}>
@@ -239,6 +242,11 @@ const ClientRegister = () => {
                         </Grid>
                     </Grid>
                 </form>
+            </Box>
+            <Box sx={{marginBottom: "40px"}}>
+
+
+
             </Box>
         </>
     );
