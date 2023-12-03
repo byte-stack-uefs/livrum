@@ -1,5 +1,6 @@
 "use client";
 
+import "../styles/image-zoom.css"
 import Image from "next/image";
 import Divider from "./Divider";
 import Carousel from "./Carousel";
@@ -19,9 +20,10 @@ function ContainerBookCard(book: Ebook) {
                     height: imageSize,
                     width: imageSize,
                     margin: "auto",
+                    overflow: 'hidden'
                 }}
             >
-                <Image width={imageSize} height={imageSize} style={{ objectFit: "cover", height: "100%" }} alt={book.title} src={book.cover} />
+                <Image className="image-zoom" width={imageSize} height={imageSize} style={{ objectFit: "cover" }} alt={book.title} src={book.cover} />
             </div>
 
             <Typography sx={{ color: theme.palette.darker.main, fontWeight: "bold" }}>{book.title}</Typography>
