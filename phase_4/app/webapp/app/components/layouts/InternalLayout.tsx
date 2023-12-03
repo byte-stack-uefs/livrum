@@ -75,10 +75,10 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                     <Grid sx={{
                         height: '100%',
                         backgroundColor: '#fff',
-                        paddingY: 2
+                        paddingTop: 2
                     }} sm={3} item>
 
-                        <Grid container>
+                        <Grid container sx={{ height: '100%' }}>
                             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
                                 <AccountHeader logoScale={0.15} fontSize={32} />
                             </Grid>
@@ -90,7 +90,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                             <Grid item xs={12}>
                                 <LivrumButtonMenu buttons={buttons} />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={12} sx={{ alignSelf: 'flex-end' }}>
                                 <Button startIcon={<Logout />} fullWidth color="dark">
                                     Sair
                                 </Button>
