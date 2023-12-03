@@ -46,7 +46,7 @@ const AdminLogin = () => {
                     >
                         <Grid item xs={12}>
                             <Typography variant="body2" fontFamily="Raleway, sans-serif" fontSize="22px" fontWeight="bold">
-                                Acesso Administrator
+                                Acesso Administrador
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
