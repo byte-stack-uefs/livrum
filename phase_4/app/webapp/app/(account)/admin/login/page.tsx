@@ -51,7 +51,7 @@ const AdminLogin = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography variant="body2" fontFamily="Poppins, sans-serif" fontSize="11px" fontWeight="regular" color="#636363">
-                                Seja bem vindo de volta
+                                Seja bem vindo de volta!
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
