@@ -58,9 +58,9 @@ const ClientRegister = () => {
     fontSize: "14px",
     width: widthParam,
     "@media (max-width: 600px)": {
-      // Estilos específicos para telas menores
+     
       fontSize: "12px",
-      // Adicione mais ajustes conforme necessário
+     
     },
   });
 
@@ -100,8 +100,8 @@ const ClientRegister = () => {
             sx={{
               borderRadius: "12px 0 0 0",
               "@media (max-width: 600px)": {
-                // Estilos específicos para telas menores
-                borderRadius: "12px", // Ajuste conforme necessário
+              
+                borderRadius: "12px",
               },
             }}
           />
@@ -109,7 +109,7 @@ const ClientRegister = () => {
           <Tab
             label="Autor"
             sx={{
-              borderRadius: "0 12px 0 0", // Ajuste os valores conforme necessário
+              borderRadius: "0 12px 0 0", 
             }}
           />
         </Tabs>
@@ -285,8 +285,8 @@ const ClientRegister = () => {
                         textDecoration: "underline",
                         cursor: "pointer",
                         "@media (max-width: 600px)": {
-                          // Estilos específicos para telas menores
-                          fontSize: "8px", // Ajuste conforme necessário
+                          
+                          fontSize: "8px", 
                         },
                       }}
                       onClick={(e) => {
@@ -307,8 +307,8 @@ const ClientRegister = () => {
                 variant="contained"
                 color="primary"
                 sx={{
-                  width: "100%", // Ocupa a largura total em telas pequenas
-                  marginTop: "10px", // Espaçamento superior em telas pequenas
+                  width: "100%", 
+                  marginTop: "10px", 
                 }}
               >
                 Prosseguir
