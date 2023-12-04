@@ -28,6 +28,7 @@ export default function Home() {
                 author: makeid(6),
                 releaseDate: "01/11/2023",
                 cover: image,
+                id: 15
             });
         }
     }

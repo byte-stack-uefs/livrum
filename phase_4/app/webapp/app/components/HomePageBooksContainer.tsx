@@ -30,7 +30,7 @@ function ContainerBookCard(book: Ebook) {
 
             <p>{book.author}</p>
             <div>
-                <Button variant="contained" startIcon={<AddShoppingCartIcon />}>
+                <Button variant="contained" startIcon={<AddShoppingCartIcon />} href={`/ebook/${book.id}`}>
                     Comprar
                 </Button>
             </div>
