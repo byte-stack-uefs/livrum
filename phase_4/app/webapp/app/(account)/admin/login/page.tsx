@@ -30,7 +30,7 @@ const AdminLogin = () => {
                     flexDirection: "column",
                     alignItems: "center",
                     margin: "auto",
-                    width:"20%",
+                    width:"400px",
                     justifyContent: "center",
                     flexGrow: 1,
                 }}
