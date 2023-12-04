@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import { Margin } from "@mui/icons-material";
 
-
 const ClientRegister = () => {
   const [value, setValue] = useState(0);
   const [name, setName] = useState("");
@@ -58,6 +57,11 @@ const ClientRegister = () => {
     fontFamily: "Roboto",
     fontSize: "14px",
     width: widthParam,
+    "@media (max-width: 600px)": {
+      // Estilos específicos para telas menores
+      fontSize: "12px",
+      // Adicione mais ajustes conforme necessário
+    },
   });
 
   const handleChange = (event, newValue) => {
@@ -66,20 +70,18 @@ const ClientRegister = () => {
 
   const handleSubmitClient = (event) => {
     event.preventDefault();
-    
   };
 
   return (
     <>
       <Box
         sx={{
-          width: "100%",
-          maxWidth: "1200px",
           minHeight: "80vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           margin: "auto",
+          width: "600px",
           justifyContent: "center",
           height: "100%",
           flexGrow: 1,
@@ -96,9 +98,14 @@ const ClientRegister = () => {
           <Tab
             label="Cliente"
             sx={{
-              borderRadius: "12px 0 0 0", // Ajuste os valores conforme necessário
+              borderRadius: "12px 0 0 0",
+              "@media (max-width: 600px)": {
+                // Estilos específicos para telas menores
+                borderRadius: "12px", // Ajuste conforme necessário
+              },
             }}
           />
+
           <Tab
             label="Autor"
             sx={{
@@ -272,15 +279,19 @@ const ClientRegister = () => {
                       variant="body2"
                       marginTop="30px"
                       fontFamily="Roboto"
-                      fontSize="10px" // Adjust the font size as needed
+                      fontSize="10px"
                       fontWeight="bold"
+                      sx={{
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        "@media (max-width: 600px)": {
+                          // Estilos específicos para telas menores
+                          fontSize: "8px", // Ajuste conforme necessário
+                        },
+                      }}
                       onClick={(e) => {
                         e.preventDefault();
                         handleOpen();
-                      }}
-                      style={{
-                        textDecoration: "underline",
-                        cursor: "pointer",
                       }}
                     >
                       Li os termos e estou de acordo com as políticas de uso
@@ -295,8 +306,10 @@ const ClientRegister = () => {
                 type="submit"
                 variant="contained"
                 color="primary"
-                style={customStyles("")}
-                
+                sx={{
+                  width: "100%", // Ocupa a largura total em telas pequenas
+                  marginTop: "10px", // Espaçamento superior em telas pequenas
+                }}
               >
                 Prosseguir
               </Button>
