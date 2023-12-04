@@ -53,7 +53,7 @@ export const theme: Theme = createTheme({
     MuiTab: {
       styleOverrides: {
         root: {
-          minWidth: '258px', 
+          minWidth: '308px', 
           marginLeft: 'px',
           "&.Mui-selected": {
             backgroundColor: "#E5E2E2",
