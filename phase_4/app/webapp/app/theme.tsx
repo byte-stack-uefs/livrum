@@ -34,6 +34,19 @@ declare module "@mui/material/styles" {
     }
 }
 
+declare module '@mui/material/Button' {
+    interface ButtonPropsColorOverrides {
+        dark: true;
+    }
+}
+
+declare module '@mui/material/SvgIcon' {
+    interface SvgIconPropsColorOverrides {
+        dark: true;
+        darker: true;
+    }
+}
+
 const dark = "#1E3345";
 const darker = "#153C7F";
 const primary = "#2665BE";

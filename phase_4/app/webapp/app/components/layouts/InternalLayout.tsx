@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { redirect } from "next/navigation";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
 import LivrumButtonMenu from "../LivrumButtonMenu";
