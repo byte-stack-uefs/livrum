@@ -14,7 +14,13 @@ import {
   styled,
   Modal,
   Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import { Margin } from "@mui/icons-material";
 
 const ClientRegister = () => {
@@ -33,6 +39,16 @@ const ClientRegister = () => {
   const [accountNumber, setAccountNumber] = useState("");
   const maxWidthPage = "500px";
   const [openModal, setOpenModal] = useState(false);
+
+  const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+      padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+      padding: theme.spacing(1),
+    },
+  }));
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     // Verificar correspondência de senhas quando a senha é alterada
@@ -52,15 +68,20 @@ const ClientRegister = () => {
   const handleClose = () => {
     setOpenModal(false);
   };
-
+  const StyledDialogTitle = styled(DialogTitle)({
+    m: 0,
+    p: 2,
+    textAlign: "center",
+    backgroundColor: "#E5E2E2",
+    fontFamily: "Roboto",
+    fontSize: "20px",
+  });
   const customStyles = (widthParam) => ({
     fontFamily: "Roboto",
     fontSize: "14px",
     width: widthParam,
     "@media (max-width: 600px)": {
-     
       fontSize: "12px",
-     
     },
   });
 
@@ -100,7 +121,6 @@ const ClientRegister = () => {
             sx={{
               borderRadius: "12px 0 0 0",
               "@media (max-width: 600px)": {
-              
                 borderRadius: "12px",
               },
             }}
@@ -109,7 +129,7 @@ const ClientRegister = () => {
           <Tab
             label="Autor"
             sx={{
-              borderRadius: "0 12px 0 0", 
+              borderRadius: "0 12px 0 0",
             }}
           />
         </Tabs>
@@ -285,8 +305,7 @@ const ClientRegister = () => {
                         textDecoration: "underline",
                         cursor: "pointer",
                         "@media (max-width: 600px)": {
-                          
-                          fontSize: "8px", 
+                          fontSize: "8px",
                         },
                       }}
                       onClick={(e) => {
@@ -307,8 +326,8 @@ const ClientRegister = () => {
                 variant="contained"
                 color="primary"
                 sx={{
-                  width: "100%", 
-                  marginTop: "10px", 
+                  width: "100%",
+                  marginTop: "10px",
                 }}
               >
                 Prosseguir
@@ -316,21 +335,35 @@ const ClientRegister = () => {
             </Grid>
           </Grid>
 
-          <Modal
+          <BootstrapDialog
             open={openModal}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
           >
-            <Box sx={customStyles("")}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Termos de Uso
+            <StyledDialogTitle id="customized-dialog-title">
+              <strong>Políticas de Privacidade</strong>
+            </StyledDialogTitle>
+            <DialogContent dividers>
+              <Typography gutterBottom>
+                Agradecemos por utilizar nossos serviços. Esta Política de
+                Privacidade descreve como coletamos, usamos, compartilhamos e
+                protegemos suas informações quando você utiliza nossos produtos
+                e serviços. Ao acessar ou utilizar nossos Serviços, você
+                concorda com os termos desta Política de Privacidade. Se você
+                não concorda com os termos desta política, não utilize nossos
+                Serviços.
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                {/*termos de uso aqui*/}
+              <Typography gutterBottom>
+                Se tiver qualquer problema, não se acanhe, contate Almir
               </Typography>
-            </Box>
-          </Modal>
+            </DialogContent>
+            <DialogActions>
+              <Button autoFocus onClick={handleClose} sx={{backgroundColor: '#E5E2E2', color: "black"}}>
+                Fechar
+              </Button>
+            </DialogActions>
+          </BootstrapDialog>
         </form>
       </Box>
       <Box sx={{ marginBottom: "40px" }}></Box>
