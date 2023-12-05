@@ -194,11 +194,11 @@ const UserManagment = () => {
                     </Grid>
                 </Box>*/
                 return action == 1 ? (
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success" fullWidth>
                         Aprovar
                     </Button>
                 ) : (
-                    <Button variant="contained" color="error">
+                    <Button variant="contained" color="error" fullWidth>
                         Recusar
                     </Button>
                 );
@@ -215,7 +215,7 @@ const UserManagment = () => {
                 return action == 1 ? (
                     <></>
                 ) : (
-                    <Button variant="contained" color="error">
+                    <Button variant="contained" color="error" fullWidth>
                         Bloquear
                     </Button>
                 );
@@ -280,19 +280,7 @@ const UserManagment = () => {
             >
                 Usuários
             </Typography>
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "left",
-                    margin: "0% -10% 0% 4%",
-                    maxWidth: "90%",
-                    with: "80%",
-                    justifyContent: "left",
-                    height: "75%",
-                    flexGrow: 1,
-                }}
-            >
+            <Box>
                 <Tabs value={value} scrollButtons={false} onChange={handleChange} TabIndicatorProps={{ style: { display: "none" } }}>
                     <Tab
                         label="Admin"
@@ -314,7 +302,7 @@ const UserManagment = () => {
                     />
                 </Tabs>
                 <Paper sx={{ width: "100%", overflow: "hidden" }}>
-                    <TableContainer sx={{ maxHeight: "85%" }}>
+                    <TableContainer sx={{ maxHeight: 400 }}>
                         <Table stickyHeader size="small" aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
