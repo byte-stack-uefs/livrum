@@ -25,14 +25,14 @@ const AdminLogin = () => {
         <Grid container>
             <Grid xs={11} md={4} margin="auto">
                 <Paper>
-                    <FormControl>
+                    <form onSubmit={handleSubmitClient}>
                         <Grid container padding={3} spacing={2} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
                             <Grid xs={12}>
                                 <Typography variant="h5" fontWeight="bold">
                                     Acesso administrador
                                 </Typography>
                                 <Typography variant="caption" color="GrayText">
-                                    Seja bem vindo de volta!
+                                    Seja bem-vindo de volta!
                                 </Typography>
                             </Grid>
                             <Grid container spacing={2} xs={12} py={3}>
@@ -83,7 +83,7 @@ const AdminLogin = () => {
                                 </Button>
                             </Grid>
                         </Grid>
-                    </FormControl>
+                    </form>
                 </Paper>
             </Grid>
         </Grid>
