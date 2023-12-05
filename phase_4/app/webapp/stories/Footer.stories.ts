@@ -1,15 +1,15 @@
-import PublicFooter from "../app/components/Footer";
+import Footer from "../app/components/Footer";
 
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta = {
-    component: PublicFooter,
+    component: Footer,
     tags: ["autodocs"],
     title: "PublicFooter",
-} satisfies Meta<typeof PublicFooter>;
+} satisfies Meta<typeof Footer>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Footer: Story = {};
+export const F: Story = {};

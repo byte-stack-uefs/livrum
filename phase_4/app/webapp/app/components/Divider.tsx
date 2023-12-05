@@ -1,5 +1,9 @@
-import { Divider as MDivider, Theme } from "@mui/material";
+"use client";
 
-export default function Divider({ theme, width = "25%" }: { theme: Theme; width?: number | string }) {
-    return <MDivider style={{ borderBottom: "3px solid " + theme.palette.primary.main, margin: "auto", width: width }} />;
+import { theme } from "@/app/theme";
+import { Divider as MDivider } from "@mui/material";
+import { CSSProperties } from "react";
+
+export default function Divider({ width = "25%", style }: { width?: number | string; style?: CSSProperties }) {
+    return <MDivider style={{ borderBottom: "3px solid " + theme.palette.primary.main, width: width, ...style }} />;
 }
