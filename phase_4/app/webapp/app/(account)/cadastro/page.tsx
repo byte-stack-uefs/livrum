@@ -2,9 +2,7 @@
 import React, { useState } from "react";
 import {
     Tab,
-    Box,
     Tabs,
-    // Grid,
     Button,
     styled,
     Dialog,
@@ -20,9 +18,9 @@ import {
 
 import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@/app/components/Divider";
+import { theme } from "@/app/theme";
 
 const ClientRegister = () => {
-    const maxWidthPage = "500px";
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [value, setValue] = useState(0);
@@ -112,7 +110,7 @@ const ClientRegister = () => {
                         >
                             <Grid xs={7}></Grid>
                             <Grid xs={5} sx={{ textAlign: "right" }}>
-                                <label>Dados obrigatórios *</label>
+                                <label style={{ color: theme.palette.dark.main }}>Dados obrigatórios *</label>
                             </Grid>
                             <Grid xs={7}>
                                 <TextField
@@ -218,7 +216,10 @@ const ClientRegister = () => {
                             {value === 1 && (
                                 <>
                                     <Grid xs={12}>
-                                        <Typography variant="h6">Dados bancários</Typography>
+                                        <Typography sx={{ color: theme.palette.dark.main }} variant="h6">
+                                            Dados bancários
+                                        </Typography>
+                                        <Divider width={"10%"} />
                                     </Grid>
                                     <Grid xs={4}>
                                         <TextField
