@@ -28,7 +28,7 @@ export default function Home() {
                 author: makeid(6),
                 releaseDate: "01/11/2023",
                 cover: image,
-                id: 15
+                id: 15,
             });
         }
     }
@@ -36,24 +36,24 @@ export default function Home() {
     const categories: Category[] = [
         {
             name: "Ação",
-            cover: image
+            cover: image,
         },
         {
             name: "Comédia",
-            cover: image
+            cover: image,
         },
         {
             name: "Terror",
-            cover: image
+            cover: image,
         },
         {
             name: "Aventura",
-            cover: image
+            cover: image,
         },
         {
             name: "Romance",
-            cover: image
-        }
+            cover: image,
+        },
     ];
 
     return (
