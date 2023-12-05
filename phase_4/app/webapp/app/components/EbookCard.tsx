@@ -1,5 +1,5 @@
-import { Button, Slider } from "@mui/material";
 import Ebook from "../interfaces/Ebook";
+import { Button, Slider } from "@mui/material";
 
 export default function EbookCard({ book }: { book: Ebook }) {
     return (

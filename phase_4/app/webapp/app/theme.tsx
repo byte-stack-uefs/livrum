@@ -15,6 +15,7 @@ declare module "@mui/material/styles" {
         info?: PaletteColorOptions;
         error?: PaletteColorOptions;
         success?: PaletteColorOptions;
+        dark?: PaletteColorOptions;
     }
     interface Theme {
         palette: {
@@ -24,6 +25,7 @@ declare module "@mui/material/styles" {
             info: any;
             error: any;
             success: any;
+            dark: any;
         };
     }
     // allow configuration using `createTheme`
@@ -32,12 +34,28 @@ declare module "@mui/material/styles" {
     }
 }
 
-const darkerColor = "#153C7F";
+declare module "@mui/material/Button" {
+    interface ButtonPropsColorOverrides {
+        dark: true;
+    }
+}
+
+declare module "@mui/material/SvgIcon" {
+    interface SvgIconPropsColorOverrides {
+        dark: true;
+        darker: true;
+    }
+}
+
+const dark = "#1E3345";
+const darker = "#153C7F";
+const primary = "#2665BE";
+const secondary = "#F4F2F2";
 
 export const theme: Theme = createTheme({
     palette: {
         primary: {
-            main: "#2665BE",
+            main: primary,
         },
         success: {
             main: "#8CD087",
@@ -46,7 +64,13 @@ export const theme: Theme = createTheme({
             main: "#D95D56",
         },
         darker: {
-            main: darkerColor,
+            main: darker,
+        },
+        dark: {
+            main: dark,
+        },
+        secondary: {
+            main: secondary,
         },
     },
     components: {
@@ -64,6 +88,20 @@ export const theme: Theme = createTheme({
                         color: "#fff",
                         borderRadius: "20px 20px 0 0",
                     },
+                },
+            },
+        },
+        MuiListItemText: {
+            styleOverrides: {
+                root: {
+                    color: dark,
+                },
+            },
+        },
+        MuiListItemIcon: {
+            styleOverrides: {
+                root: {
+                    color: dark,
                 },
             },
         },

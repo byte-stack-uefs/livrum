@@ -2,10 +2,10 @@ import { Metadata } from "next";
 import Ebook from "./interfaces/Ebook";
 import { Container } from "@mui/material";
 import { makeid } from "./helpers/helpers";
-import PublicLayout from "./components/layouts/PublicLayout";
-import HomePageBooksContainer from "./components/HomePageBooksContainer";
-import CategoriesContainer from "./components/CategoriesContainer";
 import { Category } from "./interfaces/Category";
+import PublicLayout from "./components/layouts/PublicLayout";
+import CategoriesContainer from "./components/CategoriesContainer";
+import HomePageBooksContainer from "./components/HomePageBooksContainer";
 
 export const metadata: Metadata = {
     title: "Home | " + process.env.APP_NAME,
@@ -28,6 +28,7 @@ export default function Home() {
                 author: makeid(6),
                 releaseDate: "01/11/2023",
                 cover: image,
+                id: 15
             });
         }
     }

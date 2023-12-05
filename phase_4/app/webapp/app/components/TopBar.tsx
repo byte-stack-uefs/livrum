@@ -1,7 +1,4 @@
-import { AppBar, Container, Grid, TextField, Toolbar, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
-
-import { theme } from "@/app/theme";
+import { AppBar } from "@mui/material";
 import { TopMain, TopSecond } from "./TopBarContainers";
 
 /**
@@ -13,8 +10,8 @@ export default function TopBar() {
     return (
         <div>
             <AppBar sx={{ backgroundColor: "white" }} position="static">
-                <TopMain title={process.env.APP_NAME} theme={theme} />
-                <TopSecond pros={pros} theme={theme} />
+                <TopMain />
+                <TopSecond pros={pros} />
             </AppBar>
         </div>
     );

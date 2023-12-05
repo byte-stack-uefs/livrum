@@ -1,25 +1,94 @@
 "use client";
 
+import Link from "next/link";
+import { useState } from "react";
+import { theme } from '@/app/theme';
 import AccountHeader from "./AccountHeader";
-import { Person, ShoppingCart } from "@mui/icons-material";
-import { Box, Container, Grid, TextField, Theme, Toolbar } from "@mui/material";
+import { Person, Search, ShoppingCart } from "@mui/icons-material";
+import { Badge, Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Toolbar, Tooltip } from "@mui/material";
 
-export function TopMain(props: { title?: string; theme: Theme }) {
-    const { title, theme } = props;
+export function TopMain() {
+
+    const [category, setCategory] = useState('all');
+    const [numCartItems, setNumCartItems] = useState(1);
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setCategory(event.target.value as string);
+    };
+
+    const categories = [
+        {
+            title: 'Todos',
+            value: 'all'
+        },
+        {
+            title: 'Aventura',
+            value: 'aventura'
+        },
+        {
+            title: "Comédia",
+            value: 'comedia'
+        }
+    ];
+
+    const searchSelect = (<InputAdornment position="start">
+        <Select
+            size="small"
+            value={category}
+            onChange={handleChange}
+            sx={
+                {
+                    border: 'none',
+                    borderRadius: 8,
+                    borderTopRightRadius: 0,
+                    borderBottomRightRadius: 0,
+                    borderLeft: 0,
+                    width: '150px'
+                }
+            }
+        >
+            {categories.map((e) => {
+                return <MenuItem value={e.value}>
+                    {e.title}
+                </MenuItem>
+            })}
+        </Select>
+    </InputAdornment>);
+
     return (
         <Container maxWidth={false}>
             <Toolbar sx={{ textTransform: "uppercase" }}>
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                    <Grid item sm={4} md={3} sx={{ display: 'flex' }}>
-                        <AccountHeader title={title} theme={theme} />
+                    <Grid item sm={3}>
+                        <Link href="/" style={{ display: 'flex', justifyContent: 'space-evenly', textDecoration: 'none' }}>
+                            <AccountHeader logoScale={0.17} fontSize={42} />
+                        </Link>
                     </Grid>
-                    <Grid item sm={4} md={6}>
-                        <TextField sx={{ width: "75%" }} />
+                    <Grid item sm={4} md={7}>
+                        <FormControl fullWidth>
+                            <OutlinedInput
+                                size="small"
+                                sx={{ paddingLeft: 0, borderRadius: 8, backgroundColor: '#F4F2F2' }}
+                                startAdornment={searchSelect}
+                                endAdornment={<InputAdornment position="end">
+                                    <Search />
+                                </InputAdornment>}
+                            />
+                        </FormControl>
                     </Grid>
-                    <Grid item sm={4} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <ShoppingCart sx={{ fontSize: 48 }} color="darker" />
-                        <Person sx={{ fontSize: 48 }} color="darker" />
+                    <Grid item sm={4} md={2} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                        <Link href="/carrinho">
+                            <Tooltip title="Ver carrinho" arrow>
+                                <Badge anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right'
+                                }} badgeContent={numCartItems} color="primary">
+                                    <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                                </Badge>
+                            </Tooltip>
+                        </Link>
+                        <Person sx={{ fontSize: 40 }} color="darker" />
                     </Grid>
                 </Grid>
 
@@ -28,8 +97,8 @@ export function TopMain(props: { title?: string; theme: Theme }) {
     );
 }
 
-export function TopSecond(props: { pros: Array<any>; theme: Theme }) {
-    const { theme, pros } = props;
+export function TopSecond(props: { pros: Array<any>; }) {
+    const { pros } = props;
 
     return (
         <Container sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, height: "3rem" }} maxWidth={false}>

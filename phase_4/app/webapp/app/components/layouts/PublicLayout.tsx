@@ -7,16 +7,14 @@
  */
 
 import TopBar from "../TopBar";
-import PublicFooter from "../Footer";
-
-import { theme } from "@/app/theme";
+import Footer from "../Footer";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
     return (
         <div>
             <TopBar />
             <section>{children}</section>
-            <PublicFooter theme={theme} email={process.env.APP_EMAIL} company={process.env.COMPANY} />
+            <Footer />
         </div>
     );
 }
