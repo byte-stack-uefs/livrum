@@ -21,7 +21,7 @@ async def version_api():
     versao = connect()
     print(type(versao))
     return Response(
-        content=json.dump({"versao do banco de dados": versao[0]}),
+        content=json.dumps({"versao do banco de dados": versao[0]}),
         media_type="application/json",
     )
 
