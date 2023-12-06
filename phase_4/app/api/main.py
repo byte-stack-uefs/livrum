@@ -1,12 +1,14 @@
-import ujson
+import json
 import uvicorn
 from fastapi import FastAPI
-from fastapi.responses import Response
-
-from routers import creditCard, cart, genre, coupon, customer
+from dependencies import security
 from database.database import connect
+from fastapi.responses import Response
+from routers import creditCard, cart, genre, coupon, customer
+
 app = FastAPI()
 
+app.include_router(security.router)
 app.include_router(cart.router)
 app.include_router(coupon.router)
 app.include_router(creditCard.router)
@@ -16,9 +18,13 @@ app.include_router(genre.router)
 
 @app.get("/version")
 async def version_api():
-    versao = connect();
+    versao = connect()
     print(type(versao))
-    return Response(content=ujson.dumps({"versao do banco de dados": versao[0]}), media_type="application/json")
+    return Response(
+        content=json.dump({"versao do banco de dados": versao[0]}),
+        media_type="application/json",
+    )
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8010)
