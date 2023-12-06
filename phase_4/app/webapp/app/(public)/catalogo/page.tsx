@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
-import EbookCard from "../../components/EbookCard";
-import { Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, Slider, TextField } from "@mui/material";
+import EbookCard from "../../components/E-bookCard";
+import { Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, List, ListItem, Pagination, Slider, Stack, TextField } from "@mui/material";
 import { Primary } from "@/stories/Button.stories";
 import React from "react";
+import SortIcon from '@mui/icons-material/Sort';
+
 
 function PageHeader() {
     return (                
@@ -26,8 +28,8 @@ function SearchBox(){
             <TextField id="outlined-basic" label="Pesquise por nome ou autor" 
                 variant="outlined" fullWidth 
                 sx={{ backgroundColor:'#FFFFFF'}}
-                inputProps={{style: {fontSize: 10, } }} // font size of input text
-                InputLabelProps={{style: {fontSize: 10}}} // font size of input label
+                inputProps={{style: {fontSize: 7, } }} // font size of input text
+                InputLabelProps={{style: {fontSize: 15, marginTop:-5}}} // font size of input label
             /> 
         </Grid>
     );
@@ -205,10 +207,100 @@ function ReleaseYear(){
     );
 }
 
+function BookSectionHeader(){
+    return (
+        <Grid container spacing={4}>
+            <Grid item xs={8} marginTop={-0.5}>
+                Exibindo X resultados de Y
+            </Grid>
+            <Grid item xs={4} paddingBottom={1} sx={{marginLeft:-6,textAlign:'right'}}>
+                <SortIcon></SortIcon>
+            </Grid>
+        </Grid>
+    );
+}
+
 function BookList(){
+    const [books, setBooks] = useState([
+        {
+            id: 0,
+            author: "Fiodor Dostoievski",
+            title: "Os irmãos Karamazov",
+            releaseDate: "27/11/1880",
+            price: 110,
+            cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA"
+        },
+        {
+            id: 1,
+            author: "Plato",
+            price: 220,
+            title: "The Republic",
+            releaseDate: "27/11/2023",
+            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg"
+        },
+        {
+            id: 1,
+            author: "Andrew Hodges",
+            price: 20,
+            title: "Turing: Um filósofo da natureza",
+            releaseDate: "27/11/2023",
+            cover: "https://m.media-amazon.com/images/I/819ACs3AuzL._AC_AA360_.jpg"
+        },
+        {
+            id: 0,
+            author: "Austin Wright",
+            title: "Tony & Susan",
+            releaseDate: "27/11/1990",
+            price: 50,
+            cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg"
+        },
+        {
+            id: 1,
+            author: "Plato",
+            price: 220,
+            title: "The Republic",
+            releaseDate: "27/11/2023",
+            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg"
+        }
+
+    ]);
+    
     return(
-        <Grid item xs={8}>
-            <div>xs=8</div>
+        <Grid container sx={{}}>
+            <List sx={{ width: '100%' }}>
+            {books.map((book) => (
+                <ListItem
+                disableGutters
+                >
+                <EbookCard ebook={book}></EbookCard>
+                </ListItem>
+            ))}
+            </List>
+        </Grid>
+    );
+}
+
+function BookListContainer(){
+    return(
+        <Box sx={{width: 1200, height:1000, backgroundColor: '#F4F2F2', borderRadius: '16px'}}>
+            <BookList></BookList>
+            <Grid container spacing={0} sx={{marginLeft:55, marginTop:2}}>
+                <Stack spacing={2}>
+                    <Pagination count={10} color="primary" shape="rounded" />
+                </Stack>
+            </Grid>
+        </Box>        
+    );
+}
+
+function BookSection(){
+    return(
+        <Grid item xs={8} marginTop={-3.5} marginLeft={-20}>
+            <Grid container spacing={2}>
+                <BookSectionHeader></BookSectionHeader>
+                <BookListContainer></BookListContainer>
+            </Grid>
+            
         </Grid>
     );
 }
@@ -217,10 +309,10 @@ export default function Page() {
 
     return ( 
         <Box sx={{m:5}}>
-            <Grid container spacing={2}> 
+            <Grid container spacing={0}> 
                 <PageHeader></PageHeader>
                 <SideBarMenu></SideBarMenu>
-                <BookList></BookList>
+                <BookSection></BookSection>
             </Grid>
         </Box>
     );

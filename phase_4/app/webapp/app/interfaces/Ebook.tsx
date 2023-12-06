@@ -4,4 +4,5 @@ export default interface Ebook {
     cover: string;
     author: string;
     releaseDate: string;
+    price: number;
 }
