@@ -3,12 +3,10 @@ from jose import JWTError, jwt
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
+from services.userService import UserService
+from models.user import User, UserStatus, UserType
 from fastapi import Depends, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
-from services.userService import UserService
-
-from models.user import User, UserStatus
 
 EXPIRE = 60
 ALGO = "HS256"
@@ -16,16 +14,6 @@ SECRET = "2dc1f208deabcce0f6fbcca025987e7cf4cf7790a2a83a6bde3edb164f5e1c4c"
 
 authScheme = OAuth2PasswordBearer(tokenUrl="/auth")
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "$2b$12$D1oR5qtnGZkK8RFFd0.p7eEPwNEx3QPNipvFBntufOPbAsmvf.qVC",
-        "disabled": False,
-    }
-}
 
 
 class Token(BaseModel):
@@ -78,6 +66,19 @@ def get_current_active_user(user: Annotated[User, Depends(get_current_user)]):
     return user
 
 
+class UserHasAccess:
+    def __init__(self, access: list[UserType]):
+        self.access = access
+
+    def __call__(self, user: Annotated[User, Depends(get_current_active_user)]):
+        if user and user.type not in self.access:
+            raise HTTPException(
+                status.HTTP_403_FORBIDDEN, detail="User has no access to this resource"
+            )
+
+        return user
+
+
 def findUser(email: str) -> User:
     service: UserService = UserService()
     return service.findUserByEmail(email)
@@ -92,7 +93,6 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()]):
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    print("Password:", get_password_hash(form.password))
     if not verify_password(form.password, user.password):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
