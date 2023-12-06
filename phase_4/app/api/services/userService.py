@@ -2,7 +2,17 @@ from models.user import User, UserType
 
 
 class UserService:
-    def findUserByEmail(self, email: str):
+    def findUserByEmail(self, email: str) -> User:
+        """
+        Function that find a user by its email
+
+        Parameters:
+            email (str): User's email
+
+        Returns:
+            User: The user
+
+        """
         data = {
             "id": 1,
             "email": email,
