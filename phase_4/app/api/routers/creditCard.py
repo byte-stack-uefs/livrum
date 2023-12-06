@@ -1,4 +1,7 @@
-from fastapi import APIRouter
+from typing import Annotated
+from fastapi import APIRouter, Depends
+from models.user import User
+from dependencies import security
 
 router = APIRouter(prefix="/credit-card", tags=["Credit Card"])
 
@@ -9,8 +12,8 @@ def add():
 
 
 @router.get("/", description="Get all customer's credit cards")
-def list():
-    return {"message": "Listing credits cards"}
+def list(user: Annotated[User, Depends(security.get_current_active_user)]):
+    return {"message": "Listing credits cards", "id": user.id}
 
 
 @router.delete("/{id}", description="Delete a customer's credit card by its ID")
