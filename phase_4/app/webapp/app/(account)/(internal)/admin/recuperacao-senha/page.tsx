@@ -6,6 +6,7 @@ import { TextField, Button, Paper, Typography, Link, FormControl, InputLabel } f
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { theme } from "@/app/theme";
 import { Primary } from "@/stories/Button.stories";
+import Divider from "@/app/components/Divider";
 
 const AdminPasswordRestore = () => {
     const [value, setValue] = useState(0);
@@ -21,10 +22,14 @@ const AdminPasswordRestore = () => {
     };
 
     return (
-        <Grid container>
-            <Grid> </Grid>
-            <Grid xs={11} md={4} margin="auto">
-                <Paper elevation={0} style={{ padding: '20px', backgroundColor: '#F4F2F2' }}>
+        <Grid container spacing = {6} direction="column">
+            <Grid xs={12} md={4} margin="auto" textAlign="center">
+                <Typography sx={{ color: "black"}} variant="h6">
+                    Recuperação de senha
+                </Typography>
+                <Divider width={"35%"} style={{ margin: "auto"}}/></Grid>
+            <Grid xs={12} md={4} margin="auto">
+                <Paper elevation={0} style={{ padding: '30px', backgroundColor: '#F4F2F2' }}>
                     <Paper>
                         <form onSubmit={handleSubmitClient}>
                             <Grid container padding={3} spacing={3} justifyContent="center" alignItems="center">
