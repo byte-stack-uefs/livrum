@@ -26,7 +26,7 @@ class UserService:
 
         return user
 
-    def findUserById(self, id: int):
+    def findUserById(self, id: int) -> User:
         data = {
             "id": id,
             "email": "livrum@gmail.com",
