@@ -16,7 +16,7 @@ app.include_router(customer.router)
 app.include_router(genre.router)
 
 
-@app.get("/version")
+@app.get("/version", description="Test MySQL Connection", tags=["Test"])
 async def version_api():
     versao = connect()
     print(type(versao))
