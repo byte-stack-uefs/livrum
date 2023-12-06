@@ -34,10 +34,23 @@ declare module "@mui/material/styles" {
     }
 }
 
+declare module "@mui/material/Button" {
+    interface ButtonPropsColorOverrides {
+        dark: true;
+    }
+}
+
+declare module "@mui/material/SvgIcon" {
+    interface SvgIconPropsColorOverrides {
+        dark: true;
+        darker: true;
+    }
+}
+
 const dark = "#1E3345";
 const darker = "#153C7F";
 const primary = "#2665BE";
-const secondary = "#F4F2F2"
+const secondary = "#F4F2F2";
 
 export const theme: Theme = createTheme({
     palette: {
@@ -54,19 +67,36 @@ export const theme: Theme = createTheme({
             main: darker,
         },
         dark: {
-            main: dark
+            main: dark,
         },
         secondary: {
-            main: secondary
-        }
+            main: secondary,
+        },
     },
     components: {
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    "&.Mui-selected": {
+                        backgroundColor: "#E5E2E2",
+                        color: "#2665BE",
+                        transition: "all 0.5s",
+                        borderRadius: "20px 20px 0 0",
+                    },
+                    "&:not(.Mui-selected)": {
+                        backgroundColor: "#1E3345",
+                        color: "#fff",
+                        borderRadius: "20px 20px 0 0",
+                    },
+                },
+            },
+        },
         MuiListItemText: {
             styleOverrides: {
                 root: {
-                    color: dark
-                }
-            }
+                    color: dark,
+                },
+            },
         },
         MuiListItemIcon: {
             styleOverrides: {
@@ -75,24 +105,7 @@ export const theme: Theme = createTheme({
                 }
             }
         },
-        MuiTab: {
-            styleOverrides: {
-                root: {
-                    "&:not(.Mui-selected)": {
-                        backgroundColor: "white",
-                        color: "#163760",
-                        transition: "all 0.5s",
-                        borderRadius: "10px 10px 0 0"
-                    },
-                    "&.Mui-selected": {
-                        backgroundColor: "#1E3345",
-                        color: "#D9D9D9",
-                        borderRadius: "10px 10px 0 0"
-                    },
-
-                },
-            },
-        },
+        
     }
 });
 

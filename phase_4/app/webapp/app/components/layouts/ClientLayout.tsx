@@ -1,29 +1,31 @@
 import PublicLayout from "./PublicLayout";
+import LivrumButtonMenu from "../LivrumButtonMenu";
+import { Container, Grid, Paper } from "@mui/material";
+import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
 import { AccountBox, CreditCard, LibraryBooks, Person, ReceiptLong } from "@mui/icons-material";
-import { Container, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from "@mui/material";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
 
-    const buttons = [
+    const buttons: LivrumButtonMenuItems[] = [
         {
             icon: <AccountBox />,
-            label: 'Meus dados',
-            route: ''
+            label: 'Meus Dados',
+            visible: true
         },
         {
             icon: <CreditCard />,
-            label: 'Meus cartões',
-            route: '',
+            label: 'Meus Cartões',
+            visible: true
         },
         {
             icon: <LibraryBooks />,
-            label: 'Minha biblioteca',
-            route: ''
+            label: 'Minha Biblioteca',
+            visible: true
         },
         {
             icon: <ReceiptLong />,
-            label: 'Histórico de compras',
-            route: ''
+            label: 'Histórico de Compras',
+            visible: true
         },
     ];
 
@@ -38,18 +40,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                                     <Person sx={{ fontSize: 48 }} color="dark" />
                                 </Grid>
                                 <Grid item xs={12}>
-                                    <List>
-                                        {buttons.map(e => {
-                                            return (<ListItem disablePadding>
-                                                <ListItemButton selected={false}>
-                                                    <ListItemIcon>
-                                                        {e.icon}
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={e.label} />
-                                                </ListItemButton>
-                                            </ListItem>)
-                                        })}
-                                    </List>
+                                    <LivrumButtonMenu buttons={buttons} />
                                 </Grid>
                             </Grid>
                         </Paper>

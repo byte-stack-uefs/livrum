@@ -1,14 +1,16 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { theme } from '@/app/theme';
 import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
-import { Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Theme, Toolbar } from "@mui/material";
+import { Badge, Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Toolbar, Tooltip } from "@mui/material";
 
-export function TopMain(props: { title?: string; theme: Theme }) {
+export function TopMain() {
 
-    const { title, theme } = props;
     const [category, setCategory] = useState('all');
+    const [numCartItems, setNumCartItems] = useState(1);
 
     const handleChange = (event: SelectChangeEvent) => {
         setCategory(event.target.value as string);
@@ -58,8 +60,10 @@ export function TopMain(props: { title?: string; theme: Theme }) {
             <Toolbar sx={{ textTransform: "uppercase" }}>
 
                 <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-                    <Grid item sm={3} md={3} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <AccountHeader logoScale={0.17} fontSize={42} title={title} theme={theme} />
+                    <Grid item sm={3}>
+                        <Link href="/" style={{ display: 'flex', justifyContent: 'space-evenly', textDecoration: 'none' }}>
+                            <AccountHeader logoScale={0.17} fontSize={42} />
+                        </Link>
                     </Grid>
                     <Grid item sm={4} md={7}>
                         <FormControl fullWidth>
@@ -74,7 +78,16 @@ export function TopMain(props: { title?: string; theme: Theme }) {
                         </FormControl>
                     </Grid>
                     <Grid item sm={4} md={2} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                        <Link href="/carrinho">
+                            <Tooltip title="Ver carrinho" arrow>
+                                <Badge anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'right'
+                                }} badgeContent={numCartItems} color="primary">
+                                    <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                                </Badge>
+                            </Tooltip>
+                        </Link>
                         <Person sx={{ fontSize: 40 }} color="darker" />
                     </Grid>
                 </Grid>
@@ -84,8 +97,8 @@ export function TopMain(props: { title?: string; theme: Theme }) {
     );
 }
 
-export function TopSecond(props: { pros: Array<any>; theme: Theme }) {
-    const { theme, pros } = props;
+export function TopSecond(props: { pros: Array<any>; }) {
+    const { pros } = props;
 
     return (
         <Container sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.primary.contrastText, height: "3rem" }} maxWidth={false}>

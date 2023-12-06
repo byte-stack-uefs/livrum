@@ -3,5 +3,5 @@ interface EbookPageParams {
 }
 
 export default function Page({ params }: { params: EbookPageParams }) {
-    return "Ebook Page";
+    return "Ebook N " + params.id;
 }
