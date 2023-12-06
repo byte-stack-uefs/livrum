@@ -1,7 +1,6 @@
 from fastapi import FastAPI
-
-from routers import creditCard, cart, genre, coupon, customer
 from dependencies import security
+from routers import creditCard, cart, genre, coupon, customer
 
 app = FastAPI()
 
