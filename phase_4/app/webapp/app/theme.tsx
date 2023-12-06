@@ -51,6 +51,7 @@ const dark = "#1E3345";
 const darker = "#153C7F";
 const primary = "#2665BE";
 const secondary = "#F4F2F2";
+const royal_blue = "#163760";
 
 export const theme: Theme = createTheme({
     palette: {
