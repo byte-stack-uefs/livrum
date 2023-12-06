@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Cliente` (
   `endereco` VARCHAR(255) NULL DEFAULT NULL,
   `telefone` VARCHAR(45) NULL DEFAULT NULL,
   INDEX `fk_Cliente_Usuario1_idx` (`idUsuario` ASC),
-  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) ,
+  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC),
   PRIMARY KEY (`idUsuario`),
   CONSTRAINT `fk_Cliente_Usuario1`
     FOREIGN KEY (`idUsuario`)
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Cartao` (
   `criadoEm` DATETIME NOT NULL,
   `idCliente` INT NOT NULL,
   PRIMARY KEY (`idCartao`),
-  INDEX `fk_Cartao_Cliente1_idx` (`idCliente` ASC) ,
+  INDEX `fk_Cartao_Cliente1_idx` (`idCliente` ASC),
   CONSTRAINT `fk_Cartao_Cliente1`
     FOREIGN KEY (`idCliente`)
     REFERENCES `livrum`.`Cliente` (`idUsuario`)
@@ -94,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Autor` (
   `endereço` VARCHAR(255) NOT NULL,
   `numeroAgencia` VARCHAR(16) NOT NULL,
   `numeroConta` VARCHAR(16) NOT NULL,
-  INDEX `fk_Autor_Usuario1_idx` (`idUsuario` ASC) ,
+  INDEX `fk_Autor_Usuario1_idx` (`idUsuario` ASC),
   PRIMARY KEY (`idUsuario`),
-  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC) ,
+  UNIQUE INDEX `cpf_UNIQUE` (`cpf` ASC),
   CONSTRAINT `fk_Autor_Usuario1`
     FOREIGN KEY (`idUsuario`)
     REFERENCES `livrum`.`Usuario` (`idUsuario`)
@@ -117,11 +117,11 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Cupom` (
   `porcentagem` FLOAT(4,2) NOT NULL,
   `dataExpiracao` DATE NULL,
   `criadoEm` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modificadoEM` DATETIME NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modificadoEM` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `idUsuario` INT NOT NULL,
   PRIMARY KEY (`idCupom`),
-  UNIQUE INDEX `nome_UNIQUE` (`nome` ASC) ,
-  INDEX `fk_Cupom_Autor1_idx` (`idUsuario` ASC) ,
+  UNIQUE INDEX `nome_UNIQUE` (`nome` ASC),
+  INDEX `fk_Cupom_Autor1_idx` (`idUsuario` ASC),
   CONSTRAINT `fk_Cupom_Autor1`
     FOREIGN KEY (`idUsuario`)
     REFERENCES `livrum`.`Autor` (`idUsuario`)
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Genero` (
   `idGenero` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idGenero`),
-  UNIQUE INDEX `nome_UNIQUE` (`nome` ASC) )
+  UNIQUE INDEX `nome_UNIQUE` (`nome` ASC))
 ENGINE = InnoDB;
 
 
@@ -177,8 +177,8 @@ DROP TABLE IF EXISTS `livrum`.`GeneroEBook` ;
 CREATE TABLE IF NOT EXISTS `livrum`.`GeneroEBook` (
   `idGenero` INT NOT NULL,
   `idEBook` INT NOT NULL,
-  INDEX `fk_GeneroEBook_Genero_idx` (`idGenero` ASC) ,
-  INDEX `fk_GeneroEBook_EBook1_idx` (`idEBook` ASC) ,
+  INDEX `fk_GeneroEBook_Genero_idx` (`idGenero` ASC),
+  INDEX `fk_GeneroEBook_EBook1_idx` (`idEBook` ASC),
   PRIMARY KEY (`idGenero`, `idEBook`),
   CONSTRAINT `fk_GeneroEBook_Genero`
     FOREIGN KEY (`idGenero`)
@@ -201,11 +201,11 @@ DROP TABLE IF EXISTS `livrum`.`Pedido` ;
 CREATE TABLE IF NOT EXISTS `livrum`.`Pedido` (
   `idPedido` INT NOT NULL AUTO_INCREMENT,
   `meioPagamento` ENUM('pix', 'credito') NOT NULL,
-  `data` DATE NOT NULL DEFAULT NOW(),
+  `data` DATE NOT NULL DEFAULT (CURRENT_DATE),
   `status` ENUM('canceled', 'pending', 'approved', 'failed') NOT NULL DEFAULT 'pending',
   `idCliente` INT NOT NULL,
   PRIMARY KEY (`idPedido`),
-  INDEX `fk_Pedido_Cliente1_idx` (`idCliente` ASC) ,
+  INDEX `fk_Pedido_Cliente1_idx` (`idCliente` ASC),
   CONSTRAINT `fk_Pedido_Cliente1`
     FOREIGN KEY (`idCliente`)
     REFERENCES `livrum`.`Cliente` (`idUsuario`)
@@ -225,9 +225,9 @@ CREATE TABLE IF NOT EXISTS `livrum`.`ItemPedido` (
   `idPedido` INT NOT NULL,
   `valorUnitario` FLOAT(10,2) NOT NULL,
   `valorTotal` FLOAT(10,2) NOT NULL,
-  INDEX `fk_ItemPedido_Cupom1_idx` (`idCupom` ASC) ,
-  INDEX `fk_ItemPedido_EBook1_idx` (`idEBook` ASC) ,
-  INDEX `fk_ItemPedido_Pedido1_idx` (`idPedido` ASC) ,
+  INDEX `fk_ItemPedido_Cupom1_idx` (`idCupom` ASC),
+  INDEX `fk_ItemPedido_EBook1_idx` (`idEBook` ASC),
+  INDEX `fk_ItemPedido_Pedido1_idx` (`idPedido` ASC),
   PRIMARY KEY (`idEBook`, `idPedido`),
   CONSTRAINT `fk_ItemPedido_Cupom1`
     FOREIGN KEY (`idCupom`)
@@ -257,7 +257,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Carrinho` (
   `idUsuario` INT NOT NULL,
   `modificadoEm` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idCarrinho`),
-  INDEX `fk_Carrinho_Cliente1_idx` (`idUsuario` ASC) ,
+  INDEX `fk_Carrinho_Cliente1_idx` (`idUsuario` ASC),
   CONSTRAINT `fk_Carrinho_Cliente1`
     FOREIGN KEY (`idUsuario`)
     REFERENCES `livrum`.`Cliente` (`idUsuario`)
@@ -273,17 +273,17 @@ DROP TABLE IF EXISTS `livrum`.`ItemCarrinho` ;
 
 CREATE TABLE IF NOT EXISTS `livrum`.`ItemCarrinho` (
   `idEBook` INT NOT NULL,
-  `dCarrinho` INT NOT NULL,
-  INDEX `fk_ItemCarrinho_EBook1_idx` (`idEBook` ASC) ,
-  INDEX `fk_ItemCarrinho_Carrinho1_idx` (`dCarrinho` ASC) ,
-  PRIMARY KEY (`idEBook`, `dCarrinho`),
+  `idCarrinho` INT NOT NULL,
+  INDEX `fk_ItemCarrinho_EBook1_idx` (`idEBook` ASC),
+  INDEX `fk_ItemCarrinho_Carrinho1_idx` (`idCarrinho` ASC),
+  PRIMARY KEY (`idEBook`, `idCarrinho`),
   CONSTRAINT `fk_ItemCarrinho_EBook1`
     FOREIGN KEY (`idEBook`)
     REFERENCES `livrum`.`EBook` (`idEBook`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_ItemCarrinho_Carrinho1`
-    FOREIGN KEY (`dCarrinho`)
+    FOREIGN KEY (`idCarrinho`)
     REFERENCES `livrum`.`Carrinho` (`idCarrinho`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -298,7 +298,7 @@ DROP TABLE IF EXISTS `livrum`.`Administrador` ;
 CREATE TABLE IF NOT EXISTS `livrum`.`Administrador` (
   `super` TINYINT NOT NULL,
   `idUsuario` INT NOT NULL,
-  INDEX `fk_Administrador_Usuario1_idx` (`idUsuario` ASC) ,
+  INDEX `fk_Administrador_Usuario1_idx` (`idUsuario` ASC),
   PRIMARY KEY (`idUsuario`),
   CONSTRAINT `fk_Administrador_Usuario1`
     FOREIGN KEY (`idUsuario`)
@@ -317,8 +317,8 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Biblioteca` (
   `idCliente` INT NOT NULL,
   `idEBook` INT NOT NULL,
   PRIMARY KEY (`idCliente`, `idEBook`),
-  INDEX `fk_Cliente_has_EBook_EBook1_idx` (`idEBook` ASC) ,
-  INDEX `fk_Cliente_has_EBook_Cliente1_idx` (`idCliente` ASC) ,
+  INDEX `fk_Cliente_has_EBook_EBook1_idx` (`idEBook` ASC),
+  INDEX `fk_Cliente_has_EBook_Cliente1_idx` (`idCliente` ASC),
   CONSTRAINT `fk_Cliente_has_EBook_Cliente1`
     FOREIGN KEY (`idCliente`)
     REFERENCES `livrum`.`Cliente` (`idUsuario`)
