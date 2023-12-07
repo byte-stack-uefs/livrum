@@ -285,7 +285,7 @@ function ReleaseYear() {
 
 function BookSectionHeader() {
     return (
-        <Grid container>
+        <Grid container xs={12}>
             <Grid xs={8}>Exibindo X resultados de Y</Grid>
             <Grid xs={4} sx={{ textAlign: "right" }}>
                 <SortIcon></SortIcon>
@@ -378,11 +378,13 @@ function BookSection() {
 export default function Page() {
     return (
         <Container maxWidth={false}>
-            <Grid container>
+            <Grid container spacing={2}>
                 <PageHeader></PageHeader>
-                <Grid container xs={12}>
-                    <SideBarMenu></SideBarMenu>
-                    <BookSection></BookSection>
+                <Grid xs={12}>
+                    <Grid container>
+                        <SideBarMenu></SideBarMenu>
+                        <BookSection></BookSection>
+                    </Grid>
                 </Grid>
             </Grid>
         </Container>
