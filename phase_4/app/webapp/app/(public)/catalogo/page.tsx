@@ -1,78 +1,124 @@
 "use client";
 import { useState } from "react";
 import EbookCard from "../../components/E-bookCard";
-import { Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, Grid, List, ListItem, Pagination, Slider, Stack, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    Checkbox,
+    Container,
+    Divider,
+    FormControlLabel,
+    FormGroup,
+    Grid,
+    List,
+    ListItem,
+    Pagination,
+    Slider,
+    Stack,
+    TextField,
+} from "@mui/material";
 import { Primary } from "@/stories/Button.stories";
 import React from "react";
-import SortIcon from '@mui/icons-material/Sort';
-
+import SortIcon from "@mui/icons-material/Sort";
 
 function PageHeader() {
-    return (                
-        <Grid item xs={12} >
+    return (
+        <Grid item xs={12}>
             <Grid container spacing={2}>
-                <Grid sx={{marginTop:-5, fontSize:28}} item xs={12}>
-                    <h1>Catálogo</h1>       
+                <Grid sx={{ marginTop: -5, fontSize: 28 }} item xs={12}>
+                    <h1>Catálogo</h1>
                 </Grid>
                 <Grid item xs={12}>
-                    <Divider  sx={{width:200, height:4, marginBottom:5, marginTop:-5,   backgroundColor:'#2665BE'}}></Divider>
+                    <Divider sx={{ width: 200, height: 4, marginBottom: 5, marginTop: -5, backgroundColor: "#2665BE" }}></Divider>
                 </Grid>
             </Grid>
         </Grid>
     );
-  }
+}
 
-function SearchBox(){
+function SearchBox() {
     return (
         <Grid item xs={8}>
-            <TextField id="outlined-basic" label="Pesquise por nome ou autor" 
-                variant="outlined" fullWidth 
-                sx={{ backgroundColor:'#FFFFFF'}}
-                inputProps={{style: {fontSize: 7, } }} // font size of input text
-                InputLabelProps={{style: {fontSize: 15, marginTop:-5}}} // font size of input label
-            /> 
+            <TextField
+                id="outlined-basic"
+                label="Pesquise por nome ou autor"
+                variant="outlined"
+                fullWidth
+                sx={{ backgroundColor: "#FFFFFF" }}
+                inputProps={{ style: { fontSize: 7 } }} // font size of input text
+                InputLabelProps={{ style: { fontSize: 15, marginTop: -5 } }} // font size of input label
+            />
         </Grid>
     );
 }
 
-function SearchButton(){
-    return(
+function SearchButton() {
+    return (
         <Grid item xs={4}>
-            <Button variant="contained" sx={{marginTop:0.5}}>Buscar</Button>
+            <Button variant="contained" sx={{ marginTop: 0.5 }}>
+                Buscar
+            </Button>
         </Grid>
     );
 }
 
-function GenreSection(){
-    return(
-        <Grid container spacing={2} sx={{fontSize:10,marginBottom:0, marginTop:0}}>
-            <Grid item xs={12} sx={{marginLeft:2, marginTop:-2, fontSize:12}}><h1>Gênero</h1></Grid>
+function GenreSection() {
+    return (
+        <Grid container spacing={2} sx={{ fontSize: 10, marginBottom: 0, marginTop: 0 }}>
+            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: -2, fontSize: 12 }}>
+                <h1>Gênero</h1>
+            </Grid>
             <Grid item xs={12} sx={{}}>
-                <FormGroup sx={{marginLeft:3, marginTop:-3, marginBottom:0}}>
-                    <FormControlLabel control={<Checkbox  sx={{ '& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'} }}/>} label="Ação"/>
-                    <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'} }}/>} label="Comédia"/>
-                    <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'} }}/>} label="Drama" />
-                    <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'}}}/>} label="Romance" />
+                <FormGroup sx={{ marginLeft: 3, marginTop: -3, marginBottom: 0 }}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Ação"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Comédia"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Drama"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Romance"
+                    />
                 </FormGroup>
             </Grid>
         </Grid>
     );
 }
 
-
-function SearchSection(){ // TODO: testar novamente depois 
+function SearchSection() {
+    // TODO: testar novamente depois
     return (
-        <Grid item xs={12} >
-            <Grid container spacing={2} >
+        <Grid item xs={12}>
+            <Grid container spacing={2}>
                 <Grid item xs={8}>
-                    <TextField id="outlined-basic" label="Pesquise por nome ou autor" 
-                        variant="outlined" fullWidth 
-                        style={{ backgroundColor:'#FFFFFF'}}
-                        inputProps={{style: {fontSize: 10}}} // font size of input text
-                        InputLabelProps={{style: {fontSize: 10}}} // font size of input label
-                    /> 
-                    <Grid item xs={4} sx={{marginLeft:32, paddingTop:-3}}>
-                        <Button variant="contained" sx={{marginTop:0.5}}>Buscar</Button>
+                    <TextField
+                        id="outlined-basic"
+                        label="Pesquise por nome ou autor"
+                        variant="outlined"
+                        fullWidth
+                        style={{ backgroundColor: "#FFFFFF" }}
+                        inputProps={{ style: { fontSize: 10 } }} // font size of input text
+                        InputLabelProps={{ style: { fontSize: 10 } }} // font size of input label
+                    />
+                    <Grid item xs={4} sx={{ marginLeft: 32, paddingTop: -3 }}>
+                        <Button variant="contained" sx={{ marginTop: 0.5 }}>
+                            Buscar
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>
@@ -80,147 +126,181 @@ function SearchSection(){ // TODO: testar novamente depois
     );
 }
 
-function LanguageSection(){
-    return( 
-        <Grid container spacing={2} sx={{marginTop:0}}> 
-            <Grid item xs={12} sx={{marginLeft:2, marginTop:-2, fontSize:12}}><h1>Idioma</h1></Grid>
+function LanguageSection() {
+    return (
+        <Grid container spacing={2} sx={{ marginTop: 0 }}>
+            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: -2, fontSize: 12 }}>
+                <h1>Idioma</h1>
+            </Grid>
             <Grid item xs={12}>
-                <FormGroup sx={{marginLeft:3, marginTop:-3}}>
-                    <FormControlLabel control={<Checkbox sx={{'& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'}}}/>} label="Português" />
-                    <FormControlLabel control={<Checkbox sx={{'& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'}}}/>} label="Inglês"/>
-                    <FormControlLabel control={<Checkbox sx={{'& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'}}}/>} label="Espanhol" />
-                    <FormControlLabel control={<Checkbox sx={{'& .MuiSvgIcon-root': { fontSize: 15 }, color: '#000000' ,'&.Mui-checked': {color: '#000000'}}}/>} label="Francês" />
+                <FormGroup sx={{ marginLeft: 3, marginTop: -3 }}>
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Português"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Inglês"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Espanhol"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
+                        }
+                        label="Francês"
+                    />
                 </FormGroup>
             </Grid>
         </Grid>
     );
 }
 
-function SideBarMenu(){
-    return(
+function SideBarMenu() {
+    return (
         <Grid item xs={4}>
-            <Grid container spacing={2} sx={{width:400, backgroundColor: '#F4F2F2', borderRadius: '16px'}}>
+            <Grid container spacing={2} sx={{ width: 400, backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                 <SearchBox></SearchBox>
                 <SearchButton></SearchButton>
-                <Divider sx={{width:350, height:2, marginLeft:2, marginTop:2, backgroundColor:'#2665BE'}}></Divider>
+                <Divider sx={{ width: 350, height: 2, marginLeft: 2, marginTop: 2, backgroundColor: "#2665BE" }}></Divider>
                 <GenreSection></GenreSection>
-                <Divider sx={{width:350, height:2, marginLeft:2, marginTop:2, backgroundColor:'#2665BE'}}></Divider>
+                <Divider sx={{ width: 350, height: 2, marginLeft: 2, marginTop: 2, backgroundColor: "#2665BE" }}></Divider>
                 <LanguageSection></LanguageSection>
-                <Grid item xs={12}><Divider  sx={{marginTop:0,width:350, height:2,  backgroundColor:'#2665BE'}}></Divider></Grid>
+                <Grid item xs={12}>
+                    <Divider sx={{ marginTop: 0, width: 350, height: 2, backgroundColor: "#2665BE" }}></Divider>
+                </Grid>
                 <PriceSection></PriceSection>
-                <Grid item xs={12}><Divider sx={{marginTop:0,width:350, height:2,  backgroundColor:'#2665BE'}}></Divider></Grid>
+                <Grid item xs={12}>
+                    <Divider sx={{ marginTop: 0, width: 350, height: 2, backgroundColor: "#2665BE" }}></Divider>
+                </Grid>
                 <ReleaseYear></ReleaseYear>
             </Grid>
         </Grid>
     );
 }
 
-function PriceSection(){
-    return(
+function PriceSection() {
+    return (
         <Grid container spacing={2}>
-            <Grid item xs={12} sx={{marginLeft:2, marginTop:0, fontSize:12}}><h1>Preço</h1></Grid>
-            <Grid item xs={12} sx={{marginLeft:5, marginTop:-2}}><PriceSlider></PriceSlider></Grid>
+            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: 0, fontSize: 12 }}>
+                <h1>Preço</h1>
+            </Grid>
+            <Grid item xs={12} sx={{ marginLeft: 5, marginTop: -2 }}>
+                <PriceSlider></PriceSlider>
+            </Grid>
         </Grid>
     );
 }
 
 const PriceMarks = [
     {
-      value: 15,
-      label: 'R$ 15,00',
+        value: 15,
+        label: "R$ 15,00",
     },
     {
-      value: 315,
-      label: 'R$ 315,00',
+        value: 315,
+        label: "R$ 315,00",
     },
-  ];
-  
-  function valuetext(value: number) {
+];
+
+function valuetext(value: number) {
     return `R$ ${value},00`;
-  }
-  
+}
+
 function PriceSlider() {
     const [value, setValue] = React.useState<number[]>([50, 200]);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
-      setValue(newValue as number[]);
+        setValue(newValue as number[]);
     };
-  
+
     return (
-      <Box sx={{ width: 300 }}>
-        <Slider
-          aria-label="Always visible"
-          value={value}
-          min={15}
-          max={315}
-          getAriaValueText={valuetext}
-          onChange={handleChange}
-          step={5}
-          marks={PriceMarks}
-          valueLabelDisplay="off"
-        />
-      </Box>
+        <Box sx={{ width: 300 }}>
+            <Slider
+                aria-label="Always visible"
+                value={value}
+                min={15}
+                max={315}
+                getAriaValueText={valuetext}
+                onChange={handleChange}
+                step={5}
+                marks={PriceMarks}
+                valueLabelDisplay="off"
+            />
+        </Box>
     );
-  }
+}
 
-  const YearMarks = [
+const YearMarks = [
     {
-      value: 1880,
-      label: '1880',
+        value: 1880,
+        label: "1880",
     },
     {
-      value: 2024,
-      label: '2024',
+        value: 2024,
+        label: "2024",
     },
-  ];
+];
 
-  function YearSlider() {
+function YearSlider() {
     const [value, setValue] = React.useState<number[]>([1940, 2010]);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
-      setValue(newValue as number[]);
+        setValue(newValue as number[]);
     };
     return (
-      <Box sx={{ width: 300, marginLeft:4}}>
-        <Slider
-          aria-label="Always visible"
-          defaultValue={1880}
-          min={1880}
-          max={2024}
-          value={value}
-          onChange={handleChange}
-          getAriaValueText={valuetext}
-          step={1}
-          marks={YearMarks}
-          valueLabelDisplay="off"
-        />
-      </Box>
+        <Box sx={{ width: 300, marginLeft: 4 }}>
+            <Slider
+                aria-label="Always visible"
+                defaultValue={1880}
+                min={1880}
+                max={2024}
+                value={value}
+                onChange={handleChange}
+                getAriaValueText={valuetext}
+                step={1}
+                marks={YearMarks}
+                valueLabelDisplay="off"
+            />
+        </Box>
     );
-  }
+}
 
-function ReleaseYear(){
-    return(
+function ReleaseYear() {
+    return (
         <Grid container spacing={2}>
-            <Grid item xs={12} sx={{marginLeft:2, marginTop:0, fontSize:12}}><h1>Ano de Lançamento</h1></Grid>
-            <Grid item xs={12} sx={{marginBottom:2, marginTop:-2}}><YearSlider></YearSlider></Grid>
+            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: 0, fontSize: 12 }}>
+                <h1>Ano de Lançamento</h1>
+            </Grid>
+            <Grid item xs={12} sx={{ marginBottom: 2, marginTop: -2 }}>
+                <YearSlider></YearSlider>
+            </Grid>
         </Grid>
     );
 }
 
-function BookSectionHeader(){
+function BookSectionHeader() {
     return (
         <Grid container spacing={4}>
             <Grid item xs={8} marginTop={-0.5}>
                 Exibindo X resultados de Y
             </Grid>
-            <Grid item xs={4} paddingBottom={1} sx={{marginLeft:-6,textAlign:'right'}}>
+            <Grid item xs={4} paddingBottom={1} sx={{ marginLeft: -6, textAlign: "right" }}>
                 <SortIcon></SortIcon>
             </Grid>
         </Grid>
     );
 }
 
-function BookList(){
+function BookList() {
     const [books, setBooks] = useState([
         {
             id: 0,
@@ -228,7 +308,7 @@ function BookList(){
             title: "Os irmãos Karamazov",
             releaseDate: "27/11/1880",
             price: 110,
-            cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA"
+            cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
         },
         {
             id: 1,
@@ -236,7 +316,7 @@ function BookList(){
             price: 220,
             title: "The Republic",
             releaseDate: "27/11/2023",
-            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg"
+            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg",
         },
         {
             id: 1,
@@ -244,7 +324,7 @@ function BookList(){
             price: 20,
             title: "Turing: Um filósofo da natureza",
             releaseDate: "27/11/2023",
-            cover: "https://m.media-amazon.com/images/I/819ACs3AuzL._AC_AA360_.jpg"
+            cover: "https://m.media-amazon.com/images/I/819ACs3AuzL._AC_AA360_.jpg",
         },
         {
             id: 0,
@@ -252,7 +332,7 @@ function BookList(){
             title: "Tony & Susan",
             releaseDate: "27/11/1990",
             price: 50,
-            cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg"
+            cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg",
         },
         {
             id: 1,
@@ -260,60 +340,55 @@ function BookList(){
             price: 220,
             title: "The Republic",
             releaseDate: "27/11/2023",
-            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg"
-        }
-
+            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg",
+        },
     ]);
-    
-    return(
+
+    return (
         <Grid container sx={{}}>
-            <List sx={{ width: '100%' }}>
-            {books.map((book) => (
-                <ListItem
-                disableGutters
-                >
-                <EbookCard ebook={book}></EbookCard>
-                </ListItem>
-            ))}
+            <List sx={{ width: "100%" }}>
+                {books.map((book) => (
+                    <ListItem disableGutters>
+                        <EbookCard ebook={book}></EbookCard>
+                    </ListItem>
+                ))}
             </List>
         </Grid>
     );
 }
 
-function BookListContainer(){
-    return(
-        <Box sx={{width: 1200, height:1000, backgroundColor: '#F4F2F2', borderRadius: '16px'}}>
+function BookListContainer() {
+    return (
+        <Box sx={{ width: 1200, height: 1000, backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
             <BookList></BookList>
-            <Grid container spacing={0} sx={{marginLeft:55, marginTop:2}}>
+            <Grid container spacing={0} sx={{ marginLeft: 55, marginTop: 2 }}>
                 <Stack spacing={2}>
                     <Pagination count={10} color="primary" shape="rounded" />
                 </Stack>
             </Grid>
-        </Box>        
+        </Box>
     );
 }
 
-function BookSection(){
-    return(
+function BookSection() {
+    return (
         <Grid item xs={8} marginTop={-3.5} marginLeft={-20}>
             <Grid container spacing={2}>
                 <BookSectionHeader></BookSectionHeader>
                 <BookListContainer></BookListContainer>
             </Grid>
-            
         </Grid>
     );
 }
 
 export default function Page() {
-
-    return ( 
-        <Box sx={{m:5}}>
-            <Grid container spacing={0}> 
+    return (
+        <Container maxWidth={false}>
+            <Grid container spacing={0}>
                 <PageHeader></PageHeader>
                 <SideBarMenu></SideBarMenu>
                 <BookSection></BookSection>
             </Grid>
-        </Box>
+        </Container>
     );
 }
