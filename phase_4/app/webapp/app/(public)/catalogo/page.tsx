@@ -35,13 +35,12 @@ function SearchBox() {
     return (
         <Grid item xs={8}>
             <TextField
+                fullWidth
+                size="small"
+                variant="outlined"
                 id="outlined-basic"
                 label="Pesquise por nome ou autor"
-                variant="outlined"
-                fullWidth
                 sx={{ backgroundColor: "#FFFFFF" }}
-                inputProps={{ style: { fontSize: 7 } }} // font size of input text
-                InputLabelProps={{ style: { fontSize: 15, marginTop: -5 } }} // font size of input label
             />
         </Grid>
     );
@@ -50,9 +49,7 @@ function SearchBox() {
 function SearchButton() {
     return (
         <Grid item xs={4}>
-            <Button variant="contained" sx={{ marginTop: 0.5 }}>
-                Buscar
-            </Button>
+            <Button variant="contained">Buscar</Button>
         </Grid>
     );
 }
