@@ -6,7 +6,6 @@ import {
     Button,
     Checkbox,
     Container,
-    Divider,
     FormControlLabel,
     FormGroup,
     Grid,
@@ -16,22 +15,18 @@ import {
     Slider,
     Stack,
     TextField,
+    Typography,
 } from "@mui/material";
 import { Primary } from "@/stories/Button.stories";
 import React from "react";
 import SortIcon from "@mui/icons-material/Sort";
+import Divider from "@/app/components/Divider";
 
 function PageHeader() {
     return (
-        <Grid item xs={12}>
-            <Grid container spacing={2}>
-                <Grid sx={{ marginTop: -5, fontSize: 28 }} item xs={12}>
-                    <h1>Catálogo</h1>
-                </Grid>
-                <Grid item xs={12}>
-                    <Divider sx={{ width: 200, height: 4, marginBottom: 5, marginTop: -5, backgroundColor: "#2665BE" }}></Divider>
-                </Grid>
-            </Grid>
+        <Grid item xs={12} my={2}>
+            <Typography variant="h3">Catálogo</Typography>
+            <Divider width="10%" />
         </Grid>
     );
 }
@@ -167,19 +162,25 @@ function LanguageSection() {
 function SideBarMenu() {
     return (
         <Grid item xs={4}>
-            <Grid container spacing={2} sx={{ width: 400, backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
-                <SearchBox></SearchBox>
-                <SearchButton></SearchButton>
-                <Divider sx={{ width: 350, height: 2, marginLeft: 2, marginTop: 2, backgroundColor: "#2665BE" }}></Divider>
+            <Grid container spacing={2} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
+                <>
+                    <SearchBox></SearchBox>
+                    <SearchButton></SearchButton>
+                </>
+                <Grid item xs={12}>
+                    <Divider width={"15%"} />
+                </Grid>
                 <GenreSection></GenreSection>
-                <Divider sx={{ width: 350, height: 2, marginLeft: 2, marginTop: 2, backgroundColor: "#2665BE" }}></Divider>
+                <Grid item xs={12}>
+                    <Divider width={"15%"} />
+                </Grid>
                 <LanguageSection></LanguageSection>
                 <Grid item xs={12}>
-                    <Divider sx={{ marginTop: 0, width: 350, height: 2, backgroundColor: "#2665BE" }}></Divider>
+                    <Divider width={"15%"} />
                 </Grid>
                 <PriceSection></PriceSection>
                 <Grid item xs={12}>
-                    <Divider sx={{ marginTop: 0, width: 350, height: 2, backgroundColor: "#2665BE" }}></Divider>
+                    <Divider width={"15%"} />
                 </Grid>
                 <ReleaseYear></ReleaseYear>
             </Grid>
@@ -359,20 +360,20 @@ function BookList() {
 
 function BookListContainer() {
     return (
-        <Box sx={{ width: 1200, height: 1000, backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
+        <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
             <BookList></BookList>
-            <Grid container spacing={0} sx={{ marginLeft: 55, marginTop: 2 }}>
+            <Grid container spacing={0} sx={{}}>
                 <Stack spacing={2}>
                     <Pagination count={10} color="primary" shape="rounded" />
                 </Stack>
             </Grid>
-        </Box>
+        </Grid>
     );
 }
 
 function BookSection() {
     return (
-        <Grid item xs={8} marginTop={-3.5} marginLeft={-20}>
+        <Grid item xs={8}>
             <Grid container spacing={2}>
                 <BookSectionHeader></BookSectionHeader>
                 <BookListContainer></BookListContainer>
@@ -384,10 +385,12 @@ function BookSection() {
 export default function Page() {
     return (
         <Container maxWidth={false}>
-            <Grid container spacing={0}>
+            <Grid container>
                 <PageHeader></PageHeader>
-                <SideBarMenu></SideBarMenu>
-                <BookSection></BookSection>
+                <Grid container item xs={12}>
+                    <SideBarMenu></SideBarMenu>
+                    <BookSection></BookSection>
+                </Grid>
             </Grid>
         </Container>
     );
