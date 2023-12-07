@@ -48,7 +48,7 @@ function SearchBox() {
 
 function SearchButton() {
     return (
-        <Grid item xs={4}>
+        <Grid item xs={4} textAlign="center">
             <Button variant="contained">Buscar</Button>
         </Grid>
     );
@@ -56,12 +56,12 @@ function SearchButton() {
 
 function GenreSection() {
     return (
-        <Grid container  sx={{ fontSize: 10, marginBottom: 0, marginTop: 0 }}>
-            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: -2, fontSize: 12 }}>
+        <Grid container sx={{ fontSize: 10 }}>
+            <Grid item xs={12} sx={{ fontSize: 12 }}>
                 <h1>Gênero</h1>
             </Grid>
-            <Grid item xs={12} sx={{}}>
-                <FormGroup sx={{ marginLeft: 3, marginTop: -3, marginBottom: 0 }}>
+            <Grid item xs={12}>
+                <FormGroup>
                     <FormControlLabel
                         control={
                             <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
@@ -96,7 +96,7 @@ function SearchSection() {
     // TODO: testar novamente depois
     return (
         <Grid item xs={12}>
-            <Grid container >
+            <Grid container>
                 <Grid item xs={8}>
                     <TextField
                         id="outlined-basic"
@@ -107,10 +107,8 @@ function SearchSection() {
                         inputProps={{ style: { fontSize: 10 } }} // font size of input text
                         InputLabelProps={{ style: { fontSize: 10 } }} // font size of input label
                     />
-                    <Grid item xs={4} sx={{ marginLeft: 32, paddingTop: -3 }}>
-                        <Button variant="contained" sx={{ marginTop: 0.5 }}>
-                            Buscar
-                        </Button>
+                    <Grid item xs={4}>
+                        <Button variant="contained">Buscar</Button>
                     </Grid>
                 </Grid>
             </Grid>
@@ -120,12 +118,12 @@ function SearchSection() {
 
 function LanguageSection() {
     return (
-        <Grid container  sx={{ marginTop: 0 }}>
-            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: -2, fontSize: 12 }}>
+        <Grid container sx={{}}>
+            <Grid item xs={12} sx={{ fontSize: 12 }}>
                 <h1>Idioma</h1>
             </Grid>
             <Grid item xs={12}>
-                <FormGroup sx={{ marginLeft: 3, marginTop: -3 }}>
+                <FormGroup sx={{}}>
                     <FormControlLabel
                         control={
                             <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
@@ -159,7 +157,7 @@ function LanguageSection() {
 function SideBarMenu() {
     return (
         <Grid item xs={4}>
-            <Grid container  sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
+            <Grid container sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                 <>
                     <SearchBox></SearchBox>
                     <SearchButton></SearchButton>
@@ -187,11 +185,11 @@ function SideBarMenu() {
 
 function PriceSection() {
     return (
-        <Grid container >
-            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: 0, fontSize: 12 }}>
+        <Grid container>
+            <Grid item xs={12} sx={{ fontSize: 12 }}>
                 <h1>Preço</h1>
             </Grid>
-            <Grid item xs={12} sx={{ marginLeft: 5, marginTop: -2 }}>
+            <Grid item xs={12}>
                 <PriceSlider></PriceSlider>
             </Grid>
         </Grid>
@@ -221,7 +219,7 @@ function PriceSlider() {
     };
 
     return (
-        <Box sx={{ width: 300 }}>
+        <Box>
             <Slider
                 aria-label="Always visible"
                 value={value}
@@ -255,7 +253,7 @@ function YearSlider() {
         setValue(newValue as number[]);
     };
     return (
-        <Box sx={{ width: 300, marginLeft: 4 }}>
+        <Box>
             <Slider
                 aria-label="Always visible"
                 defaultValue={1880}
@@ -274,11 +272,11 @@ function YearSlider() {
 
 function ReleaseYear() {
     return (
-        <Grid container >
-            <Grid item xs={12} sx={{ marginLeft: 2, marginTop: 0, fontSize: 12 }}>
+        <Grid container>
+            <Grid item xs={12} sx={{ fontSize: 12 }}>
                 <h1>Ano de Lançamento</h1>
             </Grid>
-            <Grid item xs={12} sx={{ marginBottom: 2, marginTop: -2 }}>
+            <Grid item xs={12}>
                 <YearSlider></YearSlider>
             </Grid>
         </Grid>
@@ -287,11 +285,11 @@ function ReleaseYear() {
 
 function BookSectionHeader() {
     return (
-        <Grid container >
-            <Grid item xs={8} marginTop={-0.5}>
+        <Grid container>
+            <Grid item xs={8}>
                 Exibindo X resultados de Y
             </Grid>
-            <Grid item xs={4} paddingBottom={1} sx={{ marginLeft: -6, textAlign: "right" }}>
+            <Grid item xs={4} sx={{ textAlign: "right" }}>
                 <SortIcon></SortIcon>
             </Grid>
         </Grid>
@@ -343,7 +341,7 @@ function BookList() {
     ]);
 
     return (
-        <Grid container sx={{}}>
+        <Grid container>
             <List sx={{ width: "100%" }}>
                 {books.map((book) => (
                     <ListItem disableGutters>
@@ -359,8 +357,8 @@ function BookListContainer() {
     return (
         <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
             <BookList></BookList>
-            <Grid container  sx={{}}>
-                <Stack >
+            <Grid container>
+                <Stack>
                     <Pagination count={10} color="primary" shape="rounded" />
                 </Stack>
             </Grid>
@@ -371,7 +369,7 @@ function BookListContainer() {
 function BookSection() {
     return (
         <Grid item xs={8}>
-            <Grid container >
+            <Grid container>
                 <BookSectionHeader></BookSectionHeader>
                 <BookListContainer></BookListContainer>
             </Grid>
