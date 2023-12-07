@@ -339,10 +339,10 @@ function BookList() {
     ]);
 
     return (
-        <Grid container>
+        <Grid xs={12}>
             <List sx={{ width: "100%" }}>
                 {books.map((book) => (
-                    <ListItem disableGutters>
+                    <ListItem>
                         <EbookCard ebook={book}></EbookCard>
                     </ListItem>
                 ))}

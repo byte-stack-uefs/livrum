@@ -1,6 +1,7 @@
-import { Box, Button, Grid, Hidden } from "@mui/material";
-import Ebook from "../interfaces/Ebook";
 import Image from "next/image";
+import Ebook from "../interfaces/Ebook";
+import { AddShoppingCart } from "@mui/icons-material";
+import { Box, Button, Grid, Stack } from "@mui/material";
 
 type EbookCardProps = {
     ebook: Ebook;
@@ -8,23 +9,27 @@ type EbookCardProps = {
 
 const DisplayBookInfo: React.FC<EbookCardProps> = ({ ebook }) => {
     return (
-        <Grid container spacing={2} sx={{ marginTop: 1, marginLeft: -30, color: "#1E3345" }}>
-            <Grid item xs={8} sx={{ fontSize: 22, marginTop: -0.5, fontWeight: "bold" }}>
-                {ebook.title}
-            </Grid>
-            <Grid item xs={4} sx={{ textAlign: "right" }}>
-                R$ {ebook.price},00
-            </Grid>
-            <Grid item xs={12}>
-                {ebook.author}
-            </Grid>
+        <Grid container sx={{ color: "#1E3345" }} height="100%">
             <Grid item xs={8}>
-                {ebook.releaseDate}
+                <Grid item xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
+                    {ebook.title}
+                </Grid>
+                <Grid item xs={12}>
+                    {ebook.author}
+                </Grid>
+                <Grid item xs={12}>
+                    {ebook.releaseDate}
+                </Grid>
             </Grid>
             <Grid item xs={4} sx={{ textAlign: "right" }}>
-                <Button variant="contained" sx={{ marginTop: 0.5 }}>
-                    Comprar
-                </Button>
+                <Stack direction="column" height="100%" justifyContent="space-between">
+                    <div>R$ {ebook.price},00</div>
+                    <div>
+                        <Button variant="contained" startIcon={<AddShoppingCart />}>
+                            Comprar
+                        </Button>
+                    </div>
+                </Stack>
             </Grid>
         </Grid>
     );
@@ -32,25 +37,23 @@ const DisplayBookInfo: React.FC<EbookCardProps> = ({ ebook }) => {
 
 const EbookCard: React.FC<EbookCardProps> = ({ ebook }) => {
     return (
-        <Box sx={{ height: 150, marginLeft: 2, marginTop: 2, boxShadow: 3, backgroundColor: "#FFFFFF", borderRadius: "16px" }}>
-            <Grid container spacing={2}>
-                <Grid item xs={4}>
-                    <Box sx={{ marginLeft: 1, marginTop: 1 }}>
-                        <Image
-                            className="image-zoom"
-                            width={125}
-                            height={125}
-                            style={{ objectFit: "cover", borderRadius: "16px" }}
-                            alt={ebook.title}
-                            src={ebook.cover}
-                        />
-                    </Box>
-                </Grid>
-                <Grid item xs={8}>
-                    <DisplayBookInfo ebook={ebook}></DisplayBookInfo>
-                </Grid>
+        <Grid container sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
+            <Grid item xs={2}>
+                <Box>
+                    <Image
+                        className="image-zoom"
+                        width={100}
+                        height={125}
+                        style={{ objectFit: "cover", borderRadius: "16px" }}
+                        alt={ebook.title}
+                        src={ebook.cover}
+                    />
+                </Box>
             </Grid>
-        </Box>
+            <Grid item xs={10}>
+                <DisplayBookInfo ebook={ebook} />
+            </Grid>
+        </Grid>
     );
 };
 
