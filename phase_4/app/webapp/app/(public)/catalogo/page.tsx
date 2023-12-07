@@ -56,7 +56,7 @@ function SearchButton() {
 
 function GenreSection() {
     return (
-        <Grid container spacing={2} sx={{ fontSize: 10, marginBottom: 0, marginTop: 0 }}>
+        <Grid container  sx={{ fontSize: 10, marginBottom: 0, marginTop: 0 }}>
             <Grid item xs={12} sx={{ marginLeft: 2, marginTop: -2, fontSize: 12 }}>
                 <h1>Gênero</h1>
             </Grid>
@@ -96,7 +96,7 @@ function SearchSection() {
     // TODO: testar novamente depois
     return (
         <Grid item xs={12}>
-            <Grid container spacing={2}>
+            <Grid container >
                 <Grid item xs={8}>
                     <TextField
                         id="outlined-basic"
@@ -120,7 +120,7 @@ function SearchSection() {
 
 function LanguageSection() {
     return (
-        <Grid container spacing={2} sx={{ marginTop: 0 }}>
+        <Grid container  sx={{ marginTop: 0 }}>
             <Grid item xs={12} sx={{ marginLeft: 2, marginTop: -2, fontSize: 12 }}>
                 <h1>Idioma</h1>
             </Grid>
@@ -159,7 +159,7 @@ function LanguageSection() {
 function SideBarMenu() {
     return (
         <Grid item xs={4}>
-            <Grid container spacing={2} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
+            <Grid container  sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                 <>
                     <SearchBox></SearchBox>
                     <SearchButton></SearchButton>
@@ -187,7 +187,7 @@ function SideBarMenu() {
 
 function PriceSection() {
     return (
-        <Grid container spacing={2}>
+        <Grid container >
             <Grid item xs={12} sx={{ marginLeft: 2, marginTop: 0, fontSize: 12 }}>
                 <h1>Preço</h1>
             </Grid>
@@ -274,7 +274,7 @@ function YearSlider() {
 
 function ReleaseYear() {
     return (
-        <Grid container spacing={2}>
+        <Grid container >
             <Grid item xs={12} sx={{ marginLeft: 2, marginTop: 0, fontSize: 12 }}>
                 <h1>Ano de Lançamento</h1>
             </Grid>
@@ -287,7 +287,7 @@ function ReleaseYear() {
 
 function BookSectionHeader() {
     return (
-        <Grid container spacing={4}>
+        <Grid container >
             <Grid item xs={8} marginTop={-0.5}>
                 Exibindo X resultados de Y
             </Grid>
@@ -359,8 +359,8 @@ function BookListContainer() {
     return (
         <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
             <BookList></BookList>
-            <Grid container spacing={0} sx={{}}>
-                <Stack spacing={2}>
+            <Grid container  sx={{}}>
+                <Stack >
                     <Pagination count={10} color="primary" shape="rounded" />
                 </Stack>
             </Grid>
@@ -371,7 +371,7 @@ function BookListContainer() {
 function BookSection() {
     return (
         <Grid item xs={8}>
-            <Grid container spacing={2}>
+            <Grid container >
                 <BookSectionHeader></BookSectionHeader>
                 <BookListContainer></BookListContainer>
             </Grid>
