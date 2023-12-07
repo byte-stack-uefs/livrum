@@ -22,13 +22,13 @@ const AdminPasswordRestore = () => {
     };
 
     return (
-        <Grid container spacing = {6} direction="column">
-            <Grid xs={12} md={4} margin="auto" textAlign="center">
+        <Grid container direction="column">
+            <Grid xs={12} md={4} sx ={{margin: "auto",mb: "30px"}} textAlign="center">
                 <Typography sx={{ color: "black"}} variant="h6">
                     Recuperação de senha
                 </Typography>
                 <Divider width={"35%"} style={{ margin: "auto"}}/></Grid>
-            <Grid xs={12} md={4} margin="auto">
+            <Grid xs={12} md={4} marginTop={10} margin="auto">
                 <Paper elevation={0} style={{ padding: '30px', backgroundColor: '#F4F2F2' }}>
                     <Paper>
                         <form onSubmit={handleSubmitClient}>
