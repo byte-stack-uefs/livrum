@@ -8,7 +8,6 @@ import {
     Container,
     FormControlLabel,
     FormGroup,
-    Grid,
     List,
     ListItem,
     Pagination,
@@ -18,13 +17,15 @@ import {
     Typography,
 } from "@mui/material";
 
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+
 import React from "react";
 import SortIcon from "@mui/icons-material/Sort";
 import Divider from "@/app/components/Divider";
 
 function PageHeader() {
     return (
-        <Grid item xs={12} my={2}>
+        <Grid xs={12} my={2}>
             <Typography variant="h3">Catálogo</Typography>
             <Divider width="10%" />
         </Grid>
@@ -33,7 +34,7 @@ function PageHeader() {
 
 function SearchBox() {
     return (
-        <Grid item xs={8}>
+        <Grid xs={8}>
             <TextField
                 fullWidth
                 size="small"
@@ -48,7 +49,7 @@ function SearchBox() {
 
 function SearchButton() {
     return (
-        <Grid item xs={4} textAlign="center">
+        <Grid xs={4} textAlign="center">
             <Button variant="contained">Buscar</Button>
         </Grid>
     );
@@ -57,10 +58,10 @@ function SearchButton() {
 function GenreSection() {
     return (
         <Grid container sx={{ fontSize: 10 }}>
-            <Grid item xs={12} sx={{ fontSize: 12 }}>
+            <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Gênero</h1>
             </Grid>
-            <Grid item xs={12}>
+            <Grid xs={12}>
                 <FormGroup>
                     <FormControlLabel
                         control={
@@ -95,9 +96,9 @@ function GenreSection() {
 function SearchSection() {
     // TODO: testar novamente depois
     return (
-        <Grid item xs={12}>
+        <Grid xs={12}>
             <Grid container>
-                <Grid item xs={8}>
+                <Grid xs={8}>
                     <TextField
                         id="outlined-basic"
                         label="Pesquise por nome ou autor"
@@ -107,7 +108,7 @@ function SearchSection() {
                         inputProps={{ style: { fontSize: 10 } }} // font size of input text
                         InputLabelProps={{ style: { fontSize: 10 } }} // font size of input label
                     />
-                    <Grid item xs={4}>
+                    <Grid xs={4}>
                         <Button variant="contained">Buscar</Button>
                     </Grid>
                 </Grid>
@@ -119,10 +120,10 @@ function SearchSection() {
 function LanguageSection() {
     return (
         <Grid container sx={{}}>
-            <Grid item xs={12} sx={{ fontSize: 12 }}>
+            <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Idioma</h1>
             </Grid>
-            <Grid item xs={12}>
+            <Grid xs={12}>
                 <FormGroup sx={{}}>
                     <FormControlLabel
                         control={
@@ -156,25 +157,25 @@ function LanguageSection() {
 
 function SideBarMenu() {
     return (
-        <Grid item xs={4}>
+        <Grid xs={4}>
             <Grid container sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                 <>
                     <SearchBox></SearchBox>
                     <SearchButton></SearchButton>
                 </>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <Divider width={"15%"} />
                 </Grid>
                 <GenreSection></GenreSection>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <Divider width={"15%"} />
                 </Grid>
                 <LanguageSection></LanguageSection>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <Divider width={"15%"} />
                 </Grid>
                 <PriceSection></PriceSection>
-                <Grid item xs={12}>
+                <Grid xs={12}>
                     <Divider width={"15%"} />
                 </Grid>
                 <ReleaseYear></ReleaseYear>
@@ -186,10 +187,10 @@ function SideBarMenu() {
 function PriceSection() {
     return (
         <Grid container>
-            <Grid item xs={12} sx={{ fontSize: 12 }}>
+            <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Preço</h1>
             </Grid>
-            <Grid item xs={12}>
+            <Grid xs={12}>
                 <PriceSlider></PriceSlider>
             </Grid>
         </Grid>
@@ -273,10 +274,10 @@ function YearSlider() {
 function ReleaseYear() {
     return (
         <Grid container>
-            <Grid item xs={12} sx={{ fontSize: 12 }}>
+            <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Ano de Lançamento</h1>
             </Grid>
-            <Grid item xs={12}>
+            <Grid xs={12}>
                 <YearSlider></YearSlider>
             </Grid>
         </Grid>
@@ -286,10 +287,8 @@ function ReleaseYear() {
 function BookSectionHeader() {
     return (
         <Grid container>
-            <Grid item xs={8}>
-                Exibindo X resultados de Y
-            </Grid>
-            <Grid item xs={4} sx={{ textAlign: "right" }}>
+            <Grid xs={8}>Exibindo X resultados de Y</Grid>
+            <Grid xs={4} sx={{ textAlign: "right" }}>
                 <SortIcon></SortIcon>
             </Grid>
         </Grid>
@@ -368,7 +367,7 @@ function BookListContainer() {
 
 function BookSection() {
     return (
-        <Grid item xs={8}>
+        <Grid xs={8}>
             <Grid container>
                 <BookSectionHeader></BookSectionHeader>
                 <BookListContainer></BookListContainer>
@@ -382,7 +381,7 @@ export default function Page() {
         <Container maxWidth={false}>
             <Grid container>
                 <PageHeader></PageHeader>
-                <Grid container item xs={12}>
+                <Grid container xs={12}>
                     <SideBarMenu></SideBarMenu>
                     <BookSection></BookSection>
                 </Grid>
