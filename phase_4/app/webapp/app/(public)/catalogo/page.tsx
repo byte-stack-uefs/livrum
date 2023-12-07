@@ -1,27 +1,26 @@
 "use client";
+import React from "react";
 import { useState } from "react";
+import Divider from "@/app/components/Divider";
+import SortIcon from "@mui/icons-material/Sort";
 import EbookCard from "../../components/E-bookCard";
-import {
-    Box,
-    Button,
-    Checkbox,
-    Container,
-    FormControlLabel,
-    FormGroup,
-    List,
-    ListItem,
-    Pagination,
-    Slider,
-    Stack,
-    TextField,
-    Typography,
-} from "@mui/material";
-
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
-import React from "react";
-import SortIcon from "@mui/icons-material/Sort";
-import Divider from "@/app/components/Divider";
+import {
+    Box,
+    List,
+    Stack,
+    Button,
+    Slider,
+    Checkbox,
+    ListItem,
+    Container,
+    FormGroup,
+    TextField,
+    Pagination,
+    Typography,
+    FormControlLabel,
+} from "@mui/material";
 
 function PageHeader() {
     return (
