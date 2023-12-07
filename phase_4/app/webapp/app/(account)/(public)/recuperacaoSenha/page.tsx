@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { TextField, Button, Paper, Typography, Link, FormControl, InputLabel, Modal} from "@mui/material";
+import { TextField, Button, Paper, Typography, Link, FormControl, InputLabel, Modal } from "@mui/material";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
@@ -61,13 +61,13 @@ const UserPasswordRestore = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid xs={12}>
-                                    <Typography variant="caption" fontWeitgh="regular" color="black" style={{ textAlign: "left" }}>
+                                    <Typography variant="caption" fontWeight="regular" color="black" style={{ textAlign: "left" }}>
                                         Confirme o endereço de e-mail utilizado em seu cadastro, e enviaremos sua senha novamente
                                     </Typography>
                                 </Grid>
                                 <Grid container spacing={2} xs={12} py={3} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
                                     <Grid xs={8}>
-                                        <InputLabel htmlFor="labelEmail" fontWeight="Roboto" style={{ textAlign: 'left', color: theme.palette.primary.main }}>E-mail </InputLabel>
+                                        <InputLabel htmlFor="labelEmail" style={{ fontWeight:"Roboto", textAlign: 'left', color: theme.palette.primary.main }}>E-mail </InputLabel>
                                         <TextField
                                             required
                                             id="labelEmail"
@@ -98,13 +98,22 @@ const UserPasswordRestore = () => {
                                     BackdropClick={true}
                                 >
                                     <Paper style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '30px', backgroundColor: '#FFF' }}>
-                                        <CheckCircleOutlineIcon sx={{ fontSize: 50, color: 'white', backgroundColor:"" }} />
-                                        <Typography id="modal-title" variant="h6" component="h2">
-                                            E-mail enviado com sucesso
-                                        </Typography>
-                                        <Typography id="modal-subtitle" variant="h6" component="h2">
-                                            Caso o email não apareça na caixa de entrada, verifique a caixa de spam
-                                        </Typography>
+                                        <Grid container direction="column" alignItems="center" justifyContent="center">
+                                            <Grid xs={12} md={4} margin = "auto" style={{ textAlign: 'center' }}>
+                                                <CheckCircleOutlineIcon sx={{ fontSize: 50, color: 'green' }} />
+                                            </Grid>
+                                            <Grid xs={12} md={4} margin = "auto" style={{ textAlign: 'center', width: '100%' }}>
+                                                <Typography variant="h6">
+                                                    E-mail enviado com sucesso
+                                                </Typography>
+                                            </Grid >
+                                            <Grid xs={12} md={4} margin = "auto" style={{ textAlign: 'center', width: '100%' }}>
+                                                <Typography variant="caption" >
+                                                    Caso o email não apareça na caixa de entrada, verifique a caixa de spam
+                                                </Typography>
+
+                                            </Grid>
+                                        </Grid>
                                     </Paper>
                                 </Modal>
                             </Grid>
@@ -116,4 +125,4 @@ const UserPasswordRestore = () => {
     );
 };
 
-export default UserPasswordRestore
+export default UserPasswordRestore;
