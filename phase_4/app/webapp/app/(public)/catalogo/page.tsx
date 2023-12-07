@@ -123,19 +123,19 @@ function SideBarMenu() {
                     <SearchButton></SearchButton>
                 </Grid>
                 <Grid xs={12}>
-                    <Divider width={"75%"} style={{ margin: "auto" }} />
+                    <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                 </Grid>
                 <Grid xs={12}>
                     <GenreSection></GenreSection>
-                    <Divider width={"75%"} style={{ margin: "auto" }} />
+                    <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                 </Grid>
                 <Grid xs={12}>
                     <LanguageSection></LanguageSection>
-                    <Divider width={"75%"} style={{ margin: "auto" }} />
+                    <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                 </Grid>
                 <Grid xs={12}>
                     <PriceSection></PriceSection>
-                    <Divider width={"75%"} style={{ margin: "auto" }} />
+                    <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                 </Grid>
                 <Grid xs={12}>
                     <ReleaseYear></ReleaseYear>
