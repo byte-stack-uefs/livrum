@@ -62,30 +62,10 @@ function GenreSection() {
             </Grid>
             <Grid xs={12}>
                 <FormGroup>
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Ação"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Comédia"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Drama"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Romance"
-                    />
+                    <FormControlLabel control={<Checkbox />} label="Ação" />
+                    <FormControlLabel control={<Checkbox />} label="Comédia" />
+                    <FormControlLabel control={<Checkbox />} label="Drama" />
+                    <FormControlLabel control={<Checkbox />} label="Romance" />
                 </FormGroup>
             </Grid>
         </Grid>
@@ -118,36 +98,16 @@ function SearchSection() {
 
 function LanguageSection() {
     return (
-        <Grid container sx={{}}>
+        <Grid container>
             <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Idioma</h1>
             </Grid>
             <Grid xs={12}>
-                <FormGroup sx={{}}>
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Português"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Inglês"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Espanhol"
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 15 }, color: "#000000", "&.Mui-checked": { color: "#000000" } }} />
-                        }
-                        label="Francês"
-                    />
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox />} label="Português" />
+                    <FormControlLabel control={<Checkbox />} label="Inglês" />
+                    <FormControlLabel control={<Checkbox />} label="Espanhol" />
+                    <FormControlLabel control={<Checkbox />} label="Francês" />
                 </FormGroup>
             </Grid>
         </Grid>
@@ -158,26 +118,28 @@ function SideBarMenu() {
     return (
         <Grid xs={4}>
             <Grid container sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
-                <>
+                <Grid xs={12} container>
                     <SearchBox></SearchBox>
                     <SearchButton></SearchButton>
-                </>
-                <Grid xs={12}>
-                    <Divider width={"15%"} />
                 </Grid>
-                <GenreSection></GenreSection>
                 <Grid xs={12}>
-                    <Divider width={"15%"} />
+                    <Divider width={"75%"} style={{ margin: "auto" }} />
                 </Grid>
-                <LanguageSection></LanguageSection>
                 <Grid xs={12}>
-                    <Divider width={"15%"} />
+                    <GenreSection></GenreSection>
+                    <Divider width={"75%"} style={{ margin: "auto" }} />
                 </Grid>
-                <PriceSection></PriceSection>
                 <Grid xs={12}>
-                    <Divider width={"15%"} />
+                    <LanguageSection></LanguageSection>
+                    <Divider width={"75%"} style={{ margin: "auto" }} />
                 </Grid>
-                <ReleaseYear></ReleaseYear>
+                <Grid xs={12}>
+                    <PriceSection></PriceSection>
+                    <Divider width={"75%"} style={{ margin: "auto" }} />
+                </Grid>
+                <Grid xs={12}>
+                    <ReleaseYear></ReleaseYear>
+                </Grid>
             </Grid>
         </Grid>
     );
