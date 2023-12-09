@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-import { TextField, Button, Paper, Typography, Link, FormControl } from "@mui/material";
-
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { theme } from "@/app/theme";
+import React, { useState } from "react";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { TextField, Button, Paper, Typography, Link } from "@mui/material";
 
 const AdminLogin = () => {
     const [value, setValue] = useState(0);
@@ -24,7 +23,7 @@ const AdminLogin = () => {
     return (
         <Grid container>
             <Grid xs={11} md={4} margin="auto">
-                <Paper>
+                <Paper sx={{ backgroundColor: theme.palette.secondary.main }}>
                     <form onSubmit={handleSubmitClient}>
                         <Grid container padding={3} spacing={2} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
                             <Grid xs={12}>
@@ -77,7 +76,7 @@ const AdminLogin = () => {
                                     Esqueceu a senha?
                                 </Link>
                             </Grid>
-                            <Grid xs={12} md={6}>
+                            <Grid xs={12} sm={6} md={6}>
                                 <Button fullWidth type="submit" variant="contained" color="darker">
                                     Login
                                 </Button>
