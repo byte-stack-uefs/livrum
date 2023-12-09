@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS `livrum` ;
 -- -----------------------------------------------------
 -- Schema livrum
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `livrum` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `livrum` DEFAULT CHARACTER SET utf8mb4 ;
 USE `livrum` ;
 
 -- -----------------------------------------------------
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Cupom` (
   `idCupom` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `status` ENUM('active', 'inactive', 'expired') NOT NULL DEFAULT 'active',
-  `porcentagem` FLOAT(4,2) NOT NULL,
+  `porcentagem` DECIMAL(4,2) NOT NULL,
   `dataExpiracao` DATE NULL,
   `criadoEm` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modificadoEM` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`EBook` (
   `idAutor` INT NOT NULL,
   `nome` VARCHAR(128) NOT NULL,
   `status` ENUM('pending', 'active', 'inactive', 'rejected') NOT NULL,
-  `preco` FLOAT(10,2) NOT NULL,
+  `preco` DECIMAL(10,2) NOT NULL,
   `sinopse` TEXT NOT NULL,
   `capa` VARCHAR(255) NULL,
   `qtdPaginas` INT NULL,
@@ -223,8 +223,8 @@ CREATE TABLE IF NOT EXISTS `livrum`.`ItemPedido` (
   `idCupom` INT NULL,
   `idEBook` INT NOT NULL,
   `idPedido` INT NOT NULL,
-  `valorUnitario` FLOAT(10,2) NOT NULL,
-  `valorTotal` FLOAT(10,2) NOT NULL,
+  `valorUnitario` DECIMAL(10,2) NOT NULL,
+  `valorTotal` DECIMAL(10,2) NOT NULL,
   INDEX `fk_ItemPedido_Cupom1_idx` (`idCupom` ASC),
   INDEX `fk_ItemPedido_EBook1_idx` (`idEBook` ASC),
   INDEX `fk_ItemPedido_Pedido1_idx` (`idPedido` ASC),
