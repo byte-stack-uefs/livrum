@@ -96,7 +96,7 @@ const ClientRegister = () => {
                         <Tab label="Cliente" />
                         <Tab label="Autor" />
                     </Tabs>
-                    <FormControl fullWidth>
+                    <form onSubmit={handleSubmitClient}>
                         <Grid
                             container
                             sx={{
@@ -294,7 +294,7 @@ const ClientRegister = () => {
                                 </Button>
                             </Grid>
                         </Grid>
-                    </FormControl>
+                    </form>
 
                     <BootstrapDialog
                         open={openModal}

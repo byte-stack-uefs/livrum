@@ -65,6 +65,7 @@ export const theme: Theme = createTheme({
         },
         darker: {
             main: darker,
+            contrastText: "#FFF",
         },
         dark: {
             main: dark,
