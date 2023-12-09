@@ -4,6 +4,9 @@ const nextConfig = {
         remotePatterns:[
             {
                 hostname: 'm.media-amazon.com'
+            },
+            {
+                hostname: "encrypted-tbn1.gstatic.com"
             }
         ]
     }
