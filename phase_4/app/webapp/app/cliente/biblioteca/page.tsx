@@ -180,17 +180,19 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
 };
 
 export default function Page() {
-    return (
-        <>
-
-            <Grid container spacing={2} sx={{ backgroundColor: '#F4F2F2', borderRadius: '16px' }}>
+    return (<>
+        <Grid container spacing={2}>
+            <Grid xs={12} sx={{ backgroundColor: '#F4F2F2', borderRadius: '16px' }}>
                 <ClientLibraryContainerHeader></ClientLibraryContainerHeader>
                 <ClientLibraryBookContainer></ClientLibraryBookContainer>
             </Grid>
-
-            <Grid container xs={12} justifyContent="center">
-                <Pagination count={10} color="primary" shape="rounded" />
+            <Grid xs={12}>
+                <>
+                    <Grid container xs={12} justifyContent={"center"}>
+                        <Pagination count={10} color="primary" shape="rounded" />
+                    </Grid>
+                </>
             </Grid>
-        </>
-    );
+        </Grid>
+    </>);
 }
