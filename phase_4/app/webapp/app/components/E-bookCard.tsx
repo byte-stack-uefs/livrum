@@ -18,7 +18,7 @@ const DisplayBookInfo: React.FC<EbookCardProps> = ({ ebook }) => {
                     {ebook.author}
                 </Grid>
                 <Grid item xs={12}>
-                    {ebook.releaseDate}
+                    {ebook.releaseYear}
                 </Grid>
             </Grid>
             <Grid item xs={4} sx={{ textAlign: "right" }}>
