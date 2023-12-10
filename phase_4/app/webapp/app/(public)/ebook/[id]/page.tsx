@@ -7,6 +7,7 @@ import { Button, Container, Typography } from "@mui/material";
 import { theme } from "@/app/theme";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import Carousel from "@/app/components/Carousel";
 
 interface EbookPageParams {
     id: number;
@@ -22,6 +23,34 @@ export default function Page({ params }: { params: EbookPageParams }) {
         setWidth(el?.clientWidth ?? 0)
         setHeight(el?.clientHeight ?? 0)
     }, []);
+
+    const similars = [
+        {
+            title: 'AAA',
+            author: 'Almir',
+            cover: 'https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg'
+        },
+        {
+            title: 'AAA',
+            author: 'Almir',
+            cover: 'https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg'
+        },
+        {
+            title: 'AAA',
+            author: 'Almir',
+            cover: 'https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg'
+        },
+        {
+            title: 'AAA',
+            author: 'Almir',
+            cover: 'https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg'
+        },
+        {
+            title: 'AAA',
+            author: 'Almir',
+            cover: 'https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg'
+        }
+    ];
 
     return (
         <Container maxWidth={false}>
@@ -117,18 +146,33 @@ export default function Page({ params }: { params: EbookPageParams }) {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid xs={12}>
-                    <Typography>
-                        Títulos semelhantes
-                    </Typography>
-                    <Divider width={"35%"} />
+                <Grid xs={12} container>
+                    <Grid xs={12} textAlign="center">
+                        <Typography variant="h4" color="dark.main">
+                            Títulos semelhantes
+                        </Typography>
+                        <Divider width={"15%"} style={{ margin: 'auto' }} />
+                    </Grid>
+                    <Grid xs={12} my={3}>
+                        <Carousel items={similars} Child={SimilarEbooks} />
+                    </Grid>
                 </Grid>
             </Grid>
-
         </Container>
     );
 }
 
+function SimilarEbooks(ebook: any) {
+    return (<div style={{ textAlign: 'center', padding: 8 }}>
+        <Image src={ebook.cover} width={3000} height={3000} style={{ width: '100%', height: '100%', objectFit: 'contain' }} alt="book cover" />
+        <Typography fontWeight="bold" color="dark.main">
+            {ebook.title}
+        </Typography>
+        <Typography color="dark.main">
+            {ebook.author}
+        </Typography>
+    </div>);
+}
 
 function ListItem({ title, value }: { title: string, value: string }) {
     return (
