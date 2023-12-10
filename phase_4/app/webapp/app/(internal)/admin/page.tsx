@@ -44,7 +44,7 @@ export default function Page() {
         for (let i = 1; i <= max; i++) {
             data.push({
                 x: x[i - 1],
-                y: Math.random() * 2000
+                y: Math.random() * 50
             })
 
         }
@@ -96,19 +96,34 @@ export default function Page() {
                     {data && <LineChart
                         dataset={data}
                         xAxis={[{
+                            id: 'days-month',
                             dataKey: 'x',
-                            tickNumber: 5,
+                            tickMinStep: 4,
+                            tickNumber: 6,
                             tickLabelStyle: {
                                 fill: theme.palette.textLight.main,
                             },
-                            disableLine: true
                         }]}
                         yAxis={[{
+                            id: 'data-axis',
                             tickLabelStyle: {
                                 fill: theme.palette.textLight.main,
                             },
                         }
                         ]}
+
+                        leftAxis={{
+                            axisId: 'data-axis',
+                            disableLine: true,
+                            disableTicks: true
+                        }}
+
+                        bottomAxis={{
+                            axisId: 'days-month',
+                            disableLine: true,
+                            disableTicks: true,
+                            stroke: 'red'
+                        }}
 
                         series={[
                             {
