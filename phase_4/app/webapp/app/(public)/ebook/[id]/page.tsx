@@ -55,7 +55,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
                                     asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
                                 </p>
                             </Grid>
-                            <Grid xs={12} container justifyContent="center">
+                            <Grid xs={12} container justifyContent="center" mt={4}>
                                 <Grid container xs={6} sx={{ backgroundColor: '#c5c5c5', borderRadius: 3 }} p={2}>
                                     <Grid xs={6} alignSelf="center">
                                         <Typography variant="h4" textAlign="center" color="dark.main">
