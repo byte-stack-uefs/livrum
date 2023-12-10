@@ -5,10 +5,13 @@ import React, { ReactNode } from "react";
 import { Card, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
-export default function DashboardCard({ Icon, month, title, subtitle }: { Icon: ReactNode, month: string, title: string, subtitle?: string }) {
+export default function DashboardCard({ header, Icon, month, title, subtitle }: { header: string, Icon: ReactNode, month: string, title: string, subtitle?: string }) {
 
     return <>
         <Grid xs={4}>
+            <Typography sx={{ color: theme.palette.darker.main }}>
+                {header}
+            </Typography>
             <Card elevation={0} sx={{ borderRadius: 2 }}>
                 <Grid container p={2}>
                     <Grid xs={4} textAlign={"center"}>

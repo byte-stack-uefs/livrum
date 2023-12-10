@@ -8,18 +8,21 @@ export default function Page() {
 
     const cards = [
         {
+            header: 'Faturamento',
             Icon: <MonetizationOn color="darker" fontSize="large" />,
             title: 'R$ 450,00',
             month: 'Julho',
             subtitle: ''
         },
         {
+            header: 'Vendidos',
             Icon: <Sell color="darker" fontSize="large" />,
             title: '431',
             subtitle: 'unidades',
             month: 'Julho'
         },
         {
+            header: 'Obras',
             Icon: <Book color="darker" fontSize="large" />,
             title: '31',
             subtitle: 'títulos',
