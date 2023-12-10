@@ -26,25 +26,24 @@ const Login = () => {
     return (
         <>
         <Grid container>
-            <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
+            <Grid xs={12} sm={9} md={7} lg={5} margin="auto">
+                <Tabs
+                    value={value}
+                    variant="fullWidth"
+                    scrollButtons={false}
+                    onChange={handleChange}
+                    centered
+                    TabIndicatorProps={{ style: { display: "display-box" } }}
+                    sx={{ width: '100%'}}
+                    >
+                    <Tab label="Sou Autor" />
+                    <Tab label="Sou Leitor" />
+                </Tabs>
                 <Paper>
+                    
                     <form onSubmit={handleSubmitClient}>
-                        <Grid container padding={3} spacing={2} justifyContent="center" alignItems="center" style={{ textAlign: "center", backgroundColor: "#E5E2E2"}}>
-                            <Tabs
-                                value={value}
-                                variant="fullWidth"
-                                scrollButtons={false}
-                                onChange={handleChange}
-                                centered
-                                TabIndicatorProps={{ style: { display: "display-box" } }}
-                                sx={{ width: '100%'}}
-                                >
-                                <Tab label="Sou Autor" />
-                                <Tab label="Sou Leitor" />
-                            </Tabs>
-                            {/* <Box sx={{ width: '100%'}}>
-                                
-                            </Box> */}
+                        <Grid container padding={3} justifyContent="center" alignItems="center" style={{ textAlign: "center", backgroundColor: "#E5E2E2"}}>
+
                             <Grid xs={12}>
                                 <Typography variant="h5" fontWeight="bold">
                                     Entre na sua conta
@@ -97,7 +96,7 @@ const Login = () => {
                                 </Link>
                             </Grid>
                             <Grid xs={12} md={6}>
-                                <Button fullWidth type="submit" variant="contained" color="dark">
+                                <Button fullWidth type="submit" variant="contained" color="primary">
                                     Login
                                 </Button>
                             </Grid>
