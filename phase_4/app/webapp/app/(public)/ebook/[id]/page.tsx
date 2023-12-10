@@ -1,7 +1,10 @@
+"use client"
+
 import Divider from "@/app/components/Divider";
 import { AddShoppingCart } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Button, Container, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
+import { theme } from "@/app/theme";
 
 interface EbookPageParams {
     id: number;
@@ -10,8 +13,8 @@ interface EbookPageParams {
 export default function Page({ params }: { params: EbookPageParams }) {
     return (
         <Container maxWidth={false}>
-            <Grid container >
 
+            <Grid container>
                 <Grid container xs={12} sx={{ backgroundColor: 'secondary.main' }}>
                     <Grid xs={12}>
                         TÍTULO DO EBOOK
@@ -56,55 +59,52 @@ export default function Page({ params }: { params: EbookPageParams }) {
                         </Grid>
                         <Grid xs={12} container>
                             <Grid xs={6}>
-                                <List disablePadding>
-                                    <ListItem>
-                                        <ListItemText>
-                                            Autor
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemText>
-                                            Autor
-                                        </ListItemText>
-                                    </ListItem>
-                                    <ListItem>
-                                        <ListItemText>
-                                            Autor
-                                        </ListItemText>
-                                    </ListItem>
-                                </List>
+                                <ul style={{ listStyle: 'none', padding: 0 }}>
+                                    <li>
+                                        <ListItem title="Autor" value="X" />
+                                    </li>
+                                    <li>
+                                        <ListItem title="Número de Páginas" value="192" />
+                                    </li>
+                                    <li>
+                                        <ListItem title="Ano de lançamento" value="2023" />
+                                    </li>
+                                </ul>
                             </Grid>
                             <Grid xs={6}>
-                                <ListItem>
-                                    <ListItemText>
-                                        Autor
-                                    </ListItemText>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText>
-                                        Autor
-                                    </ListItemText>
-                                </ListItem>
-                                <ListItem>
-                                    <ListItemText>
-                                        Autor
-                                    </ListItemText>
-                                </ListItem>
+                                <ul style={{ listStyle: 'none', padding: 0 }}>
+                                    <li>
+                                        <ListItem title="Idioma" value="Português" />
+                                    </li>
+                                    <li>
+                                        <ListItem title="Tamanho" value="8592 KB" />
+                                    </li>
+                                    <li>
+                                        <ListItem title="Formato" value="PDF" />
+                                    </li>
+                                </ul>
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
-
-
                 <Grid xs={12}>
                     <Typography>
                         Títulos semelhantes
                     </Typography>
                     <Divider width={"35%"} />
                 </Grid>
-
-
             </Grid>
+
         </Container>
+    );
+}
+
+
+function ListItem({ title, value }: { title: string, value: string }) {
+    return (
+        <span>
+            <span style={{ color: theme.palette.dark.main, fontWeight: 'bold' }}>{title}: </span>
+            <span style={{ color: theme.palette.textLight.main, fontWeight: 'bold' }}>{value}</span>
+        </span>
     );
 }
