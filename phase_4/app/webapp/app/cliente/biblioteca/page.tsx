@@ -2,7 +2,7 @@
 import Divider from "@/app/components/Divider";
 import Ebook from "@/app/interfaces/Ebook";
 import { AddShoppingCart, CloudDownload ,CheckCircle, Book, ReportProblem} from "@mui/icons-material";
-import { Box, Button, Grid, List, ListItem, Stack } from "@mui/material";
+import { Box, Button, Grid, List, ListItem, Pagination, Stack } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -143,7 +143,7 @@ const DisplayBookInfo: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
                         </Button>
                         </div>
                     </Stack>
-                </Grid>
+                </Grid>                
             </Grid>
         );
     }else {
@@ -208,10 +208,15 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
 
 export default function Page() {
     return (
+        <Box>
         <Box sx={{backgroundColor:'#F4F2F2', borderRadius:'16px'}}>
             <Grid container spacing={2}>
                 <ClientLibraryContainerHeader></ClientLibraryContainerHeader>
                 <ClientLibraryBookContainer></ClientLibraryBookContainer>
+            </Grid>
+        </Box>
+        <Grid container xs={12} justifyContent="center">
+                <Pagination count={10} color="primary" shape="rounded" />
             </Grid>
         </Box>
     );
