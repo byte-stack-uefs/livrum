@@ -68,7 +68,7 @@ const ClientRegister = () => {
         m: 0,
         p: 2,
         textAlign: "center",
-        backgroundColor: "#E5E2E2",
+        backgroundColor: theme.palette.secondary.main,
         fontFamily: "Roboto",
         fontSize: "20px",
     });
@@ -100,7 +100,7 @@ const ClientRegister = () => {
                         <Grid
                             container
                             sx={{
-                                backgroundColor: "#E5E2E2",
+                                backgroundColor: theme.palette.secondary.main,
                                 margin: "auto",
                                 padding: 3,
                                 borderBottomRightRadius: 20,
@@ -255,7 +255,7 @@ const ClientRegister = () => {
                             )}
                             <Grid
                                 xs={12}
-                                lg={9}
+                                lg={8}
                                 style={{
                                     color: "#2665BE",
                                     cursor: "pointer",
@@ -280,11 +280,11 @@ const ClientRegister = () => {
                                     }
                                 />
                             </Grid>
-                            <Grid xs={12} lg={3}>
+                            <Grid xs={12} lg={4}>
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    color="primary"
+                                    color="darker"
                                     fullWidth
                                     sx={{
                                         marginTop: "10px",
