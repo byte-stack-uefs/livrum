@@ -89,15 +89,31 @@ export default function Page() {
                 })}
             </Grid>
             <Grid xs={12} id="chart-parent">
-                <Card>
+                <Card elevation={0} sx={{ borderRadius: 2 }}>
                     {data && <LineChart
                         dataset={data}
-                        xAxis={[{ dataKey: 'x' }]}
+                        xAxis={[{
+                            dataKey: 'x',
+                            tickNumber: 5,
+                            tickLabelStyle: {
+                                fill: theme.palette.textLight.main,
+                            },
+                            disableLine: true
+                        }]}
+                        yAxis={[{
+                            tickLabelStyle: {
+                                fill: theme.palette.textLight.main,
+                            },
+                        }
+                        ]}
+
                         series={[
                             {
                                 curve: 'catmullRom',
                                 dataKey: 'y',
-                                showMark: false
+                                showMark: false,
+                                color: theme.palette.primary.main,
+
                             },
                         ]}
                         width={chartWidth}
