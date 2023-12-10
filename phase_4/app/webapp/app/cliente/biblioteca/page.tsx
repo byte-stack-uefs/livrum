@@ -91,7 +91,7 @@ function ClientLibraryBookContainer() {
             price: 50,
             summary: "Lorem ipsum",
             genre: "",
-            isAvailable: true,
+            isAvailable: false,
             cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg",
         },
     ]);
@@ -113,71 +113,47 @@ type InLibraryEbookCardProps = {
 };
 
 const DisplayBookInfo: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
-    if (ebook.isAvailable) {
-        return (
-            <Grid container sx={{ color: "#1E3345" }} height="100%">
-                <Grid xs={8}>
-                    <Grid xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
-                        {ebook.title}
-                    </Grid>
-                    <Grid xs={12}>
-                        {ebook.author}
-                    </Grid>
-                    <Grid xs={12}>
-                        {ebook.releaseYear}
-                    </Grid>
-                    <Grid xs={12}>
-                        Sinopse: {ebook.summary}
-                    </Grid>
+    return (
+        <Grid container sx={{ color: "dark.main" }} height="100%">
+            <Grid xs={8}>
+                <Grid xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
+                    {ebook.title}
                 </Grid>
-                <Grid xs={4} sx={{ textAlign: "right" }}>
-                    <Stack direction="column" height="100%" justifyContent="space-between">
-                        <div>
-                            <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
-                        </div>
-                        <div>
-                            <Button startIcon={<CheckCircle />}>
-                            </Button>
-                        </div>
-                    </Stack>
+                <Grid xs={12}>
+                    {ebook.author}
                 </Grid>
+                <Grid xs={12}>
+                    {ebook.releaseYear}
+                </Grid>
+                <Grid xs={12}>
+                    Sinopse: {ebook.summary}
+                </Grid>
+                {!ebook.isAvailable && (<Grid container mt={2} xs={12} sx={{ color: "error.main" }}>
+                    <>
+                        <Grid xs={1} alignSelf={"center"}>
+                            <ReportProblem />
+                        </Grid>
+                        <Grid xs>
+                            <Typography variant="caption">
+                                Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
+                            </Typography>
+                        </Grid>
+                    </>
+                </Grid>)}
             </Grid>
-        );
-    } else {
-        return (
-            <Grid container sx={{ color: "#1E3345" }} height="100%">
-                <Grid xs={8}>
-                    <Grid xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
-                        {ebook.title}
-                    </Grid>
-                    <Grid xs={12}>
-                        {ebook.author}
-                    </Grid>
-                    <Grid xs={12}>
-                        {ebook.releaseYear}
-                    </Grid>
-                    <Grid xs={12} sx={{ color: "#D0342C" }} >
-                        <Button sx={{ color: "#D0342C" }} startIcon={<ReportProblem />}></Button>
-                        {"Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!"}
-                    </Grid>
-                    <Grid xs={12}>
-                        Sinopse: {ebook.summary}
-                    </Grid>
-                </Grid>
-                <Grid xs={4} sx={{ textAlign: "right" }}>
-                    <Stack direction="column" height="100%" justifyContent="space-between">
-                        <div>
-                            <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
-                        </div>
-                        <div>
-                            <Button startIcon={<CheckCircle />}>
-                            </Button>
-                        </div>
-                    </Stack>
-                </Grid>
+            <Grid xs={4} sx={{ textAlign: "right" }}>
+                <Stack direction="column" height="100%" justifyContent="space-between">
+                    <div>
+                        <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
+                    </div>
+                    <div>
+                        <Button startIcon={<CheckCircle />}>
+                        </Button>
+                    </div>
+                </Stack>
             </Grid>
-        );
-    }
+        </Grid>
+    );
 };
 
 
