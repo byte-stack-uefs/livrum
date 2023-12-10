@@ -52,7 +52,7 @@ declare module "@mui/material/SvgIcon" {
 const dark = "#1E3345";
 const darker = "#153C7F";
 const primary = "#2665BE";
-const secondary = "#F4F2F2";
+const secondary = "#E5E2E2";
 const royal_blue = "#163760";
 
 export const theme: Theme = createTheme({
@@ -85,8 +85,8 @@ export const theme: Theme = createTheme({
             styleOverrides: {
                 root: {
                     "&.Mui-selected": {
-                        backgroundColor: "#E5E2E2",
-                        color: "#2665BE",
+                        backgroundColor: secondary,
+                        color: primary,
                         transition: "all 0.5s",
                         borderRadius: "20px 20px 0 0",
                     },

@@ -23,7 +23,7 @@ const AdminLogin = () => {
     return (
         <Grid container>
             <Grid xs={11} md={4} margin="auto">
-                <Paper sx={{ backgroundColor: theme.palette.secondary.main }}>
+                <Paper elevation={0} sx={{ backgroundColor: theme.palette.secondary.main }}>
                     <form onSubmit={handleSubmitClient}>
                         <Grid container padding={3} spacing={2} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
                             <Grid xs={12}>

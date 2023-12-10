@@ -36,10 +36,12 @@ const Login = () => {
                         <Tab label="Sou Autor" />
                         <Tab label="Sou Leitor" />
                     </Tabs>
-                    <Paper>
-
+                    <Paper elevation={0} sx={{ borderRadius: 50 }}>
                         <form onSubmit={handleSubmitClient}>
-                            <Grid container padding={3} justifyContent="center" alignItems="center" style={{ textAlign: "center", backgroundColor: "#E5E2E2" }}>
+                            <Grid container padding={3} justifyContent="center" alignItems="center" style={{
+                                textAlign: "center", backgroundColor: theme.palette.secondary.main, borderBottomRightRadius: 20,
+                                borderBottomLeftRadius: 20,
+                            }}>
 
                                 <Grid xs={12}>
                                     <Typography variant="h5" fontWeight="bold">
@@ -74,7 +76,7 @@ const Login = () => {
                                     </Grid>
                                 </Grid>
 
-                                <Grid xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
+                                <Grid mb={2} xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
                                     <Link
                                         component="button"
                                         variant="body2"
