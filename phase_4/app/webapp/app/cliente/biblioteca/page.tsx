@@ -187,7 +187,7 @@ const DisplayBookInfo: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
 const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
     return (
         <Grid container sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
-            <Grid item xs={12}>
+            <Grid item xs={2}>
                 <Box>
                     <Image
                         className="image-zoom"
@@ -198,7 +198,7 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
                         src={ebook.cover}
                     />
                 </Box>
-                <Grid item xs={12}>
+                <Grid item xs={10}>
                     <DisplayBookInfo ebook={ebook} />
                 </Grid>
             </Grid>
