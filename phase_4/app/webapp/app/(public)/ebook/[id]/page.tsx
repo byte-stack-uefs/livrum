@@ -34,11 +34,11 @@ export default function Page({ params }: { params: EbookPageParams }) {
                         </Typography>
                     </Grid>
                     <Grid container xs={12} py={2}>
-                        <Grid xs={5} id="ebook-cover-container">
-                            <Image src="https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg" width={width} height={height} alt="Ebook cover" style={{ objectFit: 'contain' }} />
+                        <Grid xs={5} id="ebook-cover-container" p={2}>
+                            <Image src="https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg" width={width} height={height} alt="Ebook cover" style={{ height: '100%', width: '100%', borderRadius: 30, objectFit: 'contain' }} />
                         </Grid>
-                        <Grid container xs={7}>
-                            <Grid xs={12}>
+                        <Grid container xs={7} p={2}>
+                            <Grid xs={12} pt={6}>
                                 <Typography variant="h5" color="dark.main">
                                     Descrição
                                 </Typography>
@@ -54,15 +54,25 @@ export default function Page({ params }: { params: EbookPageParams }) {
                                     recusandae facere eveniet, magni tempora praesentium alias itaque explicabo accusamus
                                     asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
                                 </p>
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus
+                                    recusandae facere eveniet, magni tempora praesentium alias itaque explicabo accusamus
+                                    asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
+                                </p>
+                                <p>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus
+                                    recusandae facere eveniet, magni tempora praesentium alias itaque explicabo accusamus
+                                    asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
+                                </p>
                             </Grid>
                             <Grid xs={12} container justifyContent="center" mt={4}>
-                                <Grid container xs={6} sx={{ backgroundColor: '#c5c5c5', borderRadius: 3 }} p={2}>
+                                <Grid container py={3} xs={8} sx={{ backgroundColor: '#c5c5c5', borderRadius: 3 }} textAlign="center" alignSelf="end">
                                     <Grid xs={6} alignSelf="center">
                                         <Typography variant="h4" textAlign="center" color="dark.main">
                                             R$ 39,90
                                         </Typography>
                                     </Grid>
-                                    <Grid xs={6}>
+                                    <Grid xs={6} alignSelf="center">
                                         <Button variant="contained" startIcon={<AddShoppingCart />}>
                                             Comprar
                                         </Button>
@@ -71,14 +81,14 @@ export default function Page({ params }: { params: EbookPageParams }) {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid container xs={12} px={2}>
                         <Grid xs={12}>
                             <Typography variant="h5" color="dark.main">
                                 Especificações
                             </Typography>
                         </Grid>
                         <Grid xs={12} container>
-                            <Grid xs={6}>
+                            <Grid xs={3}>
                                 <ul style={{ listStyle: 'none', padding: 0 }}>
                                     <li style={{ paddingTop: 4, paddingBottom: 4 }}>
                                         <ListItem title="Autor" value="X" />
@@ -91,7 +101,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
                                     </li>
                                 </ul>
                             </Grid>
-                            <Grid xs={6}>
+                            <Grid xs={3}>
                                 <ul style={{ listStyle: 'none', padding: 0 }}>
                                     <li style={{ paddingTop: 4, paddingBottom: 4 }}>
                                         <ListItem title="Idioma" value="Português" />
