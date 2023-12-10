@@ -14,10 +14,10 @@ export default function DashboardCard({ header, Icon, month, title, subtitle }: 
             </Typography>
             <Card elevation={0} sx={{ borderRadius: 2 }}>
                 <Grid container p={2}>
-                    <Grid xs={4} textAlign={"center"}>
+                    <Grid xs={3} textAlign={"center"}>
                         {Icon}
                     </Grid>
-                    <Grid xs={8} textAlign={"right"}>
+                    <Grid xs={9} textAlign={"right"}>
                         <Typography variant="h4" display={"inline-block"} sx={{ color: theme.palette.darker.main }}>
                             {title}
                         </Typography>
