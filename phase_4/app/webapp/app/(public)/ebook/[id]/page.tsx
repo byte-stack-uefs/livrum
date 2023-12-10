@@ -1,13 +1,13 @@
 "use client"
 
+import Image from "next/image";
+import { theme } from "@/app/theme";
+import { useEffect, useState } from "react";
 import Divider from "@/app/components/Divider";
+import Carousel from "@/app/components/Carousel";
 import { AddShoppingCart } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Button, Container, Typography } from "@mui/material";
-import { theme } from "@/app/theme";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import Carousel from "@/app/components/Carousel";
 
 interface EbookPageParams {
     id: number;
