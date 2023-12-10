@@ -1,3 +1,6 @@
+"use client"
+
+import { theme } from "@/app/theme";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DashboardCard from "@/app/components/DashboardCard";
@@ -33,7 +36,7 @@ export default function Page() {
     return (
         <Grid container spacing={2} my={2}>
             <Grid xs={12}>
-                <Typography variant="h5" color="darker">
+                <Typography variant="h5" sx={{ color: theme.palette.dark.main }}>
                     Bem-vindo, {username}
                 </Typography>
             </Grid>
