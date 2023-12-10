@@ -27,7 +27,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
         <Container maxWidth={false}>
 
             <Grid container>
-                <Grid p={2} container xs={12} sx={{ backgroundColor: 'secondary.main', borderRadius: 5, marginY: 6 }}>
+                <Grid py={2} px={4} container xs={12} sx={{ backgroundColor: 'secondary.main', borderRadius: 5, marginY: 6 }}>
                     <Grid xs={12} textAlign="center" py={2}>
                         <Typography variant="h4" color="dark.main">
                             TÍTULO DO EBOOK
