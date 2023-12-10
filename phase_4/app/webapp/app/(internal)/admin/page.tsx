@@ -89,6 +89,9 @@ export default function Page() {
                 })}
             </Grid>
             <Grid xs={12} id="chart-parent">
+                <Typography sx={{ color: theme.palette.darker.main }}>
+                    Visualizações
+                </Typography>
                 <Card elevation={0} sx={{ borderRadius: 2 }}>
                     {data && <LineChart
                         dataset={data}
