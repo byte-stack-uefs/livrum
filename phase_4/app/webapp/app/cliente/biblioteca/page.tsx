@@ -13,7 +13,6 @@ type DynamicDownloadButtonProps = {
     isAvailable: boolean;
 };
 
-
 const DynamicDownloadButton: React.FC<DynamicDownloadButtonProps> = ({ isAvailable }) => {
     return (
         <Button disabled={!isAvailable} variant="contained" startIcon={<CloudDownload />}>
@@ -182,7 +181,7 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
 export default function Page() {
     return (<>
         <Grid container spacing={2}>
-            <Grid xs={12} sx={{ backgroundColor: '#F4F2F2', borderRadius: '16px' }}>
+            <Grid xs={12} sx={{ backgroundColor: 'secondary.main', borderRadius: '16px' }}>
                 <ClientLibraryContainerHeader></ClientLibraryContainerHeader>
                 <ClientLibraryBookContainer></ClientLibraryBookContainer>
             </Grid>
