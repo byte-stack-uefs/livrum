@@ -25,91 +25,91 @@ const Login = () => {
 
     return (
         <>
-        <Grid container>
-            <Grid xs={12} sm={9} md={7} lg={5} margin="auto">
-                <Tabs
-                    value={value}
-                    variant="fullWidth"
-                    scrollButtons={false}
-                    onChange={handleChange}
-                    centered
-                    TabIndicatorProps={{ style: { display: "display-box" } }}
-                    sx={{ width: '100%'}}
+            <Grid container>
+                <Grid xs={12} sm={9} md={7} lg={5} margin="auto">
+                    <Tabs
+                        value={value}
+                        variant="fullWidth"
+                        scrollButtons={false}
+                        onChange={handleChange}
+                        centered
+                        TabIndicatorProps={{ style: { display: "display-box" } }}
+                        sx={{ width: '100%' }}
                     >
-                    <Tab label="Sou Autor" />
-                    <Tab label="Sou Leitor" />
-                </Tabs>
-                <Paper>
-                    
-                    <form onSubmit={handleSubmitClient}>
-                        <Grid container padding={3} justifyContent="center" alignItems="center" style={{ textAlign: "center", backgroundColor: "#E5E2E2"}}>
+                        <Tab label="Sou Autor" />
+                        <Tab label="Sou Leitor" />
+                    </Tabs>
+                    <Paper>
 
-                            <Grid xs={12}>
-                                <Typography variant="h5" fontWeight="bold">
-                                    Entre na sua conta
-                                </Typography>
-                                <Typography variant="caption" color="GrayText">
-                                    Seja bem-vindo de volta!
-                                </Typography>
-                            </Grid>
-                            <Grid container spacing={2} xs={12} py={3}>
-                                <Grid xs={12}>
-                                    <TextField
-                                        label="E-mail"
-                                        variant="filled"
-                                        type="email"
-                                        color="info"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        fullWidth
-                                        size="small"
-                                    />
-                                </Grid>
-                                <Grid xs={12}>
-                                    <TextField
-                                        label="Senha"
-                                        variant="filled"
-                                        value={password}
-                                        type="password"
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        fullWidth
-                                        size="small"
-                                    />
-                                </Grid>
-                            </Grid>
+                        <form onSubmit={handleSubmitClient}>
+                            <Grid container padding={3} justifyContent="center" alignItems="center" style={{ textAlign: "center", backgroundColor: "#E5E2E2" }}>
 
-                            <Grid xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
-                                <Link
-                                    component="button"
-                                    variant="body2"
-                                    underline="none"
-                                    onClick={() => {
-                                    
-                                    //Direcionar para a página de recuperação!!!!
-                                    }}
-                                    style={{
-                                        color: theme.palette.primary.main,
-                                        //backgroundColor: "#E5E2E2",
-                                    }}
-                                >
-                                    Esqueceu a senha?
-                                </Link>
+                                <Grid xs={12}>
+                                    <Typography variant="h5" fontWeight="bold">
+                                        Entre na sua conta
+                                    </Typography>
+                                    <Typography variant="caption" color="GrayText">
+                                        Seja bem-vindo de volta!
+                                    </Typography>
+                                </Grid>
+                                <Grid container spacing={2} xs={12} py={3}>
+                                    <Grid xs={12}>
+                                        <TextField
+                                            label="E-mail"
+                                            variant="filled"
+                                            type="email"
+                                            color="info"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            fullWidth
+                                            size="small"
+                                        />
+                                    </Grid>
+                                    <Grid xs={12}>
+                                        <TextField
+                                            label="Senha"
+                                            variant="filled"
+                                            value={password}
+                                            type="password"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            fullWidth
+                                            size="small"
+                                        />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
+                                    <Link
+                                        component="button"
+                                        variant="body2"
+                                        underline="none"
+                                        onClick={() => {
+
+                                            //Direcionar para a página de recuperação!!!!
+                                        }}
+                                        style={{
+                                            color: theme.palette.primary.main,
+                                            //backgroundColor: "#E5E2E2",
+                                        }}
+                                    >
+                                        Esqueceu a senha?
+                                    </Link>
+                                </Grid>
+                                <Grid xs={12} md={6}>
+                                    <Button fullWidth type="submit" variant="contained" color="primary">
+                                        Login
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid xs={12} md={6}>
-                                <Button fullWidth type="submit" variant="contained" color="primary">
-                                    Login
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </form>
-                </Paper>
+                        </form>
+                    </Paper>
+                </Grid>
+
+
             </Grid>
-            
-            
-        </Grid>
         </>
-        
-        );
+
+    );
 };
 
 export default Login;
