@@ -255,7 +255,7 @@ const ClientRegister = () => {
                             )}
                             <Grid
                                 xs={12}
-                                lg={9}
+                                lg={8}
                                 style={{
                                     color: "#2665BE",
                                     cursor: "pointer",
@@ -280,7 +280,7 @@ const ClientRegister = () => {
                                     }
                                 />
                             </Grid>
-                            <Grid xs={12} lg={3}>
+                            <Grid xs={12} lg={4}>
                                 <Button
                                     type="submit"
                                     variant="contained"

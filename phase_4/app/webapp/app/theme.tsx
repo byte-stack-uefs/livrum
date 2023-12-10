@@ -91,7 +91,7 @@ export const theme: Theme = createTheme({
                         borderRadius: "20px 20px 0 0",
                     },
                     "&:not(.Mui-selected)": {
-                        backgroundColor: "#1E3345",
+                        backgroundColor: darker,
                         color: "#fff",
                         borderRadius: "20px 20px 0 0",
                     },
