@@ -162,14 +162,23 @@ export default function Page() {
                         </Grid>
                         <Grid xs={3}>
                             <FormControl fullWidth>
-                                <InputLabel size="small" id="demo-simple-select-label">Autor</InputLabel>
+                                <InputLabel size="small" id="autor-select-label">Autor</InputLabel>
                                 <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
+                                    labelId="autor-select-label"
+                                    id="autor-select"
                                     value={author}
                                     label="Autor"
                                     onChange={(e) => { setAuthor(e.target.value) }}
                                     size="small"
+                                    sx={
+                                        {
+                                            borderRadius: 3,
+                                            backgroundColor: 'secondary.main',
+                                            '& > .MuiOutlinedInput-notchedOutline': {
+                                                border: 'none'
+                                            }
+                                        }
+                                    }
                                 >
                                     <MenuItem value={10}>X</MenuItem>
                                     <MenuItem value={20}>Y</MenuItem>
