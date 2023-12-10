@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { TextField, Button, Paper, Typography, Link, FormControl, InputLabel, Modal } from "@mui/material";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { theme } from "@/app/theme";
-import { Primary } from "@/stories/Button.stories";
+import React, { useState } from "react";
 import Divider from "@/app/components/Divider";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import { TextField, Button, Paper, Typography, Link, FormControl, InputLabel, Modal } from "@mui/material";
 
 const AdminPasswordRestore = () => {
     const [value, setValue] = useState(0);
@@ -27,7 +25,7 @@ const AdminPasswordRestore = () => {
         setValue(newValue);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (event: {}, reason: "backdropClick" | "escapeKeyDown") => {
         setOpenModal(false);
     };
 
@@ -49,9 +47,10 @@ const AdminPasswordRestore = () => {
                 <Typography sx={{ color: "black" }} variant="h6">
                     Recuperação de senha
                 </Typography>
-                <Divider width={"35%"} style={{ margin: "auto" }} /></Grid>
-            <Grid xs={11} md={4} marginTop={10} margin="auto">
-                <Paper elevation={0} style={{ padding: '30px', backgroundColor: '#F4F2F2' }}>
+                <Divider width={"35%"} style={{ margin: "auto" }} />
+            </Grid>
+            <Grid xs={11} sm={9} md={6} margin="auto">
+                <Paper elevation={0} style={{ padding: '30px', backgroundColor: theme.palette.secondary.main }}>
                     <Paper>
                         <form onSubmit={handleSubmitClient}>
                             <Grid container padding={3} spacing={3} justifyContent="center" alignItems="center">
@@ -66,8 +65,8 @@ const AdminPasswordRestore = () => {
                                     </Typography>
                                 </Grid>
                                 <Grid container spacing={2} xs={12} py={3} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
-                                    <Grid xs={8}>
-                                        <InputLabel htmlFor="labelEmail" style={{ fontWeight:"Roboto", textAlign: 'left', color: theme.palette.primary.main }}>E-mail </InputLabel>
+                                    <Grid xs={12} sm={8}>
+                                        <InputLabel htmlFor="labelEmail" style={{ textAlign: 'left', color: theme.palette.primary.main }}>E-mail </InputLabel>
                                         <TextField
                                             required
                                             id="labelEmail"
@@ -84,7 +83,7 @@ const AdminPasswordRestore = () => {
                                         />
                                     </Grid>
                                 </Grid>
-                                <Grid xs={8} md={8}>
+                                <Grid xs={12} sm={8}>
                                     <Button fullWidth type="submit" variant="contained" color="primary" onClick={handleSubmitClient} disabled={isButtonDisabled}>
                                         Enviar
                                     </Button>
@@ -95,19 +94,18 @@ const AdminPasswordRestore = () => {
                                     onClose={handleCloseModal}
                                     aria-labelledby="modal-title"
                                     aria-describedby="modal-description"
-                                    BackdropClick={true}
                                 >
                                     <Paper style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '30px', backgroundColor: '#FFF' }}>
                                         <Grid container direction="column" alignItems="center" justifyContent="center">
-                                            <Grid xs={12} md={4} margin = "auto" style={{ textAlign: 'center' }}>
+                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: 'center' }}>
                                                 <CheckCircleOutlineIcon sx={{ fontSize: 50, color: 'green' }} />
                                             </Grid>
-                                            <Grid xs={12} md={4} margin = "auto" style={{ textAlign: 'center', width: '100%' }}>
+                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: 'center', width: '100%' }}>
                                                 <Typography variant="h6">
                                                     E-mail enviado com sucesso
                                                 </Typography>
                                             </Grid >
-                                            <Grid xs={12} md={4} margin = "auto" style={{ textAlign: 'center', width: '100%' }}>
+                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: 'center', width: '100%' }}>
                                                 <Typography variant="caption" >
                                                     Caso o email não apareça na caixa de entrada, verifique a caixa de spam
                                                 </Typography>
