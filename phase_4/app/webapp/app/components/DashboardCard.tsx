@@ -15,10 +15,10 @@ export default function DashboardCard({ Icon, month, title, subtitle }: { Icon: 
                         {Icon}
                     </Grid>
                     <Grid xs={8} textAlign={"right"}>
-                        <Typography variant="h4" display={"inline-block"} sx={{ color: theme.palette.dark.main }}>
+                        <Typography variant="h4" display={"inline-block"} sx={{ color: theme.palette.darker.main }}>
                             {title}
                         </Typography>
-                        <Typography variant="subtitle1" display={"inline-block"} sx={{ color: theme.palette.dark.main }}>
+                        <Typography variant="subtitle1" display={"inline-block"} sx={{ color: theme.palette.darker.main }}>
                             {subtitle}
                         </Typography>
                     </Grid>
