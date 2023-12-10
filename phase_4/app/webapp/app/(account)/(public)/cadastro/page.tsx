@@ -284,7 +284,7 @@ const ClientRegister = () => {
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    color="primary"
+                                    color="darker"
                                     fullWidth
                                     sx={{
                                         marginTop: "10px",

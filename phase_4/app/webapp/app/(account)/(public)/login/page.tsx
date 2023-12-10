@@ -1,12 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
-
-import { Box, Tab, Tabs, TextField, Button, Paper, Typography, Link, FormControl } from "@mui/material";
-
-
-import Grid from "@mui/material/Unstable_Grid2";
 import { theme } from "@/app/theme";
+import React, { useState } from "react";
+import Grid from "@mui/material/Unstable_Grid2";
+import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
 
 const Login = () => {
     const [value, setValue] = useState(0);
@@ -26,14 +23,14 @@ const Login = () => {
     return (
         <>
             <Grid container>
-                <Grid xs={12} sm={9} md={7} lg={5} margin="auto">
+                <Grid xs={11} md={4} margin="auto">
                     <Tabs
                         value={value}
                         variant="fullWidth"
                         scrollButtons={false}
                         onChange={handleChange}
                         centered
-                        TabIndicatorProps={{ style: { display: "display-box" } }}
+                        TabIndicatorProps={{ style: { display: "none" } }}
                         sx={{ width: '100%' }}
                     >
                         <Tab label="Sou Autor" />
@@ -56,7 +53,7 @@ const Login = () => {
                                     <Grid xs={12}>
                                         <TextField
                                             label="E-mail"
-                                            variant="filled"
+
                                             type="email"
                                             color="info"
                                             value={email}
@@ -68,7 +65,6 @@ const Login = () => {
                                     <Grid xs={12}>
                                         <TextField
                                             label="Senha"
-                                            variant="filled"
                                             value={password}
                                             type="password"
                                             onChange={(e) => setPassword(e.target.value)}
@@ -89,14 +85,13 @@ const Login = () => {
                                         }}
                                         style={{
                                             color: theme.palette.primary.main,
-                                            //backgroundColor: "#E5E2E2",
                                         }}
                                     >
                                         Esqueceu a senha?
                                     </Link>
                                 </Grid>
-                                <Grid xs={12} md={6}>
-                                    <Button fullWidth type="submit" variant="contained" color="primary">
+                                <Grid xs={12} sm={6} md={6}>
+                                    <Button fullWidth type="submit" variant="contained" color="darker">
                                         Login
                                     </Button>
                                 </Grid>
