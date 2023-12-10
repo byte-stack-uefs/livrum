@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { TextField, Button, Paper, Typography, Link, FormControl, InputLabel, Modal } from "@mui/material";
+import { TextField, Button, Paper, Typography, InputLabel, Modal } from "@mui/material";
 
 const AdminPasswordRestore = () => {
     const [value, setValue] = useState(0);
