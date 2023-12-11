@@ -50,9 +50,9 @@ function ClientDataContainer() {
                     spacing={2}
                 >
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelName" required style={{ textAlign: 'left', color: theme.palette.dark.main }}>E-mail </InputLabel>
+                        <InputLabel htmlFor="labelName" required style={{ fontFamily: 'Lato, sans-serif',fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}>Nome Completo </InputLabel>
                         <TextField
-                            id="labelEmail"
+                            id="labelName"
                             fullWidth
                             value={name}
                             size="small"
@@ -64,7 +64,7 @@ function ClientDataContainer() {
                         />
                     </Grid>
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelCpf" required style={{ textAlign: 'left', color: theme.palette.dark.main }}>CPF </InputLabel>
+                        <InputLabel htmlFor="labelCpf" required style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}>CPF </InputLabel>
                         <TextField
                             fullWidth
                             id="labelCpf"
@@ -79,7 +79,7 @@ function ClientDataContainer() {
                     </Grid>
 
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelBirthday" required style={{ textAlign: 'left', color: theme.palette.dark.main }}> Data de nascimento </InputLabel>
+                        <InputLabel htmlFor="labelBirthday" required style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Data de nascimento </InputLabel>
                         <TextField
                             fullWidth
                             id="labelBirthday"
@@ -94,7 +94,7 @@ function ClientDataContainer() {
                     </Grid>
 
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelTelephone" style={{ textAlign: 'left', color: theme.palette.dark.main }}> Telefone </InputLabel>
+                        <InputLabel htmlFor="labelTelephone" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Telefone </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -108,7 +108,7 @@ function ClientDataContainer() {
                     </Grid>
 
                     <Grid xs={12}>
-                        <InputLabel htmlFor="labelEmail" style={{ textAlign: 'left', color: theme.palette.dark.main }}> E-mail </InputLabel>
+                        <InputLabel htmlFor="labelEmail" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> E-mail </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -122,7 +122,7 @@ function ClientDataContainer() {
                         />
                     </Grid>
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelPassword" style={{ textAlign: 'left', color: theme.palette.dark.main }}> Senha </InputLabel>
+                        <InputLabel htmlFor="labelPassword" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Senha </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -136,7 +136,7 @@ function ClientDataContainer() {
                         />
                     </Grid>
                     <Grid xs={12}>
-                        <InputLabel htmlFor="labelAddress" style={{ textAlign: 'left', color: theme.palette.dark.main }}> Endereço </InputLabel>
+                        <InputLabel htmlFor="labelAddress" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Endereço </InputLabel>
                         <TextField
                             required
                             fullWidth
