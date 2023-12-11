@@ -149,7 +149,9 @@ function ClientDataContainer() {
                             sx={{ backgroundColor: 'white' }}
                         />
                     </Grid>
-                    <Grid xs={12} lg={1} textAlign="right">
+                    <Grid xs={11} lg={11}>
+                    </Grid>
+                    <Grid xs={1} lg={1}>
                         <Button
                             type="submit"
                             variant="contained"
