@@ -62,8 +62,6 @@ type InHistoryEbookCardProps = {
 
 
 const DisplayBookInfo: React.FC<InHistoryEbookCardProps> = ({ ebook }) => { 
-    // TODO: EDITAR BOTAO COM NOME E COR BEASEADA NO STATUDS
-    // CONSERTAR BOTAO, CONDICIONAR COM BASE NO STATUS
     return (
         <Grid container sx={{ color: "#1E3345" }} height="100%">
             <Grid item xs={8}>
