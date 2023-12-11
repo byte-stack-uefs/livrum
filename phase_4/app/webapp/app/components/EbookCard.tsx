@@ -11,7 +11,7 @@ export default function EbookCard({ book }: { book: Ebook }) {
                 <div className="p-8">
                     <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{book.title}</div>
                     <p className="block mt-1 text-lg leading-tight font-medium text-black">{book.author}</p>
-                    <p className="mt-2 text-gray-500">{book.releaseDate}</p>
+                    <p className="mt-2 text-gray-500">{book.releaseYear}</p>
 
                     <Button variant="contained" color="primary">
                         Comprar

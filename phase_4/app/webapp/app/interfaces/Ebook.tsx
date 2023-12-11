@@ -3,6 +3,7 @@ export default interface Ebook {
     title: string;
     cover: string;
     author: string;
+    genre ?: string;
     releaseYear: string;
     isAvailable: boolean;
     price: number;
