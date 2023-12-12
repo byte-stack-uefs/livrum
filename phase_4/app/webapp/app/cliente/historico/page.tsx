@@ -110,7 +110,6 @@ function PurchaseHistoryContainer(){
 
         },
 
-
     ]);
     return(
         <Container maxWidth={false} sx={{width:"100%"}}>
@@ -119,7 +118,6 @@ function PurchaseHistoryContainer(){
                     items.map((purchaseItem) =>(
                         <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>                        
                     ))}
-
             </List>
             
          </Container>    

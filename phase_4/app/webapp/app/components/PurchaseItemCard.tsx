@@ -1,10 +1,11 @@
 import React from "react";
 import PurchaseItem from "../interfaces/PurchaseItem";
-import { Box, Button, Container, Grid, List, ListItem, Stack } from "@mui/material";
+import { Box, Button, Container, Grid, List, ListItem, Modal, Stack } from "@mui/material";
 import Link from "next/link";
 import Ebook from "../interfaces/Ebook";
 import Image from "next/image";
 import { AddShoppingCart, CloudDownload, ReportProblem } from "@mui/icons-material";
+import PurchaseDetailsModal from "./PurchaseDetailsModal";
 
 type PurchaseItemCardProps = {
     purchaseItem: PurchaseItem;
@@ -107,6 +108,8 @@ const InHistoryEbookCard: React.FC<InHistoryEbookCardProps> = ({ebook}) => {
 }
 
 const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({purchaseItem}) => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);    
     switch(purchaseItem.status){
         case "PENDENTE":
             return(
@@ -126,9 +129,10 @@ const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({purchaseItem}) 
                                 {"Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!"}
                         </Grid>        
                         <Grid item xs={1}>
-                            <Button variant="contained" sx={{ textAlign: "right"}}>
+                            <Button variant="contained" sx={{ textAlign: "right"}} onClick={handleOpen}>
                                 {purchaseItem.status}
                             </Button>
+                            <PurchaseDetailsModal openheimer={true} purchaseItem={purchaseItem}></PurchaseDetailsModal>
                         </Grid>
                     </Grid>
                 </Container>        
@@ -146,9 +150,10 @@ const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({purchaseItem}) 
                     
                     <Grid container>
                         <Grid item xs={1}>
-                            <Button variant="contained" sx={{backgroundColor:"#8CD087" ,textAlign: "right"}}>
+                            <Button variant="contained" sx={{backgroundColor:"#8CD087" ,textAlign: "right"}} onClick={handleOpen}>
                                 {purchaseItem.status}
                             </Button>
+                            <PurchaseDetailsModal openheimer={open} purchaseItem={purchaseItem} ></PurchaseDetailsModal>
                         </Grid>
                     </Grid>
                 </Container>        
@@ -166,9 +171,10 @@ const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({purchaseItem}) 
                     
                     <Grid container>
                         <Grid item xs={11}>
-                            <Button variant="contained" sx={{backgroundColor:"#D95D56" ,textAlign: "right"}}>
+                            <Button variant="contained" sx={{backgroundColor:"#D95D56" ,textAlign: "right"}} onClick={handleOpen}>
                                 {purchaseItem.status}
                             </Button>
+                            <PurchaseDetailsModal openheimer={open} purchaseItem={purchaseItem} ></PurchaseDetailsModal>
                         </Grid>
                     </Grid>
                 </Container>        
@@ -179,7 +185,7 @@ const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({purchaseItem}) 
 }
 
 const DisplayBodyInfo: React.FC<PurchaseItemCardProps> = ({purchaseItem}) => {
-    // 
+ 
     return(
         <PurchaseItemContainer purchaseItem={purchaseItem}></PurchaseItemContainer>
     );
@@ -197,7 +203,7 @@ const PurchaseItemCardBody: React.FC<PurchaseItemCardProps> = ({purchaseItem})=>
     );
 }
 
-const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
+const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {    
     return(
         <Stack>
             <PurchaseItemCardHeader purchaseItem={purchaseItem}></PurchaseItemCardHeader>
