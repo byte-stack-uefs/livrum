@@ -2,6 +2,7 @@
 import {
     Box,
     Button,
+    Grid,
     Paper,
     Tab,
     Table,
@@ -12,6 +13,7 @@ import {
     TablePagination,
     TableRow,
     Tabs,
+    TextField,
     Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -249,8 +251,8 @@ const UserManagment = () => {
         <>
             <React.Fragment>
                 <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={openDialog}>
-                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                        Modal title
+                    <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title" style={{fontSize:20, textAlign:"left"}}>
+                        Almir neto
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
@@ -265,22 +267,34 @@ const UserManagment = () => {
                         <CloseIcon />
                     </IconButton>
                     <DialogContent dividers>
-                        <Typography gutterBottom>
-                            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                            risus, porta ac consectetur ac, vestibulum at eros.
-                        </Typography>
-                        <Typography gutterBottom>
-                            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-                            faucibus dolor auctor.
-                        </Typography>
-                        <Typography gutterBottom>
-                            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec
-                            sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
-                        </Typography>
+                        <Grid container>
+                            <Grid xs = {5}>
+                                <Typography variant="body2" color="theme.pallete.primary">
+                                    <strong>Autor:</strong> {"Almir Neto"}
+                                </Typography>
+                                <Typography variant="body2" color="theme.pallete.primary">
+                                    <strong>Email:</strong> {"email"}
+                                </Typography>
+                            </Grid>
+                            <Grid>
+                                <Typography variant="body2" color="theme.pallete.secondary">
+                                    <strong>Telefone:</strong> {"telefone"}
+                                </Typography>
+                                <Typography variant="body2" color="theme.pallete.secondary">
+                                    <strong>CPF:</strong> {"cpf"}
+                                </Typography>
+                            </Grid>
+                            <Typography variant="body2" color="theme.pallete.secondary">
+                                <strong>Data de Nascimento:</strong> {"dataNascimento"}
+                            </Typography>
+                            <Typography variant="body2" color="theme.pallete.secondary">
+                                <strong>Endereço:</strong> {"endereco"}
+                            </Typography>
+                        </Grid>
                     </DialogContent>
                     <DialogActions>
-                        <Button autoFocus onClick={handleClose}>
-                            Save changes
+                        <Button autoFocus onClick={handleClose} sx={{ backgroundColor: "#D95D56", color: "black" }}>
+                            Fechar
                         </Button>
                     </DialogActions>
                 </BootstrapDialog>
