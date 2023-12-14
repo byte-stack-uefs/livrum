@@ -1,7 +1,7 @@
 export default function Page() {
     return (
         <p>
-            DASHBOARD ADMIN
+            DASHBOARD ADMIN TESTE
         </p>
     );
 }
