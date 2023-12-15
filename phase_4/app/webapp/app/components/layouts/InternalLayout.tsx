@@ -131,7 +131,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item sm={9}>
+                    <Grid item sm={9} sx={{ overflowY: 'scroll', height: '100%' }}>
                         <Container maxWidth={false}>{children}</Container>
                     </Grid>
                 </Grid>
