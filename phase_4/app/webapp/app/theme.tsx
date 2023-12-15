@@ -79,11 +79,11 @@ export const theme: Theme = createTheme({
             main: secondary,
         },
         textLight: {
-            main: '#00000066'
+            main: "#00000066",
         },
         mintCream: {
             main: '#F5FFFA'
-        }
+        },
     },
     components: {
         MuiTab: {
@@ -125,7 +125,8 @@ export const theme: Theme = createTheme({
             },
         },
     }
-});
+},
+);
 
 export default function ThemeRegistry(props: React.PropsWithChildren) {
     const { children } = props;
