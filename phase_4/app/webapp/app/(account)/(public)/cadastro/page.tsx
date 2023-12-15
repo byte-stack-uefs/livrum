@@ -57,6 +57,54 @@ const cellphoneInput = React.forwardRef<HTMLInputElement, CustomProps>(function 
     );
 });
 
+const accountInput = React.forwardRef<HTMLInputElement, CustomProps>(function accountInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="########-#"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const agencyInput = React.forwardRef<HTMLInputElement, CustomProps>(function agencyInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="####-#"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const operationInput = React.forwardRef<HTMLInputElement, CustomProps>(function operationInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="###"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
 const ClientRegister = () => {
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
@@ -271,6 +319,9 @@ const ClientRegister = () => {
                                             variant="outlined"
                                             value={operationNumber}
                                             onChange={(e) => setOperationNumber(e.target.value)}
+                                            InputProps={{
+                                                inputComponent: operationInput as any,
+                                            }}
                                         />
                                     </Grid>
                                     <Grid xs={4}>
@@ -281,6 +332,9 @@ const ClientRegister = () => {
                                             variant="outlined"
                                             value={agencyNumber}
                                             onChange={(e) => setAgencyNumber(e.target.value)}
+                                            InputProps={{
+                                                inputComponent: agencyInput as any,
+                                            }}
                                         />
                                     </Grid>
                                     <Grid xs={4}>
@@ -291,6 +345,9 @@ const ClientRegister = () => {
                                             variant="outlined"
                                             value={accountNumber}
                                             onChange={(e) => setAccountNumber(e.target.value)}
+                                            InputProps={{
+                                                inputComponent: accountInput as any,
+                                            }}
                                         />
                                     </Grid>
                                 </>
