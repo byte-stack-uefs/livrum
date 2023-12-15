@@ -12,36 +12,28 @@ type PurchaseItemCardProps = {
 };
 
 const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
-    if (purchaseItem.status == "PENDENTE") {
-        return (
-            <Grid container p={2}>
-                <Grid container>
-                    <Grid item xs={4}>
-                        Tentativa de compra: {purchaseItem.date}
-                    </Grid>
-                    <Grid item xs={4} textAlign="center">
-                        Total: {purchaseItem.price}
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Stack>
-                            Compra Nº {purchaseItem.id}
-                            <Link href="#">Ver detalhes da compra</Link>
-                        </Stack>
-                    </Grid>
-                </Grid>
-            </Grid>
-        );
+    function getPurchaseDateText(purchaseItem: PurchaseItem) {
+        if (purchaseItem.status == "PENDENTE" || purchaseItem.status == "RECUSADA") {
+            return <>Tentativa de compra: {purchaseItem.date}</>;
+        }
+        return <>Compra realizada em {purchaseItem.date}</>;
     }
+
     return (
-        <Grid container height={50}>
-            <Grid item xs={4}>
-                Compra realizada em {purchaseItem.date}
-            </Grid>
-            <Grid item xs={4}>
-                Total: {purchaseItem.price}
-            </Grid>
-            <Grid item xs={4}>
-                <Link href="#">Ver detalhes da compra</Link>
+        <Grid container p={2}>
+            <Grid container>
+                <Grid item xs={4}>
+                    {getPurchaseDateText(purchaseItem)}
+                </Grid>
+                <Grid item xs={4} textAlign="center">
+                    Total: {purchaseItem.price}
+                </Grid>
+                <Grid item xs={4}>
+                    <Stack>
+                        Compra Nº {purchaseItem.id}
+                        <Link href="#">Ver detalhes da compra</Link>
+                    </Stack>
+                </Grid>
             </Grid>
         </Grid>
     );
@@ -61,7 +53,7 @@ type InHistoryEbookCardProps = {
 
 const DisplayBookInfo: React.FC<InHistoryEbookCardProps> = ({ ebook }) => {
     return (
-        <Grid container sx={{ color: "#1E3345" }} height="100%">
+        <Grid container sx={{ color: "dark.main" }}>
             <Grid item xs={8}>
                 <Grid item xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
                     {ebook.title}
