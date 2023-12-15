@@ -141,12 +141,8 @@ const clients: Array<User> = [
 
 //caixa de dialogo
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-    "& .MuiDialogContent-root": {
-        padding: theme.spacing(2),
-    },
-    "& .MuiDialogActions-root": {
-        padding: theme.spacing(1),
-    },
+    "& .MuiDialogContent-root": {},
+    "& .MuiDialogActions-root": {},
 }));
 
 const sourceSans3 = Source_Sans_3({ style: "normal", weight: "200", preload: false });
@@ -250,7 +246,7 @@ const UserManagment = () => {
     return (
         <>
             <React.Fragment>
-                <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={openDialog}>
+                <BootstrapDialog maxWidth="sm" fullWidth={true} onClose={handleClose} aria-labelledby="customized-dialog-title" open={openDialog}>
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title" style={{ fontSize: 20, textAlign: "left" }}>
                         Almir neto
                     </DialogTitle>
@@ -268,28 +264,28 @@ const UserManagment = () => {
                     </IconButton>
                     <DialogContent dividers>
                         <Grid container>
-                            <Grid xs={5}>
+                            <Grid item xs={6}>
                                 <Typography variant="body2" color="theme.pallete.primary">
                                     <strong>Autor:</strong> {"Almir Neto"}
                                 </Typography>
                                 <Typography variant="body2" color="theme.pallete.primary">
                                     <strong>Email:</strong> {"email"}
                                 </Typography>
+                                <Typography variant="body2" color="theme.pallete.secondary">
+                                    <strong>Data de Nascimento:</strong> {"dataNascimento"}
+                                </Typography>
                             </Grid>
-                            <Grid>
+                            <Grid item xs={6}>
                                 <Typography variant="body2" color="theme.pallete.secondary">
                                     <strong>Telefone:</strong> {"telefone"}
                                 </Typography>
                                 <Typography variant="body2" color="theme.pallete.secondary">
                                     <strong>CPF:</strong> {"cpf"}
                                 </Typography>
+                                <Typography variant="body2" color="theme.pallete.secondary">
+                                    <strong>Endereço:</strong> {"endereco"}
+                                </Typography>
                             </Grid>
-                            <Typography variant="body2" color="theme.pallete.secondary">
-                                <strong>Data de Nascimento:</strong> {"dataNascimento"}
-                            </Typography>
-                            <Typography variant="body2" color="theme.pallete.secondary">
-                                <strong>Endereço:</strong> {"endereco"}
-                            </Typography>
                         </Grid>
                     </DialogContent>
                     <DialogActions>
