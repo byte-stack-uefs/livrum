@@ -1,8 +1,8 @@
 "use client";
-import Divider from "@/app/components/Divider";
-import PurchaseItemCard from "@/app/components/PurchaseItemCard";
-import { Container, Grid, List, Stack } from "@mui/material";
 import { useState } from "react";
+import Divider from "@/app/components/Divider";
+import { Container, Grid, List, Stack } from "@mui/material";
+import PurchaseItemCard from "@/app/components/PurchaseItemCard";
 
 const books = [
     {
@@ -108,13 +108,11 @@ function PurchaseHistoryContainer() {
         },
     ]);
     return (
-        <Container maxWidth={false} sx={{ width: "100%" }}>
-            <List sx={{ width: "100%" }}>
-                {items.map((purchaseItem) => (
-                    <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>
-                ))}
-            </List>
-        </Container>
+        <List sx={{ width: "100%" }}>
+            {items.map((purchaseItem) => (
+                <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>
+            ))}
+        </List>
     );
 }
 export default function Page() {
