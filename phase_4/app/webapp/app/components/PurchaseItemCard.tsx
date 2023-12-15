@@ -107,77 +107,49 @@ const InHistoryEbookCard: React.FC<InHistoryEbookCardProps> = ({ ebook }) => {
 const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    switch (purchaseItem.status) {
-        case "PENDENTE":
-            return (
-                <Grid container>
-                    <List sx={{ width: "100%" }}>
-                        {purchaseItem.books.map((book) => (
-                            <ListItem>
-                                <InHistoryEbookCard ebook={book}></InHistoryEbookCard>
-                            </ListItem>
-                        ))}
-                    </List>
 
-                    <Grid item xs={12}>
-                        <Grid container>
-                            <Grid item p={2} xs={8} sx={{ textAlign: "left", color: "#D0342C" }}>
-                                <ReportProblem sx={{ marginRight: 1 }} />
-                                {"Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!"}
-                            </Grid>
-                            <Grid item xs={4} textAlign="right" p={2}>
-                                <Button variant="contained" onClick={handleOpen}>
-                                    {purchaseItem.status}
-                                </Button>
-                                <PurchaseDetailsModal openheimer={true} purchaseItem={purchaseItem}></PurchaseDetailsModal>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            );
-        case "EFETUADA":
-            return (
-                <Grid container>
-                    <List sx={{ width: "100%" }}>
-                        {purchaseItem.books.map((book) => (
-                            <ListItem>
-                                <InHistoryEbookCard ebook={book}></InHistoryEbookCard>
-                            </ListItem>
-                        ))}
-                    </List>
-
-                    <Grid container>
-                        <Grid item xs={1}>
-                            <Button variant="contained" sx={{ backgroundColor: "#8CD087", textAlign: "right" }} onClick={handleOpen}>
-                                {purchaseItem.status}
-                            </Button>
-                            <PurchaseDetailsModal openheimer={open} purchaseItem={purchaseItem}></PurchaseDetailsModal>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            );
-        case "RECUSADA":
-            return (
-                <Grid container>
-                    <List sx={{ width: "100%" }}>
-                        {purchaseItem.books.map((book) => (
-                            <ListItem>
-                                <InHistoryEbookCard ebook={book}></InHistoryEbookCard>
-                            </ListItem>
-                        ))}
-                    </List>
-
-                    <Grid container>
-                        <Grid item xs={11}>
-                            <Button variant="contained" sx={{ backgroundColor: "#D95D56", textAlign: "right" }} onClick={handleOpen}>
-                                {purchaseItem.status}
-                            </Button>
-                            <PurchaseDetailsModal openheimer={open} purchaseItem={purchaseItem}></PurchaseDetailsModal>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            );
+    function getColor(status: string): string {
+        switch (status) {
+            case "RECUSADA":
+                return "error";
+            case "PENDENTE":
+                return "primary";
+            case "EFETUADA":
+                return "success";
+        }
+        return "primary";
     }
+
+    return (
+        <Grid container>
+            <List sx={{ width: "100%" }}>
+                {purchaseItem.books.map((book) => (
+                    <ListItem>
+                        <InHistoryEbookCard ebook={book}></InHistoryEbookCard>
+                    </ListItem>
+                ))}
+            </List>
+
+            <Grid container>
+                <Grid item xs={8} sx={{ color: "error.main" }} p={2}>
+                    {purchaseItem.status == "PENDENTE" && (
+                        <>
+                            <ReportProblem sx={{ marginRight: 1 }} />
+                            <p style={{ margin: 0 }}>
+                                Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
+                            </p>
+                        </>
+                    )}
+                </Grid>
+                <Grid item xs={4} p={2} alignSelf="center" textAlign="right">
+                    <Button color={getColor(purchaseItem.status)} variant="contained" onClick={handleOpen}>
+                        {purchaseItem.status}
+                    </Button>
+                    {/* <PurchaseDetailsModal openheimer={open} purchaseItem={purchaseItem}></PurchaseDetailsModal> */}
+                </Grid>
+            </Grid>
+        </Grid>
+    );
 };
 
 const DisplayBodyInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
