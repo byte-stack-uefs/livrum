@@ -117,6 +117,13 @@ export const theme: Theme = createTheme({
                 },
             },
         },
+        MuiDialogContent: {
+            styleOverrides: {
+                root: {
+                    padding: "10%",
+                },
+            },
+        },
     }
 });
 

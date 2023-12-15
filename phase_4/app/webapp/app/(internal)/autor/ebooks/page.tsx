@@ -3,11 +3,11 @@
 import Typography from "@mui/material/Typography";
 import { theme } from "@/app/theme";
 import { Source_Sans_3 } from "next/font/google";
-import { alpha, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, useMediaQuery } from "@mui/material";
+import { alpha, Box, Button, Chip, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, Paper, styled, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, useMediaQuery } from "@mui/material";
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from "@mui/icons-material/Close";
-import createAuthorEbook, { AuthorEbook, EnumAuthorEbookStatus } from "@/app/interfaces/AuthorEbook";
+import createAuthorEbook, { AuthorEbook, EnumAuthorEbookStatus, EnumIdioma } from "@/app/interfaces/AuthorEbook";
 import React, { useEffect, useState } from "react";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Image from "next/image";
@@ -119,24 +119,25 @@ export default function ListagemEbooks() {
         },
     }));
 
+    const link_image: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlhg46xOr5GuE9K0S-8AZqXVatyw4c0jKLCA&usqp=CAU;"
 
 
     const ebooks: Array<AuthorEbook> = [
-        createAuthorEbook(1, "ADmin 1", "20/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(2, "Admin 2", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(3, "Admin 3", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.BLOCKED),
-        createAuthorEbook(4, "United States", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(5, "Canada", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(6, "Australia", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.BLOCKED),
-        createAuthorEbook(7, "Germany", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(8, "Ireland", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(9, "Mexico", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.PENDING),
-        createAuthorEbook(10, "Japan", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(11, "France", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(12, "United Kingdom", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.PENDING),
-        createAuthorEbook(13, "Russia", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
-        createAuthorEbook(14, "Nigeria", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.PENDING),
-        createAuthorEbook(15, "Brazil", "0/02/2012", "https://l1nq.com/GpmPU", EnumAuthorEbookStatus.APPROVED),
+        createAuthorEbook(1, "A Sutil Arte de Ligar o F*da-se", "20/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(2, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(3, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.BLOCKED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", "Se diz ser um livro de auto ajuda, entretanto leva muito ao pé da letra, pois não ajuda em nada, completamente inutil."),
+        createAuthorEbook(4, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(5, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(6, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.BLOCKED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", "Se diz ser um livro de auto ajuda, entretanto leva muito ao pé da letra, pois não ajuda em nada, completamente inutil."),
+        createAuthorEbook(7, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(8, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(9, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.PENDING, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(10, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(11, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(12, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.PENDING, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(13, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(14, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.PENDING, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
+        createAuthorEbook(15, "A Sutil Arte de Ligar o F*da-se", "0/02/2012", link_image, EnumAuthorEbookStatus.APPROVED, 320, "Mark Manson", "Livro de autoajuda", 35.34, EnumIdioma.PORTUGUES, 2016, "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.", ""),
     ];
 
     const [page, setPage] = React.useState(0);
@@ -181,9 +182,9 @@ export default function ListagemEbooks() {
     return <>
 
         <React.Fragment>
-            <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-D" open={openDialog}>
+            <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-D" fullWidth={true} open={openDialog}>
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    {openEbook.nome}
+                    <Typography style={{ textAlign: "center" }}> <strong>{openEbook.nome}</strong></Typography>
                 </DialogTitle>
                 <IconButton
                     aria-label="close"
@@ -198,18 +199,64 @@ export default function ListagemEbooks() {
                     <CloseIcon />
                 </IconButton>
                 <DialogContent>
-                    <DialogContentText>
-                        Let Google help apps determine location. This means sending anonymous
-                        location data to Google, even when no apps are running.
-                    </DialogContentText>
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <Typography variant="body2" color={theme.palette.darker}>
+                                <strong>Autor:</strong> {openEbook.nome_autor}
+                            </Typography>
+                            <Typography variant="body2" color={theme.palette.darker}>
+                                <strong>Quantidade de Páginas:</strong> {openEbook.qtd_pag}
+                            </Typography>
+                            <Typography variant="body2" color={theme.palette.darker}>
+                                <strong>Gêneros:</strong> {openEbook.genero}
+                            </Typography>
+                            <Typography variant="body2" color={theme.palette.darker}>
+                                <strong>Preço:</strong> {openEbook.preco/*.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })*/}
+                            </Typography>
+                            <Typography variant="body2" color={theme.palette.darker}>
+                                <strong>Idioma:</strong> {openEbook.idioma}
+                            </Typography>
+                            <Typography variant="body2" color={theme.palette.darker}>
+                                <strong>Ano Lançamento:</strong> {openEbook.ano_lancamento}
+                            </Typography>
+
+                        </Grid>
+                    </Grid>
                 </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Fechar
-                    </Button>
+                <DialogContent>
+                    <Typography variant="body2" color={theme.palette.darker}>
+                        <strong>Sinopse:</strong>
+                    </Typography>
+                    <Typography variant="body2" color={theme.palette.darker}>
+                        {openEbook.sinopse}
+                    </Typography>
+                </DialogContent>
+                <DialogContent>
+                    <Typography variant="body2" color={theme.palette.darker}>
+                        <strong>Status: </strong> {getButtonStatus(openEbook)}
+                    </Typography>
+                </DialogContent>
+                {
+                    openEbook.status === EnumAuthorEbookStatus.BLOCKED &&
+                    <DialogContent>
+                        <Typography variant="body2" color={theme.palette.darker}>
+                            <strong>{openEbook.motivo_recusa} </strong>
+                        </Typography>
+                    </DialogContent>
+                }
+                <DialogActions style={{ justifyContent: "center" }}>
+                    {openEbook.status === EnumAuthorEbookStatus.APPROVED ?
+                        <DialogActions>
+                            <Button variant="contained" color="error" autoFocus onClick={handleClose}>Inativar EBook</Button>
+                        </DialogActions>
+                        :
+                        <DialogActions>
+                            <Button variant="contained" color="success" autoFocus onClick={handleClose}>Aprovar EBook</Button>
+                        </DialogActions>
+                    }
                 </DialogActions>
             </BootstrapDialog>
-        </React.Fragment>
+        </React.Fragment >
 
         <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(1, 1fr)', marginTop: "10px", marginBottom: "10px" }}>
             <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', justifyContent: "space-between" }}>
