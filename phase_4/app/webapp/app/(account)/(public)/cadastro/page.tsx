@@ -20,6 +20,29 @@ import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@/app/components/Divider";
 import { theme } from "@/app/theme";
 
+interface CustomProps {
+    onChange: (event: { target: { name: string; value: string } }) => void;
+    name: string;
+}
+
+import { IMaskInput } from "react-imask";
+
+const cpfInput = React.forwardRef<HTMLInputElement, CustomProps>(function cpfInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="###.###.###-##"
+            definitions={{
+                "#": /[1-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
 const ClientRegister = () => {
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
@@ -130,9 +153,11 @@ const ClientRegister = () => {
                                     label="CPF"
                                     value={cpf}
                                     size="small"
-                                    type="number"
                                     variant="outlined"
                                     onChange={(e) => setCpf(e.target.value)}
+                                    InputProps={{
+                                        inputComponent: cpfInput as any,
+                                    }}
                                 />
                             </Grid>
 
