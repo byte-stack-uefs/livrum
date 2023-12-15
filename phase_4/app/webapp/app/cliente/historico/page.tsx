@@ -4,7 +4,7 @@ import PurchaseItemCard from "@/app/components/PurchaseItemCard";
 import { Container, Grid, List, Stack } from "@mui/material";
 import { useState } from "react";
 
-const books  = [
+const books = [
     {
         id: 0,
         author: "Fiodor Dostoievski",
@@ -15,7 +15,7 @@ const books  = [
         isAvailable: true,
         summary: "",
         cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
-    },        
+    },
     {
         id: 1,
         author: "Plato",
@@ -24,7 +24,7 @@ const books  = [
         releaseYear: "1990",
         isAvailable: true,
         summary: "",
-        genre:"Filosofia",
+        genre: "Filosofia",
         cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg",
     },
     {
@@ -59,9 +59,9 @@ const books  = [
     },
 ] as const;
 
-function PurcheaseHistoryHeader(){
-    return(
-        <Grid item xs={12}> 
+function PurcheaseHistoryHeader() {
+    return (
+        <Grid item xs={12}>
             <Stack>
                 <Grid item xs={12} sx={{ fontSize: 28 }}>
                     <h1>Meu Histórico de Compras</h1>
@@ -72,60 +72,54 @@ function PurcheaseHistoryHeader(){
     );
 }
 
-function PurchaseHistoryContainer(){
-    const [items, setItems]  = useState([
+function PurchaseHistoryContainer() {
+    const [items, setItems] = useState([
         {
             id: "293-0293001-002",
             date: "17 de Agosto de 2023",
             status: "PENDENTE",
-            books : [books[0], books[1]], 
+            books: [books[0], books[1]],
             paymentMethod: "Cartão de Crédito",
-            price: 76.59        
+            price: 76.59,
         },
         {
             id: "293-0293001-002",
             date: "17 de Agosto de 2023",
             status: "EFETUADA",
-            books : [books[1],books[2]], //Ebook[]
+            books: [books[1], books[2]], //Ebook[]
             paymentMethod: "Cartão de Crédito",
-            price: 76.59        
-
+            price: 76.59,
         },
         {
             id: "293-0293001-002",
             date: "17 de Agosto de 2023",
             status: "EFETUADA",
-            books : [books[2],books[3], books[1],books[4]],
+            books: [books[2], books[3], books[1], books[4]],
             paymentMethod: "Cartão de Crédito",
-            price: 76.59        
-
+            price: 76.59,
         },
         {
             id: "293-0293001-002",
             date: "17 de Agosto de 2023",
             status: "RECUSADA",
-            books : [books[2],books[3], books[1],books[4]],
+            books: [books[2], books[3], books[1], books[4]],
             paymentMethod: "Cartão de Crédito",
-            price: 76.59        
-
+            price: 76.59,
         },
-
     ]);
-    return(
-        <Container maxWidth={false} sx={{width:"100%"}}>
-            <List sx={{width:"100%"}}>
-                {
-                    items.map((purchaseItem) =>(
-                        <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>                        
-                    ))}
+    return (
+        <Container maxWidth={false} sx={{ width: "100%" }}>
+            <List sx={{ width: "100%" }}>
+                {items.map((purchaseItem) => (
+                    <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>
+                ))}
             </List>
-            
-         </Container>    
+        </Container>
     );
 }
 export default function Page() {
-    return(
-        <Container maxWidth={false} sx={{backgroundColor:'#F4F2F2', borderRadius:'16px'}}>
+    return (
+        <Container maxWidth={false} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
             <PurcheaseHistoryHeader></PurcheaseHistoryHeader>
             <PurchaseHistoryContainer></PurchaseHistoryContainer>
         </Container>
