@@ -1,11 +1,11 @@
 import React from "react";
-import PurchaseItem from "../interfaces/PurchaseItem";
-import { Box, Button, Container, Grid, List, ListItem, Modal, Stack } from "@mui/material";
 import Link from "next/link";
-import Ebook from "../interfaces/Ebook";
 import Image from "next/image";
-import { AddShoppingCart, CloudDownload, ReportProblem } from "@mui/icons-material";
+import Ebook from "../interfaces/Ebook";
+import { ReportProblem } from "@mui/icons-material";
+import PurchaseItem from "../interfaces/PurchaseItem";
 import PurchaseDetailsModal from "./PurchaseDetailsModal";
+import { Box, Button, Grid, List, ListItem, Modal, Stack } from "@mui/material";
 
 type PurchaseItemCardProps = {
     purchaseItem: PurchaseItem;
@@ -14,12 +14,12 @@ type PurchaseItemCardProps = {
 const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
     if (purchaseItem.status == "PENDENTE") {
         return (
-            <Grid container height={50} sx={{ width: "110%" }}>
-                <Grid container spacing={5}>
+            <Grid container p={2}>
+                <Grid container>
                     <Grid item xs={4}>
                         Tentativa de compra: {purchaseItem.date}
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={4} textAlign="center">
                         Total: {purchaseItem.price}
                     </Grid>
                     <Grid item xs={4}>
@@ -50,9 +50,7 @@ const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) =>
 const PurchaseItemCardHeader: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
     return (
         <Box sx={{ boxShadow: 3, backgroundColor: "#D9D9D9", borderRadius: "10px 10px 0px 0px" }}>
-            <Container>
-                <DisplayHeaderInfo purchaseItem={purchaseItem}></DisplayHeaderInfo>
-            </Container>
+            <DisplayHeaderInfo purchaseItem={purchaseItem}></DisplayHeaderInfo>
         </Box>
     );
 };

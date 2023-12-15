@@ -108,11 +108,15 @@ function PurchaseHistoryContainer() {
         },
     ]);
     return (
-        <List sx={{ width: "100%" }}>
-            {items.map((purchaseItem) => (
-                <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>
-            ))}
-        </List>
+        <Grid container>
+            <Grid item xs={12}>
+                <List sx={{ width: "100%" }}>
+                    {items.map((purchaseItem) => (
+                        <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>
+                    ))}
+                </List>
+            </Grid>
+        </Grid>
     );
 }
 export default function Page() {
