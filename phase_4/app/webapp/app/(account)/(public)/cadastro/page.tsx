@@ -32,7 +32,23 @@ const cpfInput = React.forwardRef<HTMLInputElement, CustomProps>(function cpfInp
             {...other}
             mask="###.###.###-##"
             definitions={{
-                "#": /[1-9]/,
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const cellphoneInput = React.forwardRef<HTMLInputElement, CustomProps>(function cellphoneInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="(##) 9####-####"
+            definitions={{
+                "#": /[0-9]/,
             }}
             inputRef={ref}
             onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
@@ -182,6 +198,9 @@ const ClientRegister = () => {
                                     value={telephone}
                                     variant="outlined"
                                     onChange={(e) => setTelephone(e.target.value)}
+                                    InputProps={{
+                                        inputComponent: cellphoneInput as any,
+                                    }}
                                 />
                             </Grid>
 
