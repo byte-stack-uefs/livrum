@@ -133,12 +133,10 @@ const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({ purchaseItem }
             <Grid container>
                 <Grid item xs={8} sx={{ color: "error.main" }} p={2}>
                     {purchaseItem.status == "PENDENTE" && (
-                        <>
+                        <div style={{ display: "flex", width: "100%" }}>
                             <ReportProblem sx={{ marginRight: 1 }} />
-                            <p style={{ margin: 0 }}>
-                                Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
-                            </p>
-                        </>
+                            Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
+                        </div>
                     )}
                 </Grid>
                 <Grid item xs={4} p={2} alignSelf="center" textAlign="right">
