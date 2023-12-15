@@ -10,22 +10,20 @@ import {
     TextField,
     Typography,
     DialogTitle,
-    FormControl,
     DialogContent,
     DialogActions,
     FormControlLabel,
 } from "@mui/material";
 
-import Grid from "@mui/material/Unstable_Grid2";
-import Divider from "@/app/components/Divider";
 import { theme } from "@/app/theme";
+import { IMaskInput } from "react-imask";
+import Divider from "@/app/components/Divider";
+import Grid from "@mui/material/Unstable_Grid2";
 
 interface CustomProps {
     onChange: (event: { target: { name: string; value: string } }) => void;
     name: string;
 }
-
-import { IMaskInput } from "react-imask";
 
 const cpfInput = React.forwardRef<HTMLInputElement, CustomProps>(function cpfInput(props, ref) {
     const { onChange, ...other } = props;
