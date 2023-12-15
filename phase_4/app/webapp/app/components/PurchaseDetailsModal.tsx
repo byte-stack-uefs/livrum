@@ -1,7 +1,7 @@
-import { Box, Button, Container, Grid, Modal, Stack, Typography } from "@mui/material";
-import PurchaseItem from "../interfaces/PurchaseItem";
-import React, { useEffect } from "react";
 import Divider from "./Divider";
+import React, { useEffect } from "react";
+import PurchaseItem from "../interfaces/PurchaseItem";
+import { Box, Grid, Modal, Stack } from "@mui/material";
 
 type PurchaseItemProps = {
     purchaseItem: PurchaseItem;
@@ -12,11 +12,9 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 400,
+    width: 600,
     bgcolor: "background.paper",
-    border: "2px solid #000",
     boxShadow: 24,
-    p: 4,
 };
 
 const PurchaseDetailsModalHeader: React.FC<PurchaseItemProps> = ({ purchaseItem }) => {
@@ -50,41 +48,39 @@ const PurchaseDetailsModal: React.FC<PurchaseDetailsModalProps> = ({ show, purch
     }, [show]);
 
     return (
-        <div>
-            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-                <Container>
-                    <Grid container sx={{ backgroundColor: "#FFF" }}>
-                        <Grid item xs={12}>
-                            <PurchaseDetailsModalHeader purchaseItem={purchaseItem}></PurchaseDetailsModalHeader>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Stack sx={{ fontSize: 22, fontWeight: "bold" }}>
-                                <Grid item xs={12} sx={{ fontWeight: "normal" }}>
-                                    {purchaseItem?.date}
-                                </Grid>
-                                <Grid item xs={12} sx={{ fontWeight: "normal" }}>
-                                    {purchaseItem?.price}
-                                </Grid>
-                                <Grid item xs={12} sx={{ fontWeight: "normal" }}>
-                                    {purchaseItem?.paymentMethod}
-                                </Grid>
-                                <Grid item xs={12} sx={{ fontWeight: "normal" }}>
-                                    {purchaseItem?.books.length}
-                                </Grid>
-                                <Grid item xs={12} sx={{ fontWeight: "normal" }}>
-                                    {purchaseItem?.status}
-                                </Grid>
-                            </Stack>
-                        </Grid>
-                        <Divider height={4} width={"100%"} style={{}} />
-                        <Grid item sx={{ fontWeight: "bold" }}>
-                            {" "}
-                            Ebooks adquiridos
-                        </Grid>
+        <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+            <Box sx={style}>
+                <Grid container sx={{ backgroundColor: "#FFF" }}>
+                    <Grid item xs={12}>
+                        <PurchaseDetailsModalHeader purchaseItem={purchaseItem}></PurchaseDetailsModalHeader>
                     </Grid>
-                </Container>
-            </Modal>
-        </div>
+                    <Grid item xs={12}>
+                        <Stack sx={{ fontSize: 22, fontWeight: "bold" }}>
+                            <Grid item xs={12} sx={{ fontWeight: "normal" }}>
+                                {purchaseItem?.date}
+                            </Grid>
+                            <Grid item xs={12} sx={{ fontWeight: "normal" }}>
+                                {purchaseItem?.price}
+                            </Grid>
+                            <Grid item xs={12} sx={{ fontWeight: "normal" }}>
+                                {purchaseItem?.paymentMethod}
+                            </Grid>
+                            <Grid item xs={12} sx={{ fontWeight: "normal" }}>
+                                {purchaseItem?.books.length}
+                            </Grid>
+                            <Grid item xs={12} sx={{ fontWeight: "normal" }}>
+                                {purchaseItem?.status}
+                            </Grid>
+                        </Stack>
+                    </Grid>
+                    <Divider height={4} width={"100%"} style={{}} />
+                    <Grid item sx={{ fontWeight: "bold" }}>
+                        {" "}
+                        Ebooks adquiridos
+                    </Grid>
+                </Grid>
+            </Box>
+        </Modal>
     );
 };
 
