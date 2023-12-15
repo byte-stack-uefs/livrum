@@ -145,6 +145,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogActions-root": {},
 }));
 
+const MTab = styled(Tab)(({ theme }) => ({
+    "&.Mui-selected": {
+        backgroundColor: "#fff",
+    },
+}));
+
 const sourceSans3 = Source_Sans_3({ style: "normal", weight: "200", preload: false });
 
 const UserManagment = () => {
@@ -311,22 +317,22 @@ const UserManagment = () => {
             </Typography>
             <Box>
                 <Tabs value={value} scrollButtons={false} onChange={handleChange} TabIndicatorProps={{ style: { display: "none" } }}>
-                    <Tab
+                    <MTab
                         label="Admin"
                         sx={{
-                            borderRadius: "0px 0 0 0", // Ajuste os valores conforme necessário
+                            borderRadius: "0px 0 0 0",
                         }}
                     />
-                    <Tab
+                    <MTab
                         label="Autores"
                         sx={{
-                            borderRadius: "0 0px 0 0", // Ajuste os valores conforme necessário
+                            borderRadius: "0 0px 0 0",
                         }}
                     />
-                    <Tab
+                    <MTab
                         label="Clientes"
                         sx={{
-                            borderRadius: "0px 0 0 0", // Ajuste os valores conforme necessário
+                            borderRadius: "0px 0 0 0",
                         }}
                     />
                 </Tabs>
