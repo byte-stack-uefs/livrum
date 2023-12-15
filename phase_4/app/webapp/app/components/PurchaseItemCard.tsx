@@ -9,6 +9,7 @@ import { Box, Button, Grid, List, ListItem, Modal, Stack } from "@mui/material";
 
 type PurchaseItemCardProps = {
     purchaseItem: PurchaseItem;
+    onSelect?: (item: PurchaseItem) => void;
 };
 
 const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
@@ -94,10 +95,7 @@ const InHistoryEbookCard: React.FC<InHistoryEbookCardProps> = ({ ebook }) => {
     );
 };
 
-const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-
+const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({ purchaseItem, onSelect }) => {
     function getColor(status: string): string {
         switch (status) {
             case "RECUSADA":
@@ -130,33 +128,40 @@ const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({ purchaseItem }
                     )}
                 </Grid>
                 <Grid item xs={4} p={2} alignSelf="center" textAlign="right">
-                    <Button color={getColor(purchaseItem.status)} variant="contained" onClick={handleOpen}>
+                    <Button
+                        color={getColor(purchaseItem.status)}
+                        variant="contained"
+                        onClick={() => {
+                            if (onSelect) {
+                                onSelect(purchaseItem);
+                            }
+                        }}
+                    >
                         {purchaseItem.status}
                     </Button>
-                    {/* <PurchaseDetailsModal openheimer={open} purchaseItem={purchaseItem}></PurchaseDetailsModal> */}
                 </Grid>
             </Grid>
         </Grid>
     );
 };
 
-const DisplayBodyInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
-    return <PurchaseItemContainer purchaseItem={purchaseItem}></PurchaseItemContainer>;
+const DisplayBodyInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem, onSelect }) => {
+    return <PurchaseItemContainer onSelect={onSelect} purchaseItem={purchaseItem}></PurchaseItemContainer>;
 };
 
-const PurchaseItemCardBody: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
+const PurchaseItemCardBody: React.FC<PurchaseItemCardProps> = ({ purchaseItem, onSelect }) => {
     return (
         <Box sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "0px 0px 10px 10px" }}>
-            <DisplayBodyInfo purchaseItem={purchaseItem}></DisplayBodyInfo>
+            <DisplayBodyInfo onSelect={onSelect} purchaseItem={purchaseItem}></DisplayBodyInfo>
         </Box>
     );
 };
 
-const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem, props }) => {
+const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem, props, onSelect }) => {
     return (
         <Stack {...props}>
             <PurchaseItemCardHeader purchaseItem={purchaseItem}></PurchaseItemCardHeader>
-            <PurchaseItemCardBody purchaseItem={purchaseItem}></PurchaseItemCardBody>
+            <PurchaseItemCardBody onSelect={onSelect} purchaseItem={purchaseItem}></PurchaseItemCardBody>
         </Stack>
     );
 };

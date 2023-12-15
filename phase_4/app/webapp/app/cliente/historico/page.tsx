@@ -3,6 +3,7 @@ import { useState } from "react";
 import Divider from "@/app/components/Divider";
 import { Container, Grid, List, Stack } from "@mui/material";
 import PurchaseItemCard from "@/app/components/PurchaseItemCard";
+import PurchaseDetailsModal from "@/app/components/PurchaseDetailsModal";
 
 const books = [
     {
@@ -75,7 +76,7 @@ function PurcheaseHistoryHeader() {
 function PurchaseHistoryContainer() {
     const [items, setItems] = useState([
         {
-            id: "293-0293001-002",
+            id: "293-02933001-002",
             date: "17 de Agosto de 2023",
             status: "PENDENTE",
             books: [books[0], books[1]],
@@ -83,7 +84,7 @@ function PurchaseHistoryContainer() {
             price: 76.59,
         },
         {
-            id: "293-0293001-002",
+            id: "293-02931001-002",
             date: "17 de Agosto de 2023",
             status: "EFETUADA",
             books: [books[1], books[2]], //Ebook[]
@@ -91,7 +92,7 @@ function PurchaseHistoryContainer() {
             price: 76.59,
         },
         {
-            id: "293-0293001-002",
+            id: "293-02930011-002",
             date: "17 de Agosto de 2023",
             status: "EFETUADA",
             books: [books[2], books[3], books[1], books[4]],
@@ -99,7 +100,7 @@ function PurchaseHistoryContainer() {
             price: 76.59,
         },
         {
-            id: "293-0293001-002",
+            id: "293-02938001-002",
             date: "17 de Agosto de 2023",
             status: "RECUSADA",
             books: [books[2], books[3], books[1], books[4]],
@@ -108,18 +109,37 @@ function PurchaseHistoryContainer() {
         },
     ]);
 
+    const [selected, setSelected] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+
     return (
         <Grid container py={2}>
+            <PurchaseDetailsModal
+                show={openModal}
+                purchaseItem={selected}
+                onClose={() => {
+                    setOpenModal(false);
+                }}
+            ></PurchaseDetailsModal>
             <Grid item xs={12}>
                 <List sx={{ width: "100%" }}>
                     {items.map((purchaseItem) => (
-                        <PurchaseItemCard props={{ sx: { py: 1 } }} purchaseItem={purchaseItem}></PurchaseItemCard>
+                        <PurchaseItemCard
+                            onSelect={(item) => {
+                                setSelected(item);
+                                setOpenModal(true);
+                            }}
+                            props={{ sx: { py: 1 } }}
+                            purchaseItem={purchaseItem}
+                            key={purchaseItem.id}
+                        ></PurchaseItemCard>
                     ))}
                 </List>
             </Grid>
         </Grid>
     );
 }
+
 export default function Page() {
     return (
         <Container maxWidth={false} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
