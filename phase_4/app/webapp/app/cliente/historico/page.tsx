@@ -107,12 +107,13 @@ function PurchaseHistoryContainer() {
             price: 76.59,
         },
     ]);
+
     return (
-        <Grid container>
+        <Grid container py={2}>
             <Grid item xs={12}>
                 <List sx={{ width: "100%" }}>
                     {items.map((purchaseItem) => (
-                        <PurchaseItemCard purchaseItem={purchaseItem}></PurchaseItemCard>
+                        <PurchaseItemCard props={{ sx: { py: 1 } }} purchaseItem={purchaseItem}></PurchaseItemCard>
                     ))}
                 </List>
             </Grid>

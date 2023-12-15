@@ -152,9 +152,9 @@ const PurchaseItemCardBody: React.FC<PurchaseItemCardProps> = ({ purchaseItem })
     );
 };
 
-const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
+const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem, props }) => {
     return (
-        <Stack>
+        <Stack {...props}>
             <PurchaseItemCardHeader purchaseItem={purchaseItem}></PurchaseItemCardHeader>
             <PurchaseItemCardBody purchaseItem={purchaseItem}></PurchaseItemCardBody>
         </Stack>
