@@ -6,7 +6,7 @@ import InputBase from "@mui/material/InputBase";
 import { Source_Sans_3 } from "next/font/google";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import createAuthorEbook, { AuthorEbook, EnumAuthorEbookStatus, EnumIdioma } from "@/app/interfaces/AuthorEbook";
@@ -18,7 +18,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     DialogTitle,
     Grid,
     IconButton,
@@ -106,7 +105,7 @@ export default function ListagemEbooks() {
         { id: "nome", label: "Nome", minWidth: 200, align: "left" },
         {
             id: "data",
-            label: "data",
+            label: "Data",
             minWidth: 50,
             align: "center",
         },
@@ -444,7 +443,7 @@ export default function ListagemEbooks() {
                                     <strong>Gêneros:</strong> {openEbook.genero}
                                 </Typography>
                                 <Typography variant="body2">
-                                    <strong>Preço:</strong> {openEbook.preco /*.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })*/}
+                                    <strong>Preço:</strong> {openEbook.preco.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                                 </Typography>
                                 <Typography variant="body2">
                                     <strong>Idioma:</strong> {openEbook.idioma}
@@ -480,13 +479,7 @@ export default function ListagemEbooks() {
                                     Inativar EBook
                                 </Button>
                             </DialogActions>
-                        ) : (
-                            <DialogActions>
-                                <Button variant="contained" color="success" autoFocus onClick={handleClose}>
-                                    Aprovar EBook
-                                </Button>
-                            </DialogActions>
-                        )}
+                        ) : null}
                     </DialogActions>
                 </BootstrapDialog>
             </React.Fragment>
