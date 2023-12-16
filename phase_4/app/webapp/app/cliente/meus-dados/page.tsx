@@ -44,13 +44,33 @@ function ClientDataContainer() {
                         <InputLabel htmlFor="labelName" required style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             Nome Completo{" "}
                         </InputLabel>
-                        <TextField id="labelName" fullWidth value={name} size="small" variant="outlined" disabled />
+                        <TextField
+                            InputProps={{
+                                sx: { backgroundColor: `${theme.palette.darker.main}40` },
+                            }}
+                            id="labelName"
+                            fullWidth
+                            value={name}
+                            size="small"
+                            variant="outlined"
+                            disabled
+                        />
                     </Grid>
                     <Grid xs={12} md={6}>
                         <InputLabel htmlFor="labelCpf" required style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             CPF{" "}
                         </InputLabel>
-                        <TextField fullWidth id="labelCpf" value={cpf} size="small" variant="outlined" disabled />
+                        <TextField
+                            InputProps={{
+                                sx: { backgroundColor: `${theme.palette.darker.main}40` },
+                            }}
+                            fullWidth
+                            id="labelCpf"
+                            value={cpf}
+                            size="small"
+                            variant="outlined"
+                            disabled
+                        />
                     </Grid>
 
                     <Grid xs={12} md={6}>
@@ -62,7 +82,17 @@ function ClientDataContainer() {
                             {" "}
                             Data de nascimento{" "}
                         </InputLabel>
-                        <TextField fullWidth id="labelBirthday" value={birthday} size="small" variant="outlined" disabled />
+                        <TextField
+                            InputProps={{
+                                sx: { backgroundColor: `${theme.palette.darker.main}40` },
+                            }}
+                            fullWidth
+                            id="labelBirthday"
+                            value={birthday}
+                            size="small"
+                            variant="outlined"
+                            disabled
+                        />
                     </Grid>
 
                     <Grid xs={12} md={6}>
@@ -78,7 +108,9 @@ function ClientDataContainer() {
                             value={telephone}
                             variant="outlined"
                             onChange={(e) => setTelephone(e.target.value)}
-                            sx={{ backgroundColor: "white" }}
+                            InputProps={{
+                                sx: { backgroundColor: "white" },
+                            }}
                         />
                     </Grid>
                     <Grid xs={12}></Grid>
@@ -97,7 +129,9 @@ function ClientDataContainer() {
                             id="labelEmail"
                             variant="outlined"
                             onChange={(e) => setEmail(e.target.value)}
-                            sx={{ backgroundColor: "white" }}
+                            InputProps={{
+                                sx: { backgroundColor: "white" },
+                            }}
                         />
                     </Grid>
                     <Grid xs={12} md={6}>
@@ -114,7 +148,9 @@ function ClientDataContainer() {
                             value={password}
                             variant="outlined"
                             onChange={(e) => setPassword(e.target.value)}
-                            sx={{ backgroundColor: "white" }}
+                            InputProps={{
+                                sx: { backgroundColor: "white" },
+                            }}
                         />
                     </Grid>
                     <Grid xs={12}>
@@ -131,11 +167,13 @@ function ClientDataContainer() {
                             id="labelAddress"
                             variant="outlined"
                             onChange={(e) => setAddress(e.target.value)}
-                            sx={{ backgroundColor: "white" }}
+                            InputProps={{
+                                sx: { backgroundColor: "white" },
+                            }}
                         />
                     </Grid>
-                    <Grid xs={11} lg={11}></Grid>
-                    <Grid xs={1} lg={1}>
+                    <Grid xs={12} lg={10}></Grid>
+                    <Grid xs={12} lg={2}>
                         <Button
                             type="submit"
                             variant="contained"
