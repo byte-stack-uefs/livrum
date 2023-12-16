@@ -16,94 +16,11 @@ import {
 } from "@mui/material";
 
 import { theme } from "@/app/theme";
-import { IMaskInput } from "react-imask";
+
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 
-interface CustomProps {
-    onChange: (event: { target: { name: string; value: string } }) => void;
-    name: string;
-}
-
-const cpfInput = React.forwardRef<HTMLInputElement, CustomProps>(function cpfInput(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-        <IMaskInput
-            {...other}
-            mask="###.###.###-##"
-            definitions={{
-                "#": /[0-9]/,
-            }}
-            inputRef={ref}
-            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
-            overwrite
-        />
-    );
-});
-
-const cellphoneInput = React.forwardRef<HTMLInputElement, CustomProps>(function cellphoneInput(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-        <IMaskInput
-            {...other}
-            mask="(##) 9####-####"
-            definitions={{
-                "#": /[0-9]/,
-            }}
-            inputRef={ref}
-            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
-            overwrite
-        />
-    );
-});
-
-const accountInput = React.forwardRef<HTMLInputElement, CustomProps>(function accountInput(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-        <IMaskInput
-            {...other}
-            mask="########-#"
-            definitions={{
-                "#": /[0-9]/,
-            }}
-            inputRef={ref}
-            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
-            overwrite
-        />
-    );
-});
-
-const agencyInput = React.forwardRef<HTMLInputElement, CustomProps>(function agencyInput(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-        <IMaskInput
-            {...other}
-            mask="####-#"
-            definitions={{
-                "#": /[0-9]/,
-            }}
-            inputRef={ref}
-            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
-            overwrite
-        />
-    );
-});
-
-const operationInput = React.forwardRef<HTMLInputElement, CustomProps>(function operationInput(props, ref) {
-    const { onChange, ...other } = props;
-    return (
-        <IMaskInput
-            {...other}
-            mask="###"
-            definitions={{
-                "#": /[0-9]/,
-            }}
-            inputRef={ref}
-            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
-            overwrite
-        />
-    );
-});
+import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
 
 const ClientRegister = () => {
     const [cpf, setCpf] = useState("");
