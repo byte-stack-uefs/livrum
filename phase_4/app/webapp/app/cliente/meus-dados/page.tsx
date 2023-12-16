@@ -1,22 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import Ebook from "@/app/interfaces/Ebook";
+import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { CloudDownload, CheckCircle, ReportProblem } from "@mui/icons-material";
-import { Box, Button, InputLabel, List, ListItem, Pagination, Stack, TextField, Typography } from "@mui/material";
-import { theme } from "@/app/theme";
-
+import { Button, InputLabel, TextField, Typography } from "@mui/material";
 
 function ClientDataContainerHeader() {
     return (
         <Grid xs={12}>
             <Grid xs={12} sx={{ fontSize: 28 }}>
-                <Typography variant="h3">
-                    Meus Dados
-                </Typography>
+                <Typography variant="h3">Meus Dados</Typography>
             </Grid>
             <Grid xs={12}>
                 <Divider height={4} width={"10%"} />
@@ -26,7 +20,6 @@ function ClientDataContainerHeader() {
 }
 
 function ClientDataContainer() {
-
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -44,13 +37,17 @@ function ClientDataContainer() {
     };
 
     return (
-        <Grid xs={11} sm={9} md={7} lg={5} style={{ width: '100%' }} >
+        <Grid xs={11} sm={9} md={7} lg={5} style={{ width: "100%" }}>
             <form onSubmit={handleSubmitClient}>
-                <Grid container
-                    spacing={2}
-                >
+                <Grid container spacing={2}>
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelName" required style={{ fontFamily: 'Lato, sans-serif',fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}>Nome Completo </InputLabel>
+                        <InputLabel
+                            htmlFor="labelName"
+                            required
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            Nome Completo{" "}
+                        </InputLabel>
                         <TextField
                             id="labelName"
                             fullWidth
@@ -59,12 +56,18 @@ function ClientDataContainer() {
                             variant="outlined"
                             InputProps={{
                                 readOnly: true,
-                                style: { backgroundColor: '#A2B0C1' },
+                                style: { backgroundColor: "#A2B0C1" },
                             }}
                         />
                     </Grid>
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelCpf" required style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}>CPF </InputLabel>
+                        <InputLabel
+                            htmlFor="labelCpf"
+                            required
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            CPF{" "}
+                        </InputLabel>
                         <TextField
                             fullWidth
                             id="labelCpf"
@@ -73,13 +76,20 @@ function ClientDataContainer() {
                             variant="outlined"
                             InputProps={{
                                 readOnly: true,
-                                style: { backgroundColor: '#A2B0C1' },
+                                style: { backgroundColor: "#A2B0C1" },
                             }}
                         />
                     </Grid>
 
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelBirthday" required style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Data de nascimento </InputLabel>
+                        <InputLabel
+                            htmlFor="labelBirthday"
+                            required
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            {" "}
+                            Data de nascimento{" "}
+                        </InputLabel>
                         <TextField
                             fullWidth
                             id="labelBirthday"
@@ -88,13 +98,19 @@ function ClientDataContainer() {
                             variant="outlined"
                             InputProps={{
                                 readOnly: true,
-                                style: { backgroundColor: '#A2B0C1' },
+                                style: { backgroundColor: "#A2B0C1" },
                             }}
                         />
                     </Grid>
 
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelTelephone" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Telefone </InputLabel>
+                        <InputLabel
+                            htmlFor="labelTelephone"
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            {" "}
+                            Telefone{" "}
+                        </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -103,12 +119,18 @@ function ClientDataContainer() {
                             value={telephone}
                             variant="outlined"
                             onChange={(e) => setTelephone(e.target.value)}
-                            sx={{ backgroundColor: 'white' }}
+                            sx={{ backgroundColor: "white" }}
                         />
                     </Grid>
 
                     <Grid xs={12}>
-                        <InputLabel htmlFor="labelEmail" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> E-mail </InputLabel>
+                        <InputLabel
+                            htmlFor="labelEmail"
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            {" "}
+                            E-mail{" "}
+                        </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -118,11 +140,17 @@ function ClientDataContainer() {
                             id="labelEmail"
                             variant="outlined"
                             onChange={(e) => setEmail(e.target.value)}
-                            sx={{ backgroundColor: 'white' }}
+                            sx={{ backgroundColor: "white" }}
                         />
                     </Grid>
                     <Grid xs={6}>
-                        <InputLabel htmlFor="labelPassword" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Senha </InputLabel>
+                        <InputLabel
+                            htmlFor="labelPassword"
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            {" "}
+                            Senha{" "}
+                        </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -132,11 +160,17 @@ function ClientDataContainer() {
                             value={password}
                             variant="outlined"
                             onChange={(e) => setPassword(e.target.value)}
-                            sx={{ backgroundColor: 'white' }}
+                            sx={{ backgroundColor: "white" }}
                         />
                     </Grid>
                     <Grid xs={12}>
-                        <InputLabel htmlFor="labelAddress" style={{ fontFamily: 'Lato, sans-serif', fontWeight:"bold", textAlign: 'left', color: theme.palette.dark.main }}> Endereço </InputLabel>
+                        <InputLabel
+                            htmlFor="labelAddress"
+                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                        >
+                            {" "}
+                            Endereço{" "}
+                        </InputLabel>
                         <TextField
                             required
                             fullWidth
@@ -146,11 +180,10 @@ function ClientDataContainer() {
                             id="labelAddress"
                             variant="outlined"
                             onChange={(e) => setAddress(e.target.value)}
-                            sx={{ backgroundColor: 'white' }}
+                            sx={{ backgroundColor: "white" }}
                         />
                     </Grid>
-                    <Grid xs={11} lg={11}>
-                    </Grid>
+                    <Grid xs={11} lg={11}></Grid>
                     <Grid xs={1} lg={1}>
                         <Button
                             type="submit"
@@ -166,18 +199,19 @@ function ClientDataContainer() {
                     </Grid>
                 </Grid>
             </form>
-        </Grid >
+        </Grid>
     );
 }
 
-
 export default function Page() {
-    return (<>
-        <Grid container spacing={2}>
-            <Grid xs={12} sx={{ backgroundColor: 'secondary.main', borderRadius: '16px' }}>
-                <ClientDataContainerHeader></ClientDataContainerHeader>
-                <ClientDataContainer></ClientDataContainer>
+    return (
+        <>
+            <Grid container spacing={2}>
+                <Grid xs={12} sx={{ backgroundColor: "secondary.main", borderRadius: "16px" }}>
+                    <ClientDataContainerHeader></ClientDataContainerHeader>
+                    <ClientDataContainer></ClientDataContainer>
+                </Grid>
             </Grid>
-        </Grid>
-    </>);
+        </>
+    );
 }
