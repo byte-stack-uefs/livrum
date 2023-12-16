@@ -119,7 +119,7 @@ const adminRevision = () => {
                     </Stack>
                 </Grid>
 
-                <BootstrapDialog open={openModal} onClose={handleClose}>
+                <BootstrapDialog open={openModal} onClose={handleClose} fullWidth maxWidth="sm">
                     <StyledDialogTitle id="customized-dialog-title">
                         <strong>Descrição de recusa</strong>
                     </StyledDialogTitle>
@@ -129,6 +129,7 @@ const adminRevision = () => {
                             fullWidth
                             label="Insira aqui o motivo pelo qual o Ebook será recusado"
                             multiline
+                            minRows={5}
                         ></TextField>
                     </DialogContent>
 
