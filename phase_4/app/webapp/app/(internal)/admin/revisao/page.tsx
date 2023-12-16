@@ -40,7 +40,7 @@ const adminRevision = () => {
         <main>
             <Grid container>
                 <Grid xs={12} mb={2}>
-                    <Typography sx={{ color: theme.palette.dark.main }} variant="h6" paddingTop={2}>
+                    <Typography sx={{ color: theme.palette.dark.main }} variant="h6">
                         Revisão de Ebook
                     </Typography>
                     <Divider width={"10%"} />

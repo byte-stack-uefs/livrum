@@ -443,7 +443,7 @@ export default function ListagemEbooks() {
                                     <strong>Gêneros:</strong> {openEbook.genero}
                                 </Typography>
                                 <Typography variant="body2">
-                                    <strong>Preço:</strong> {openEbook.preco.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+                                    <strong>Preço:</strong> {openEbook?.preco?.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                                 </Typography>
                                 <Typography variant="body2">
                                     <strong>Idioma:</strong> {openEbook.idioma}
@@ -484,14 +484,13 @@ export default function ListagemEbooks() {
                 </BootstrapDialog>
             </React.Fragment>
 
-            <Box sx={{ display: "grid", gridTemplateRows: "repeat(1, 1fr)", marginTop: "10px", marginBottom: "10px" }}>
+            <Box sx={{ display: "grid", gridTemplateRows: "repeat(1, 1fr)" }}>
                 <Box sx={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", justifyContent: "space-between" }}>
                     <Typography
                         sx={{
                             fontSize: 32,
                             color: theme.palette.darker.main,
                             alignItems: "center",
-                            marginTop: "1%",
                             display: "flex",
                             textTransform: "uppercase",
                             fontWeight: "medium",

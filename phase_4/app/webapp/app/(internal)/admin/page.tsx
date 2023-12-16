@@ -104,7 +104,7 @@ export default function Page() {
     ];
 
     return (
-        <Grid container spacing={2} my={2}>
+        <Grid container spacing={2}>
             <Grid xs={12}>
                 <Typography variant="h5" sx={{ color: theme.palette.dark.main }}>
                     Bem-vindo, {username}
