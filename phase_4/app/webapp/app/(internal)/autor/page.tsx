@@ -46,6 +46,11 @@ export default function Page() {
                     return <DashboardCard {...e} key={e.header} />;
                 })}
             </Grid>
+            <Grid xs={12} container>
+                <Grid xs={7}>Gráfico</Grid>
+                <Grid xs={5}>MAis vendidos</Grid>
+            </Grid>
+            <Grid xs={12}>ebooks</Grid>
         </Grid>
     );
 }
