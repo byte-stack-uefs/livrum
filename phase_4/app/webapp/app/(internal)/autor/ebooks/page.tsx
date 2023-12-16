@@ -144,7 +144,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             1,
             "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
+            "220/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -159,7 +159,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             2,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -174,7 +174,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             3,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.BLOCKED,
             320,
@@ -189,7 +189,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             4,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -204,7 +204,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             5,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -219,7 +219,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             6,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.BLOCKED,
             320,
@@ -234,7 +234,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             7,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -249,7 +249,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             8,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -264,7 +264,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             9,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.PENDING,
             320,
@@ -279,7 +279,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             10,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -294,7 +294,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             11,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -309,7 +309,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             12,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.PENDING,
             320,
@@ -324,7 +324,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             13,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -339,7 +339,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             14,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.PENDING,
             320,
@@ -354,7 +354,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             15,
             "A Sutil Arte de Ligar o F*da-se",
-            "0/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
