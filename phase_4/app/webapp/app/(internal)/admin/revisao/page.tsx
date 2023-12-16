@@ -64,7 +64,7 @@ const adminRevision = () => {
                     <Divider width={"10%"} />
                 </Grid>
 
-                <Grid xs={3} p={0}>
+                <Grid xs={3} pr={1}>
                     <div style={{ borderRadius: "15px", overflow: "hidden" }}>
                         <Image src="https://m.media-amazon.com/images/I/6175IU0qFgL._SL1000_.jpg" width={214} height={321} alt="image"></Image>
                     </div>
