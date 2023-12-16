@@ -431,46 +431,44 @@ export default function ListagemEbooks() {
                     >
                         <CloseIcon />
                     </IconButton>
-                    <DialogContent>
+                    <DialogContent sx={{ color: "dark.main" }}>
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="body2" color={theme.palette.darker}>
                                     <strong>Autor:</strong> {openEbook.nome_autor}
                                 </Typography>
-                                <Typography variant="body2" color={theme.palette.darker}>
+                                <Typography variant="body2">
                                     <strong>Quantidade de Páginas:</strong> {openEbook.qtd_pag}
                                 </Typography>
-                                <Typography variant="body2" color={theme.palette.darker}>
+                                <Typography variant="body2">
                                     <strong>Gêneros:</strong> {openEbook.genero}
                                 </Typography>
-                                <Typography variant="body2" color={theme.palette.darker}>
+                                <Typography variant="body2">
                                     <strong>Preço:</strong> {openEbook.preco /*.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })*/}
                                 </Typography>
-                                <Typography variant="body2" color={theme.palette.darker}>
+                                <Typography variant="body2">
                                     <strong>Idioma:</strong> {openEbook.idioma}
                                 </Typography>
-                                <Typography variant="body2" color={theme.palette.darker}>
+                                <Typography variant="body2">
                                     <strong>Ano Lançamento:</strong> {openEbook.ano_lancamento}
                                 </Typography>
                             </Grid>
                         </Grid>
                     </DialogContent>
-                    <DialogContent>
-                        <Typography variant="body2" color={theme.palette.darker}>
+                    <DialogContent sx={{ color: "dark.main" }}>
+                        <Typography variant="body2">
                             <strong>Sinopse:</strong>
                         </Typography>
-                        <Typography variant="body2" color={theme.palette.darker}>
-                            {openEbook.sinopse}
-                        </Typography>
+                        <Typography variant="body2">{openEbook.sinopse}</Typography>
                     </DialogContent>
                     <DialogContent>
-                        <Typography variant="body2" color={theme.palette.darker}>
-                            <strong>Status: </strong> {getButtonStatus(openEbook)}
+                        <Typography variant="body2">
+                            <strong style={{ color: theme.palette.dark.main }}>Status: </strong> {getButtonStatus(openEbook)}
                         </Typography>
                     </DialogContent>
                     {openEbook.status === EnumAuthorEbookStatus.BLOCKED && (
-                        <DialogContent>
-                            <Typography variant="body2" color={theme.palette.darker}>
+                        <DialogContent sx={{ color: "dark.main", backgroundColor: "secondary.main", mx: 2, borderRadius: 3 }}>
+                            <Typography variant="body2">
                                 <strong>{openEbook.motivo_recusa} </strong>
                             </Typography>
                         </DialogContent>
