@@ -21,9 +21,9 @@ import {
 
 import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@/app/components/Divider";
-import { flexbox } from '@mui/system';
+import { flexbox } from "@mui/system";
 import { theme } from "@/app/theme";
-import Image from 'next/image'
+import Image from "next/image";
 import { blue, grey } from "@mui/material/colors";
 
 const adminRevision = () => {
@@ -53,108 +53,113 @@ const adminRevision = () => {
         fontFamily: "Roboto",
         fontSize: "20px",
     });
-    
-    return (
 
+    return (
         <main>
-            <Grid container>
+            <Grid container spacing={2}>
                 <Grid xs={12}>
                     <Typography sx={{ color: theme.palette.dark.main }} variant="h6" paddingTop={2}>
-                    Revisão de Ebook 
+                        Revisão de Ebook
                     </Typography>
                     <Divider width={"10%"} />
                 </Grid>
 
-                <Grid xs={3} sx={{marginTop:2}}>
-                    <div style={{borderRadius: '15px', overflow: 'hidden', width:'214px', height:'321'}}>
-                        <Image src="https://m.media-amazon.com/images/I/6175IU0qFgL._SL1000_.jpg" width={214} height={321} alt="image" ></Image>
+                <Grid xs={3}>
+                    <div style={{ borderRadius: "15px", overflow: "hidden" }}>
+                        <Image src="https://m.media-amazon.com/images/I/6175IU0qFgL._SL1000_.jpg" width={214} height={321} alt="image"></Image>
                     </div>
                 </Grid>
 
-                <Grid xs={8} sx={{margin: "auto",height: 440,marginTop:2,border:1.5,borderColor:"#2665BE",borderRadius:5 }}>
-                    <Typography sx={{ color:"dark", padding:1, paddingTop:2}} variant="h6">
-                    Secrets in a Silicon Valley Startup
+                <Grid xs={9} sx={{ margin: "auto", border: 1.5, borderColor: "primary.main", borderRadius: 5 }}>
+                    <Typography sx={{ color: "dark.main", padding: 1, fontWeight: "bold" }} variant="h6">
+                        Secrets in a Silicon Valley Startup
                     </Typography>
 
-                    <Typography sx={{ color:"dark", padding:1,fontSize:16}} >
-                    Autor: Fred Scott <br/>
-                    Quantidade de páginas: 564 <br/>
-                    Gêneros: Ação, Drama <br/>
-                    Preço: R$ 55,00 <br/>
-                    Idioma: Português <br/>
-                    Ano de Lançamento: 2023 
-                    </Typography>   
-                    <Typography sx={{ color:"dark", padding:1,fontSize:16}} >
-                        Sinopse:
+                    <Typography sx={{ color: "dark.main", padding: 1, fontSize: 16 }}>
+                        <span style={{ fontWeight: "bold" }}>Autor</span>: Fred Scott <br />
+                        Quantidade de páginas: 564 <br />
+                        Gêneros: Ação, Drama <br />
+                        Preço: R$ 55,00 <br />
+                        Idioma: Português <br />
+                        Ano de Lançamento: 2023
                     </Typography>
-                    <Typography sx={{ color:"dark", paddingLeft:3, paddindRight:3,fontSize:14 }}>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos excepturi earum numquam animi eligendi corporis labore rerum expedita adipisci, voluptate quam odio tempora sapiente nisi nesciunt obcaecati aut sed minima.
+                    <Typography sx={{ color: "dark.main", padding: 1, fontSize: 16, fontWeight: "bold" }}>Sinopse:</Typography>
+                    <Typography sx={{ color: "dark.main", padding: 1, fontSize: 14 }}>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos excepturi earum numquam animi eligendi corporis labore
+                        rerum expedita adipisci, voluptate quam odio tempora sapiente nisi nesciunt obcaecati aut sed minima.
                     </Typography>
 
-                    <Grid sx={{padding:2,}}> 
-                        <Button variant="outlined" sx={{ color:"dark",fontSize:12,justifyContent: "space-between"  }}>
-                            Baixar PDF da obra
-                        </Button>
+                    <Grid xs={12} p={1} my={2}>
+                        <a
+                            href="#"
+                            style={{
+                                color: theme.palette.dark.main,
+                                fontSize: 12,
+                                textTransform: "uppercase",
+                                fontWeight: "bold",
+                            }}
+                        >
+                            Clique aqui para baixar PDF da obra
+                        </a>
                     </Grid>
-                    <Stack direction="row" spacing={5} sx={{justifyContent:'center'}}>
-                        <Button color="success" variant="contained" >Aprovar</Button>
-                        <Button 
+                    <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+                        <Button color="success" variant="contained">
+                            Aprovar
+                        </Button>
+                        <Button
                             variant="contained"
                             color="error"
                             onClick={(e) => {
                                 e.preventDefault();
                                 setOpenModal(true);
                             }}
-                        >Recusar</Button>
+                        >
+                            Recusar
+                        </Button>
                     </Stack>
                 </Grid>
 
-                <BootstrapDialog
-                    open={openModal}
-                    onClose={handleClose}>
-
-                    <StyledDialogTitle id="customized-dialog-title" sx={{width:500}}>
+                <BootstrapDialog open={openModal} onClose={handleClose}>
+                    <StyledDialogTitle id="customized-dialog-title">
                         <strong>Descrição de recusa</strong>
                     </StyledDialogTitle>
                     <DialogContent dividers>
                         <TextField
-                            fullWidth 
+                            helperText="Essa informação será exibida ao autor"
+                            fullWidth
                             label="Insira aqui o motivo pelo qual o Ebook será recusado"
-                            multiline>
-                        </TextField>
-                        <Typography sx={{fontSize:14}}>
-                            Essa informação será repassada ao autor.
-                        </Typography>
+                            multiline
+                        ></TextField>
                     </DialogContent>
 
-                    <DialogActions >
-                        <Stack  justifyContent="center" gap={2} flexDirection="row" width={1.0} flexWrap="wrap">
-                            <Button 
+                    <DialogActions>
+                        <Stack justifyContent="center" gap={2} flexDirection="row" width={1.0} flexWrap="wrap">
+                            <Button
                                 color="success"
                                 variant="contained"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setOpenModal(false);
                                 }}
-                                >Solicitar recusa
-                            </Button>                            
-                            <Button 
+                            >
+                                Salvar
+                            </Button>
+                            <Button
                                 color="error"
                                 variant="contained"
                                 onClick={(e) => {
                                     e.preventDefault();
                                     setOpenModal(false);
                                 }}
-                                >Cancelar
+                            >
+                                Cancelar
                             </Button>
                         </Stack>
                     </DialogActions>
-
                 </BootstrapDialog>
-
             </Grid>
         </main>
-
-)}
+    );
+};
 
 export default adminRevision;
