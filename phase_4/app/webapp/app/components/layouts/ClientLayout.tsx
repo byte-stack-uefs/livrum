@@ -36,7 +36,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                     <Grid item xs={3}>
                         <Paper sx={{ overflow: 'hidden' }}>
                             <Grid container>
-                                <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 2, backgroundColor: '#F4F2F2' }}>
+                                <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 2, backgroundColor: 'secondary.main' }}>
                                     <Person sx={{ fontSize: 48 }} color="dark" />
                                 </Grid>
                                 <Grid item xs={12}>

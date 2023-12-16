@@ -10,15 +10,100 @@ import {
     TextField,
     Typography,
     DialogTitle,
-    FormControl,
     DialogContent,
     DialogActions,
     FormControlLabel,
 } from "@mui/material";
 
-import Grid from "@mui/material/Unstable_Grid2";
-import Divider from "@/app/components/Divider";
 import { theme } from "@/app/theme";
+import { IMaskInput } from "react-imask";
+import Divider from "@/app/components/Divider";
+import Grid from "@mui/material/Unstable_Grid2";
+
+interface CustomProps {
+    onChange: (event: { target: { name: string; value: string } }) => void;
+    name: string;
+}
+
+const cpfInput = React.forwardRef<HTMLInputElement, CustomProps>(function cpfInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="###.###.###-##"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const cellphoneInput = React.forwardRef<HTMLInputElement, CustomProps>(function cellphoneInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="(##) 9####-####"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const accountInput = React.forwardRef<HTMLInputElement, CustomProps>(function accountInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="########-#"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const agencyInput = React.forwardRef<HTMLInputElement, CustomProps>(function agencyInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="####-#"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+const operationInput = React.forwardRef<HTMLInputElement, CustomProps>(function operationInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="###"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
 
 const ClientRegister = () => {
     const [cpf, setCpf] = useState("");
@@ -68,7 +153,7 @@ const ClientRegister = () => {
         m: 0,
         p: 2,
         textAlign: "center",
-        backgroundColor: "#E5E2E2",
+        backgroundColor: theme.palette.secondary.main,
         fontFamily: "Roboto",
         fontSize: "20px",
     });
@@ -96,11 +181,11 @@ const ClientRegister = () => {
                         <Tab label="Cliente" />
                         <Tab label="Autor" />
                     </Tabs>
-                    <FormControl fullWidth>
+                    <form onSubmit={handleSubmitClient}>
                         <Grid
                             container
                             sx={{
-                                backgroundColor: "#E5E2E2",
+                                backgroundColor: theme.palette.secondary.main,
                                 margin: "auto",
                                 padding: 3,
                                 borderBottomRightRadius: 20,
@@ -130,9 +215,11 @@ const ClientRegister = () => {
                                     label="CPF"
                                     value={cpf}
                                     size="small"
-                                    type="number"
                                     variant="outlined"
                                     onChange={(e) => setCpf(e.target.value)}
+                                    InputProps={{
+                                        inputComponent: cpfInput as any,
+                                    }}
                                 />
                             </Grid>
 
@@ -159,6 +246,9 @@ const ClientRegister = () => {
                                     value={telephone}
                                     variant="outlined"
                                     onChange={(e) => setTelephone(e.target.value)}
+                                    InputProps={{
+                                        inputComponent: cellphoneInput as any,
+                                    }}
                                 />
                             </Grid>
 
@@ -229,6 +319,9 @@ const ClientRegister = () => {
                                             variant="outlined"
                                             value={operationNumber}
                                             onChange={(e) => setOperationNumber(e.target.value)}
+                                            InputProps={{
+                                                inputComponent: operationInput as any,
+                                            }}
                                         />
                                     </Grid>
                                     <Grid xs={4}>
@@ -239,6 +332,9 @@ const ClientRegister = () => {
                                             variant="outlined"
                                             value={agencyNumber}
                                             onChange={(e) => setAgencyNumber(e.target.value)}
+                                            InputProps={{
+                                                inputComponent: agencyInput as any,
+                                            }}
                                         />
                                     </Grid>
                                     <Grid xs={4}>
@@ -249,13 +345,16 @@ const ClientRegister = () => {
                                             variant="outlined"
                                             value={accountNumber}
                                             onChange={(e) => setAccountNumber(e.target.value)}
+                                            InputProps={{
+                                                inputComponent: accountInput as any,
+                                            }}
                                         />
                                     </Grid>
                                 </>
                             )}
                             <Grid
                                 xs={12}
-                                lg={9}
+                                lg={8}
                                 style={{
                                     color: "#2665BE",
                                     cursor: "pointer",
@@ -280,11 +379,11 @@ const ClientRegister = () => {
                                     }
                                 />
                             </Grid>
-                            <Grid xs={12} lg={3}>
+                            <Grid xs={12} lg={4}>
                                 <Button
                                     type="submit"
                                     variant="contained"
-                                    color="primary"
+                                    color="darker"
                                     fullWidth
                                     sx={{
                                         marginTop: "10px",
@@ -294,7 +393,7 @@ const ClientRegister = () => {
                                 </Button>
                             </Grid>
                         </Grid>
-                    </FormControl>
+                    </form>
 
                     <BootstrapDialog
                         open={openModal}
