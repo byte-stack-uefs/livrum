@@ -1,8 +1,5 @@
 "use client";
 import { Theme, ThemeProvider, createTheme } from "@mui/material/styles";
-import InputBase from '@mui/material/InputBase';
-import { styled, alpha } from '@mui/system';
-
 
 declare module "@mui/material/styles" {
     interface PaletteColorOptions {
@@ -56,9 +53,7 @@ const darker = "#153C7F";
 const primary = "#2665BE";
 const secondary = "#F4F2F2";
 
-  
 export const theme: Theme = createTheme({
-    
     palette: {
         primary: {
             main: primary,
@@ -80,23 +75,6 @@ export const theme: Theme = createTheme({
         },
     },
     components: {
-        '&.form-control': {
-            width: '100%', // ou ajuste conforme necessário
-            padding: '0.375rem 0.75rem',
-            fontSize: '1rem',
-            lineHeight: '1.5',
-            color: '#495057',
-            backgroundColor: '#fff',
-            backgroundClip: 'padding-box',
-            border: '1px solid #ced4da',
-            borderRadius: '0.25rem',
-            transition: 'border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out',
-            
-          },
-        '&:focus': {
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0, 123, 255, 0.25)',
-          },
         MuiTab: {
             styleOverrides: {
                 root: {
@@ -112,10 +90,6 @@ export const theme: Theme = createTheme({
                         borderRadius: "20px 20px 0 0",
                     },
                 },
-                '&:focus': {
-        borderColor: '#80bdff',
-        boxShadow: '0 0 0 0.2rem rgba(0, 123, 255, 0.25)',
-      },
             },
         },
         MuiListItemText: {
