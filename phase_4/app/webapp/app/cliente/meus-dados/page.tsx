@@ -40,74 +40,33 @@ function ClientDataContainer() {
         <Grid xs={11} sm={9} md={7} lg={5} style={{ width: "100%" }}>
             <form onSubmit={handleSubmitClient}>
                 <Grid container spacing={2}>
-                    <Grid xs={6}>
-                        <InputLabel
-                            htmlFor="labelName"
-                            required
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
-                        >
+                    <Grid xs={12}>
+                        <InputLabel htmlFor="labelName" required style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             Nome Completo{" "}
                         </InputLabel>
-                        <TextField
-                            id="labelName"
-                            fullWidth
-                            value={name}
-                            size="small"
-                            variant="outlined"
-                            InputProps={{
-                                readOnly: true,
-                                style: { backgroundColor: "#A2B0C1" },
-                            }}
-                        />
+                        <TextField id="labelName" fullWidth value={name} size="small" variant="outlined" disabled />
                     </Grid>
-                    <Grid xs={6}>
-                        <InputLabel
-                            htmlFor="labelCpf"
-                            required
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
-                        >
+                    <Grid xs={12} md={6}>
+                        <InputLabel htmlFor="labelCpf" required style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             CPF{" "}
                         </InputLabel>
-                        <TextField
-                            fullWidth
-                            id="labelCpf"
-                            value={cpf}
-                            size="small"
-                            variant="outlined"
-                            InputProps={{
-                                readOnly: true,
-                                style: { backgroundColor: "#A2B0C1" },
-                            }}
-                        />
+                        <TextField fullWidth id="labelCpf" value={cpf} size="small" variant="outlined" disabled />
                     </Grid>
 
-                    <Grid xs={6}>
+                    <Grid xs={12} md={6}>
                         <InputLabel
                             htmlFor="labelBirthday"
                             required
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
+                            style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
                         >
                             {" "}
                             Data de nascimento{" "}
                         </InputLabel>
-                        <TextField
-                            fullWidth
-                            id="labelBirthday"
-                            value={birthday}
-                            size="small"
-                            variant="outlined"
-                            InputProps={{
-                                readOnly: true,
-                                style: { backgroundColor: "#A2B0C1" },
-                            }}
-                        />
+                        <TextField fullWidth id="labelBirthday" value={birthday} size="small" variant="outlined" disabled />
                     </Grid>
 
-                    <Grid xs={6}>
-                        <InputLabel
-                            htmlFor="labelTelephone"
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
-                        >
+                    <Grid xs={12} md={6}>
+                        <InputLabel htmlFor="labelTelephone" style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             {" "}
                             Telefone{" "}
                         </InputLabel>
@@ -122,12 +81,10 @@ function ClientDataContainer() {
                             sx={{ backgroundColor: "white" }}
                         />
                     </Grid>
+                    <Grid xs={12}></Grid>
 
-                    <Grid xs={12}>
-                        <InputLabel
-                            htmlFor="labelEmail"
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
-                        >
+                    <Grid xs={12} md={6}>
+                        <InputLabel htmlFor="labelEmail" style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             {" "}
                             E-mail{" "}
                         </InputLabel>
@@ -143,11 +100,8 @@ function ClientDataContainer() {
                             sx={{ backgroundColor: "white" }}
                         />
                     </Grid>
-                    <Grid xs={6}>
-                        <InputLabel
-                            htmlFor="labelPassword"
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
-                        >
+                    <Grid xs={12} md={6}>
+                        <InputLabel htmlFor="labelPassword" style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             {" "}
                             Senha{" "}
                         </InputLabel>
@@ -164,10 +118,7 @@ function ClientDataContainer() {
                         />
                     </Grid>
                     <Grid xs={12}>
-                        <InputLabel
-                            htmlFor="labelAddress"
-                            style={{ fontFamily: "Lato, sans-serif", fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}
-                        >
+                        <InputLabel htmlFor="labelAddress" style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
                             {" "}
                             Endereço{" "}
                         </InputLabel>
