@@ -1,30 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-    Tab,
-    Tabs,
-    Button,
-    styled,
-    Dialog,
-    Checkbox,
-    TextField,
-    Typography,
-    DialogTitle,
-    FormControl,
-    DialogContent,
-    DialogActions,
-    FormControlLabel,
-    Box,
-    Stack,
-} from "@mui/material";
+import { Button, styled, Dialog, TextField, Typography, DialogTitle, DialogContent, DialogActions, Stack } from "@mui/material";
 
 import Grid from "@mui/material/Unstable_Grid2";
 import Divider from "@/app/components/Divider";
-import { flexbox } from "@mui/system";
 import { theme } from "@/app/theme";
 import Image from "next/image";
-import { blue, grey } from "@mui/material/colors";
 
 const adminRevision = () => {
     const [openModal, setOpenModal] = useState(false);
