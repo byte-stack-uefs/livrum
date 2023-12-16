@@ -17,6 +17,7 @@ declare module "@mui/material/styles" {
         success?: PaletteColorOptions;
         dark?: PaletteColorOptions;
         textLight?: PaletteColorOptions;
+        mintCream?: PaletteColorOptions;
     }
     interface Theme {
         palette: {
@@ -28,6 +29,7 @@ declare module "@mui/material/styles" {
             success: any;
             dark: any;
             textLight: any;
+            mintCream: any;
         };
     }
     // allow configuration using `createTheme`
@@ -77,8 +79,11 @@ export const theme: Theme = createTheme({
             main: secondary,
         },
         textLight: {
-            main: '#00000066'
-        }
+            main: "#00000066",
+        },
+        mintCream: {
+            main: '#F5FFFA'
+        },
     },
     components: {
         MuiTab: {
@@ -112,8 +117,16 @@ export const theme: Theme = createTheme({
                 },
             },
         },
+        MuiDialogContent: {
+            styleOverrides: {
+                root: {
+                    padding: "10%",
+                },
+            },
+        },
     }
-});
+},
+);
 
 export default function ThemeRegistry(props: React.PropsWithChildren) {
     const { children } = props;
