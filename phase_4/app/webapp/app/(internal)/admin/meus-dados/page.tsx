@@ -59,7 +59,7 @@ const AdminData = () => {
                 <Typography
                     variant="h5"
                     fontWeight="semi-bold"
-                    style={{ textAlign: "left", color: theme.palette.dark.main, marginTop: "20px", paddingLeft: 8 }}
+                    style={{ textAlign: "left", color: theme.palette.dark.main, marginTop: "20px", paddingLeft: 8, marginBottom: 8 }}
                 >
                     Dados administrador
                 </Typography>
@@ -73,9 +73,7 @@ const AdminData = () => {
                         }}
                         spacing={2}
                     >
-                        <Grid xs={7}></Grid>
-
-                        <Grid xs={7}>
+                        <Grid xs={12} md={6}>
                             <div>
                                 <strong>Nome:</strong>
                             </div>
@@ -90,7 +88,7 @@ const AdminData = () => {
                             />
                         </Grid>
 
-                        <Grid xs={7}>
+                        <Grid xs={12} md={6}>
                             <div>
                                 <strong>Email:</strong>
                             </div>
@@ -106,11 +104,12 @@ const AdminData = () => {
                             />
                         </Grid>
                         <Grid xs={12} sx={{ borderBottom: "1px solid black", marginBottom: 2, marginX: 1 }}></Grid>
-                        <Grid xs={12}>
+                        <Grid xs={6}>
                             <div>
                                 <strong>Senha Atual:</strong>
                             </div>
                             <TextField
+                                fullWidth
                                 size="small"
                                 type={showPassword ? "text" : "password"}
                                 value={oldPassword}
@@ -132,55 +131,59 @@ const AdminData = () => {
                                 }}
                             />
                         </Grid>
-                        <Grid xs={6}>
-                            <div>
-                                <strong>Nova Senha:</strong>
-                            </div>
-                            <TextField
-                                size="small"
-                                type={showPassword ? "text" : "password"}
-                                value={password}
-                                onChange={handlePasswordChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </Grid>
-                        <Grid xs={6}>
-                            <div>
-                                <strong>Confirmar Senha:</strong>
-                            </div>
-                            <TextField
-                                size="small"
-                                type={showPassword ? "text" : "password"}
-                                value={passwordConfirm}
-                                onChange={handlePasswordConfirmChange}
-                                InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                aria-label="toggle password visibility"
-                                                onClick={handleClickShowPassword}
-                                                onMouseDown={handleMouseDownPassword}
-                                                edge="end"
-                                            >
-                                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                            />
+                        <Grid container xs={12}>
+                            <Grid xs={6}>
+                                <div>
+                                    <strong>Nova Senha:</strong>
+                                </div>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={handlePasswordChange}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
+                            <Grid xs={6}>
+                                <div>
+                                    <strong>Confirmar Senha:</strong>
+                                </div>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    type={showPassword ? "text" : "password"}
+                                    value={passwordConfirm}
+                                    onChange={handlePasswordConfirmChange}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton
+                                                    aria-label="toggle password visibility"
+                                                    onClick={handleClickShowPassword}
+                                                    onMouseDown={handleMouseDownPassword}
+                                                    edge="end"
+                                                >
+                                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Grid>
                         </Grid>
 
                         <Grid xs={12} sm={6} md={4} lg={2}>
