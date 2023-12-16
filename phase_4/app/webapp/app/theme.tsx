@@ -7,7 +7,6 @@ declare module "@mui/material/styles" {
         contrastText?: string;
         light?: string;
         dark?: string;
-        mode?: string;
     }
     interface PaletteOptions {
         darker?: PaletteColorOptions;
