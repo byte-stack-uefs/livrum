@@ -5,6 +5,7 @@ import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Button, InputLabel, TextField, Typography } from "@mui/material";
+import { cellphoneInput, cpfInput } from "@/app/components/CustomInputs";
 
 function ClientDataContainerHeader() {
     return (
@@ -63,6 +64,7 @@ function ClientDataContainer() {
                         <TextField
                             InputProps={{
                                 sx: { backgroundColor: `${theme.palette.darker.main}40` },
+                                inputComponent: cpfInput as any,
                             }}
                             fullWidth
                             id="labelCpf"
@@ -110,6 +112,7 @@ function ClientDataContainer() {
                             onChange={(e) => setTelephone(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
+                                inputComponent: cellphoneInput as any,
                             }}
                         />
                     </Grid>
