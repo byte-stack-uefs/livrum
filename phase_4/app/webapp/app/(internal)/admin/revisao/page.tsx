@@ -56,21 +56,21 @@ const adminRevision = () => {
 
     return (
         <main>
-            <Grid container spacing={2}>
-                <Grid xs={12}>
+            <Grid container>
+                <Grid xs={12} mb={2}>
                     <Typography sx={{ color: theme.palette.dark.main }} variant="h6" paddingTop={2}>
                         Revisão de Ebook
                     </Typography>
                     <Divider width={"10%"} />
                 </Grid>
 
-                <Grid xs={3}>
+                <Grid xs={3} p={0}>
                     <div style={{ borderRadius: "15px", overflow: "hidden" }}>
                         <Image src="https://m.media-amazon.com/images/I/6175IU0qFgL._SL1000_.jpg" width={214} height={321} alt="image"></Image>
                     </div>
                 </Grid>
 
-                <Grid xs={9} sx={{ margin: "auto", border: 1.5, borderColor: "primary.main", borderRadius: 5 }}>
+                <Grid xs={9} p={1} sx={{ margin: "auto", border: 1.5, borderColor: "primary.main", borderRadius: 5 }}>
                     <Typography sx={{ color: "dark.main", padding: 1, fontWeight: "bold" }} variant="h6">
                         Secrets in a Silicon Valley Startup
                     </Typography>
