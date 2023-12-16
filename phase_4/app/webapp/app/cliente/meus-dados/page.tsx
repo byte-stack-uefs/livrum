@@ -20,13 +20,13 @@ function ClientDataContainerHeader() {
 }
 
 function ClientDataContainer() {
-    const [cpf, setCpf] = useState("");
+    const [cpf, setCpf] = useState("12345678912");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [address, setAddress] = useState("");
     const [birthday, setBirthday] = useState("");
     const [password, setPassword] = useState("");
-    const [telephone, setTelephone] = useState("");
+    const [telephone, setTelephone] = useState("78912345678");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
