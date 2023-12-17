@@ -13,6 +13,29 @@ export function PopularityTable({ items, title, selectTitle }: { items: Array<Po
 
     const [selected, setSelected] = useState('');
 
+    function getDataOrEmpty() {
+        if (items.length > 0) {
+            return items.map((e) => {
+                return (
+                    <TableRow>
+                        <TableCell align="center">{e.id}</TableCell>
+                        <TableCell>{e.name}</TableCell>
+                        <TableCell>
+                            <LinearProgressWithLabel value={e.popularity} />
+                        </TableCell>
+                    </TableRow>
+                );
+            })
+        }
+        else {
+            return <TableRow>
+                <TableCell colSpan={3}>
+                    Nenhum item encontrado
+                </TableCell>
+            </TableRow>
+        }
+    }
+
     return (<Card elevation={0} sx={{ borderRadius: 2 }}>
         <Grid container padding={2}>
             <Grid xs={9}>
@@ -58,17 +81,7 @@ export function PopularityTable({ items, title, selectTitle }: { items: Array<Po
                 </TableRow>
             </TableHead>
             <TableBody>
-                {items.map((e) => {
-                    return (
-                        <TableRow>
-                            <TableCell align="center">{e.id}</TableCell>
-                            <TableCell>{e.name}</TableCell>
-                            <TableCell>
-                                <LinearProgressWithLabel value={e.popularity} />
-                            </TableCell>
-                        </TableRow>
-                    );
-                })}
+                {getDataOrEmpty()}
             </TableBody>
         </Table>
     </Card>);
