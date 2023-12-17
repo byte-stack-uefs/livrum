@@ -1,11 +1,12 @@
 "use client";
 
-import Divider from "@/app/components/Divider";
-import { TabSelector } from "@/app/components/TabSelector";
-import { CreditCard, Pix } from "@mui/icons-material";
-import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import qrcode from '@/app/assets/qrcode.png'
+import Divider from "@/app/components/Divider";
+import { CreditCard, Pix } from "@mui/icons-material";
+import { TabSelector } from "@/app/components/TabSelector";
+import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 
 export interface PaymentEbook {
     id: number;
@@ -18,20 +19,20 @@ export interface PaymentEbook {
 function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
     return (
         <Grid container py={2}>
-            <Grid xs={3} position="relative" minHeight={200}>
+            <Grid item xs={3} position="relative" minHeight={200}>
                 <Image src={ebook.cover} fill alt="Book cover" objectFit="contain" />
             </Grid>
-            <Grid xs={9} container alignContent={"center"}>
-                <Grid xs={12}>
+            <Grid item xs={9} container alignContent={"center"}>
+                <Grid item xs={12}>
                     <Typography variant="h6" color="dark.main" fontWeight="bold">
                         {ebook.title}
                     </Typography>
                 </Grid>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                     <Typography variant="body1" color="dark.main">por {ebook.authors.join(', ')}</Typography>
                     <Divider width="80%" height={2} />
                 </Grid>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                     <Typography variant="body1" color="dark.main" fontWeight="bold">
                         {ebook.price.toLocaleString('pt-br', { currency: 'BRL', style: 'currency' })}
                     </Typography>
@@ -94,77 +95,77 @@ export default function Page() {
     return (
         <Container maxWidth="md" sx={{ mt: 3 }}>
             <Grid container>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                     <Typography color="dark.main" variant="h4">
                         Revisar itens do pedido
                     </Typography>
                     <Divider width={"25%"} />
                 </Grid>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                     {books.map(e => {
-                        return <PaymentEbook ebook={e} />
+                        return <PaymentEbook key={e.id} ebook={e} />
                     })}
                 </Grid>
             </Grid>
             <Grid container>
                 <Divider width="100%" height={2} style={{ margin: "16px 0" }} />
-                <Grid xs={4} container>
-                    <Grid xs={6}>
+                <Grid xs={4} item container>
+                    <Grid item xs={6}>
                         <Typography variant="body1" color="dark.main" fontWeight="bold">
                             Subtotal:
                         </Typography>
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Typography color="dark.main" variant="body1">
                             {subtotal.toLocaleString('pt-br', { currency: 'BRL', style: 'currency' })}
                         </Typography>
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Typography variant="body1" color="dark.main" fontWeight="bold">
                             Desconto:
                         </Typography>
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Typography color="dark.main" variant="body1">
                             {discount.toLocaleString('pt-br', { currency: 'BRL', style: 'currency' })}
                         </Typography>
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Typography variant="body1" color="dark.main" fontWeight="bold">
                             Total:
                         </Typography>
                     </Grid>
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                         <Typography color="dark.main" variant="body1">
                             {total.toLocaleString('pt-br', { currency: 'BRL', style: 'currency' })}
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid container xs={8} textAlign="right" justifyContent="end">
-                    <Grid xs={6}>
+                <Grid container item xs={8} textAlign="right" justifyContent="end">
+                    <Grid item xs={6}>
                         <TextField value={coupon} onChange={(e) => {
                             setCoupon(e.target.value)
                         }} fullWidth placeholder="Possui cupom? Digite-o aqui" size="small"></TextField>
                     </Grid>
-                    <Grid xs={3}>
+                    <Grid item xs={3}>
                         <Button variant="contained" color="primary">Aplicar</Button>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid container mt={2}>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                     <Typography color="dark.main" variant="h4">
                         Informações de pagamento
                     </Typography>
                     <Divider width={"25%"} />
                 </Grid>
-                <Grid xs={12} my={2} container>
-                    <Grid xs={12}>
+                <Grid item xs={12} my={2} container>
+                    <Grid item xs={12}>
                         <TabSelector items={tabItems} def={0} onChange={(e) => {
                             setTab(e);
                         }} />
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                         <Box sx={{ border: '1px solid #e5e5e5' }} p={2} borderRadius={2}>
                             {getCurrentTab(tab)}
                         </Box>
@@ -177,7 +178,15 @@ export default function Page() {
 
 function PixContainer() {
     return (
-        <p>pix</p>
+        <Grid container>
+            <Grid xs={12} textAlign="center">
+                <Image width={400} height={400} src={qrcode} alt="PaymentQrCode" />
+            </Grid>
+            <Grid xs={3}></Grid>
+            <Grid xs={12} md={6}>
+                <p style={{ textAlign: 'center' }}>Escaneie o QRCode e realize o pagamento no aplicativo do banco</p>
+            </Grid>
+        </Grid>
     );
 }
 
@@ -212,8 +221,8 @@ function CreditCardContainer() {
 
     return (
         <Grid container>
-            <Grid xs={12} container>
-                <Grid xs={8}>
+            <Grid xs={12} container item>
+                <Grid item xs={8}>
                     <Typography display="inline" variant="body1" color="dark.main" fontWeight="bold">
                         Cartão de Crédito &ensp;
                     </Typography>
@@ -221,7 +230,7 @@ function CreditCardContainer() {
                         termina em {card.number}
                     </Typography>
                 </Grid>
-                <Grid xs={4}>
+                <Grid item xs={4}>
                     <FormControl fullWidth>
                         <InputLabel id="my-cards-select-label">Meus cartões</InputLabel>
                         <Select
@@ -240,8 +249,8 @@ function CreditCardContainer() {
                 </Grid>
                 <Divider width="85%" height={2} style={{ margin: '16px auto' }} />
             </Grid>
-            <Grid xs={12} container justifyContent="space-between">
-                <Grid xs={3}>
+            <Grid xs={12} container justifyContent="space-between" item>
+                <Grid item xs={3}>
                     <FormControl fullWidth>
                         <InputLabel id="installments-select-label">Parcelas</InputLabel>
                         <Select
@@ -260,10 +269,10 @@ function CreditCardContainer() {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid xs={3}>
+                <Grid item xs={3}>
                     <TextField fullWidth label="Código de Segurança" size='small' type="number" />
                 </Grid>
-                <Grid xs={4} textAlign="right">
+                <Grid item xs={4} textAlign="right">
                     <Button variant="contained" color="primary">Confirmar pagamento</Button>
                 </Grid>
             </Grid>
