@@ -10,19 +10,18 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 
 function ContainerBookCard(book: Ebook) {
-    const imageSize = 250;
 
     return (
         <div>
             <div
                 style={{
-                    height: imageSize,
-                    width: imageSize,
+                    minHeight: 350,
                     margin: "auto",
                     overflow: "hidden",
+                    position: 'relative'
                 }}
             >
-                <Image className="image-zoom" width={imageSize} height={imageSize} style={{ objectFit: "cover" }} alt={book.title} src={book.cover} />
+                <Image className="image-zoom" fill objectFit="cover" alt={book.title} src={book.cover} />
             </div>
 
             <Typography sx={{ color: theme.palette.darker.main, fontWeight: "bold" }}>{book.title}</Typography>
