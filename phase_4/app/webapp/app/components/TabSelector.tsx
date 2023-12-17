@@ -20,6 +20,7 @@ export function TabSelector({ items, def, onChange }: { items: Array<{ icon?: an
             return <MTab
                 key={e.title}
                 icon={e.icon ? e.icon : null}
+                iconPosition="start"
                 label={e.title}
                 sx={{
                     borderRadius: "0px 0 0 0",
