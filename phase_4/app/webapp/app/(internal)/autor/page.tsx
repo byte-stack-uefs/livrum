@@ -56,6 +56,13 @@ export default function Page() {
             sold: 557,
             revenue: 557 * 51.47,
             genres: ['Adventure', 'Terror', 'Comedy']
+        }, {
+            id: 15,
+            name: 'Teste',
+            price: 51.47,
+            sold: 557,
+            revenue: 557 * 51.47,
+            genres: ['Adventure', 'Terror', 'Comedy']
         }
     ];
 
@@ -65,6 +72,14 @@ export default function Page() {
             title: 'Terror'
         }
     ];
+
+    const mostSold = [
+        {
+            id: 10,
+            name: 'Teste Ebook',
+            popularity: 85
+        }
+    ]
 
     return (
         <Grid container spacing={2}>
@@ -86,7 +101,7 @@ export default function Page() {
                     <VisualizationChart data={data} />
                 </Grid>
                 <Grid xs={5}>
-                    <PopularityTable selectItems={[]} selectTitle="Ebook" title="Mais vendidos" items={[]} />
+                    <PopularityTable selectItems={[]} selectTitle="Ebook" title="Mais vendidos" items={mostSold} />
                 </Grid>
             </Grid>
             <Grid xs={12} container>

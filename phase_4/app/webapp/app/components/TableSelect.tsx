@@ -28,7 +28,7 @@ export function TableSelect({ title, onChange, items }: { title: string, items: 
             }}
         >
             {items.map((e) => {
-                return <MenuItem value={e.value}>{e.title}</MenuItem>
+                return <MenuItem key={e.value} value={e.value}>{e.title}</MenuItem>
             })}
         </Select>
     </FormControl>);

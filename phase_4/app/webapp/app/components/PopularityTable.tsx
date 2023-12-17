@@ -18,7 +18,7 @@ export function PopularityTable({ items, title, selectTitle, selectItems }: { it
         if (items.length > 0) {
             return items.map((e) => {
                 return (
-                    <TableRow>
+                    <TableRow key={e.id}>
                         <TableCell align="center">{e.id}</TableCell>
                         <TableCell>{e.name}</TableCell>
                         <TableCell>

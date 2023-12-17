@@ -1,4 +1,5 @@
 import { Chip, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
+import React from 'react';
 
 export interface EbookTableItem {
     id: number;
@@ -15,18 +16,18 @@ export function EbooksTable({ headers, items }: { headers: Array<string>, items:
         if (items.length > 0) {
             return items.map((element: EbookTableItem) => {
                 return (
-                    <>
+                    <TableRow key={element.id}>
                         <TableCell>{element.id}</TableCell>
                         <TableCell>{element.name}</TableCell>
                         <TableCell>
                             {element.genres.slice(0, 3).map((e) => {
-                                return (<Chip label={e} />)
+                                return (<Chip key={e} label={e} />)
                             })}
                         </TableCell>
                         <TableCell>{element.price.toLocaleString('pt-br', { style: "currency", currency: "BRL" })}</TableCell>
                         <TableCell>{element.sold}</TableCell>
                         <TableCell>{element.revenue.toLocaleString('pt-br', { style: "currency", currency: "BRL" })}</TableCell>
-                    </>
+                    </TableRow>
                 );
             })
         } else {
@@ -45,9 +46,7 @@ export function EbooksTable({ headers, items }: { headers: Array<string>, items:
             </TableRow>
         </TableHead>
         <TableBody>
-            <TableRow>
-                {getDataOrEmpty()}
-            </TableRow>
+            {getDataOrEmpty()}
         </TableBody>
     </Table>);
 }
