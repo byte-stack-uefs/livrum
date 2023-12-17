@@ -3,7 +3,7 @@ import Divider from "./Divider";
 import { useState } from "react";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 
-export function PaymentCreditCardContainer() {
+export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => void }) {
 
     const cards = [
         {
@@ -86,7 +86,7 @@ export function PaymentCreditCardContainer() {
                     <TextField fullWidth label="Código de Segurança" size='small' type="number" />
                 </Grid>
                 <Grid item xs={4} textAlign="right">
-                    <Button variant="contained" color="primary">Confirmar pagamento</Button>
+                    <Button variant="contained" color="primary" onClick={onConfirm}>Confirmar pagamento</Button>
                 </Grid>
             </Grid>
         </Grid>

@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Divider from "@/app/components/Divider";
-import { CreditCard, Pix } from "@mui/icons-material";
+import { Check, CheckCircle, CreditCard, Pix } from "@mui/icons-material";
 import { TabSelector } from "@/app/components/TabSelector";
-import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography } from "@mui/material";
 import { PixContainer } from "@/app/components/PixContainer";
 import { PaymentCreditCardContainer } from "@/app/components/PaymentCreditCardContainer";
 
@@ -87,14 +87,39 @@ export default function Page() {
 
     function getCurrentTab(tab: number) {
         if (tab == 0) {
-            return <PaymentCreditCardContainer />
+            return <PaymentCreditCardContainer onConfirm={() => {
+                setShowSuccessModal(true)
+            }} />
         } else {
             return <PixContainer />
         }
     }
 
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
     return (
         <Container maxWidth="md" sx={{ mt: 3 }}>
+
+            <Dialog fullWidth maxWidth="sm" open={showSuccessModal} onClose={(ev, reason) => { setShowSuccessModal(false) }}>
+                <DialogContent>
+                    <Grid container>
+                        <Grid xs={12} item textAlign="center">
+                            <CheckCircle sx={{ fontSize: 80 }} color="success" />
+                        </Grid>
+                        <Grid xs={12} item mb={2}>
+                            <Typography textAlign="center" color="dark.main" variant="h4">
+                                Pagamento confirmado
+                            </Typography>
+                        </Grid>
+                        <Grid xs={12} item textAlign="center">
+                            <Button variant="contained">
+                                Ir para a biblioteca
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+            </Dialog>
+
             <Grid container>
                 <Grid item xs={12}>
                     <Typography color="dark.main" variant="h4">
