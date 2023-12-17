@@ -86,7 +86,7 @@ export default function Page() {
                     return <DashboardCard {...e} key={e.header} />;
                 })}
             </Grid>
-            <Grid xs={12} id="chart-parent">
+            <Grid xs={12}>
                 <Typography color="darker.main">Visualizações</Typography>
                 <VisualizationChart data={data} />
             </Grid>

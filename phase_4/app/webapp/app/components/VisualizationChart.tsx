@@ -45,7 +45,7 @@ export function VisualizationChart({ data }: { data: Array<{ x: number, y: numbe
         setChartWidth(document.getElementById("chart-parent")?.clientWidth ?? 500);
     }, []);
 
-    return (<Card elevation={0} sx={{ borderRadius: 2 }}>
+    return (<Card elevation={0} sx={{ borderRadius: 2 }} id="chart-parent">
         {data && (
             <LineChart
                 dataset={data}
