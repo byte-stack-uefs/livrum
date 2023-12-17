@@ -1,10 +1,9 @@
 "use client";
 
-import "../styles/image-zoom.css";
 import Image from "next/image";
 import Divider from "./Divider";
+import "../styles/image-zoom.css";
 import Carousel from "./Carousel";
-import { theme } from "@/app/theme";
 import Ebook from "../interfaces/Ebook";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
@@ -15,16 +14,16 @@ function ContainerBookCard(book: Ebook) {
         <div>
             <div
                 style={{
-                    minHeight: 350,
+                    height: 250,
                     margin: "auto",
                     overflow: "hidden",
-                    position: 'relative'
+                    position: 'relative',
                 }}
             >
                 <Image className="image-zoom" fill objectFit="cover" alt={book.title} src={book.cover} />
             </div>
 
-            <Typography sx={{ color: theme.palette.darker.main, fontWeight: "bold" }}>{book.title}</Typography>
+            <Typography color="darker.main" sx={{ fontWeight: "bold" }}>{book.title}</Typography>
 
             <p>{book.author}</p>
             <div>
@@ -39,7 +38,7 @@ function ContainerBookCard(book: Ebook) {
 export default function HomePageBooksContainer({ title = "", books = [] }: { title: string; books: Array<any> }) {
     return (
         <Box sx={{ textAlign: "center", marginBottom: 5 }}>
-            <Typography variant="h4" sx={{ fontWeight: "bold", color: theme.palette.darker.main }}>
+            <Typography variant="h4" color="darker.main" sx={{ fontWeight: "bold" }}>
                 {title}
             </Typography>
 
