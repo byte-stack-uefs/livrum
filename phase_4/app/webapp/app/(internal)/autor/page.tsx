@@ -89,12 +89,12 @@ export default function Page() {
             </Grid>
             <Grid xs={12} container>
                 <Grid xs={12}>
-                    <Card elevation={0}>
+                    <Card elevation={0} sx={{ padding: 2 }}>
                         <Grid container xs={12}>
-                            <Grid xs={8}>
-                                eBooks
+                            <Grid xs={9}>
+                                <Typography color="darker.main">eBooks</Typography>
                             </Grid>
-                            <Grid xs={4}>
+                            <Grid xs={3}>
                                 <TableSelect items={categories} title="Categorias" onChange={(e) => {
                                     console.log(e)
                                 }} />
