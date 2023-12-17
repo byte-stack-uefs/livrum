@@ -70,6 +70,8 @@ export default function Page() {
         setTotal(calculate < 0 ? 0 : calculate);
     }, [subtotal, discount]);
 
+    const [tab, setTab] = useState(0);
+
     const tabItems = [
         {
             title: 'Cartão',
@@ -80,6 +82,14 @@ export default function Page() {
             icon: <Pix />
         },
     ];
+
+    function getCurrentTab(tab: number) {
+        if (tab == 0) {
+            return <CreditCardContainer />
+        } else {
+            return <PixContainer />
+        }
+    }
 
     return (
         <Container maxWidth="md" sx={{ mt: 3 }}>
@@ -150,16 +160,24 @@ export default function Page() {
                 </Grid>
                 <Grid xs={12} my={2} container>
                     <Grid xs={12}>
-                        <TabSelector items={tabItems} def={0} onChange={(e) => { }} />
+                        <TabSelector items={tabItems} def={0} onChange={(e) => {
+                            setTab(e);
+                        }} />
                     </Grid>
                     <Grid xs={12}>
                         <Box sx={{ border: '1px solid #e5e5e5' }} p={2} borderRadius={2}>
-                            <CreditCardContainer />
+                            {getCurrentTab(tab)}
                         </Box>
                     </Grid>
                 </Grid>
             </Grid>
         </Container>
+    );
+}
+
+function PixContainer() {
+    return (
+        <p>pix</p>
     );
 }
 
