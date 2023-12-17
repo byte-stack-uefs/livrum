@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Divider from "@/app/components/Divider";
-import { Check, CheckCircle, CreditCard, Pix } from "@mui/icons-material";
+import { CheckCircle, CreditCard, Pix } from "@mui/icons-material";
 import { TabSelector } from "@/app/components/TabSelector";
 import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography } from "@mui/material";
 import { PixContainer } from "@/app/components/PixContainer";
