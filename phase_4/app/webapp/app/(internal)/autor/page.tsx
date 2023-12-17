@@ -7,6 +7,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DashboardCard from "@/app/components/DashboardCard";
 import { Book, MonetizationOn, Sell } from "@mui/icons-material";
 import { VisualizationChart, getFakeData } from "@/app/components/VisualizationChart";
+import { PopularityTable } from "@/app/components/PopularityTable";
 
 export default function Page() {
     const username = "Almir";
@@ -58,7 +59,9 @@ export default function Page() {
                     <Typography color="darker.main">Visualizações</Typography>
                     <VisualizationChart data={data} />
                 </Grid>
-                <Grid xs={4}>MAis vendidos</Grid>
+                <Grid xs={4}>
+                    <PopularityTable selectTitle="Ebook" title="Mais vendidos" items={[]} />
+                </Grid>
             </Grid>
             <Grid xs={12}>ebooks</Grid>
         </Grid>
