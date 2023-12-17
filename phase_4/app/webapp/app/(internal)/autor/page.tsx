@@ -1,14 +1,21 @@
 "use client";
 
-import DashboardCard from "@/app/components/DashboardCard";
 import { theme } from "@/app/theme";
-import { Book, MonetizationOn, Sell } from "@mui/icons-material";
 import { Typography } from "@mui/material";
-
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import DashboardCard from "@/app/components/DashboardCard";
+import { Book, MonetizationOn, Sell } from "@mui/icons-material";
+import { VisualizationChart, getFakeData } from "@/app/components/VisualizationChart";
 
 export default function Page() {
     const username = "Almir";
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        setData(getFakeData());
+    }, []);
 
     const cards = [
         {
@@ -47,8 +54,11 @@ export default function Page() {
                 })}
             </Grid>
             <Grid xs={12} container>
-                <Grid xs={7}>Gráfico</Grid>
-                <Grid xs={5}>MAis vendidos</Grid>
+                <Grid xs={8}>
+                    <Typography color="darker.main">Visualizações</Typography>
+                    <VisualizationChart data={data} />
+                </Grid>
+                <Grid xs={4}>MAis vendidos</Grid>
             </Grid>
             <Grid xs={12}>ebooks</Grid>
         </Grid>
