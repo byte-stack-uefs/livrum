@@ -26,6 +26,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { TabSelector } from "@/app/components/TabSelector";
+import { CreditCard } from "@mui/icons-material";
 
 // MuiTab: {
 //     styleOverrides: {
@@ -238,6 +239,19 @@ const UserManagment = () => {
                 </Button>;*/
         }
     }
+
+    const tabOptions = [
+        {
+            title: 'Admin',
+        },
+        {
+            title: 'Autores'
+        },
+        {
+            title: 'Clientes'
+        }
+    ];
+
     return (
         <>
             <React.Fragment>
@@ -305,7 +319,7 @@ const UserManagment = () => {
                 Usuários
             </Typography>
             <Box>
-                <TabSelector items={['Admin', 'Autores', 'Clientes']} def={0} onChange={(e) => {
+                <TabSelector items={tabOptions} def={0} onChange={(e) => {
                     handleChange(null, e);
                 }} />
                 <Paper sx={{ width: "100%", overflow: "hidden" }}>
