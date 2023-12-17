@@ -1,9 +1,9 @@
 "use client"
 
 import { theme } from "../theme";
-import { Card, Typography } from "@mui/material";
-import { LineChart } from "@mui/x-charts";
 import { DateTime } from "luxon";
+import { Card } from "@mui/material";
+import { LineChart } from "@mui/x-charts";
 import { useEffect, useState } from "react";
 
 function getMaxX() {
@@ -37,7 +37,12 @@ export function getFakeData(): Array<{ x: number, y: number }> {
     return data;
 }
 
-export function VisualizationChart({ data }: { data: Array<{ x: number, y: number }> }) {
+export interface ChartData {
+    x: number;
+    y: number;
+}
+
+export function VisualizationChart({ data }: { data: Array<ChartData> }) {
 
     const [chartWidth, setChartWidth] = useState(0);
 
