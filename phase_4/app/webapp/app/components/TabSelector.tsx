@@ -7,7 +7,7 @@ const MTab = styled(Tab)(({ theme }) => ({
     },
 }));
 
-export function TabSelector({ items, def, onChange }: { items: Array<string>, def: number, onChange: (value: any) => void }) {
+export function TabSelector({ items, def, onChange }: { items: Array<{ icon?: any, title: string }>, def: number, onChange: (value: any) => void }) {
 
     const [value, setValue] = useState(def);
 
@@ -18,8 +18,9 @@ export function TabSelector({ items, def, onChange }: { items: Array<string>, de
 
         {items.map((e) => {
             return <MTab
-                key={e}
-                label={e}
+                key={e.title}
+                icon={e.icon ? e.icon : null}
+                label={e.title}
                 sx={{
                     borderRadius: "0px 0 0 0",
                 }}
