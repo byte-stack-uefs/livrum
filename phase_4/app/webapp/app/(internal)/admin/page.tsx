@@ -78,7 +78,7 @@ export default function Page() {
                 <VisualizationChart data={data} />
             </Grid>
             <Grid xs={12}>
-                <PopularityTable selectTitle="Autor" title="Ranking Autores" items={authors} />
+                <PopularityTable selectItems={[]} selectTitle="Autor" title="Ranking Autores" items={authors} />
             </Grid>
         </Grid>
     );

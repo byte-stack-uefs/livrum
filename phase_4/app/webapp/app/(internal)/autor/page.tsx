@@ -1,13 +1,15 @@
 "use client";
 
 import { theme } from "@/app/theme";
-import { Typography } from "@mui/material";
+import { Card, Select, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DashboardCard from "@/app/components/DashboardCard";
 import { Book, MonetizationOn, Sell } from "@mui/icons-material";
 import { VisualizationChart, getFakeData } from "@/app/components/VisualizationChart";
 import { PopularityTable } from "@/app/components/PopularityTable";
+import { EbookTableItem, EbooksTable } from "@/app/components/EbooksTable";
+import { TableSelect } from "@/app/components/TableSelect";
 
 export default function Page() {
     const username = "Almir";
@@ -42,6 +44,28 @@ export default function Page() {
         },
     ];
 
+    const ebooksTableHeaders = [
+        '#', 'Nome', 'Categoria', 'Preço', 'Vendidos (und)', "Faturamento"
+    ];
+
+    const items: Array<EbookTableItem> = [
+        {
+            id: 5,
+            name: 'Teste',
+            price: 51.47,
+            sold: 557,
+            revenue: 557 * 51.47,
+            genres: ['Adventure', 'Terror', 'Comedy']
+        }
+    ];
+
+    const categories = [
+        {
+            value: 4,
+            title: 'Terror'
+        }
+    ];
+
     return (
         <Grid container spacing={2}>
             <Grid xs={12}>
@@ -60,10 +84,28 @@ export default function Page() {
                     <VisualizationChart data={data} />
                 </Grid>
                 <Grid xs={4}>
-                    <PopularityTable selectTitle="Ebook" title="Mais vendidos" items={[]} />
+                    <PopularityTable selectItems={[]} selectTitle="Ebook" title="Mais vendidos" items={[]} />
                 </Grid>
             </Grid>
-            <Grid xs={12}>ebooks</Grid>
+            <Grid xs={12} container>
+                <Grid xs={12}>
+                    <Card elevation={0}>
+                        <Grid container xs={12}>
+                            <Grid xs={8}>
+                                eBooks
+                            </Grid>
+                            <Grid xs={4}>
+                                <TableSelect items={categories} title="Categorias" onChange={(e) => {
+                                    console.log(e)
+                                }} />
+                            </Grid>
+                        </Grid>
+                        <Grid xs={12}>
+                            <EbooksTable headers={ebooksTableHeaders} items={items} />
+                        </Grid>
+                    </Card>
+                </Grid>
+            </Grid>
         </Grid>
     );
 }

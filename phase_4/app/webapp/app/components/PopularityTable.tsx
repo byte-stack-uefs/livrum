@@ -2,6 +2,7 @@ import { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { LinearProgressWithLabel } from "./LinearProgressWithLabel";
 import { Card, FormControl, InputLabel, MenuItem, Select, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material";
+import { TableSelect } from "./TableSelect";
 
 interface PopularityItem {
     id: number;
@@ -9,7 +10,7 @@ interface PopularityItem {
     popularity: number;
 }
 
-export function PopularityTable({ items, title, selectTitle }: { items: Array<PopularityItem>, title: string, selectTitle: string }) {
+export function PopularityTable({ items, title, selectTitle, selectItems }: { items: Array<PopularityItem>, title: string, selectTitle: string, selectItems: Array<any> }) {
 
     const [selected, setSelected] = useState('');
 
@@ -44,32 +45,7 @@ export function PopularityTable({ items, title, selectTitle }: { items: Array<Po
                 </Typography>
             </Grid>
             <Grid xs={3}>
-                <FormControl fullWidth>
-                    <InputLabel size="small" id="popularity-select-label">
-                        {selectTitle}
-                    </InputLabel>
-                    <Select
-                        labelId="popularity-select-label"
-                        id="popularity-select"
-                        value={selected}
-                        label={selectTitle}
-                        onChange={(e) => {
-                            setSelected(e.target.value);
-                        }}
-                        size="small"
-                        sx={{
-                            borderRadius: 3,
-                            backgroundColor: "secondary.main",
-                            "& > .MuiOutlinedInput-notchedOutline": {
-                                border: "none",
-                            },
-                        }}
-                    >
-                        <MenuItem value={10}>X</MenuItem>
-                        <MenuItem value={20}>Y</MenuItem>
-                        <MenuItem value={30}>Z</MenuItem>
-                    </Select>
-                </FormControl>
+                <TableSelect title={selectTitle} items={selectItems} onChange={(e) => { }} />
             </Grid>
         </Grid>
         <Table>
