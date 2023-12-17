@@ -79,11 +79,13 @@ export default function Page() {
                 })}
             </Grid>
             <Grid xs={12} container>
-                <Grid xs={8}>
+                <Grid xs={12}>
                     <Typography color="darker.main">Visualizações</Typography>
+                </Grid>
+                <Grid xs={7}>
                     <VisualizationChart data={data} />
                 </Grid>
-                <Grid xs={4}>
+                <Grid xs={5}>
                     <PopularityTable selectItems={[]} selectTitle="Ebook" title="Mais vendidos" items={[]} />
                 </Grid>
             </Grid>
