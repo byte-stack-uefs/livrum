@@ -4,7 +4,6 @@ import {
     Button,
     Grid,
     Paper,
-    Tab,
     Table,
     TableBody,
     TableCell,
@@ -12,8 +11,6 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    Tabs,
-    TextField,
     Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -28,6 +25,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import { TabSelector } from "@/app/components/TabSelector";
 
 // MuiTab: {
 //     styleOverrides: {
@@ -145,12 +143,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogActions-root": {},
 }));
 
-const MTab = styled(Tab)(({ theme }) => ({
-    "&.Mui-selected": {
-        backgroundColor: "#fff",
-    },
-}));
-
 const sourceSans3 = Source_Sans_3({ style: "normal", weight: "200", preload: false });
 
 const UserManagment = () => {
@@ -163,11 +155,9 @@ const UserManagment = () => {
         setOpenDialog(false);
     };
 
-    const [value, setValue] = useState(0);
     const [tableItems, setItems] = useState(admins);
 
     const handleChange = (event: any, newValue: number) => {
-        setValue(newValue);
         switch (newValue) {
             case 0:
                 setItems(admins);
@@ -182,7 +172,6 @@ const UserManagment = () => {
                 setItems(admins);
                 break;
         }
-        console.log(newValue);
     };
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -316,26 +305,9 @@ const UserManagment = () => {
                 Usuários
             </Typography>
             <Box>
-                <Tabs value={value} scrollButtons={false} onChange={handleChange} TabIndicatorProps={{ style: { display: "none" } }}>
-                    <MTab
-                        label="Admin"
-                        sx={{
-                            borderRadius: "0px 0 0 0",
-                        }}
-                    />
-                    <MTab
-                        label="Autores"
-                        sx={{
-                            borderRadius: "0 0px 0 0",
-                        }}
-                    />
-                    <MTab
-                        label="Clientes"
-                        sx={{
-                            borderRadius: "0px 0 0 0",
-                        }}
-                    />
-                </Tabs>
+                <TabSelector items={['Admin', 'Autores', 'Clientes']} def={0} onChange={(e) => {
+                    handleChange(null, e);
+                }} />
                 <Paper sx={{ width: "100%", overflow: "hidden" }}>
                     <TableContainer sx={{ maxHeight: "100%" }}>
                         <Table stickyHeader size="small" aria-label="sticky table">
@@ -358,10 +330,10 @@ const UserManagment = () => {
                                                         {column.id === "acao1"
                                                             ? getButtonAction(tableItem, 1)
                                                             : column.id === "acao2"
-                                                            ? getButtonAction(tableItem, 2)
-                                                            : column.id === "acao3"
-                                                            ? getButtonAction(tableItem, 3)
-                                                            : tableItem[column.id]}
+                                                                ? getButtonAction(tableItem, 2)
+                                                                : column.id === "acao3"
+                                                                    ? getButtonAction(tableItem, 3)
+                                                                    : tableItem[column.id]}
                                                     </TableCell>
                                                 );
                                             })}
