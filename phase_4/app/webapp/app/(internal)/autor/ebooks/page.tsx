@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { theme } from "@/app/theme";
 import InputBase from "@mui/material/InputBase";
-import { Source_Sans_3 } from "next/font/google";
 import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
@@ -32,8 +31,6 @@ import {
     TableRow,
     useMediaQuery,
 } from "@mui/material";
-
-const sourceSans3 = Source_Sans_3({ style: "normal", weight: "200", preload: false });
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -489,14 +486,13 @@ export default function ListagemEbooks() {
                     <Typography
                         sx={{
                             fontSize: 32,
-                            color: theme.palette.darker.main,
                             alignItems: "center",
                             display: "flex",
                             textTransform: "uppercase",
                             fontWeight: "medium",
                         }}
                         variant="h1"
-                        className={sourceSans3.className}
+                        color="darker.main"
                     >
                         Minhas Obras
                     </Typography>
@@ -529,10 +525,10 @@ export default function ListagemEbooks() {
                                                         {column.id === "acao"
                                                             ? getButtonAction(tableItem)
                                                             : column.id === "link_foto"
-                                                            ? getImage(tableItem)
-                                                            : column.id === "status"
-                                                            ? getButtonStatus(tableItem)
-                                                            : tableItem[column.id]}
+                                                                ? getImage(tableItem)
+                                                                : column.id === "status"
+                                                                    ? getButtonStatus(tableItem)
+                                                                    : tableItem[column.id]}
                                                     </TableCell>
                                                 );
                                             })}
