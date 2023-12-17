@@ -2,7 +2,6 @@
 
 import { DateTime } from "luxon";
 import { theme } from "@/app/theme";
-import { LineChart } from "@mui/x-charts";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DashboardCard from "@/app/components/DashboardCard";
@@ -23,48 +22,20 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
+import { VisualizationChart, getFakeData } from "@/app/components/VisualizationChart";
 
 export default function Page() {
     const username = "Admin";
 
-    const [chartWidth, setChartWidth] = useState(0);
-    const [data, setData] = useState(null);
+
+    const [data, setData] = useState([]);
     const [author, setAuthor] = useState(null);
 
     useEffect(() => {
-        setChartWidth(document.getElementById("chart-parent")?.clientWidth ?? 500);
-        setData(getData());
+        setData(getFakeData());
     }, []);
 
-    function getMaxX() {
-        const today = DateTime.now();
-        const days = today.daysInMonth;
-        return days;
-    }
 
-    function getX(min: number, max: number, increment: number = 1) {
-        const data = [];
-        for (let i = min; i <= max; i = i + increment) {
-            data.push(i);
-        }
-        return data;
-    }
-
-    function getData(): any[] {
-        const data: any[] = [];
-
-        const max = getMaxX();
-        const x = getX(1, max);
-
-        for (let i = 1; i <= max; i++) {
-            data.push({
-                x: x[i - 1],
-                y: Math.random() * 50,
-            });
-        }
-
-        return data;
-    }
 
     const cards = [
         {
@@ -116,54 +87,8 @@ export default function Page() {
                 })}
             </Grid>
             <Grid xs={12} id="chart-parent">
-                <Typography sx={{ color: theme.palette.darker.main }}>Visualizações</Typography>
-                <Card elevation={0} sx={{ borderRadius: 2 }}>
-                    {data && (
-                        <LineChart
-                            dataset={data}
-                            xAxis={[
-                                {
-                                    id: "days-month",
-                                    dataKey: "x",
-                                    tickMinStep: 4,
-                                    tickNumber: 6,
-                                    tickLabelStyle: {
-                                        fill: theme.palette.textLight.main,
-                                    },
-                                },
-                            ]}
-                            yAxis={[
-                                {
-                                    id: "data-axis",
-                                    tickLabelStyle: {
-                                        fill: theme.palette.textLight.main,
-                                    },
-                                },
-                            ]}
-                            leftAxis={{
-                                axisId: "data-axis",
-                                disableLine: true,
-                                disableTicks: true,
-                            }}
-                            bottomAxis={{
-                                axisId: "days-month",
-                                disableLine: true,
-                                disableTicks: true,
-                                stroke: "red",
-                            }}
-                            series={[
-                                {
-                                    curve: "catmullRom",
-                                    dataKey: "y",
-                                    showMark: false,
-                                    color: theme.palette.primary.main,
-                                },
-                            ]}
-                            width={chartWidth}
-                            height={300}
-                        />
-                    )}
-                </Card>
+                <Typography color="darker.main">Visualizações</Typography>
+                <VisualizationChart data={data} />
             </Grid>
             <Grid xs={12}>
                 <Card elevation={0} sx={{ borderRadius: 2 }}>
