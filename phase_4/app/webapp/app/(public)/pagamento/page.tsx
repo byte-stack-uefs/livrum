@@ -8,6 +8,7 @@ import { TabSelector } from "@/app/components/TabSelector";
 import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography } from "@mui/material";
 import { PixContainer } from "@/app/components/PixContainer";
 import { PaymentCreditCardContainer } from "@/app/components/PaymentCreditCardContainer";
+import { useRouter } from "next/navigation";
 
 export interface PaymentEbook {
     id: number;
@@ -45,6 +46,13 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
 
 export default function Page() {
 
+    const router = useRouter();
+    const [total, setTotal] = useState(0);
+    const [coupon, setCoupon] = useState('');
+    const [discount, setDiscount] = useState(0);
+    const [subtotal, setSubtotal] = useState(50);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+
     const books = [
         {
             id: 5,
@@ -61,11 +69,6 @@ export default function Page() {
             price: 25.90
         }
     ];
-
-    const [subtotal, setSubtotal] = useState(50);
-    const [discount, setDiscount] = useState(0);
-    const [total, setTotal] = useState(0);
-    const [coupon, setCoupon] = useState('');
 
     useEffect(() => {
         const calculate = subtotal - discount;
@@ -95,8 +98,6 @@ export default function Page() {
         }
     }
 
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
-
     return (
         <Container maxWidth="md" sx={{ mt: 3 }}>
 
@@ -112,7 +113,9 @@ export default function Page() {
                             </Typography>
                         </Grid>
                         <Grid xs={12} item textAlign="center">
-                            <Button variant="contained">
+                            <Button variant="contained" onClick={() => {
+                                router.push('/cliente/biblioteca')
+                            }}>
                                 Ir para a biblioteca
                             </Button>
                         </Grid>
