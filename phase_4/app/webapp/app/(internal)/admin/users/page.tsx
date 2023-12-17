@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { theme } from "@/app/theme";
-import { Source_Sans_3 } from "next/font/google";
 import createUser, { EnumUserStatus, User } from "@/app/User";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { styled } from "@mui/material/styles";
@@ -143,8 +142,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogContent-root": {},
     "& .MuiDialogActions-root": {},
 }));
-
-const sourceSans3 = Source_Sans_3({ style: "normal", weight: "200", preload: false });
 
 const UserManagment = () => {
     const [openDialog, setOpenDialog] = useState(false);
@@ -274,24 +271,24 @@ const UserManagment = () => {
                     <DialogContent dividers>
                         <Grid container>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="theme.pallete.primary">
+                                <Typography variant="body2" color="primary.main">
                                     <strong>Autor:</strong> {"Almir Neto"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.primary">
+                                <Typography variant="body2" color="primary.main">
                                     <strong>Email:</strong> {"email"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>Data de Nascimento:</strong> {"dataNascimento"}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>Telefone:</strong> {"telefone"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>CPF:</strong> {"cpf"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>Endereço:</strong> {"endereco"}
                                 </Typography>
                             </Grid>
@@ -307,14 +304,13 @@ const UserManagment = () => {
             <Typography
                 sx={{
                     fontSize: 32,
-                    color: theme.palette.darker.main,
                     alignItems: "center",
                     marginTop: "1%",
                     display: "flex",
                     textTransform: "uppercase",
                 }}
+                color="darker.main"
                 variant="h1"
-                className={sourceSans3.className}
             >
                 Usuários
             </Typography>
