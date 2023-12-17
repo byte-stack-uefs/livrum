@@ -98,7 +98,7 @@ function ClientLibraryBookContainer() {
         <Grid container xs={12}>
             <List sx={{ width: "100%" }}>
                 {books.map((book) => (
-                    <ListItem>
+                    <ListItem key={book.id}>
                         <InLibraryEbookCard ebook={book}></InLibraryEbookCard>
                     </ListItem>
                 ))}
