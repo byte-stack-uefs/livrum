@@ -2,9 +2,12 @@
 
 import { theme } from "../theme";
 import { DateTime } from "luxon";
-import { Card } from "@mui/material";
+import { Card, Grid } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
 import { useEffect, useState } from "react";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 function getMaxX() {
     const today = DateTime.now();
@@ -51,50 +54,62 @@ export function VisualizationChart({ data }: { data: Array<ChartData> }) {
     }, []);
 
     return (<Card elevation={0} sx={{ borderRadius: 2 }} id="chart-parent">
-        {data && (
-            <LineChart
-                dataset={data}
-                xAxis={[
-                    {
-                        id: "days-month",
-                        dataKey: "x",
-                        tickMinStep: 4,
-                        tickNumber: 6,
-                        tickLabelStyle: {
-                            fill: theme.palette.textLight.main,
-                        },
-                    },
-                ]}
-                yAxis={[
-                    {
-                        id: "data-axis",
-                        tickLabelStyle: {
-                            fill: theme.palette.textLight.main,
-                        },
-                    },
-                ]}
-                leftAxis={{
-                    axisId: "data-axis",
-                    disableLine: true,
-                    disableTicks: true,
-                }}
-                bottomAxis={{
-                    axisId: "days-month",
-                    disableLine: true,
-                    disableTicks: true,
-                    stroke: "red",
-                }}
-                series={[
-                    {
-                        curve: "catmullRom",
-                        dataKey: "y",
-                        showMark: false,
-                        color: theme.palette.primary.main,
-                    },
-                ]}
-                width={chartWidth}
-                height={300}
-            />
-        )}
+
+        <Grid container>
+            <Grid xs={12} p={2} textAlign="right">
+                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                    <DatePicker defaultValue={DateTime.now()} label={'Período'} views={['month', 'year']} />
+                </LocalizationProvider>
+            </Grid>
+            <Grid xs={12}>
+                {data && (
+                    <LineChart
+                        dataset={data}
+                        xAxis={[
+                            {
+                                id: "days-month",
+                                dataKey: "x",
+                                tickMinStep: 4,
+                                tickNumber: 6,
+                                tickLabelStyle: {
+                                    fill: theme.palette.textLight.main,
+                                },
+                            },
+                        ]}
+                        yAxis={[
+                            {
+                                id: "data-axis",
+                                tickLabelStyle: {
+                                    fill: theme.palette.textLight.main,
+                                },
+                            },
+                        ]}
+                        leftAxis={{
+                            axisId: "data-axis",
+                            disableLine: true,
+                            disableTicks: true,
+                        }}
+                        bottomAxis={{
+                            axisId: "days-month",
+                            disableLine: true,
+                            disableTicks: true,
+                            stroke: "red",
+                        }}
+                        series={[
+                            {
+                                curve: "catmullRom",
+                                dataKey: "y",
+                                showMark: false,
+                                color: theme.palette.primary.main,
+                            },
+                        ]}
+                        width={chartWidth}
+                        height={300}
+                    />
+                )}
+            </Grid>
+        </Grid>
+
+
     </Card>);
 }
