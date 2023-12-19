@@ -4,11 +4,14 @@ import { theme } from "@/app/theme";
 import React, { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const Login = () => {
     const [value, setValue] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const router = useRouter();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -82,8 +85,7 @@ const Login = () => {
                                         variant="body2"
                                         underline="none"
                                         onClick={() => {
-
-                                            //Direcionar para a página de recuperação!!!!
+                                            router.push('/recuperacao-senha')
                                         }}
                                         style={{
                                             color: theme.palette.primary.main,
