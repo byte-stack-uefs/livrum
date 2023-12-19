@@ -97,4 +97,4 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()]):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
     access_token = create_access_token({"id": user.idUsuario, "type": user.tipo}, 60)
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "user": user}
