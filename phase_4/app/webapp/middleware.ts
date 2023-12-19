@@ -2,10 +2,30 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
 
     if (request.nextUrl.pathname == '/') {
         return;
+    }
+
+    console.log(request.cookies.has('token'))
+
+    if (request.cookies.has('token')) {
+
+        const cookie = request.cookies.get('token')?.value;
+        console.log(cookie)
+        const headers = new Headers();
+
+        headers.append('Authorization', 'Bearer ' + cookie);
+        const response = await fetch('http://localhost:3000/account/isAuthenticated', {
+            headers: headers,
+            cache: 'no-store',
+            next: {
+                revalidate: 0
+            }
+        });
+        let data = await response.text()
+        console.debug(data);
     }
 
     return NextResponse.redirect(new URL('/login', request.url))

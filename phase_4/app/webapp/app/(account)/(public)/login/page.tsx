@@ -2,9 +2,10 @@
 
 import { theme } from "@/app/theme";
 import React, { useState } from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
 import { useRouter } from "next/navigation";
+import Grid from "@mui/material/Unstable_Grid2";
+import useRequest from "@/app/services/requester";
+import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
 
 const Login = () => {
     const [value, setValue] = useState(0);
@@ -12,15 +13,24 @@ const Login = () => {
     const [password, setPassword] = useState("");
 
     const router = useRouter();
+    const requester = useRequest();
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const handleSubmitClient = (event) => {
+
         event.preventDefault();
-        console.log("Email:", email);
-        console.log("Senha:", password);
+
+        requester.post('/auth', {
+            password: password,
+            username: email
+        }).then(response => {
+            localStorage.setItem('token', response.data.access_token);
+        }).catch(err => {
+
+        });
     };
 
     return (

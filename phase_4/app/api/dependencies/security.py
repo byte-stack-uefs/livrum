@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from passlib.context import CryptContext
 from services.userService import UserService
 from models.user import User, UserStatus, UserType
-from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 EXPIRE = 60
@@ -88,7 +88,7 @@ router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 @router.post("/", description="Authenticates an User")
-def token(form: Annotated[OAuth2PasswordRequestForm, Depends()]):
+def token(form: Annotated[OAuth2PasswordRequestForm, Depends()], response: Response):
     user = findUser(form.username)
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -97,4 +97,5 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()]):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
     access_token = create_access_token({"id": user.idUsuario, "type": user.tipo}, 60)
+    response.set_cookie("token", access_token)
     return {"access_token": access_token, "token_type": "bearer", "user": user}
