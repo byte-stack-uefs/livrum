@@ -1,4 +1,5 @@
 from models.user import User, UserType
+from database.database import DB
 
 
 class UserService:
@@ -13,14 +14,10 @@ class UserService:
             User: The user
 
         """
-        data = {
-            "id": 1,
-            "email": email,
-            "password": "$2b$12$/uXiY1UbHqSOLkA.g.fI3.DNYVGO98OIDmBZqLbHlsqAOVlbLbbBO",
-            "status": "active",
-            "name": "Almir Neto",
-            "type": UserType.ADMIN,
-        }
+
+        with DB() as db:
+            db.execute("SELECT * FROM Usuario WHERE email = %s", [email])
+            data = db.fetchone()
 
         user = User(**data)
 
