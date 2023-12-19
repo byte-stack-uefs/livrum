@@ -5,6 +5,9 @@ from dependencies import security
 from database.database import connect
 from fastapi.responses import Response
 from routers import creditCard, cart, genre, coupon, customer
+import logging
+
+logging.getLogger("passlib").setLevel(logging.ERROR)
 
 app = FastAPI()
 
