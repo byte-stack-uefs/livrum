@@ -1,7 +1,7 @@
 "use client";
 
 import { theme } from "@/app/theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
@@ -16,43 +16,141 @@ import {
     DialogActions,
     Stack,
     Switch,
-    Select,
     SelectChangeEvent,
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Chip,
+    TableContainer,
+    Paper,
+    TablePagination,
+    Select,
     MenuItem,
 } from "@mui/material";
 
-const autorCupons = () => {
-    const [openModal, setOpenModal] = useState(false);
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+    "& .MuiDialogContent-root": {
+        padding: theme.spacing(2),
+    },
+    "& .MuiDialogActions-root": {
+        padding: theme.spacing(1),
+    },
+}));
 
-    const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-        "& .MuiDialogContent-root": {
-            padding: theme.spacing(2),
+const StyledDialogTitle = styled(DialogTitle)({
+    m: 0,
+    p: 2,
+    textAlign: "center",
+    backgroundColor: "#E5E2E2",
+    fontFamily: "Roboto",
+    fontSize: "20px",
+});
+
+const NewCouponModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
+    const [isOpen, setIsOpen] = useState(open);
+
+    useEffect(() => {
+        setIsOpen(open);
+    }, [open]);
+
+    const [percent, setPercent] = React.useState(0);
+    const [newCouponName, setNewCouponName] = useState("");
+
+    const availablePercents = [
+        {
+            value: 10,
+            label: "10%",
         },
-        "& .MuiDialogActions-root": {
-            padding: theme.spacing(1),
+        {
+            value: 20,
+            label: "20%",
         },
-    }));
+        {
+            value: 30,
+            label: "30%",
+        },
+        {
+            value: 40,
+            label: "40%",
+        },
+        {
+            value: 50,
+            label: "50%",
+        },
+    ];
 
-    const handleOpen = () => {
-        setOpenModal(true);
+    const handleClose = (event, reason) => {
+        if (reason !== "backdropClick") {
+            setIsOpen(false);
+            onClose();
+        }
     };
-
-    const handleClose = () => {
-        setOpenModal(false);
-    };
-    const StyledDialogTitle = styled(DialogTitle)({
-        m: 0,
-        p: 2,
-        textAlign: "center",
-        backgroundColor: "#E5E2E2",
-        fontFamily: "Roboto",
-        fontSize: "20px",
-    });
-
-    const [age, setAge] = React.useState("");
 
     const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value as string);
+        setPercent(event.target.value as number);
+    };
+
+    return (
+        <BootstrapDialog open={isOpen} onClose={handleClose} fullWidth maxWidth="sm">
+            <StyledDialogTitle id="customized-dialog-title">
+                <strong>Criar novo cupom</strong>
+            </StyledDialogTitle>
+            <DialogContent dividers>
+                <Grid container justifyContent="center">
+                    <Grid xs={12} md={6}>
+                        <Typography color="dark.main">Nome do cupom:</Typography>
+                        <TextField
+                            fullWidth
+                            size="small"
+                            value={newCouponName}
+                            onChange={(e) => setNewCouponName(e.target.value)}
+                            size="small"
+                        ></TextField>
+                    </Grid>
+                    <Grid xs={12}></Grid>
+                    <Grid xs={12} md={6}>
+                        <Typography color="dark.main">Percentual:</Typography>
+                        <Select fullWidth size="small" onChange={handleChange} value={percent}>
+                            <MenuItem value={10}>10%</MenuItem>
+                            <MenuItem value={20}>20%</MenuItem>
+                            <MenuItem value={30}>30%</MenuItem>
+                            <MenuItem value={40}>40%</MenuItem>
+                            <MenuItem value={50}>50%</MenuItem>
+                        </Select>
+                    </Grid>
+                </Grid>
+            </DialogContent>
+
+            <DialogActions>
+                <Stack justifyContent="center" gap={2} flexDirection="row" width={1.0} flexWrap="wrap">
+                    <Button color="success" variant="contained" onClick={(e) => handleClose(e, "click")}>
+                        Criar
+                    </Button>
+                    <Button color="error" variant="contained" onClick={(e) => handleClose(e, "click")}>
+                        Cancelar
+                    </Button>
+                </Stack>
+            </DialogActions>
+        </BootstrapDialog>
+    );
+};
+
+const autorCupons = () => {
+    const coupons = [];
+
+    const [open, setOpen] = useState(false);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
     };
 
     return (
@@ -64,12 +162,11 @@ const autorCupons = () => {
                     </Typography>
                     <Divider width={"35%"} />
                 </Grid>
-                <Grid xs={3}>
+                <Grid xs={3} textAlign="right">
                     <Button
                         variant="contained"
                         onClick={(e) => {
-                            e.preventDefault();
-                            setOpenModal(true);
+                            setOpen(true);
                         }}
                     >
                         Criar novo cupom
@@ -77,133 +174,60 @@ const autorCupons = () => {
                 </Grid>
             </Grid>
 
-            <Grid container xs={12} display="flex" justifyContent="center" alignItems="center">
-                <Grid xs={12} sx={{ backgroundColor: "#FFFFFF", borderRadius: 4 }}>
-                    <Grid container direction="row" justifyContent="space-around" alignItems="center" paddingTop={1}>
-                        <Typography color={"black"} sx={{ width: 78, textAlign: "center" }}>
-                            Percentual
-                        </Typography>
-                        <Typography color={"black"} sx={{ width: 85, textAlign: "center" }}>
-                            Nome
-                        </Typography>
-                        <Typography color={"black"} sx={{ width: 58, textAlign: "center" }}>
-                            Status
-                        </Typography>
-                        <Typography color={"black"} sx={{ width: 73, textAlign: "center" }}>
-                            Excluir
-                        </Typography>
-                    </Grid>
-
-                    <Grid paddingTop={1}>
-                        <Divider width={"100%"} />
-                    </Grid>
-
-                    <Grid container direction="row" justifyContent="space-around" alignItems="center" paddingTop={1}>
-                        <Grid width={78} display="flex" direction="row" justifyContent="space-around">
-                            <Grid
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={{
-                                    boxShadow: "rgba(0, 0, 0, 0.24) 2px 2px 5px",
-                                    backgroundColor: "#D9D9D9",
-                                    borderRadius: "50%",
-                                    width: 40,
-                                    height: 40,
-                                }}
-                            >
-                                <Typography fontSize={18} color={"black"}>
-                                    50%
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Typography fontSize={12}>"NOMECUPOM"</Typography>
-                        <Switch></Switch>
-                        <Button variant="contained" color="error" sx={{ fontSize: 10 }}>
-                            Excluir
-                        </Button>
-                    </Grid>
-
-                    <Grid display="flex" justifyContent="center" alignItems="center" paddingTop={1}>
-                        <Divider height={1} width={"90%"} />
-                    </Grid>
-
-                    <Grid container direction="row" justifyContent="space-around" alignItems="center" paddingTop={1}>
-                        <Grid width={78} display="flex" direction="row" justifyContent="space-around">
-                            <Grid
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                                sx={{
-                                    boxShadow: "rgba(0, 0, 0, 0.24) 2px 2px 5px",
-                                    backgroundColor: "lightgrey",
-                                    borderRadius: "50%",
-                                    width: 40,
-                                    height: 40,
-                                }}
-                            >
-                                <Typography fontSize={18} color={"black"}>
-                                    50%
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                        <Typography fontSize={12}>"NOMECUPOM"</Typography>
-                        <Switch></Switch>
-                        <Grid width={73} display="flex" direction="row" justifyContent="space-around">
-                            <Button variant="contained" color="error">
-                                <DeleteOutlinedIcon sx={{ fontSize: 16 }} width={73} />
-                            </Button>
-                        </Grid>
-                    </Grid>
+            <Grid xs={12} container>
+                <Grid xs={12}>
+                    <Paper>
+                        <TableContainer sx={{ maxHeight: "100%" }}>
+                            <Table stickyHeader size="medium" aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell align="center">Nome</TableCell>
+                                        <TableCell align="center">Percentual</TableCell>
+                                        <TableCell align="center">Status</TableCell>
+                                        <TableCell align="center">Excluir</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {coupons.map((e) => {
+                                        return (
+                                            <TableRow key={e.id}>
+                                                <TableCell align="center">{e.name}</TableCell>
+                                                <TableCell align="center">
+                                                    <Chip color="success" label={e.percent + "%"} />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <Switch color="success" value={e.status} />
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <Button size="small" variant="contained" color="error" startIcon={<DeleteOutlinedIcon />}>
+                                                        Excluir
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={coupons.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Paper>
                 </Grid>
             </Grid>
 
-            <BootstrapDialog open={openModal} onClose={handleClose} fullWidth maxWidth="sm">
-                <StyledDialogTitle id="customized-dialog-title">
-                    <strong>Criar novo cupom</strong>
-                </StyledDialogTitle>
-                <DialogContent dividers>
-                    <Grid container direction="row" justifyContent="center" alignItems="center">
-                        <Typography>Nome do cupom: </Typography>
-                        <TextField size="small"></TextField>
-                    </Grid>
-                    <Grid container direction="row" justifyContent="center" alignItems="center">
-                        <Typography>Percentual: </Typography>
-                        <Select onChange={handleChange}>
-                            <MenuItem value={10}>10%</MenuItem>
-                            <MenuItem value={20}>20%</MenuItem>
-                            <MenuItem value={30}>30%</MenuItem>
-                            <MenuItem value={40}>40%</MenuItem>
-                            <MenuItem value={50}>50%</MenuItem>
-                        </Select>
-                    </Grid>
-                </DialogContent>
-
-                <DialogActions>
-                    <Stack justifyContent="center" gap={2} flexDirection="row" width={1.0} flexWrap="wrap">
-                        <Button
-                            color="success"
-                            variant="contained"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setOpenModal(false);
-                            }}
-                        >
-                            Criar
-                        </Button>
-                        <Button
-                            color="error"
-                            variant="contained"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                setOpenModal(false);
-                            }}
-                        >
-                            Cancelar
-                        </Button>
-                    </Stack>
-                </DialogActions>
-            </BootstrapDialog>
+            <NewCouponModal
+                open={open}
+                onClose={() => {
+                    setOpen(false);
+                }}
+            />
         </Grid>
     );
 };
