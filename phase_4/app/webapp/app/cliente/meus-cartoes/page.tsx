@@ -1,12 +1,16 @@
 "use client";
-import React from "react";
-import Grid from "@mui/material/Unstable_Grid2";
-import { List, ListItem, Box, Card, CardContent, Typography, CardActions, Button } from "@mui/material";
+
+import { theme } from "@/app/theme";
 import { useState } from "react";
-import CreditCard from "@/app/components/CreditCard";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { Box, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Icon, List, ListItem, Paper, Stack, Typography } from "@mui/material";
+import CreditCardIcon from '@mui/icons-material/CreditCard';
 
+export default function Page() {
+    const [open, setOpen] = useState(false);
 
-function CardList() {
     const [openModal, setOpenModal] = useState(false);
     const [creditCards, setCreditCards] = useState([
         {
@@ -14,116 +18,101 @@ function CardList() {
             num: "1234123412341234",
             expiryDate: "27/11/2030",
             cvc: 110,
-            name: "Nome sobrenome Um",
+            name: "Alguem da Silva",
         },{
             id: 1,
             num: "4321432143214321",
             expiryDate: "27/11/2040",
             cvc: 852,
-            name: "Nome sobrenome Dois",
+            name: "Alguem dos Santos",
         },
         {
             id: 2,
             num: "4567456745674567",
             expiryDate: "27/11/2035",
             cvc: 951,
-            name: "Nome Sobrenome Tres",
+            name: "Alguem de Jesus",
         },
     ]);
 
+    function handleClose() {
+        setOpen(false);
+    }
+
     return (
-        <Grid xs={12} md={6}>
-            <h5>Meus Cartões</h5>
-            <Box>
-                <List sx={{ width: "100%", maxWidth: 360}}>
+        <>
+     
+        <Grid xs={12} sx={{ fontSize: 18 }}>
+            <Typography variant="h4" fontWeight="bold" color="primary">
+                Meus Cartões
+            </Typography>
+        </Grid>
+ 
+        <Grid xs={12} md={6} >
+            <Grid item xs={12} sx={{ backgroundColor: "secondary.main", p: 1, margin: 'auto', borderBottomRightRadius: 20, }}>
+                <Grid justifyContent="flex-end" alignItems="flex-end">
+                    <Button variant="contained"
+                        onClick={() => {
+                            setOpen(true);
+                        }}
+                    >
+                        Adicionar
+                    </Button>
+                </Grid>
+                
+                <List sx={{ width: "100%", height: "100%"}} >
                 {creditCards.map((creditcard) => (
-                    <ListItem key={creditcard.id}>
-                        <Card>
+                    <ListItem key={creditcard.id}> 
+                        <Grid sx={{ backgroundColor: "white", margin: 'auto', minWidth: 350}}>
                             <CardContent>
                                 <Typography variant="body1">{creditcard.name}</Typography>
-                                <Typography variant="body2">{creditcard.expiryDate}</Typography>
+                                <Typography variant="body2">Validade: {creditcard.expiryDate}</Typography>
                                 <Typography>{creditcard.num}</Typography>
                             </CardContent>
                             <CardActions>
                                 <Button size="small" color='error'>Delete</Button>
                             </CardActions>
-                        </Card>
+                        </Grid>
+                       
                     </ListItem>
 
                 ))}
-                
-                </List>
-
-            </Box>
             
-          
+                </List>  
+            </Grid> 
         </Grid>
-    );
-}
-    {/*
-    return (
-        <Grid xs={12}>
-            <List sx={{ width: "100%" }}>
-                {creditCards.map((creditCard) => (
-                    <ListItem>
-                        <CreditCard>
-
-                        </CreditCard>
-                        
-                    </ListItem>
-                ))}
-            </List>
-        </Grid>
-    );
-}
-
-function BookListContainer() {
-    return (
-        <>
-            <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
-                <CardList></CardList>
-            </Grid>
+        
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle textAlign="center" sx={{ backgroundColor: "secondary.main", p: 1 }}>
+                    Cadastro novo cartão
+                </DialogTitle>
+                <DialogContent>
+                    <Grid container spacing={2} sx={{ mt: 1 }}>
+                        <Grid item xs={12}>
+                            <TextField label={"Nome no Cartão *"} fullWidth size="small" />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField label={"Numero do Cartão *"} fullWidth size="small" />
+                        </Grid>
+                        <Grid item xs={12} container>
+                            <Grid item xs={6}>
+                                <TextField type="date" label={"Data de Nascimento *"} fullWidth size="small" />
+                            </Grid>
+                            <Grid item xs={6} pl={2}>
+                                <TextField label={"CVV *"} fullWidth size="small" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="error" variant="contained" onClick={handleClose}>
+                        Cancelar
+                    </Button>
+                    <Button color="success" variant="contained" onClick={handleClose}>
+                        Salvar
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
-
-const MyCards = () => {
-    const [state, setState] = useState({
-        num: '',
-        expiryDate: '',
-        cvc: '',
-        name: '',
-        focus: '',
-      });
-
-    return (
-        <Grid container>
-            <Grid xs={11} md={4} margin="auto">
-                <Box>
-                    <button>
-
-                    </button>
-                    <Card>
-                        <CardContent>
-                            <Typography>
-                                Kbk
-                            </Typography>
-
-                        </CardContent>
-
-                    </Card>
-                </Box>
-                
-            </Grid>
-        </Grid>
-    );
-}
-
-export default MyCards;
-
-id: number;
-    num: number;
-    expiryDate: string;
-    cvc: number;
-    name: string;
-*/}

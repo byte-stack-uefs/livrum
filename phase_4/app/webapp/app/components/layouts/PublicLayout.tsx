@@ -13,7 +13,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     return (
         <div>
             <TopBar />
-            <section>{children}</section>
+            <section style={{ minHeight: '100vh' }}>{children}</section>
             <Footer />
         </div>
     );
