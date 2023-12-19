@@ -93,8 +93,8 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()]):
     if not user:
         raise HTTPException(status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    if not verify_password(form.password, user.password):
+    if not verify_password(form.password, user.senha):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
-    access_token = create_access_token({"id": user.name, "type": user.type}, 60)
+    access_token = create_access_token({"id": user.nome, "type": user.tipo}, 60)
     return {"access_token": access_token, "token_type": "bearer"}
