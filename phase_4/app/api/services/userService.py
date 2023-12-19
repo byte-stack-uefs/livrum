@@ -1,4 +1,4 @@
-from models.user import User, UserType
+from models.user import User
 from database.database import DB
 
 
@@ -19,20 +19,19 @@ class UserService:
             db.execute("SELECT * FROM Usuario WHERE email = %s", [email])
             data = db.fetchone()
 
-        user = User(**data)
+        user = None
+        if data is not None:
+            user = User(**data)
 
         return user
 
     def findUserById(self, id: int) -> User:
-        data = {
-            "id": id,
-            "email": "livrum@gmail.com",
-            "password": "$2b$12$/uXiY1UbHqSOLkA.g.fI3.DNYVGO98OIDmBZqLbHlsqAOVlbLbbBO",
-            "status": "active",
-            "name": "Almir Neto",
-            "type": UserType.ADMIN,
-        }
+        with DB() as db:
+            db.execute("SELECT * FROM Usuario WHERE idUsuario = %s", [id])
+            data = db.fetchone()
 
-        user = User(**data)
+        user = None
+        if data is not None:
+            user = User(**data)
 
         return user
