@@ -19,7 +19,9 @@ class UserService:
             db.execute("SELECT * FROM Usuario WHERE email = %s", [email])
             data = db.fetchone()
 
-        user = User(**data)
+        user = None
+        if data is not None:
+            user = User(**data)
 
         return user
 
@@ -28,6 +30,8 @@ class UserService:
             db.execute("SELECT * FROM Usuario WHERE idUsuario = %s", [id])
             data = db.fetchone()
 
-        user = User(**data)
+        user = None
+        if data is not None:
+            user = User(**data)
 
         return user
