@@ -3,12 +3,12 @@ from enum import Enum
 
 class User:
     def __init__(self, **kwargs):
-        self.id = kwargs.get("id")
-        self.name = kwargs.get("name")
+        self.idUsuario = kwargs.get("idUsuario")
+        self.nome = kwargs.get("nome")
         self.email = kwargs.get("email")
         self.status: UserStatus = kwargs.get("status")
-        self.password = kwargs.get("password")
-        self.type: UserType = kwargs.get("type")
+        self.senha = kwargs.get("senha")
+        self.tipo: UserType = kwargs.get("tipo")
 
 
 class UserType(str, Enum):
