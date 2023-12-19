@@ -96,5 +96,5 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()]):
     if not verify_password(form.password, user.senha):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
-    access_token = create_access_token({"id": user.nome, "type": user.tipo}, 60)
+    access_token = create_access_token({"id": user.idUsuario, "type": user.tipo}, 60)
     return {"access_token": access_token, "token_type": "bearer"}
