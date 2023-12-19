@@ -7,7 +7,20 @@ import Divider from "@/app/components/Divider";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import { Box, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, Typography } from "@mui/material";
+import {
+    Box,
+    Card,
+    CardActions,
+    CardContent,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    List,
+    ListItem,
+    Stack,
+    Typography,
+} from "@mui/material";
 
 export default function Page() {
     const [open, setOpen] = useState(false);
@@ -16,21 +29,21 @@ export default function Page() {
     const [creditCards, setCreditCards] = useState([
         {
             id: 0,
-            num: "1234123412341234",
+            num: "1234 1234 1234 1234",
             expiryDate: "11/2030",
             cvc: 110,
             name: "Alguem da Silva",
         },
         {
             id: 1,
-            num: "4321432143214321",
+            num: "4321 4321 4321 4321",
             expiryDate: "11/2040",
             cvc: 852,
             name: "Alguem dos Santos",
         },
         {
             id: 2,
-            num: "4567456745674567",
+            num: "4567 4567 4567 4567",
             expiryDate: "11/2035",
             cvc: 951,
             name: "Alguem de Jesus",
@@ -65,26 +78,28 @@ export default function Page() {
                                 </Button>
                             </Grid>
 
-                            <Grid xs={12}>
-                                <List sx={{ width: "100%", height: "100%" }}>
+                            <Grid xs={12} container mt={2}>
+                                <Stack direction="column" width="100%" divider={<Divider width="85%" height={2} style={{ margin: "auto" }} />}>
                                     {creditCards.map((creditcard) => (
-                                        <ListItem key={creditcard.id}>
-                                            <Grid sx={{ backgroundColor: "white", margin: "auto", minWidth: 350 }}>
-                                                <CardContent>
-                                                    <CreditCardIcon />
+                                        <Grid key={creditcard.id} xs={12} sx={{ backgroundColor: "white" }} py={2}>
+                                            <Grid container>
+                                                <Grid xs={4} textAlign="center">
+                                                    <CreditCardIcon color="dark" sx={{ fontSize: 80 }} />
+                                                </Grid>
+                                                <Grid xs={4}>
                                                     <Typography variant="body1">{creditcard.name}</Typography>
                                                     <Typography variant="body2">Válido até {creditcard.expiryDate}</Typography>
                                                     <Typography>{creditcard.num}</Typography>
-                                                </CardContent>
-                                                <CardActions>
-                                                    <Button size="small" color="error">
-                                                        Delete
+                                                </Grid>
+                                                <Grid xs={4} textAlign="right">
+                                                    <Button variant="contained" color="error">
+                                                        Excluir
                                                     </Button>
-                                                </CardActions>
+                                                </Grid>
                                             </Grid>
-                                        </ListItem>
+                                        </Grid>
                                     ))}
-                                </List>
+                                </Stack>
                             </Grid>
                         </Grid>
                     </Box>
