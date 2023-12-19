@@ -8,13 +8,28 @@ import Carousel from "@/app/components/Carousel";
 import { AddShoppingCart } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Button, Container, Typography } from "@mui/material";
+import Ebook from "@/app/interfaces/Ebook";
+import { useCart } from "../../carrinho/useCart";
 
 interface EbookPageParams {
     id: number;
 }
 
-export default function Page({ params }: { params: EbookPageParams }) {
+interface EbookDetailsProps{
+    ebook: any
+}
 
+export type CartItemType = {
+    id: number,
+    title: string,
+    cover: string,
+    author: string,
+    price: number,
+}
+
+
+export default function Page({ params }: { params: EbookPageParams }) {
+   
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(0);
 
@@ -51,6 +66,23 @@ export default function Page({ params }: { params: EbookPageParams }) {
             cover: 'https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg'
         }
     ];
+
+    const [cartProduct, setCartProduct] = useState<CartItemType>({});
+    const ebook = {
+        id: 0,
+        title: "string",
+        cover: "string capa",
+        author: "string autor",
+        price: 123,
+    }
+    const {handleAddEbookToCart} = useCart()
+    
+    const [isProductInCart, setIsProductInCart] = useState(false);
+    useEffect(() => {
+        setIsProductInCart(false)
+        if(cartItems)
+
+    }, [cartProducts])
 
     return (
         <Container maxWidth={false}>
@@ -102,7 +134,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
                                         </Typography>
                                     </Grid>
                                     <Grid xs={6} alignSelf="center">
-                                        <Button variant="contained" startIcon={<AddShoppingCart />}>
+                                        <Button variant="contained" onClick={() => handleAddEbookToCart(ebook)} startIcon={<AddShoppingCart />}>
                                             Comprar
                                         </Button>
                                     </Grid>
