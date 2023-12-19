@@ -1,26 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { DateTime } from "luxon";
 import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import Divider from "@/app/components/Divider";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import {
-    Box,
-    Card,
-    CardActions,
-    CardContent,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    List,
-    ListItem,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 
 export default function Page() {
     const [open, setOpen] = useState(false);
@@ -29,21 +20,21 @@ export default function Page() {
     const [creditCards, setCreditCards] = useState([
         {
             id: 0,
-            num: "1234 1234 1234 1234",
+            num: "**** **** **** 1234",
             expiryDate: "11/2030",
             cvc: 110,
             name: "Alguem da Silva",
         },
         {
             id: 1,
-            num: "4321 4321 4321 4321",
+            num: "**** **** **** 4321",
             expiryDate: "11/2040",
             cvc: 852,
             name: "Alguem dos Santos",
         },
         {
             id: 2,
-            num: "4567 4567 4567 4567",
+            num: "**** **** **** 4567",
             expiryDate: "11/2035",
             cvc: 951,
             name: "Alguem de Jesus",
@@ -120,7 +111,14 @@ export default function Page() {
                         </Grid>
                         <Grid xs={12} container>
                             <Grid xs={6}>
-                                <TextField type="date" label={"Data de Nascimento *"} fullWidth size="small" />
+                                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                                    <DatePicker
+                                        defaultValue={DateTime.now()}
+                                        label={"Vencimento"}
+                                        views={["month", "year"]}
+                                        slotProps={{ textField: { size: "small" } }}
+                                    />
+                                </LocalizationProvider>
                             </Grid>
                             <Grid xs={6} pl={2}>
                                 <TextField label={"CVV *"} fullWidth size="small" />
