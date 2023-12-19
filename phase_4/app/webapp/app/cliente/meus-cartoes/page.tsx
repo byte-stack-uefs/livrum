@@ -50,7 +50,7 @@ export default function Page() {
  
         <Grid xs={12} md={6} >
             <Grid item xs={12} sx={{ backgroundColor: "secondary.main", p: 1, margin: 'auto', borderBottomRightRadius: 20, }}>
-                <Grid justifyContent="flex-end" alignItems="flex-end">
+                <Grid justifyContent="flex-end" alignItems={"flex-end"}>
                     <Button variant="contained"
                         onClick={() => {
                             setOpen(true);
