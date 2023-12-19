@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Grid from "@mui/material/Unstable_Grid2";
-import { List, ListItem, Box, Card, CardContent, Typography } from "@mui/material";
+import { List, ListItem, Box, Card, CardContent, Typography, CardActions, Button } from "@mui/material";
 import { useState } from "react";
 import CreditCard from "@/app/components/CreditCard";
 
@@ -34,15 +34,28 @@ function CardList() {
     return (
         <Grid xs={12} md={6}>
             <h5>Meus Cartões</h5>
-            <List sx={{ width: "100%", maxWidth: 360}}>
+            <Box>
+                <List sx={{ width: "100%", maxWidth: 360}}>
                 {creditCards.map((creditcard) => (
                     <ListItem key={creditcard.id}>
-                        <Card></Card>
+                        <Card>
+                            <CardContent>
+                                <Typography variant="body1">{creditcard.name}</Typography>
+                                <Typography variant="body2">{creditcard.expiryDate}</Typography>
+                                <Typography>{creditcard.num}</Typography>
+                            </CardContent>
+                            <CardActions>
+                                <Button size="small" color='error'>Delete</Button>
+                            </CardActions>
+                        </Card>
                     </ListItem>
 
                 ))}
                 
-            </List>
+                </List>
+
+            </Box>
+            
           
         </Grid>
     );
