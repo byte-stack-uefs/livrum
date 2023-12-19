@@ -4,7 +4,6 @@ import {
     Button,
     Grid,
     Paper,
-    Tab,
     Table,
     TableBody,
     TableCell,
@@ -12,13 +11,10 @@ import {
     TableHead,
     TablePagination,
     TableRow,
-    Tabs,
-    TextField,
     Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { theme } from "@/app/theme";
-import { Source_Sans_3 } from "next/font/google";
 import createUser, { EnumUserStatus, User } from "@/app/User";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { styled } from "@mui/material/styles";
@@ -28,6 +24,8 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import { TabSelector } from "@/app/components/TabSelector";
+import { CreditCard } from "@mui/icons-material";
 
 // MuiTab: {
 //     styleOverrides: {
@@ -145,14 +143,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     "& .MuiDialogActions-root": {},
 }));
 
-const MTab = styled(Tab)(({ theme }) => ({
-    "&.Mui-selected": {
-        backgroundColor: "#fff",
-    },
-}));
-
-const sourceSans3 = Source_Sans_3({ style: "normal", weight: "200", preload: false });
-
 const UserManagment = () => {
     const [openDialog, setOpenDialog] = useState(false);
 
@@ -163,11 +153,9 @@ const UserManagment = () => {
         setOpenDialog(false);
     };
 
-    const [value, setValue] = useState(0);
     const [tableItems, setItems] = useState(admins);
 
     const handleChange = (event: any, newValue: number) => {
-        setValue(newValue);
         switch (newValue) {
             case 0:
                 setItems(admins);
@@ -182,7 +170,6 @@ const UserManagment = () => {
                 setItems(admins);
                 break;
         }
-        console.log(newValue);
     };
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -249,6 +236,19 @@ const UserManagment = () => {
                 </Button>;*/
         }
     }
+
+    const tabOptions = [
+        {
+            title: 'Admin',
+        },
+        {
+            title: 'Autores'
+        },
+        {
+            title: 'Clientes'
+        }
+    ];
+
     return (
         <>
             <React.Fragment>
@@ -271,24 +271,24 @@ const UserManagment = () => {
                     <DialogContent dividers>
                         <Grid container>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="theme.pallete.primary">
+                                <Typography variant="body2" color="primary.main">
                                     <strong>Autor:</strong> {"Almir Neto"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.primary">
+                                <Typography variant="body2" color="primary.main">
                                     <strong>Email:</strong> {"email"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>Data de Nascimento:</strong> {"dataNascimento"}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>Telefone:</strong> {"telefone"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>CPF:</strong> {"cpf"}
                                 </Typography>
-                                <Typography variant="body2" color="theme.pallete.secondary">
+                                <Typography variant="body2" color="secondary.main">
                                     <strong>Endereço:</strong> {"endereco"}
                                 </Typography>
                             </Grid>
@@ -304,38 +304,20 @@ const UserManagment = () => {
             <Typography
                 sx={{
                     fontSize: 32,
-                    color: theme.palette.darker.main,
                     alignItems: "center",
                     marginTop: "1%",
                     display: "flex",
                     textTransform: "uppercase",
                 }}
+                color="darker.main"
                 variant="h1"
-                className={sourceSans3.className}
             >
                 Usuários
             </Typography>
             <Box>
-                <Tabs value={value} scrollButtons={false} onChange={handleChange} TabIndicatorProps={{ style: { display: "none" } }}>
-                    <MTab
-                        label="Admin"
-                        sx={{
-                            borderRadius: "0px 0 0 0",
-                        }}
-                    />
-                    <MTab
-                        label="Autores"
-                        sx={{
-                            borderRadius: "0 0px 0 0",
-                        }}
-                    />
-                    <MTab
-                        label="Clientes"
-                        sx={{
-                            borderRadius: "0px 0 0 0",
-                        }}
-                    />
-                </Tabs>
+                <TabSelector items={tabOptions} def={0} onChange={(e) => {
+                    handleChange(null, e);
+                }} />
                 <Paper sx={{ width: "100%", overflow: "hidden" }}>
                     <TableContainer sx={{ maxHeight: "100%" }}>
                         <Table stickyHeader size="small" aria-label="sticky table">
@@ -358,10 +340,10 @@ const UserManagment = () => {
                                                         {column.id === "acao1"
                                                             ? getButtonAction(tableItem, 1)
                                                             : column.id === "acao2"
-                                                            ? getButtonAction(tableItem, 2)
-                                                            : column.id === "acao3"
-                                                            ? getButtonAction(tableItem, 3)
-                                                            : tableItem[column.id]}
+                                                                ? getButtonAction(tableItem, 2)
+                                                                : column.id === "acao3"
+                                                                    ? getButtonAction(tableItem, 3)
+                                                                    : tableItem[column.id]}
                                                     </TableCell>
                                                 );
                                             })}

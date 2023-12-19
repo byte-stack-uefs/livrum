@@ -2,7 +2,9 @@
 
 import { theme } from "@/app/theme";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Unstable_Grid2";
+import useRequest from "@/app/services/requester";
 import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
 
 const Login = () => {
@@ -10,14 +12,25 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const router = useRouter();
+    const requester = useRequest();
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const handleSubmitClient = (event) => {
+
         event.preventDefault();
-        console.log("Email:", email);
-        console.log("Senha:", password);
+
+        requester.post('/auth', {
+            password: password,
+            username: email
+        }).then(response => {
+            localStorage.setItem('token', response.data.access_token);
+        }).catch(err => {
+
+        });
     };
 
     return (
@@ -82,8 +95,7 @@ const Login = () => {
                                         variant="body2"
                                         underline="none"
                                         onClick={() => {
-
-                                            //Direcionar para a página de recuperação!!!!
+                                            router.push('/recuperacao-senha')
                                         }}
                                         style={{
                                             color: theme.palette.primary.main,

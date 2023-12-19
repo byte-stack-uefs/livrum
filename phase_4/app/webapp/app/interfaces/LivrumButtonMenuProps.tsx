@@ -2,7 +2,8 @@ import { ReactNode } from "react";
 
 export interface LivrumButtonMenuItems {
 
-    icon: ReactNode,
-    label: string,
-    visible: boolean
+    label: string;
+    route: string;
+    icon: ReactNode;
+    visible: boolean;
 }

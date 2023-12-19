@@ -14,43 +14,52 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     const email = "email@gmail.com";
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
-    const [userLevel, setUserLevel] = useState(UserLevel.ADMIN);
+    const [userLevel, setUserLevel] = useState(UserLevel.AUTHOR);
+
+    const base = userLevel == UserLevel.ADMIN ? '/admin' : '/autor';
 
     const buttons: LivrumButtonMenuItems[] = [
         {
             label: "Minha Conta",
             icon: <Person />,
             visible: true,
+            route: `${base}/meus-dados`
         },
         {
             label: "Painel",
             icon: <Home />,
             visible: true,
+            route: base
         },
         {
             label: "Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.ADMIN,
+            route: `${base}/obras`
         },
         {
             label: "Minhas Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.AUTHOR,
+            route: `${base}/ebooks`
         },
         {
             label: "Usuários",
             icon: <Groups />,
             visible: userLevel == UserLevel.ADMIN,
+            route: `${base}/users`
         },
         {
             label: "Cupons",
             icon: <Discount />,
             visible: true,
+            route: '/'
         },
         {
             label: "Submeter",
             icon: <SubdirectoryArrowRight />,
             visible: userLevel == UserLevel.AUTHOR,
+            route: '/'
         },
     ];
 
@@ -131,8 +140,10 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item sm={9} sx={{ overflowY: 'scroll', height: '100%' }}>
-                        <Container maxWidth={false}>{children}</Container>
+                    <Grid item sm={9} sx={{ overflowY: "scroll", height: "100%" }}>
+                        <Container maxWidth={false} sx={{ py: 2 }}>
+                            {children}
+                        </Container>
                     </Grid>
                 </Grid>
             </Paper>

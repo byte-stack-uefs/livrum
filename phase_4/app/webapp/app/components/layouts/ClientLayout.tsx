@@ -10,22 +10,26 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         {
             icon: <AccountBox />,
             label: 'Meus Dados',
-            visible: true
+            visible: true,
+            route: '/cliente/meus-dados'
         },
         {
             icon: <CreditCard />,
             label: 'Meus Cartões',
-            visible: true
+            visible: true,
+            route: '/cliente/meus-cartoes'
         },
         {
             icon: <LibraryBooks />,
             label: 'Minha Biblioteca',
-            visible: true
+            visible: true,
+            route: '/cliente/biblioteca'
         },
         {
             icon: <ReceiptLong />,
             label: 'Histórico de Compras',
-            visible: true
+            visible: true,
+            route: '/cliente/historico'
         },
     ];
 

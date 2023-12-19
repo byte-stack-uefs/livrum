@@ -48,7 +48,7 @@ export function TopMain() {
             }
         >
             {categories.map((e) => {
-                return <MenuItem value={e.value}>
+                return <MenuItem key={e.value} value={e.value}>
                     {e.title}
                 </MenuItem>
             })}
