@@ -13,8 +13,8 @@ class User:
 
 class UserType(str, Enum):
     ADMIN = "ADM"
-    AUTHOR = "AUTHOR"
-    CUSTOMER = "CUSTOMER"
+    AUTHOR = "AUTOR"
+    CUSTOMER = "CLIENTE"
 
 
 class UserStatus(str, Enum):
