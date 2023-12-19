@@ -16,6 +16,8 @@ declare module "@mui/material/styles" {
         error?: PaletteColorOptions;
         success?: PaletteColorOptions;
         dark?: PaletteColorOptions;
+        textLight?: PaletteColorOptions;
+        mintCream?: PaletteColorOptions;
     }
     interface Theme {
         palette: {
@@ -26,6 +28,8 @@ declare module "@mui/material/styles" {
             error: any;
             success: any;
             dark: any;
+            textLight: any;
+            mintCream: any;
         };
     }
     // allow configuration using `createTheme`
@@ -50,7 +54,8 @@ declare module "@mui/material/SvgIcon" {
 const dark = "#1E3345";
 const darker = "#153C7F";
 const primary = "#2665BE";
-const secondary = "#F4F2F2";
+const secondary = "#E5E2E2";
+const royal_blue = "#163760";
 
 export const theme: Theme = createTheme({
     palette: {
@@ -65,6 +70,7 @@ export const theme: Theme = createTheme({
         },
         darker: {
             main: darker,
+            contrastText: "#FFF",
         },
         dark: {
             main: dark,
@@ -72,19 +78,25 @@ export const theme: Theme = createTheme({
         secondary: {
             main: secondary,
         },
+        textLight: {
+            main: "#00000066",
+        },
+        mintCream: {
+            main: '#F5FFFA'
+        },
     },
     components: {
         MuiTab: {
             styleOverrides: {
                 root: {
                     "&.Mui-selected": {
-                        backgroundColor: "#E5E2E2",
-                        color: "#2665BE",
+                        backgroundColor: secondary,
+                        color: primary,
                         transition: "all 0.5s",
                         borderRadius: "20px 20px 0 0",
                     },
                     "&:not(.Mui-selected)": {
-                        backgroundColor: "#1E3345",
+                        backgroundColor: darker,
                         color: "#fff",
                         borderRadius: "20px 20px 0 0",
                     },
@@ -105,8 +117,16 @@ export const theme: Theme = createTheme({
                 },
             },
         },
-    },
-});
+        MuiDialogContent: {
+            styleOverrides: {
+                root: {
+                    padding: "10%",
+                },
+            },
+        },
+    }
+},
+);
 
 export default function ThemeRegistry(props: React.PropsWithChildren) {
     const { children } = props;

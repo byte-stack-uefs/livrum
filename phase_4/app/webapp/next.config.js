@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        remotePatterns:[
+        remotePatterns: [
             {
-                hostname: 'm.media-amazon.com'
+                hostname: '*'
+            },
+            {
+                hostname: "encrypted-tbn1.gstatic.com"
+            },
+            {
+                hostname: "images-americanas.b2w.io"
             }
         ]
     }

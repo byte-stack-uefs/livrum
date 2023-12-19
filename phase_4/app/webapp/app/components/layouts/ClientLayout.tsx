@@ -10,22 +10,26 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         {
             icon: <AccountBox />,
             label: 'Meus Dados',
-            visible: true
+            visible: true,
+            route: '/cliente/meus-dados'
         },
         {
             icon: <CreditCard />,
             label: 'Meus Cartões',
-            visible: true
+            visible: true,
+            route: '/cliente/meus-cartoes'
         },
         {
             icon: <LibraryBooks />,
             label: 'Minha Biblioteca',
-            visible: true
+            visible: true,
+            route: '/cliente/biblioteca'
         },
         {
             icon: <ReceiptLong />,
             label: 'Histórico de Compras',
-            visible: true
+            visible: true,
+            route: '/cliente/historico'
         },
     ];
 
@@ -36,7 +40,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
                     <Grid item xs={3}>
                         <Paper sx={{ overflow: 'hidden' }}>
                             <Grid container>
-                                <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 2, backgroundColor: '#F4F2F2' }}>
+                                <Grid item xs={12} sx={{ textAlign: 'center', paddingY: 2, backgroundColor: 'secondary.main' }}>
                                     <Person sx={{ fontSize: 48 }} color="dark" />
                                 </Grid>
                                 <Grid item xs={12}>
