@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from dependencies import security
 from database.database import connect
 from fastapi.responses import Response
-from routers import creditCard, cart, genre, coupon, customer
+from routers import creditCard, cart, genre, coupon, customer, ebook
 
 app = FastAPI()
 
@@ -14,6 +14,7 @@ app.include_router(coupon.router)
 app.include_router(creditCard.router)
 app.include_router(customer.router)
 app.include_router(genre.router)
+app.include_router(ebook.router)
 
 
 @app.get("/version", description="Test MySQL Connection", tags=["Test"])
