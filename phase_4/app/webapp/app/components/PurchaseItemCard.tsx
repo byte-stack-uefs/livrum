@@ -1,11 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import Ebook from "../interfaces/Ebook";
 import { ReportProblem } from "@mui/icons-material";
 import PurchaseItem from "../interfaces/PurchaseItem";
-import PurchaseDetailsModal from "./PurchaseDetailsModal";
-import { Box, Button, Grid, List, ListItem, Modal, Stack } from "@mui/material";
+import { Box, Button, Grid, List, ListItem, Stack } from "@mui/material";
 import InHistoryEbookCard from "./InHistoryEbookCard";
 
 type PurchaseItemCardProps = {
@@ -28,7 +25,7 @@ const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) =>
                     {getPurchaseDateText(purchaseItem)}
                 </Grid>
                 <Grid item xs={4} textAlign="center">
-                    Total: {purchaseItem.price}
+                    Total: {purchaseItem.price.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                 </Grid>
                 <Grid item xs={4}>
                     <Stack>
@@ -48,7 +45,6 @@ const PurchaseItemCardHeader: React.FC<PurchaseItemCardProps> = ({ purchaseItem 
         </Box>
     );
 };
-
 
 const PurchaseItemContainer: React.FC<PurchaseItemCardProps> = ({ purchaseItem, onSelect }) => {
     function getColor(status: string): string {
