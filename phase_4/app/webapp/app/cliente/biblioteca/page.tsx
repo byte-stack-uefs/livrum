@@ -1,47 +1,43 @@
 "use client";
-import Divider from "@/app/components/Divider";
-import Ebook from "@/app/interfaces/Ebook";
-import { AddShoppingCart, CloudDownload ,CheckCircle, Book, ReportProblem} from "@mui/icons-material";
-import { Box, Button, Grid, List, ListItem, Pagination, Stack } from "@mui/material";
+
 import Image from "next/image";
 import { useState } from "react";
+import Ebook from "@/app/interfaces/Ebook";
+import Divider from "@/app/components/Divider";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { CloudDownload, CheckCircle, ReportProblem } from "@mui/icons-material";
+import { Box, Button, List, ListItem, Pagination, Stack, Typography } from "@mui/material";
 
 
 type DynamicDownloadButtonProps = {
     isAvailable: boolean;
 };
 
+const DynamicDownloadButton: React.FC<DynamicDownloadButtonProps> = ({ isAvailable }) => {
+    return (
+        <Button disabled={!isAvailable} variant="contained" startIcon={<CloudDownload />}>
+            Baixar
+        </Button>
+    );
 
-const DynamicDownloadButton: React.FC<DynamicDownloadButtonProps> = ({isAvailable}) =>{
-    if (isAvailable){
-        return(
-            <Button variant="contained" startIcon={<CloudDownload/>}>
-                Baixar
-            </Button>                        
-        );
-    }else{
-        return (
-            <Button variant="contained" sx={{backgroundColor: "#B5BDC8"}} startIcon={<CloudDownload/>}>
-                Baixar
-            </Button>
-        );
-    }
 }
 
-function ClientLibraryContainerHeader(){
-    return(
-        <Grid item xs={12}> 
-            <Stack>
-                <Grid item xs={12} sx={{ fontSize: 28 }}>
-                    <h1>Minha Biblioteca</h1>
-                </Grid>
-                <Divider height={4} width={"10%"} style={{}} />
-            </Stack>
+function ClientLibraryContainerHeader() {
+    return (
+        <Grid xs={12}>
+            <Grid xs={12} sx={{ fontSize: 28 }}>
+                <Typography variant="h3">
+                    Minha Biblioteca
+                </Typography>
+            </Grid>
+            <Grid xs={12}>
+                <Divider height={4} width={"10%"} />
+            </Grid>
         </Grid>
     );
 }
 
-function ClientLibraryBookContainer(){
+function ClientLibraryBookContainer() {
     const [books, setBooks] = useState([
         {
             id: 0,
@@ -94,18 +90,18 @@ function ClientLibraryBookContainer(){
             price: 50,
             summary: "Lorem ipsum",
             genre: "",
-            isAvailable: true,
+            isAvailable: false,
             cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg",
         },
-    ]);    
-    return(
-        <Grid item xs={12}>
+    ]);
+    return (
+        <Grid container xs={12}>
             <List sx={{ width: "100%" }}>
                 {books.map((book) => (
-                        <ListItem>
-                            <InLibraryEbookCard ebook={book}></InLibraryEbookCard>
-                        </ListItem>
-                    ))}
+                    <ListItem key={book.id}>
+                        <InLibraryEbookCard ebook={book}></InLibraryEbookCard>
+                    </ListItem>
+                ))}
             </List>
         </Grid>
     );
@@ -116,78 +112,54 @@ type InLibraryEbookCardProps = {
 };
 
 const DisplayBookInfo: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
-    if(ebook.isAvailable){
-        return(
-            <Grid container sx={{ color: "#1E3345" }} height="100%">
-                <Grid item xs={8} width="100%">
-                    <Grid item xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
-                        {ebook.title}
-                    </Grid>
-                    <Grid item xs={12}>
-                        {ebook.author}
-                    </Grid>
-                    <Grid item xs={12}>
-                        {ebook.releaseYear}
-                    </Grid>
-                    <Grid item xs={12}>
-                        Sinopse: {ebook.summary}
-                    </Grid> 
+    return (
+        <Grid container sx={{ color: "dark.main" }} height="100%">
+            <Grid xs={8}>
+                <Grid xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
+                    {ebook.title}
                 </Grid>
-                <Grid item xs={4} sx={{ textAlign: "right" }}>
-                    <Stack direction="column" height="100%" justifyContent="space-between">
-                        <div>
-                            <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
-                        </div>
-                        <div>
-                        <Button  startIcon={<CheckCircle/>}>
-                        </Button>
-                        </div>
-                    </Stack>
-                </Grid>                
+                <Grid xs={12}>
+                    {ebook.author}
+                </Grid>
+                <Grid xs={12}>
+                    {ebook.releaseYear}
+                </Grid>
+                <Grid xs={12}>
+                    Sinopse: {ebook.summary}
+                </Grid>
+                {!ebook.isAvailable && (<Grid container mt={2} xs={12} sx={{ color: "error.main" }}>
+                    <>
+                        <Grid xs={1} alignSelf={"center"}>
+                            <ReportProblem />
+                        </Grid>
+                        <Grid xs>
+                            <Typography variant="caption">
+                                Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
+                            </Typography>
+                        </Grid>
+                    </>
+                </Grid>)}
             </Grid>
-        );
-    }else {
-        return (
-            <Grid container sx={{ color: "#1E3345" }} height="100%">
-                <Grid item xs={8} width="100%">
-                    <Grid item xs={12} sx={{ fontSize: 22, fontWeight: "bold" }}>
-                        {ebook.title}
-                    </Grid>
-                    <Grid item xs={12}>
-                        {ebook.author}
-                    </Grid>
-                    <Grid item xs={12}>
-                        {ebook.releaseYear}
-                    </Grid>
-                    <Grid item xs={12} sx={{ color: "#D0342C" }} >
-                        <Button sx={{color:"#D0342C"}} startIcon={<ReportProblem/>}></Button>
-                        {"Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!"}
-                    </Grid>
-                    <Grid item xs={12}>
-                       Sinopse: {ebook.summary}
-                    </Grid> 
-                </Grid>
-                <Grid item xs={4} sx={{ textAlign: "right" }}>
-                    <Stack direction="column" height="100%" justifyContent="space-between">
-                        <div>
-                            <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
-                        </div>
-                        <div>
-                        <Button  startIcon={<CheckCircle/>}>
+            <Grid xs={4} sx={{ textAlign: "right" }}>
+                <Stack direction="column" height="100%" justifyContent="space-between">
+                    <div>
+                        <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
+                    </div>
+                    <div>
+                        <Button startIcon={<CheckCircle />}>
                         </Button>
-                        </div>
-                    </Stack>
-                </Grid>
+                    </div>
+                </Stack>
             </Grid>
-        );
-    }  
+        </Grid>
+    );
 };
 
 
 const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
     return (
-        <Grid container sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
-            <Grid item xs={2}>
+        <Grid container xs={12} sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
+            <Grid xs={2}>
                 <Box>
                     <Image
                         className="image-zoom"
@@ -198,26 +170,28 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
                         src={ebook.cover}
                     />
                 </Box>
-                <Grid item xs={10}>
-                    <DisplayBookInfo ebook={ebook} />
-                </Grid>
+            </Grid>
+            <Grid xs={10}>
+                <DisplayBookInfo ebook={ebook} />
             </Grid>
         </Grid>
     );
 };
 
 export default function Page() {
-    return (
-        <Box>
-        <Box sx={{backgroundColor:'#F4F2F2', borderRadius:'16px'}}>
-            <Grid container spacing={2}>
+    return (<>
+        <Grid container spacing={2}>
+            <Grid xs={12} sx={{ backgroundColor: 'secondary.main', borderRadius: '16px' }}>
                 <ClientLibraryContainerHeader></ClientLibraryContainerHeader>
                 <ClientLibraryBookContainer></ClientLibraryBookContainer>
             </Grid>
-        </Box>
-        <Grid container xs={12} justifyContent="center">
-                <Pagination count={10} color="primary" shape="rounded" />
+            <Grid xs={12}>
+                <>
+                    <Grid container xs={12} justifyContent={"center"}>
+                        <Pagination count={10} color="primary" shape="rounded" />
+                    </Grid>
+                </>
             </Grid>
-        </Box>
-    );
+        </Grid>
+    </>);
 }
