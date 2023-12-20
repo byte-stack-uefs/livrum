@@ -1,7 +1,7 @@
 import Divider from "./Divider";
 import React, { useEffect } from "react";
 import PurchaseItem from "../interfaces/PurchaseItem";
-import { Box, Grid, List, ListItem, Modal, Stack } from "@mui/material";
+import { Box, Chip, Grid, List, ListItem, Modal, Stack, Typography } from "@mui/material";
 import PurchaseItemCard from "./PurchaseItemCard";
 import InHistoryEbookCard from "./InHistoryEbookCard";
 import EbookHistoryModalCard from "./EbookHistoryModalCard";
@@ -14,7 +14,7 @@ const style = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
-    
+
     transform: "translate(-50%, -50%)",
     width: 800,
     bgcolor: "background.paper",
@@ -23,11 +23,12 @@ const style = {
 
 const PurchaseDetailsModalHeader: React.FC<PurchaseItemProps> = ({ purchaseItem }) => {
     return (
-        <Box sx={{ boxShadow: 3, backgroundColor: "#F4F2F2", textAlign: "center", fontSize: 22, fontWeight: "bold" }}>
-             <Grid container spacing={2}>
-                <Grid item xs={8} sx={{}}>Compra:</Grid>
-                <Grid item xs={2} sx={{ fontWeight: "normal" }}>{purchaseItem?.id}</Grid>
-             </Grid>
+        <Box sx={{ backgroundColor: "#F4F2F2", textAlign: "center", fontSize: 22, fontWeight: "bold" }}>
+            <Grid container p={3}>
+                <Grid item xs={12}>
+                    Compra: <span style={{ fontWeight: "normal" }}>{purchaseItem?.id}</span>
+                </Grid>
+            </Grid>
         </Box>
     );
 };
@@ -60,53 +61,50 @@ const PurchaseDetailsModal: React.FC<PurchaseDetailsModalProps> = ({ show, purch
                         <PurchaseDetailsModalHeader purchaseItem={purchaseItem}></PurchaseDetailsModalHeader>
                     </Grid>
                     <Grid item xs={12}>
-                        <Grid container  sx={{ fontSize: 22, fontWeight: "bold" }}>
+                        <Grid container sx={{}} p={4}>
                             <Grid item xs={6}>
                                 <Stack>
-                                    <>Data da compra:</>
-                                    <br/>
-                                    <>Valor total:</>
-                                    <br/>
-                                    <>Meio de pagamento:</>
-                                    <br/>
-                                    <>Quantidade de itens:</>
-                                    <br/>
-                                    <>Status de pagamento:</>
-                                    <br/>
-                                </Stack>
-                            </Grid>
-
-                            <Grid item xs={6} sx={{fontWeight: "normal" }}>
-                                <Stack>
-                                    <>{purchaseItem?.date}</>
-                                    <br/>
-                                    <>{purchaseItem?.price}</>
-                                    <br/>
-                                    <>{purchaseItem?.paymentMethod}</>
-                                    <br/>
-                                    <>{purchaseItem?.books.length}</>
-                                    <br/>
-                                    <>{purchaseItem?.status}</>
-                                    <br/>
+                                    <div>
+                                        <span style={{ fontWeight: "bold" }}>Data da compra: </span>
+                                        <span>{purchaseItem?.date}</span>
+                                    </div>
+                                    <div>
+                                        <span style={{ fontWeight: "bold" }}>Valor total: </span>
+                                        <span>{purchaseItem?.price.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</span>
+                                    </div>
+                                    <div>
+                                        <span style={{ fontWeight: "bold" }}>Meio de pagamento: </span>
+                                        <span>{purchaseItem?.paymentMethod}</span>
+                                    </div>
+                                    <div>
+                                        <span style={{ fontWeight: "bold" }}>Quantidade de itens: </span>
+                                        <span>{purchaseItem?.books.length}</span>
+                                    </div>
+                                    <div>
+                                        <span style={{ fontWeight: "bold" }}>Status de pagamento: </span>
+                                        <span>
+                                            <Chip label={purchaseItem?.status} />
+                                        </span>
+                                    </div>
                                 </Stack>
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={12} justifyContent="center" alignItems="center"> <Divider height={4}  width={"95%"} style={{}} /> </Grid>
-                    <Grid item xs={12} fontSize={22} sx={{ fontWeight: "bold" }}>
-                        {" "}
-                        Ebooks adquiridos:
+                    <Grid item xs={12} justifyContent="center" alignItems="center">
+                        <Divider height={3} width={"90%"} style={{ margin: "auto" }} />
                     </Grid>
-                    <Grid item xs={12}>
-                        <List sx={{ width: "100%" }}>
+                    <Grid container item xs={12} p={4}>
+                        <Grid item xs={12} fontSize={22} sx={{ fontWeight: "bold" }} mb={3}>
+                            Ebooks adquiridos:
+                        </Grid>
+                        <Grid item xs={12}>
                             {purchaseItem?.books.map((book) => (
-                                <ListItem>
+                                <div style={{ margin: "16px 0" }}>
                                     <EbookHistoryModalCard ebook={book}></EbookHistoryModalCard>
-                                </ListItem>
+                                </div>
                             ))}
-                        </List>
-                    </Grid>                    
-
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Box>
         </Modal>
@@ -114,29 +112,3 @@ const PurchaseDetailsModal: React.FC<PurchaseDetailsModalProps> = ({ show, purch
 };
 
 export default PurchaseDetailsModal;
-
-/* <Grid item xs={4}> Data da compra:</Grid>
-<Grid item xs={8} sx={{ fontWeight: "normal" }}>
-    {purchaseItem?.date}
-</Grid>
-
-<Grid item xs={4}> Valor total:</Grid>
-<Grid item xs={8} sx={{ fontWeight: "normal" }}>
-    {purchaseItem?.price}
-</Grid>
-
-<Grid item xs={6}>Meio de pagamento:</Grid>
-<Grid item xs={6} sx={{ fontWeight: "normal" }}>
-    {purchaseItem?.paymentMethod}
-</Grid>
-
-<Grid item xs={6}>Quantidade de itens:</Grid>
-<Grid item xs={6} sx={{ fontWeight: "normal" }}>
-    {purchaseItem?.books.length}
-</Grid>
-
-<Grid item xs={6}> Status de pagamento:</Grid>
-
-<Grid item xs={6} sx={{ fontWeight: "normal" }}>
-    {purchaseItem?.status}
-</Grid> */
