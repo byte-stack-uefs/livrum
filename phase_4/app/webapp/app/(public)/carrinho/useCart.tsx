@@ -5,7 +5,8 @@ import { CartItemType } from "../ebook/[id]/page";
 
 type CartContextType ={
     cartTotalQnt: number;
-    cartItems: CartItemType[] | null;
+    //cartItems: CartItemType[];
+    cartItems: Array<CartItemType>;
     handleAddEbookToCart: (item: CartItemType) => void
 }
 
@@ -17,11 +18,18 @@ interface Props{
 
 export const CartContextProvider = (props: Props) =>{
     const [cartTotalQnt, setCardTotalQnt] = useState(0)
-    const [cartItems, setcartItems] = useState<CartItemType[] | null>([])
+    const [cartItems, setcartItems] = useState<CartItemType[]>([])
+    
+    useEffect(() => {
+        const cartEbooks: any = localStorage.getItem('shopCartItens') 
+        const cartItems: CartItemType[] = JSON.parse(cartEbooks)
+
+        console.log(cartEbooks)
+        setcartItems(cartEbooks)
+    }, [])
+
 
     const handleAddEbookToCart = useCallback((item: CartItemType) => {
-        
-        for(item)
         setcartItems((prev) => {
             let updatedCart;
             if(prev){
@@ -29,10 +37,12 @@ export const CartContextProvider = (props: Props) =>{
             }else{
                 updatedCart = [item]
             }
+
+            localStorage.setItem('shopCartItens', JSON.stringify(updatedCart))
             return updatedCart;
         });
     }, []);
-    useEffect(() => {console.log(cartItems)}, [cartItems])
+    
 
     const value = {
         cartTotalQnt,

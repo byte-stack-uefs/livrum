@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
     if (request.nextUrl.pathname == '/') {
         return;
     }
-
+    return;
     return NextResponse.redirect(new URL('/login', request.url))
 }
 

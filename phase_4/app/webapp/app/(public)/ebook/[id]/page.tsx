@@ -7,9 +7,10 @@ import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { AddShoppingCart } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container, Tooltip, Typography } from "@mui/material";
 import Ebook from "@/app/interfaces/Ebook";
 import { useCart } from "../../carrinho/useCart";
+
 
 interface EbookPageParams {
     id: number;
@@ -67,7 +68,6 @@ export default function Page({ params }: { params: EbookPageParams }) {
         }
     ];
 
-    const [cartProduct, setCartProduct] = useState<CartItemType>({});
     const ebook = {
         id: 0,
         title: "string",
@@ -76,13 +76,29 @@ export default function Page({ params }: { params: EbookPageParams }) {
         price: 123,
     }
     const {handleAddEbookToCart} = useCart()
-    
-    const [isProductInCart, setIsProductInCart] = useState(false);
-    useEffect(() => {
-        setIsProductInCart(false)
-        if(cartItems)
 
-    }, [cartProducts])
+    function checkIsProductInCart(item: CartItemType){
+       
+       if(useCart().cartItems){
+        const existingIndex = useCart().cartItems.findIndex(
+            (product) => product.id == item.id
+        );
+
+        if(existingIndex > -1){
+            return true;
+        }else{
+            return false;
+        }
+       }
+    };
+
+    function mensagemClick(){
+        <span>Produto adicionado ao carrinho</span>
+    }
+    function handleClickAddCart(item: CartItemType){
+        handleAddEbookToCart(ebook);
+        mensagemClick();
+    }
 
     return (
         <Container maxWidth={false}>
@@ -134,7 +150,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
                                         </Typography>
                                     </Grid>
                                     <Grid xs={6} alignSelf="center">
-                                        <Button variant="contained" onClick={() => handleAddEbookToCart(ebook)} startIcon={<AddShoppingCart />}>
+                                        <Button disabled={checkIsProductInCart(ebook)} variant="contained" onClick={() => handleClickAddCart(ebook)} startIcon={<AddShoppingCart />}>
                                             Comprar
                                         </Button>
                                     </Grid>
