@@ -8,7 +8,7 @@ export default function LivrumButtonMenu({
     return (<List>
         {buttons.map(e => {
             return (e.visible && e.visible === true) && (<ListItem disablePadding key={e.label}>
-                <ListItemButton selected={false}>
+                <ListItemButton selected={false} href={e.route}>
                     <ListItemIcon>
                         {e.icon}
                     </ListItemIcon>
