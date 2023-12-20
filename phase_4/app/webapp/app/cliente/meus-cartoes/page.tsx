@@ -49,7 +49,7 @@ export default function Page() {
         <Box sx={{ backgroundColor: "secondary.main", borderRadius: 5 }}>
             <Grid container>
                 <Grid xs={12} p={2}>
-                    <Typography variant="h4" fontWeight="bold" color="darker.main">
+                    <Typography variant="h4" fontWeight="bold" color="dark.main">
                         Meus Cartões
                     </Typography>
                     <Divider width="15%" />
