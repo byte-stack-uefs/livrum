@@ -8,7 +8,15 @@ import { useCallback } from "react";
 import { CartItemType } from "../ebook/[id]/page";
 
 
-// const DisplayBookInfo: React.FC<CartItemType> = (item: CartItemType) => {
+// interface itemCart{
+//     item: any
+// }
+
+// type InListEbookCard = {
+//     item: itemCart;
+// };
+
+// const DisplayBookInfo: React.FC<InListEbookCard> = ({item}) => {
 //     return (
 //         <Grid container sx={{ color: "dark.main" }} height="100%">
 //             <Grid xs={8}>
@@ -30,8 +38,7 @@ import { CartItemType } from "../ebook/[id]/page";
 //     );
 // };
 
-
-// const ListCartItems: React.FC<CartItemType> = (item: CartItemType) => {
+// const ListCartItems: React.FC<InListEbookCard> = ({item}) => {
 //     return (
 //         <Grid container xs={12} sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
 //             <Grid xs={2}>
@@ -47,7 +54,7 @@ import { CartItemType } from "../ebook/[id]/page";
 //                 </Box>
 //             </Grid>
 //             <Grid xs={10}>
-//                 <DisplayBookInfo {item}/>
+//                 <DisplayBookInfo item={item}></DisplayBookInfo>
 //             </Grid>
 //         </Grid>
 //     );
@@ -63,10 +70,23 @@ import { CartItemType } from "../ebook/[id]/page";
 //     </>);
 // }
 
+
+// return (
+//     <Grid container xs={12}>
+//         <List sx={{ width: "100%" }}>
+//             {cartItems.map((itm) => (
+//                 <ListItem key={itm.id}>
+//                     <ListCartItems item={itm}></ListCartItems>
+//                 </ListItem>
+//             ))}
+//         </List>
+//     </Grid>
+// );
+// }
+
 const Cart = () => {
     const {cartItems} = useCart()
     
-
     if(!cartItems || cartItems.length == 0){
         return(
             <Grid container justifyContent={"center"}>
@@ -79,26 +99,12 @@ const Cart = () => {
 
             </Grid>
         )
-    }
-    // return (
-    //     <Grid container xs={12}>
-    //         <List sx={{ width: "100%" }}>
-    //             {cartItems.map((book) => (
-    //                 <ListItem key={book.id}>
-    //                     <InLibraryEbookCard ebook={book}></InLibraryEbookCard>
-    //                 </ListItem>
-    //             ))}
-    //         </List>
-    //     </Grid>
-    // );
+    } 
     return(
         <Grid container>
             <Grid xs={12} textAlign="center" py={2}>
                 <Typography variant="h4" color="dark.main">Carrinho</Typography>
             </Grid>
-            <Typography>Ebook</Typography>
-            <Typography>Preco</Typography>
-            <Typography>Total</Typography>
             <Paper sx={{ width: "100%", overflow: "hidden" }}>
                 <TableContainer sx={{ maxHeight: "100%" }}>
                     <Table stickyHeader size="small" aria-label="sticky table">
