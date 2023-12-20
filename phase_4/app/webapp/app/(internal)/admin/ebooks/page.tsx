@@ -4,7 +4,7 @@ import Image from "next/image";
 import { theme } from "@/app/theme";
 import InputBase from "@mui/material/InputBase";
 import Typography from "@mui/material/Typography";
-import DownloadIcon from '@mui/icons-material/Download';
+import DownloadIcon from "@mui/icons-material/Download";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
@@ -80,7 +80,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
 }));
 
 export default function ListagemEbooks() {
-    const [openDialog, setOpenDialog, ] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const [openRefuseDialog, setRefuseOpenDialog] = useState(false);
     const [openEbook, setOpenEbook] = useState({} as AuthorEbook);
 
@@ -97,29 +97,28 @@ export default function ListagemEbooks() {
     const handleRefuseClickOpen = () => {
         setOpenDialog(false);
         setRefuseOpenDialog(true);
-    }
+    };
 
     const handleClose = () => {
         setOpenDialog(false);
     };
 
     // Acho que nao precisa mais dessa funcao
-    const handleRefuse = () => {
-
-    };
+    const handleRefuse = () => {};
 
     useEffect(() => {
         var config = {
-            method: 'get',
-            url: 'localhost:8010/ebook/list',
-            headers: { }
-          };
-          axios(config)
-          .then(function (response) {
-            console.log(JSON.stringify(response.data));
-          }).catch(function (error) {
-            console.log(error);
-          });
+            method: "get",
+            url: "localhost:8010/ebook/list",
+            headers: {},
+        };
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }, []);
 
     interface Column {
@@ -138,7 +137,8 @@ export default function ListagemEbooks() {
             label: "Data",
             minWidth: 50,
             align: "center",
-        }, {
+        },
+        {
             id: "download",
             label: "",
         },
@@ -176,7 +176,7 @@ export default function ListagemEbooks() {
         createAuthorEbook(
             1,
             "A Sutil Arte de Ligar o F*da-se",
-            "220/02/2012",
+            "20/02/2012",
             link_image,
             EnumAuthorEbookStatus.APPROVED,
             320,
@@ -462,31 +462,29 @@ export default function ListagemEbooks() {
                     >
                         <CloseIcon />
                     </IconButton>
-                    <DialogContent sx={{ color: "dark.main", justifyContent: "center"}}>
-                            <Box textAlign="center">
-                                <TextField label="Motivo da Recusa" multiline style={{width: "400px"}} rows={6} />
-                            </Box>
+                    <DialogContent sx={{ color: "dark.main", justifyContent: "center" }}>
+                        <Box textAlign="center">
+                            <TextField label="Motivo da Recusa" multiline style={{ width: "400px" }} rows={6} />
+                        </Box>
                     </DialogContent>
                     <DialogContent sx={{ color: "dark.main" }}>
-                                <Box textAlign="center" fontSize={16}>
-                                    Essa informação será exibida ao autor
-                                </Box>
+                        <Box textAlign="center" fontSize={16}>
+                            Essa informação será exibida ao autor
+                        </Box>
                     </DialogContent>
                     <DialogContent>
                         <DialogActions style={{ justifyContent: "center" }}>
-                                <Button variant="contained" color="error" autoFocus>
-                                    Cancelar
-                                </Button>
-                                <Button variant="contained" color="success" autoFocus>
-                                    Salvar
-                                </Button>
+                            <Button variant="contained" color="error" autoFocus>
+                                Cancelar
+                            </Button>
+                            <Button variant="contained" color="success" autoFocus>
+                                Salvar
+                            </Button>
                         </DialogActions>
                     </DialogContent>
-                    <DialogActions style={{ justifyContent: "center" }}>
-                    </DialogActions>
+                    <DialogActions style={{ justifyContent: "center" }}></DialogActions>
                 </BootstrapDialog>
             </React.Fragment>
-
 
             <React.Fragment>
                 <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-D" fullWidth={true} open={openDialog}>
@@ -557,18 +555,17 @@ export default function ListagemEbooks() {
                                     Inativar EBook
                                 </Button>
                             </DialogActions>
-                        ) : null }
+                        ) : null}
                         {openEbook.status == EnumAuthorEbookStatus.PENDING ? (
                             <DialogActions>
-                            <Button variant="contained" color="success" autoFocus onClick={handleClose}>
-                                Aprovar
-                            </Button>
-                            <Button variant="contained" color="error" autoFocus onClick={handleRefuseClickOpen}>
-                                Recusar
-                            </Button>
-                        </DialogActions>
-                        ) : null
-                        }
+                                <Button variant="contained" color="success" autoFocus onClick={handleClose}>
+                                    Aprovar
+                                </Button>
+                                <Button variant="contained" color="error" autoFocus onClick={handleRefuseClickOpen}>
+                                    Recusar
+                                </Button>
+                            </DialogActions>
+                        ) : null}
                     </DialogActions>
                 </BootstrapDialog>
             </React.Fragment>
@@ -586,7 +583,7 @@ export default function ListagemEbooks() {
                         variant="h1"
                         color="darker.main"
                     >
-                        Minhas Obras
+                        Obras
                     </Typography>
                     <Search>
                         <SearchIconWrapper>
@@ -614,15 +611,17 @@ export default function ListagemEbooks() {
                                             {columns.map((column) => {
                                                 return (
                                                     <TableCell key={column.id} align={column.align}>
-                                                        {column.id === "acao"
-                                                            ? getButtonAction(tableItem)
-                                                            : column.id === "link_foto"
-                                                                ? getImage(tableItem)
-                                                                : column.id === "status"
-                                                                    ? getButtonStatus(tableItem)
-                                                                    : column.id == "download"
-                                                                        ? <DownloadIcon/>
-                                                                        : tableItem[column.id]}
+                                                        {column.id === "acao" ? (
+                                                            getButtonAction(tableItem)
+                                                        ) : column.id === "link_foto" ? (
+                                                            getImage(tableItem)
+                                                        ) : column.id === "status" ? (
+                                                            getButtonStatus(tableItem)
+                                                        ) : column.id == "download" ? (
+                                                            <DownloadIcon />
+                                                        ) : (
+                                                            tableItem[column.id]
+                                                        )}
                                                     </TableCell>
                                                 );
                                             })}
