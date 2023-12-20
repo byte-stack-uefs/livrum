@@ -10,7 +10,7 @@ type PurchaseItemCardProps = {
     onSelect?: (item: PurchaseItem) => void;
 };
 
-const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
+const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem, onSelect }) => {
     function getPurchaseDateText(purchaseItem: PurchaseItem) {
         if (purchaseItem.status == "PENDENTE" || purchaseItem.status == "RECUSADA") {
             return <>Tentativa de compra: {purchaseItem.date}</>;
@@ -30,7 +30,16 @@ const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) =>
                 <Grid item xs={4}>
                     <Stack>
                         Compra Nº {purchaseItem.id}
-                        <Link href="#">Ver detalhes da compra</Link>
+                        <Link
+                            onClick={() => {
+                                if (onSelect != undefined) {
+                                    onSelect(purchaseItem);
+                                }
+                            }}
+                            href="#"
+                        >
+                            Ver detalhes da compra
+                        </Link>
                     </Stack>
                 </Grid>
             </Grid>
@@ -38,10 +47,10 @@ const DisplayHeaderInfo: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) =>
     );
 };
 
-const PurchaseItemCardHeader: React.FC<PurchaseItemCardProps> = ({ purchaseItem }) => {
+const PurchaseItemCardHeader: React.FC<PurchaseItemCardProps> = ({ purchaseItem, onSelect }) => {
     return (
         <Box sx={{ boxShadow: 3, backgroundColor: "#D9D9D9", borderRadius: "10px 10px 0px 0px" }}>
-            <DisplayHeaderInfo purchaseItem={purchaseItem}></DisplayHeaderInfo>
+            <DisplayHeaderInfo onSelect={onSelect} purchaseItem={purchaseItem}></DisplayHeaderInfo>
         </Box>
     );
 };
@@ -111,7 +120,7 @@ const PurchaseItemCardBody: React.FC<PurchaseItemCardProps> = ({ purchaseItem, o
 const PurchaseItemCard: React.FC<PurchaseItemCardProps> = ({ purchaseItem, props, onSelect }) => {
     return (
         <Stack {...props}>
-            <PurchaseItemCardHeader purchaseItem={purchaseItem}></PurchaseItemCardHeader>
+            <PurchaseItemCardHeader onSelect={onSelect} purchaseItem={purchaseItem}></PurchaseItemCardHeader>
             <PurchaseItemCardBody onSelect={onSelect} purchaseItem={purchaseItem}></PurchaseItemCardBody>
         </Stack>
     );
