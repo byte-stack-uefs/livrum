@@ -104,20 +104,23 @@ export default function Page() {
             <Grid container>
                 <Grid xs={12} item container my={3}>
                     <Grid xs={5} item>
-                        <Box
-                            sx={{
-                                display: "flex",
-                                backgroundColor: "secondary.main",
-                                width: "100%",
-                                height: "100%",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                flexDirection: "column",
-                            }}
-                        >
-                            <Image sx={{ fontSize: 80 }} />
-                            <Typography>Clique aqui e envie a capa do Ebook</Typography>
-                        </Box>
+                        <input type="file" hidden accept="image/*" id="image-in" />
+                        <label htmlFor="image-in">
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    backgroundColor: "secondary.main",
+                                    width: "100%",
+                                    height: "100%",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <Image sx={{ fontSize: 80 }} />
+                                <Typography>Clique aqui e envie a capa do Ebook</Typography>
+                            </Box>
+                        </label>
                     </Grid>
                     <Grid xs={7} item pl={1} container>
                         <Grid item xs={12} mb={2}>
@@ -198,7 +201,7 @@ export default function Page() {
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <input hidden accept="image/*" id="raised-button-file" multiple type="file" />
+                        <input hidden accept="application/pdf" id="raised-button-file" type="file" />
                         <label htmlFor="raised-button-file">
                             <Button color="dark" variant="contained" component="span">
                                 Escolher arquivo
