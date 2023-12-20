@@ -74,6 +74,7 @@ export const theme: Theme = createTheme({
         },
         dark: {
             main: dark,
+            contrastText: "#FFF",
         },
         secondary: {
             main: secondary,
@@ -82,7 +83,7 @@ export const theme: Theme = createTheme({
             main: "#00000066",
         },
         mintCream: {
-            main: '#F5FFFA'
+            main: "#F5FFFA",
         },
     },
     components: {
@@ -124,9 +125,8 @@ export const theme: Theme = createTheme({
                 },
             },
         },
-    }
-},
-);
+    },
+});
 
 export default function ThemeRegistry(props: React.PropsWithChildren) {
     const { children } = props;

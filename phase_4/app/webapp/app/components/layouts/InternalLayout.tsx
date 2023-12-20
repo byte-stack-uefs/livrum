@@ -16,50 +16,50 @@ export default function InternalLayout({ children }: { children: React.ReactNode
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
     const [userLevel, setUserLevel] = useState(UserLevel.AUTHOR);
 
-    const base = userLevel == UserLevel.ADMIN ? '/admin' : '/autor';
+    const base = userLevel == UserLevel.ADMIN ? "/admin" : "/autor";
 
     const buttons: LivrumButtonMenuItems[] = [
         {
             label: "Minha Conta",
             icon: <Person />,
             visible: true,
-            route: `${base}/meus-dados`
+            route: `${base}/meus-dados`,
         },
         {
             label: "Painel",
             icon: <Home />,
             visible: true,
-            route: base
+            route: base,
         },
         {
             label: "Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.ADMIN,
-            route: `${base}/obras`
+            route: `${base}/obras`,
         },
         {
             label: "Minhas Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.AUTHOR,
-            route: `${base}/ebooks`
+            route: `${base}/ebooks`,
         },
         {
             label: "Usuários",
             icon: <Groups />,
             visible: userLevel == UserLevel.ADMIN,
-            route: `${base}/users`
+            route: `${base}/users`,
         },
         {
             label: "Cupons",
             icon: <Discount />,
             visible: true,
-            route: '/'
+            route: `${base}/cupons`,
         },
         {
             label: "Submeter",
             icon: <SubdirectoryArrowRight />,
             visible: userLevel == UserLevel.AUTHOR,
-            route: '/'
+            route: "/",
         },
     ];
 

@@ -4,11 +4,12 @@ import { createContext } from "react";
 export const defaultUser = {
     isLoggedIn: false,
     user: {
-        level: null,
-        name: "Almir Livrum",
         id: 1,
-        email: 'livrum@gmail.com'
-    }
+        tipo: '',
+        status: '',
+        nome: "Almir Livrum",
+        email: 'livrum@gmail.com',
+    },
 };
 
 export const Context = createContext(defaultUser);
