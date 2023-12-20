@@ -16,11 +16,13 @@
         "@emotion/styled": "^11.11.0",
         "@fontsource/inter": "^5.0.15",
         "@fontsource/roboto": "^5.0.8",
-        "@mui/icons-material": "^5.14.18",
-        "@mui/material": "^5.14.18",
-        "next": "13.5.4",
+        "@mui/icons-material": "^5.15.0",
+        "@mui/material": "^5.14.20",
+        "@mui/styled-engine-sc": "^6.0.0-alpha.7",
+        "next": "^13.5.4",
         "react": "^18",
         "react-dom": "^18",
+        "styled-components": "^6.1.1",
         "swiper": "^11.0.5"
     },
     "devDependencies": {
