@@ -325,12 +325,14 @@ function BookList() {
 
 function BookListContainer() {
     return (
-        <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
-            <BookList></BookList>
-            <Grid container xs={12} justifyContent="center">
+        <>
+            <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
+                <BookList></BookList>
+            </Grid>
+            <Grid container mt={2} xs={12} justifyContent="center">
                 <Pagination count={10} color="primary" shape="rounded" />
             </Grid>
-        </Grid>
+        </>
     );
 }
 

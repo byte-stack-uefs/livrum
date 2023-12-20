@@ -12,15 +12,16 @@ function CategoryItem(category: Category) {
         <div>
             <div
                 style={{
-                    width: 150,
-                    height: 150,
+                    width: 175,
+                    height: 175,
                     margin: "auto",
+                    position: 'relative',
                 }}
             >
                 <Image
-                    width={150}
-                    height={150}
-                    style={{ objectFit: "cover", height: "100%", borderRadius: 15 }}
+                    fill
+                    objectFit="cover"
+                    style={{ borderRadius: 15 }}
                     alt={category.name}
                     src={category.cover}
                 />
