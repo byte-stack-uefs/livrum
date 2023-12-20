@@ -15,10 +15,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <div>
             <CartProvider>
                 <TopBar />
-                <section style={{ minHeight: '100vh' }}>{children}</section>
+                <section style={{ minHeight: "100vh" }}>{children}</section>
                 <Footer />
             </CartProvider>
-            
         </div>
     );
 }
