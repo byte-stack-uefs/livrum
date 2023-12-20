@@ -28,6 +28,8 @@ export type CartItemType = {
 };
 
 export default function Page({ params }: { params: EbookPageParams }) {
+    const { id } = params;
+
     const [height, setHeight] = useState(0);
     const [width, setWidth] = useState(0);
 
@@ -66,7 +68,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
     ];
 
     const ebook = {
-        id: 0,
+        id: id,
         title: "Os irmãos Karamazov",
         cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
         author: "Fiodor Dostoievsk",
