@@ -1,9 +1,7 @@
 import Divider from "./Divider";
 import React, { useEffect } from "react";
 import PurchaseItem from "../interfaces/PurchaseItem";
-import { Box, Chip, Grid, List, ListItem, Modal, Stack, Typography, Dialog, DialogTitle, DialogContent } from "@mui/material";
-import PurchaseItemCard from "./PurchaseItemCard";
-import InHistoryEbookCard from "./InHistoryEbookCard";
+import { Box, Chip, Grid, Stack, Dialog, DialogTitle } from "@mui/material";
 import EbookHistoryModalCard from "./EbookHistoryModalCard";
 
 type PurchaseItemProps = {
@@ -20,10 +18,6 @@ const PurchaseDetailsModalHeader: React.FC<PurchaseItemProps> = ({ purchaseItem 
             </Grid>
         </Box>
     );
-};
-
-const DisplayModal: React.FC<PurchaseItemProps> = ({ purchaseItem }) => {
-    return <p></p>;
 };
 
 type PurchaseDetailsModalProps = {
