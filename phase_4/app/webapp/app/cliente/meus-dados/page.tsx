@@ -23,13 +23,13 @@ function ClientDataContainerHeader() {
 }
 
 function ClientDataContainer() {
-    const [cpf, setCpf] = useState("12345678912");
+    const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [address, setAddress] = useState("");
     const [birthday, setBirthday] = useState("");
     const [password, setPassword] = useState("");
-    const [telephone, setTelephone] = useState("78912345678");
+    const [telephone, setTelephone] = useState("");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -51,7 +51,6 @@ function ClientDataContainer() {
                             id="labelName"
                             fullWidth
                             value={name}
-                            defaultValue='dados originais do cliente' 
                             size="small"
                             variant="outlined"
                             onChange={(e) => setName(e.target.value)}
