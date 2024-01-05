@@ -1,5 +1,7 @@
 "use client";
-
+import 'swiper/swiper-bundle.css';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Autoplay, Navigation } from 'swiper/modules';
 import { useState } from "react";
 import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
@@ -43,18 +45,20 @@ function ClientDataContainer() {
                 <Grid container spacing={2}>
                     <Grid xs={12}>
                         <InputLabel htmlFor="labelName" required style={{ fontWeight: "bold", textAlign: "left", color: theme.palette.dark.main }}>
-                            Nome Completo{" "}
+                            Nome Completo{""}
                         </InputLabel>
                         <TextField
-                            InputProps={{
-                                sx: { backgroundColor: `${theme.palette.darker.main}40` },
-                            }}
                             id="labelName"
                             fullWidth
                             value={name}
+                            defaultValue='dados originais do cliente' 
                             size="small"
                             variant="outlined"
-                            disabled
+                            onChange={(e) => setName(e.target.value)}
+                            InputProps={{
+                                sx: { backgroundColor: "white" },
+                            }}
+                        
                         />
                     </Grid>
                     <Grid xs={12} md={6}>
@@ -85,15 +89,14 @@ function ClientDataContainer() {
                             Data de nascimento{" "}
                         </InputLabel>
                         <TextField
-                            InputProps={{
-                                sx: { backgroundColor: `${theme.palette.darker.main}40` },
-                            }}
+             
                             fullWidth
                             id="labelBirthday"
                             value={birthday}
                             size="small"
                             variant="outlined"
-                            disabled
+                            type='date'
+                            onChange={(e) => setBirthday(e.target.value)}
                         />
                     </Grid>
 
