@@ -1,8 +1,8 @@
 "use client";
 import { Box } from "@mui/material";
 import React, { useState } from "react";
-import { Button, Grid, TextField, Typography, styled } from "@mui/material";
 import { Image } from "@mui/icons-material";
+import { Button, Grid, TextField, Typography, styled } from "@mui/material";
 
 const DashedInput = styled(TextField)(({ theme }) => ({
     borderRadius: 0,
@@ -47,34 +47,29 @@ function CampoTexto({ texto }) {
 }
 
 export default function Page() {
-    const [titulo, setTitulo] = useState("");
-    const [autor, setAutor] = useState("");
+
     const [pag, setPag] = useState("");
     const [ano, setAno] = useState("");
-    const [idioma, setIdioma] = useState("");
-    const [genero, setGenero] = useState("");
     const [arq, setArq] = useState("");
     const [img, setImg] = useState("");
+    const [autor, setAutor] = useState("");
+    const [preco, setPreco] = useState("");
+    const [titulo, setTitulo] = useState("");
+    const [idioma, setIdioma] = useState("");
+    const [genero, setGenero] = useState("");
     const [sinopse, setSinopse] = useState("");
 
-    const handleTituloInputChange = (event) => setTitulo(event.target.value);
-
-    const handleAutorInputChange = (event) => setAutor(event.target.value);
-
     const handlePagInputChange = (event) => setPag(event.target.value);
-
     const handleAnoInputChange = (event) => setAno(event.target.value);
-
-    const handleIdiomaInputChange = (event) => setIdioma(event.target.value);
-
-    const handleGeneroInputChange = (event) => setGenero(event.target.value);
-
     const handleArqInputChange = (event) => setArq(event.target.value);
-
     const handleImgInputChange = (event) => setImg(event.target.value);
-
+    const handlePrecoInputChange = (event) => setPreco(event.target.value);
+    const handleAutorInputChange = (event) => setAutor(event.target.value);
+    const handleTituloInputChange = (event) => setTitulo(event.target.value);
+    const handleIdiomaInputChange = (event) => setIdioma(event.target.value);
+    const handleGeneroInputChange = (event) => setGenero(event.target.value);
     const handleSinopseInputChange = (event) => setSinopse(event.target.value);
-    //titulo !== '' && ano !== '' && genero !=='' && autor!=='' && pag!=='' && arq!=='' && idioma!=='' && sinopse!=='' && img!==''
+
     function dados(event) {
         event.preventDefault();
         if (
@@ -123,14 +118,27 @@ export default function Page() {
                         </label>
                     </Grid>
                     <Grid xs={7} item pl={1} container>
-                        <Grid item xs={12} mb={2}>
-                            <Typography color="darker.main" variant="h5" fontWeight="bold">
-                                Sinopse
-                            </Typography>
+                        <Grid item container xs={12}>
+
+                            <Grid item container xs={12}>
+                                <Grid item xs={12} mb={2}>
+                                    <Typography color="darker.main" variant="h5" fontWeight="bold">
+                                        Sinopse
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <DashedInput fullWidth value={sinopse} onChange={handleSinopseInputChange} minRows={15} multiline placeholder="Sinopse" />
+                                </Grid>
+                            </Grid>
+
+                            <Grid item xs={12} container justifyItems={"center"} mt={3}>
+                                <Grid item xs={12} md={6} sx={{ margin: 'auto' }}>
+                                    <DashedInput fullWidth value={preco} onChange={handlePrecoInputChange} placeholder="Preço" />
+                                </Grid>
+                            </Grid>
+
                         </Grid>
-                        <Grid item xs={12}>
-                            <DashedInput fullWidth value={sinopse} onChange={handleSinopseInputChange} minRows={15} multiline placeholder="Sinopse" />
-                        </Grid>
+
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
