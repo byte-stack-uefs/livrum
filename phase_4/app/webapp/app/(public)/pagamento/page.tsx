@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Divider from "@/app/components/Divider";
-import { CheckCircle, CreditCard, Pix } from "@mui/icons-material";
-import { TabSelector } from "@/app/components/TabSelector";
-import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography } from "@mui/material";
-import { PixContainer } from "@/app/components/PixContainer";
-import { PaymentCreditCardContainer } from "@/app/components/PaymentCreditCardContainer";
 import { useRouter } from "next/navigation";
+import Divider from "@/app/components/Divider";
+import { TabSelector } from "@/app/components/TabSelector";
+import { PixContainer } from "@/app/components/PixContainer";
+import { CheckCircle, CreditCard, Pix } from "@mui/icons-material";
+import { PaymentCreditCardContainer } from "@/app/components/PaymentCreditCardContainer";
+import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography } from "@mui/material";
 
 export interface PaymentEbook {
     id: number;
