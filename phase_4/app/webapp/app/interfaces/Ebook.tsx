@@ -2,10 +2,13 @@ export default interface Ebook {
     id: number;
     title: string;
     cover: string;
-    author: string;
-    genre ?: string;
-    releaseYear: string;
-    isAvailable: boolean;
     price: number;
+    size?: number;
+    author: string;
+    genre?: string;
+    pages?: number;
     summary: string;
+    releaseYear: string;
+    languages?: string[];
+    isAvailable: boolean;
 }
