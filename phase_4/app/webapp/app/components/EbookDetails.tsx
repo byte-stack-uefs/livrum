@@ -2,19 +2,19 @@
 
 import Image from "next/image";
 import { theme } from "@/app/theme";
+import Ebook from "../interfaces/Ebook";
 import { useEffect, useState } from "react";
+import { Button, Typography } from "@mui/material";
 import { AddShoppingCart } from "@mui/icons-material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Button, Typography } from "@mui/material";
-import Ebook from "../interfaces/Ebook";
 
 interface EbookDetailsProps {
-    ebook: any;
+    ebook: Ebook;
     onAddCart: (ebook: Ebook) => void,
     shouldDisableAddCart: (ebook: Ebook) => boolean | undefined
 }
 
-function ListItem({ title, value }: { title: string; value: string }) {
+function ListItem({ title, value }: { title: string; value: string | number }) {
     return (
         <span>
             <span style={{ color: theme.palette.dark.main, fontWeight: "bold" }}>{title}: </span>
@@ -37,13 +37,13 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
     return <Grid py={2} px={4} container xs={12} sx={{ backgroundColor: "secondary.main", borderRadius: 5, marginY: 6 }}>
         <Grid xs={12} textAlign="center" py={2}>
             <Typography variant="h4" color="dark.main">
-                TÍTULO DO EBOOK
+                {ebook.title}
             </Typography>
         </Grid>
         <Grid container xs={12} py={2}>
             <Grid xs={5} id="ebook-cover-container" p={2}>
                 <Image
-                    src="https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg"
+                    src={ebook.cover}
                     width={width}
                     height={height}
                     alt="Ebook cover"
@@ -57,32 +57,13 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
                     </Typography>
                 </Grid>
                 <Grid xs={12} sx={{ color: "textLight.main" }}>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                        praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                        consequatur?
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                        praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                        consequatur?
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                        praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                        consequatur?
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                        praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                        consequatur?
-                    </p>
+                    {ebook.summary}
                 </Grid>
                 <Grid xs={12} container justifyContent="center" mt={4}>
                     <Grid container py={3} xs={8} sx={{ backgroundColor: "#c5c5c5", borderRadius: 3 }} textAlign="center" alignSelf="end">
                         <Grid xs={6} alignSelf="center">
                             <Typography variant="h4" textAlign="center" color="dark.main">
-                                R$ 39,90
+                                {ebook.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                             </Typography>
                         </Grid>
                         <Grid xs={6} alignSelf="center">
@@ -109,23 +90,25 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
                 <Grid xs={3}>
                     <ul style={{ listStyle: "none", padding: 0 }}>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Autor" value="X" />
+                            <ListItem title="Autor" value={ebook.author} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Número de Páginas" value="192" />
+                            <ListItem title="Número de Páginas" value={ebook.pages ? ebook.pages : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Ano de lançamento" value="2023" />
+                            <ListItem title="Ano de lançamento" value={ebook.releaseYear} />
                         </li>
                     </ul>
                 </Grid>
                 <Grid xs={3}>
                     <ul style={{ listStyle: "none", padding: 0 }}>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Idioma" value="Português" />
+                            <ListItem title="Idioma" value={ebook.languages ? ebook.languages.reduce((prev, cur, idx) => {
+                                return prev + ', ' + cur;
+                            }) : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Tamanho" value="8592 KB" />
+                            <ListItem title="Tamanho" value={ebook.size ? ebook.size + ' KB' : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
                             <ListItem title="Formato" value="PDF" />
