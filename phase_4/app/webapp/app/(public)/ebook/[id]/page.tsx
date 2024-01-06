@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Ebook from "@/app/interfaces/Ebook";
 import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
@@ -22,8 +23,6 @@ export type CartItemType = {
 
 export default function Page({ params }: { params: EbookPageParams }) {
     const { id } = params;
-
-
 
     const similars = [
         {
@@ -53,12 +52,37 @@ export default function Page({ params }: { params: EbookPageParams }) {
         },
     ];
 
-    const ebook = {
+    const ebook: Ebook = {
         id: id,
         title: "Os irmãos Karamazov",
         cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
         author: "Fiodor Dostoievsk",
         price: 110,
+        releaseYear: '2012',
+        summary: `<p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
+            praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
+            consequatur?
+        </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
+                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
+                consequatur?
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
+                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
+                consequatur?
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
+                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
+                consequatur?
+            </p>`,
+        isAvailable: true,
+        languages: ['Português'],
+        size: 8952
+
     };
     const { handleAddEbookToCart } = useCart();
 
@@ -78,7 +102,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
         <span>Produto adicionado ao carrinho</span>;
     }
     function handleClickAddCart(item: CartItemType) {
-        handleAddEbookToCart(ebook);
+        handleAddEbookToCart(item);
         mensagemClick();
     }
 
