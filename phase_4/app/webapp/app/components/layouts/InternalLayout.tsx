@@ -59,7 +59,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
             label: "Submeter",
             icon: <SubdirectoryArrowRight />,
             visible: userLevel == UserLevel.AUTHOR,
-            route: "/",
+            route: "/autor/ebook/publicar",
         },
     ];
 
