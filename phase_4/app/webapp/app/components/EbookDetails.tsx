@@ -42,13 +42,13 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
         </Grid>
         <Grid container xs={12} py={2}>
             <Grid xs={5} id="ebook-cover-container" p={2}>
-                <Image
+                {ebook.cover && (<Image
                     src={ebook.cover}
                     width={width}
                     height={height}
                     alt="Ebook cover"
                     style={{ height: "100%", width: "100%", borderRadius: 30, objectFit: "contain" }}
-                />
+                />)}
             </Grid>
             <Grid container xs={7} p={2}>
                 <Grid xs={12} pt={6}>
