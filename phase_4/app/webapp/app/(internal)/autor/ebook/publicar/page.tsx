@@ -72,6 +72,21 @@ export default function Page() {
         }
     }
 
+    const readImage = (ev) => {
+        console.log(ev)
+        const reader = new FileReader();
+        reader.onload = function () {
+            let eb = {};
+            // @ts-ignore
+            eb['cover'] = reader.result;
+            setEbook(ebook => ({
+                ...ebook,
+                ...eb,
+            }))
+        }
+        reader.readAsDataURL(ev?.target.files[0]);
+    }
+
     return (
         <Grid container>
             <PreviewDialog ebook={ebook} open={openPreview} onClose={() => { setOpenPreview(false) }} />
@@ -83,7 +98,7 @@ export default function Page() {
             <Grid container>
                 <Grid xs={12} item container my={3}>
                     <Grid xs={5} item>
-                        <input type="file" hidden accept="image/*" id="image-in" />
+                        <input type="file" hidden accept="image/*" id="image-in" onChange={readImage} />
                         <label htmlFor="image-in">
                             <Box
                                 sx={{
