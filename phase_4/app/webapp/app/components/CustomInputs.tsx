@@ -98,6 +98,7 @@ export const priceInput = React.forwardRef<HTMLInputElement, CustomProps>(functi
                     thousandsSeparator: '.',
                     radix: ',',
                     scale: 2,
+                    padFractionalZeros: true
                 }
             }}
             inputRef={ref}
