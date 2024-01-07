@@ -1,6 +1,6 @@
 "use client";
 import { Box } from "@mui/material";
-import React, { ChangeEventHandler, useState } from "react";
+import React, { useState } from "react";
 import Ebook from "@/app/interfaces/Ebook";
 import { Image } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography, styled } from "@mui/material";
@@ -28,25 +28,6 @@ const DashedInput = styled(TextField)(({ theme }) => ({
         height: "0.7em",
     },
 }));
-
-function CampoTexto({ texto }) {
-    return (
-        <Box display="flex" alignItems="center" marginBottom="7px">
-            <label style={{ marginRight: "30px", color: "#163760", fontFamily: "Source Sans Pro, sans-serif", fontWeight: "bold" }}>{texto}:</label>
-            <input
-                type="text"
-                style={{
-                    border: "1px dotted #163760",
-                    borderRadius: "4px",
-                    backgroundColor: "#F1F1F1",
-                    borderWidth: "2px",
-                    width: "100px",
-                    outline: "none",
-                }}
-            />
-        </Box>
-    );
-}
 
 export default function Page() {
 
