@@ -59,11 +59,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
         author: "Fiodor Dostoievsk",
         price: 110,
         releaseYear: '2012',
-        summary: `<p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-            praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-            consequatur?
-        </p>
+        summary: <>
             <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
                 praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
@@ -78,7 +74,13 @@ export default function Page({ params }: { params: EbookPageParams }) {
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
                 praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
                 consequatur?
-            </p>`,
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
+                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
+                consequatur?
+            </p>
+        </>,
         isAvailable: true,
         languages: ['Português'],
         size: 8952
