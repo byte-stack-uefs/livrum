@@ -8,20 +8,8 @@ import {
     Button,
     Container,
     Grid,
-    List,
-    ListItem,
-    Paper,
-    Stack,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
     Typography,
 } from "@mui/material";
-import { useCallback } from "react";
-import { CartItemType } from "../ebook/[id]/page";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import Divider from "@/app/components/Divider";
 
