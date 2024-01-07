@@ -56,7 +56,7 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
                         Descrição
                     </Typography>
                 </Grid>
-                <Grid xs={12} sx={{ color: "textLight.main" }}>
+                <Grid xs={12} sx={{ color: "textLight.main", wordBreak: 'break-all' }}>
                     {ebook.summary}
                 </Grid>
                 <Grid xs={12} container justifyContent="center" mt={4}>
