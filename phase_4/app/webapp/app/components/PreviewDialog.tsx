@@ -6,7 +6,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/
 
 export default function PreviewDialog({ ebook, open = false, onClose }: { ebook: Ebook, open: boolean, onClose?: () => void }) {
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     const handleClose = () => {
         setIsOpen(false);
