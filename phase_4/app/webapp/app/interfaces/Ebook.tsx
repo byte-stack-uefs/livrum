@@ -9,6 +9,7 @@ export default interface Ebook {
     pages?: number;
     summary: string | JSX.Element;
     releaseYear: string;
+    releaseDate?: string;
     languages?: string[];
     isAvailable: boolean;
 }

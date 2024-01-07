@@ -12,11 +12,14 @@ import {
 } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import Divider from "@/app/components/Divider";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
     const total = 1564;
 
     const { cartItems } = useCart();
+
+    const router = useRouter();
 
     if (!cartItems || cartItems.length == 0) {
         return (
@@ -109,7 +112,9 @@ const Cart = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid xs={12} item textAlign="center">
-                                    <Button color="primary" variant="contained" startIcon={<ShoppingCartCheckoutIcon />}>
+                                    <Button onClick={() => {
+                                        router.push('/pagamento');
+                                    }} color="primary" variant="contained" startIcon={<ShoppingCartCheckoutIcon />}>
                                         Finalizar compra
                                     </Button>
                                 </Grid>
