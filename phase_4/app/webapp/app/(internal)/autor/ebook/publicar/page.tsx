@@ -112,7 +112,7 @@ export default function Page() {
                                 }}
                             >
                                 <Image sx={{ fontSize: 80 }} />
-                                <Typography>Clique aqui e envie a capa do Ebook</Typography>
+                                <Typography>{ebook.cover ? 'Uma imagem selecionada' : 'Clique aqui e envie a capa do Ebook'}</Typography>
                             </Box>
                         </label>
                     </Grid>
