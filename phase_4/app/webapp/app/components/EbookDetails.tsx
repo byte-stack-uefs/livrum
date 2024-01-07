@@ -90,13 +90,13 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
                 <Grid xs={3}>
                     <ul style={{ listStyle: "none", padding: 0 }}>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Autor" value={ebook.author} />
+                            <ListItem title="Autor" value={ebook.author ? ebook.author : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
                             <ListItem title="Número de Páginas" value={ebook.pages ? ebook.pages : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Ano de lançamento" value={ebook.releaseYear} />
+                            <ListItem title="Ano de lançamento" value={ebook.releaseYear ? ebook.releaseYear : '-'} />
                         </li>
                     </ul>
                 </Grid>
