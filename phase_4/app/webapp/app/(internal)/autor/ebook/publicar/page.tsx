@@ -73,18 +73,29 @@ export default function Page() {
     }
 
     const readImage = (ev) => {
-        console.log(ev)
-        const reader = new FileReader();
-        reader.onload = function () {
+
+        if (ev.target.files[0]) {
+
+            const reader = new FileReader();
+            reader.onload = function () {
+                let eb = {};
+                // @ts-ignore
+                eb['cover'] = reader.result;
+                setEbook(ebook => ({
+                    ...ebook,
+                    ...eb,
+                }))
+            }
+            reader.readAsDataURL(ev?.target.files[0]);
+        } else {
             let eb = {};
             // @ts-ignore
-            eb['cover'] = reader.result;
+            eb['cover'] = null;
             setEbook(ebook => ({
                 ...ebook,
                 ...eb,
             }))
         }
-        reader.readAsDataURL(ev?.target.files[0]);
     }
 
     return (
