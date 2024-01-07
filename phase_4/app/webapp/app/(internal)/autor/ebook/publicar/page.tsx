@@ -4,6 +4,7 @@ import React, { ChangeEventHandler, useState } from "react";
 import Ebook from "@/app/interfaces/Ebook";
 import { Image } from "@mui/icons-material";
 import { Button, Grid, TextField, Typography, styled } from "@mui/material";
+import { numberInput, priceInput } from "@/app/components/CustomInputs";
 
 const DashedInput = styled(TextField)(({ theme }) => ({
     borderRadius: 0,
@@ -53,7 +54,8 @@ export default function Page() {
         title: '',
         author: '',
         summary: '',
-        price: 0,
+        // @ts-ignore
+        price: '0',
         id: 0,
         cover: '',
         releaseYear: '',
@@ -130,7 +132,10 @@ export default function Page() {
 
                             <Grid item xs={12} container justifyItems={"center"} mt={3}>
                                 <Grid item xs={12} md={6} sx={{ margin: 'auto' }}>
-                                    <DashedInput fullWidth value={ebook.price} onChange={(e) => { updateEbook('price', e) }} placeholder="Preço" />
+
+                                    <DashedInput InputProps={{
+                                        inputComponent: priceInput as any,
+                                    }} fullWidth value={ebook.price} onChange={(e) => { updateEbook('price', e) }} placeholder="Preço" />
                                 </Grid>
                             </Grid>
 
@@ -159,7 +164,9 @@ export default function Page() {
                                     <Typography color="dark.main">Número de páginas: </Typography>
                                 </Grid>
                                 <Grid xs={6} item>
-                                    <DashedInput fullWidth size="small" value={ebook.pages} onChange={(e) => { updateEbook('pages', e) }} />
+                                    <DashedInput InputProps={{
+                                        inputComponent: numberInput as any,
+                                    }} fullWidth size="small" value={ebook.pages} onChange={(e) => { updateEbook('pages', e) }} />
                                 </Grid>
                             </Grid>
                             <Grid xs={12} item container alignItems="center" py={1}>
@@ -167,7 +174,9 @@ export default function Page() {
                                     <Typography color="dark.main">Ano de lançamento: </Typography>
                                 </Grid>
                                 <Grid xs={6} item>
-                                    <DashedInput fullWidth size="small" value={ebook.releaseYear} onChange={(e) => { updateEbook('releaseYear', e) }} />
+                                    <DashedInput InputProps={{
+                                        inputComponent: numberInput as any,
+                                    }} fullWidth size="small" value={ebook.releaseYear} onChange={(e) => { updateEbook('releaseYear', e) }} />
                                 </Grid>
                             </Grid>
                         </Grid>

@@ -84,3 +84,41 @@ export const cellphoneInput = React.forwardRef<HTMLInputElement, CustomProps>(fu
         />
     );
 });
+
+
+export const priceInput = React.forwardRef<HTMLInputElement, CustomProps>(function priceInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask='R$ num'
+            blocks={{
+                num: {
+                    mask: Number,
+                    thousandsSeparator: '.',
+                    radix: ',',
+                    scale: 2,
+                }
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
+
+export const numberInput = React.forwardRef<HTMLInputElement, CustomProps>(function numberInput(props, ref) {
+    const { onChange, ...other } = props;
+    return (
+        <IMaskInput
+            {...other}
+            mask="############"
+            definitions={{
+                "#": /[0-9]/,
+            }}
+            inputRef={ref}
+            onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+            overwrite
+        />
+    );
+});
