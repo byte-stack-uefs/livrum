@@ -1,10 +1,11 @@
 "use client";
-import { Box } from "@mui/material";
+
 import React, { useState } from "react";
 import Ebook from "@/app/interfaces/Ebook";
 import { Image } from "@mui/icons-material";
-import { Button, Grid, TextField, Typography, styled } from "@mui/material";
+import { Button, Grid, TextField, Typography, styled, Box } from "@mui/material";
 import { numberInput, priceInput } from "@/app/components/CustomInputs";
+import PreviewDialog from "@/app/components/PreviewDialog";
 
 const DashedInput = styled(TextField)(({ theme }) => ({
     borderRadius: 0,
@@ -30,6 +31,8 @@ const DashedInput = styled(TextField)(({ theme }) => ({
 }));
 
 export default function Page() {
+
+    const [openPreview, setOpenPreview] = useState(false);
 
     const [ebook, setEbook] = useState<Ebook>({
         title: '',
@@ -71,6 +74,7 @@ export default function Page() {
 
     return (
         <Grid container>
+            <PreviewDialog ebook={ebook} open={openPreview} onClose={() => { setOpenPreview(false) }} />
             <Grid container justifyContent="center">
                 <Grid xs={12} md={6} item>
                     <DashedInput fullWidth value={ebook.title} onChange={(e) => { updateEbook('title', e) }} placeholder="Título do seu livro" />
@@ -204,6 +208,15 @@ export default function Page() {
                         </label>
                     </Grid>
                 </Grid>
+
+                <Grid item xs={12} my={2}>
+                    <Button variant="outlined" onClick={() => {
+                        setOpenPreview(true);
+                    }}>
+                        Abrir pré-visualização
+                    </Button>
+                </Grid>
+
                 <Grid item xs={12} textAlign="center">
                     <Button onClick={dados} variant="contained" color="success">
                         Submeter e-Book
