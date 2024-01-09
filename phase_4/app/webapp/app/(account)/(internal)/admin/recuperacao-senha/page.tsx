@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { theme } from "@/app/theme";
 import React, { useState } from "react";
 import Divider from "@/app/components/Divider";
@@ -83,12 +83,18 @@ const AdminPasswordRestore = () => {
                                         />
                                     </Grid>
                                 </Grid>
-                                <Grid xs={12} sm={8}>
+                                <Grid xs={6} sm={4}>
+                                    <Link href={"/admin/login"} style={{ textDecoration: 'none' }}>
+                                        <Button fullWidth variant="contained" color="primary">
+                                            Cancelar
+                                        </Button>
+                                    </Link>
+                                </Grid>
+                                <Grid xs={6} sm={4}>
                                     <Button fullWidth type="submit" variant="contained" color="primary" onClick={handleSubmitClient} disabled={isButtonDisabled}>
                                         Enviar
                                     </Button>
                                 </Grid>
-
                                 <Modal
                                     open={openModal}
                                     onClose={handleCloseModal}
@@ -119,7 +125,7 @@ const AdminPasswordRestore = () => {
                     </Paper>
                 </Paper>
             </Grid>
-        </Grid>
+        </Grid >
     );
 };
 
