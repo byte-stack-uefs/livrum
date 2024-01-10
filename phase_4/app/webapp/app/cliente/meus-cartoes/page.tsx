@@ -41,6 +41,18 @@ export default function Page() {
         },
     ]);
 
+    const [numberCard, setNumberCard] = useState("");
+    const [cvv, setCVV] = useState("");
+
+    const handleInputCardNumberChange: any = (event: { target: { value: string; }; }) => {
+        const inputValue = event.target.value.replace(/[^0-9]/g, "");
+        setNumberCard(inputValue);
+    };
+    const handleInputCVVChange: any = (event: { target: { value: string; }; }) => {
+        const inputValue = event.target.value.replace(/[^0-9]/g, "");
+        setCVV(inputValue);
+    };
+
     function handleClose() {
         setOpen(false);
     }
@@ -107,7 +119,16 @@ export default function Page() {
                             <TextField label={"Nome no Cartão *"} fullWidth size="small" />
                         </Grid>
                         <Grid xs={12}>
-                            <TextField label={"Numero do Cartão *"} fullWidth size="small" />
+                            <TextField 
+                            label={"Numero do Cartão *"} 
+                            fullWidth size="small" 
+                            value={numberCard}
+                            inputProps={{
+                                inputMode: "numeric",
+                                pattern: "[0-9]*",
+                                maxLength: 16,
+                            }}
+                            onChange={handleInputCardNumberChange}/>
                         </Grid>
                         <Grid xs={12} container>
                             <Grid xs={6}>
@@ -121,7 +142,19 @@ export default function Page() {
                                 </LocalizationProvider>
                             </Grid>
                             <Grid xs={6} pl={2}>
-                                <TextField label={"CVV *"} fullWidth size="small" />
+                                <TextField 
+                                label={"CVV *"} 
+                                fullWidth 
+                                size="small" 
+                                value={cvv}
+                                inputProps={{
+                                    inputMode: "numeric",
+                                    pattern: "[0-9]*",
+                                    maxLength: 3,
+                                }}
+                                onChange={handleInputCVVChange}
+
+                                />
                             </Grid>
                         </Grid>
                     </Grid>
