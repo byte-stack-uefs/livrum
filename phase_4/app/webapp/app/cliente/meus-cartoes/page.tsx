@@ -125,7 +125,6 @@ export default function Page() {
                             value={numberCard}
                             inputProps={{
                                 inputMode: "numeric",
-                                pattern: "[0-9]*",
                                 maxLength: 16,
                             }}
                             onChange={handleInputCardNumberChange}/>
@@ -149,7 +148,6 @@ export default function Page() {
                                 value={cvv}
                                 inputProps={{
                                     inputMode: "numeric",
-                                    pattern: "[0-9]*",
                                     maxLength: 3,
                                 }}
                                 onChange={handleInputCVVChange}
