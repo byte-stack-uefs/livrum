@@ -6,6 +6,7 @@ import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { TextField, Button, Paper, Typography, InputLabel, Modal } from "@mui/material";
+import Link from "next/link";
 
 const UserPasswordRestore = () => {
     const [value, setValue] = useState(0);
@@ -83,12 +84,18 @@ const UserPasswordRestore = () => {
                                         />
                                     </Grid>
                                 </Grid>
-                                <Grid xs={12} sm={8}>
+                                <Grid xs={6} sm={4}>
+                                    <Link href={"/login"} style={{ textDecoration: 'none' }}>
+                                        <Button fullWidth variant="contained" color="primary">
+                                            Cancelar
+                                        </Button>
+                                    </Link>
+                                </Grid>
+                                <Grid xs={6} sm={4}>
                                     <Button fullWidth type="submit" variant="contained" color="primary" onClick={handleSubmitClient} disabled={isButtonDisabled}>
                                         Enviar
                                     </Button>
                                 </Grid>
-
                                 <Modal
                                     open={openModal}
                                     onClose={handleCloseModal}
@@ -109,7 +116,6 @@ const UserPasswordRestore = () => {
                                                 <Typography variant="caption" >
                                                     Caso o email não apareça na caixa de entrada, verifique a caixa de spam
                                                 </Typography>
-
                                             </Grid>
                                         </Grid>
                                     </Paper>

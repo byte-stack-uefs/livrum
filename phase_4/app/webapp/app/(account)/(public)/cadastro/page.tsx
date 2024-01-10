@@ -13,6 +13,10 @@ import {
     DialogContent,
     DialogActions,
     FormControlLabel,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
 } from "@mui/material";
 
 import { theme } from "@/app/theme";
@@ -20,14 +24,50 @@ import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 
-import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
+import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput, numberInput, cepInput } from "@/app/components/CustomInputs";
 
 const ClientRegister = () => {
+
+    const estadosBrasileiros = [
+        { nome: 'Acre', abreviacao: 'AC' },
+        { nome: 'Alagoas', abreviacao: 'AL' },
+        { nome: 'Amapá', abreviacao: 'AP' },
+        { nome: 'Amazonas', abreviacao: 'AM' },
+        { nome: 'Bahia', abreviacao: 'BA' },
+        { nome: 'Ceará', abreviacao: 'CE' },
+        { nome: 'Distrito Federal', abreviacao: 'DF' },
+        { nome: 'Espírito Santo', abreviacao: 'ES' },
+        { nome: 'Goiás', abreviacao: 'GO' },
+        { nome: 'Maranhão', abreviacao: 'MA' },
+        { nome: 'Mato Grosso', abreviacao: 'MT' },
+        { nome: 'Mato Grosso do Sul', abreviacao: 'MS' },
+        { nome: 'Minas Gerais', abreviacao: 'MG' },
+        { nome: 'Pará', abreviacao: 'PA' },
+        { nome: 'Paraíba', abreviacao: 'PB' },
+        { nome: 'Paraná', abreviacao: 'PR' },
+        { nome: 'Pernambuco', abreviacao: 'PE' },
+        { nome: 'Piauí', abreviacao: 'PI' },
+        { nome: 'Rio de Janeiro', abreviacao: 'RJ' },
+        { nome: 'Rio Grande do Norte', abreviacao: 'RN' },
+        { nome: 'Rio Grande do Sul', abreviacao: 'RS' },
+        { nome: 'Rondônia', abreviacao: 'RO' },
+        { nome: 'Roraima', abreviacao: 'RR' },
+        { nome: 'Santa Catarina', abreviacao: 'SC' },
+        { nome: 'São Paulo', abreviacao: 'SP' },
+        { nome: 'Sergipe', abreviacao: 'SE' },
+        { nome: 'Tocantins', abreviacao: 'TO' },
+    ];
+
+
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [value, setValue] = useState(0);
     const [email, setEmail] = useState("");
-    const [address, setAddress] = useState("");
+    const [streetAddress, setStreetAddress] = useState("");
+    const [numberAddress, setNumberAddress] = useState("");
+    const [stateAddress, setStateAddress] = useState("");
+    const [cepAddress, setCepAddress] = useState("");
+    const [cityAddress, setCityAddress] = useState("");
     const [birthday, setBirthday] = useState("");
     const [password, setPassword] = useState("");
     const [telephone, setTelephone] = useState("");
@@ -51,6 +91,10 @@ const ClientRegister = () => {
         setPassword(e.target.value);
         // Verificar correspondência de senhas quando a senha é alterada
         setPasswordsMatch(e.target.value === passwordConfirm);
+    };
+
+    const handleChangeState = (event) => {
+        setStateAddress(event.target.value);
     };
 
     const handlePasswordConfirmChange = (e) => {
@@ -207,17 +251,73 @@ const ClientRegister = () => {
                                     helperText={!passwordsMatch ? "As senhas não coincidem" : ""}
                                 />
                             </Grid>
-
                             <Grid xs={12}>
+                                <Typography sx={{ color: theme.palette.dark.main }} variant="h6">
+                                    Endereço
+                                </Typography>
+                                <Divider width={"10%"} />
+                            </Grid>
+                            <Grid xs={7}>
                                 <TextField
-                                    required
                                     fullWidth
-                                    type="text"
                                     size="small"
-                                    value={address}
-                                    label="Endereço"
+                                    label="Rua"
                                     variant="outlined"
-                                    onChange={(e) => setAddress(e.target.value)}
+                                    value={streetAddress}
+                                    onChange={(e) => setStreetAddress(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid xs={5}>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    label="Cidade"
+                                    variant="outlined"
+                                    value={cityAddress}
+                                    onChange={(e) => setCityAddress(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid xs={3}>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    label="Número"
+                                    variant="outlined"
+                                    value={numberAddress}
+                                    onChange={(e) => setNumberAddress(e.target.value)}
+                                    InputProps={{
+                                        inputComponent: numberInput as any,
+                                    }}
+                                />
+                            </Grid>
+                            <Grid xs={3}>
+                                <FormControl fullWidth variant="outlined" size="small">
+                                    <InputLabel id="estado-label">Estado</InputLabel>
+                                    <Select
+                                        labelId="estado-label"
+                                        label="Estado"
+                                        value={stateAddress}
+                                        onChange={handleChangeState}
+                                    >   
+                                        {estadosBrasileiros.map((estado) => (
+                                            <MenuItem key={estado.abreviacao} value={estado.abreviacao}>
+                                                {estado.abreviacao}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid xs={6}>
+                                <TextField
+                                    fullWidth
+                                    size="small"
+                                    label="CEP"
+                                    variant="outlined"
+                                    value={cepAddress}
+                                    onChange={(e) => setCepAddress(e.target.value)}
+                                    InputProps={{
+                                        inputComponent: cepInput as any,
+                                    }}
                                 />
                             </Grid>
                             {value === 1 && (
@@ -343,5 +443,3 @@ const ClientRegister = () => {
 };
 
 export default ClientRegister;
-// tenho que mudar as cores do botao, textfield, tab, texto de termos de uso, grid
-// baixar a biblioteca de estilização da tab
