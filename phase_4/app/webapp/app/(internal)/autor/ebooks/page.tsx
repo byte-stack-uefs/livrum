@@ -98,7 +98,7 @@ export default function ListagemEbooks() {
     }
 
     const columns: readonly Column[] = [
-        { id: "link_foto", label: "#", minWidth: 20, align: "center" },
+        { id: "link_foto", label: "", minWidth: 20, align: "center" },
         { id: "nome", label: "Nome", minWidth: 200, align: "left" },
         {
             id: "data",
