@@ -17,23 +17,8 @@ export default function Page() {
     const [endereco, setEndereco] = useState("");
     const [operacao, setOperacao] = useState("");
 
-    const handleCpfInputChange = (event) => setCpf(event.target.value);
-    const handleTelInputChange = (event) => setTel(event.target.value);
-    const handleNomeInputChange = (event) => setNome(event.target.value);
-    const handleEmailInputChange = (event) => setEmail(event.target.value);
-    const handleContaInputChange = (event) => setConta(event.target.value);
-    const handleAgenciaInputChange = (event) => setAgencia(event.target.value);
-    const handleEnderecoInputChange = (event) => setEndereco(event.target.value);
-    const handleOperacaoInputChange = (event) => setOperacao(event.target.value);
-
-    function dados(event) {
-        event.preventDefault();
-        if (nome !== "" && email !== "" && cpf !== "" && tel !== "" && endereco !== "" && agencia !== "" && conta !== "") {
-            console.log("sucesso");
-        } else {
-            console.log("erro");
-        }
-    }
+    
+ 
 
     return (
         <Grid container>
@@ -49,14 +34,16 @@ export default function Page() {
                     </InputLabel>
                     <TextField
                         InputProps={{
-                            sx: { backgroundColor: `${theme.palette.darker.main}40` },
+                            sx: { backgroundColor: "white" },
                         }}
+                        required
                         id="labelName"
                         fullWidth
                         value={nome}
                         size="small"
                         variant="outlined"
-                        disabled
+                        onChange={(e) => setNome(e.target.value)}
+            
                     />
                 </Grid>
                 <Grid xs={12}>
@@ -64,15 +51,17 @@ export default function Page() {
                         Email
                     </InputLabel>
                     <TextField
-                        InputProps={{
-                            sx: { backgroundColor: `${theme.palette.darker.main}40` },
-                        }}
+                       InputProps={{
+                        sx: { backgroundColor: "white" },
+                    }}
+                        required
                         id="labelEmail"
                         fullWidth
                         value={email}
                         size="small"
                         variant="outlined"
-                        disabled
+                        onChange={(e) => setEmail(e.target.value)}
+                    
                     />
                 </Grid>
                 <Grid xs={12} container>
@@ -85,6 +74,7 @@ export default function Page() {
                                 sx: { backgroundColor: `${theme.palette.darker.main}40` },
                                 inputComponent: cpfInput as any,
                             }}
+                            required
                             id="labelCpf"
                             fullWidth
                             value={cpf}
@@ -104,7 +94,7 @@ export default function Page() {
                             size="small"
                             value={tel}
                             variant="outlined"
-                            onChange={handleTelInputChange}
+                            onChange={(e) => setTel(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                                 inputComponent: cellphoneInput as any,
@@ -123,7 +113,7 @@ export default function Page() {
                         size="small"
                         value={endereco}
                         variant="outlined"
-                        onChange={handleEnderecoInputChange}
+                        onChange={(e) => setEndereco(e.target.value)}
                         InputProps={{
                             sx: { backgroundColor: "white" },
                         }}
@@ -144,7 +134,7 @@ export default function Page() {
                             size="small"
                             value={operacao}
                             variant="outlined"
-                            onChange={handleOperacaoInputChange}
+                            onChange={(e) => setOperacao(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                                 inputComponent: operationInput as any,
@@ -162,7 +152,7 @@ export default function Page() {
                             size="small"
                             value={agencia}
                             variant="outlined"
-                            onChange={handleAgenciaInputChange}
+                            onChange={(e) => setAgencia(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                                 inputComponent: agencyInput as any,
@@ -180,7 +170,7 @@ export default function Page() {
                             size="small"
                             value={conta}
                             variant="outlined"
-                            onChange={handleContaInputChange}
+                            onChange={(e) => setConta(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                                 inputComponent: accountInput as any,
