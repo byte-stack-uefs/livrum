@@ -5,7 +5,7 @@ settings = {
     "user": "root",
     "password": "root",
     "port": 3306,
-    "host": "172.20.0.1",  # Endereço do servidor MySQL
+    "host": "livrum_database",  # Endereço do servidor MySQL
     "database": "livrum",  # Nome do banco de dados
     "raise_on_warnings": True,
 }
@@ -45,4 +45,5 @@ class DB:
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         self.cursor.close()
+        self.db.commit()
         self.db.close()
