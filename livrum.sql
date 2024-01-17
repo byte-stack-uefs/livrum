@@ -203,7 +203,7 @@ CREATE TABLE `ebook` (
     `outrosAutores` varchar(255) DEFAULT NULL,
     `visto` int NOT NULL DEFAULT '0',
     PRIMARY KEY (`idEBook`)
-) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */
 ;
 --
@@ -323,7 +323,7 @@ CREATE TABLE `usuario` (
     `tipo` enum('ADM', 'AUTOR', 'CLIENTE') NOT NULL,
     PRIMARY KEY (`idUsuario`),
     UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE = InnoDB AUTO_INCREMENT = 7 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */
 ;
 --
