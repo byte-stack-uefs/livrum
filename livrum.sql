@@ -345,4 +345,19 @@ CREATE TABLE `usuario` (
 ;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */
 ;
--- Dump completed on 2024-01-17 23:16:51
+INSERT INTO genero (nome)
+VALUES ('Ficção'),
+    ('Mistério/Thriller'),
+    ('Romance'),
+    ('Aventura'),
+    ('Não Ficção'),
+    ('Poesia'),
+    ('Drama'),
+    ('Comédia'),
+    ('Infantil e Juvenil'),
+    ('História'),
+    ('Ciência e Natureza'),
+    ('Religião e Espiritualidade'),
+    ('Autobiografia'),
+    ('Desenvolvimento Pessoal'),
+    ('Autoajuda');
