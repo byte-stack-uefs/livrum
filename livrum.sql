@@ -361,3 +361,21 @@ VALUES ('Ficção'),
     ('Autobiografia'),
     ('Desenvolvimento Pessoal'),
     ('Autoajuda');
+INSERT INTO usuario (
+        idUsuario,
+        nome,
+        email,
+        senha,
+        status,
+        tipo
+    )
+VALUES(
+        1,
+        'Livrum Admin',
+        'admin@livrum.com.br',
+        '$2a$12$XxaiyU6Cgz5jnSfFCPSXpewkpGdoA5LklYieiBPzN6gveeki32p4W',
+        'active',
+        'ADM'
+    );
+INSERT INTO administrador (super, idUsuario)
+VALUES (1, 1);
