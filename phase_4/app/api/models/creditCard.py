@@ -72,7 +72,6 @@ class FrontToBackEndCreditCardDTO(BaseModel):
     cardNumber: str
     cvv: str
     expiryDate: str
-    idClient: int
 
 def _classify_card_type(card_number):
 

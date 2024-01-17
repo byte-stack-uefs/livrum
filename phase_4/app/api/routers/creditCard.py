@@ -11,15 +11,15 @@ access = security.UserHasAccess([UserType.CUSTOMER])
 
 @router.post("/create", description="Create a Credit Card")
 def add(creditCardData: FrontToBackEndCreditCardDTO, user:Annotated[User,Depends(access)]):
-    response = service.addCreditCard(creditCardData)
+    response = service.addCreditCard(creditCardData,user.idUsuario)
     return {"message": response}
 
-@router.get("/{idClient}", description="Get all customer's credit cards")
-def list(idClient:int, user:Annotated[User,Depends(access)]):
-    response = service.getAllCreditCardsByClientId(idClient);
+@router.get("/all", description="Get all customer credit cards")
+def list(user:Annotated[User,Depends(access)]):
+    response = service.getAllCreditCardsByClientId(user.idUsuario);
     return response
 
-@router.delete("/{idCard}", description="Delete a customer's credit card by its ID")
-def delete(idCard: int, user:Annotated[User,Depends(access)]):
-    response = service.deleteCreditCardById(idCard)
+@router.delete("/{id}", description="Delete a customer's credit card by its ID")
+def delete(id: int, user:Annotated[User,Depends(access)]):
+    response = service.deleteCreditCardById(id,user.idUsuario)
     return {"message": response}
