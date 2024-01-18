@@ -23,7 +23,7 @@ class CreditCardService:
 
         with DB() as db:
             db.execute("DELETE FROM Cartao WHERE idCartao = %s AND idCliente = %s", (idCard, idClient))
-            return f"Cartão de crédito com ID {cardId} excluído com sucesso."
+            return f"Cartão de crédito com ID {idCard} excluído com sucesso."
 
     def addCreditCard(self, creditCardDTO:FrontToBackEndCreditCardDTO, idClient):
 
