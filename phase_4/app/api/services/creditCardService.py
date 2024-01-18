@@ -8,22 +8,38 @@ class CreditCardService:
     def _convertDTOFront(self, item: dict) -> BackToFrontEndCreditCardDTO:
         return BackToFrontEndCreditCardDTO(**item)
 
-    def getAllCreditCardsByuserId(self, idClient: int) -> List[BackToFrontEndCreditCardDTO]:
+    def getAllCreditCardsByClientId(self, idClient: int) -> List[BackToFrontEndCreditCardDTO]:
         credit_cards = []
 
         with DB() as db:
 
-            db.execute("SELECT * FROM Cartao WHERE idCliente = %s", [userId])
+            db.execute("SELECT * FROM Cartao WHERE idCliente = %s", [idClient])
             data_list = db.fetchall()
 
         credit_cards = map(self._convertDTOFront, data_list)
         return list(credit_cards)
 
+    def getCreditCardByCardId(self, idCard: int) -> CreditCard:
+        with DB() as db:
+            db.execute("SELECT * FROM Cartao WHERE idCartao = %s", [idCard])
+            data = db.fetchone()
+
+        credit_card = None
+        if data is not None:
+            credit_card = CreditCard(**data)
+
+        return credit_card
+
     def deleteCreditCardById(self, idCard: int, idClient: int):
 
         with DB() as db:
-            db.execute("DELETE FROM Cartao WHERE idCartao = %s AND idCliente = %s", (idCard, idClient))
-            return f"Cartão de crédito com ID {idCard} excluído com sucesso."
+            result = db.execute("DELETE FROM Cartao WHERE idCartao = %s AND idCliente = %s", (idCard, idClient))
+
+        credit_card_deleted = self.getCreditCardByCardId(idCard)
+        if credit_card_deleted is not None:
+            return f"Cartão de crédito não foi excluido"
+        else:
+            return f"Cartão de crédito excluído com sucesso."
 
     def addCreditCard(self, creditCardDTO:FrontToBackEndCreditCardDTO, idClient):
 
@@ -34,7 +50,7 @@ class CreditCardService:
                         [creditCardDTO.namePrinted,creditCardDTO.cardNumber,creditCardDTO.cvv,creditCardDTO.expiryDate,idClient]
                 )
 
-            return "Cartão adicionado"
+            return "Cartão adicionado com sucesso"
         
         else:
 
