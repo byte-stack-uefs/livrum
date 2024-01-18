@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `livrum`.`Cartao` (
   `numero` VARCHAR(32) NOT NULL,
   `cvv` INT NOT NULL,
   `dataVencimento` DATE NOT NULL,
-  `criadoEm` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `criadoEm` DATETIME NOT NULL,
   `idCliente` INT NOT NULL,
   PRIMARY KEY (`idCartao`),
   INDEX `fk_Cartao_Cliente1_idx` (`idCliente` ASC),
