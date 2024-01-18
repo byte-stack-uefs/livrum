@@ -13,6 +13,7 @@ const Login = () => {
     const [value, setValue] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loggingIn, setLoggingIn] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const router = useRouter();
@@ -27,6 +28,7 @@ const Login = () => {
 
     const onSubmit = handleSubmit((data) => {
         setErrorMessage("");
+        setLoggingIn(true);
 
         requester
             .post("/auth", {
@@ -48,6 +50,7 @@ const Login = () => {
                     message = err?.response?.data?.detail;
                     setErrorMessage(message);
                 }
+                setLoggingIn(false);
             });
     });
 
@@ -153,8 +156,8 @@ const Login = () => {
                                         </Link>
                                     </Grid>
                                     <Grid xs={12} sm={6} md={6}>
-                                        <Button onClick={onSubmit} fullWidth type="submit" variant="contained" color="darker">
-                                            Login
+                                        <Button disabled={loggingIn} onClick={onSubmit} fullWidth type="submit" variant="contained" color="darker">
+                                            {loggingIn ? "Carregando..." : "Login"}
                                         </Button>
                                     </Grid>
                                 </Grid>
