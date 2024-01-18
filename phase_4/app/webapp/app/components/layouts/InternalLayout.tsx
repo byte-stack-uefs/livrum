@@ -1,22 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import React, { useState } from "react";
+import { useUser } from "@/app/context";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
 import LivrumButtonMenu from "../LivrumButtonMenu";
 import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
 import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
+import LivrumLink from "../LivrumLink";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
-    const name = "Username";
-    const email = "email@gmail.com";
+    const { user } = useUser();
+
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
-    const [userLevel, setUserLevel] = useState(UserLevel.AUTHOR);
+    const [userLevel, setUserLevel] = useState(user.tipo);
 
-    const base = userLevel == UserLevel.ADMIN ? "/admin" : "/autor";
+    const base = UserLevel.ADMIN ? "/admin" : "/autor";
 
     const buttons: LivrumButtonMenuItems[] = [
         {
@@ -106,20 +107,20 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                     >
                         <Grid container sx={{ height: "100%" }}>
                             <Grid item xs={12}>
-                                <Link
+                                <LivrumLink
                                     href={userLevel == UserLevel.ADMIN ? "/admin" : "/autor"}
-                                    style={{ display: "flex", justifyContent: "space-evenly", textDecoration: "none" }}
+                                    style={{ display: "flex", justifyContent: "space-evenly" }}
                                 >
                                     <AccountHeader logoScale={0.15} fontSize={32} />
-                                </Link>
+                                </LivrumLink>
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: "center", paddingY: 1.5 }}>
                                 <Avatar sx={{ margin: "auto", width: 56, height: 56 }} src={avatarSrc} />
                                 <Typography variant="h5" color="darker">
-                                    {name}
+                                    {user.nome}
                                 </Typography>
                                 <Typography variant="body2" color="darker">
-                                    {email}
+                                    {user.email}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
