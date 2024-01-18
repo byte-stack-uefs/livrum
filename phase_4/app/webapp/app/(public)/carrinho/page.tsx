@@ -18,7 +18,7 @@ const Cart = () => {
     const total = 1564;
 
     const { cartItems } = useCart();
-    const {handleRemoveEbookFromCart, handleClearCart} = useCart();
+    const {handleRemoveEbookFromCart, handleClearCart, cartTotalAmount, cartTotalQnt} = useCart();
 
     const router = useRouter();
 
@@ -108,13 +108,13 @@ const Cart = () => {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Typography color="primary">
-                                            {total.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
+                                            {cartTotalAmount.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider width="90%" style={{ margin: "auto" }} />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} p={1}>
                                         <Link href="/">Continuar comprando</Link>
                                     </Grid>
                                 </Grid>
