@@ -38,7 +38,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
             label: "Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.ADMIN,
-            route: `${base}/obras`,
+            route: `${base}/ebooks`,
         },
         {
             label: "Minhas Obras",
