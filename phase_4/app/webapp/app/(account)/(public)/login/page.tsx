@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Unstable_Grid2";
 import useRequest from "@/app/services/requester";
+import { redirectByType } from "@/app/helpers/helpers";
+import { FormProvider, useForm } from "react-hook-form";
 import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
 
 const Login = () => {
@@ -16,13 +18,14 @@ const Login = () => {
     const router = useRouter();
     const requester = useRequest();
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    const methods = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = methods;
 
-    const handleSubmitClient = (event) => {
-        event.preventDefault();
-
+    const onSubmit = handleSubmit((data) => {
         requester
             .post("/auth", {
                 username: email,
@@ -31,7 +34,10 @@ const Login = () => {
             .then((response) => {
                 localStorage.setItem("token", response.data.access_token);
 
-                const level = response.data.tipo;
+                const level = response.data.user.tipo;
+                const link = redirectByType(level);
+
+                router.push(link);
             })
             .catch((err) => {
                 let message = "Algo deu errado, tente novamente mais tarde";
@@ -41,6 +47,10 @@ const Login = () => {
                     setErrorMessage(message);
                 }
             });
+    });
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
     return (
@@ -60,73 +70,87 @@ const Login = () => {
                         <Tab label="Sou Leitor" />
                     </Tabs>
                     <Paper elevation={0} sx={{ borderRadius: 50 }}>
-                        <form onSubmit={handleSubmitClient}>
-                            <Grid
-                                container
-                                padding={3}
-                                justifyContent="center"
-                                alignItems="center"
-                                style={{
-                                    textAlign: "center",
-                                    backgroundColor: theme.palette.secondary.main,
-                                    borderBottomRightRadius: 20,
-                                    borderBottomLeftRadius: 20,
-                                }}
-                            >
-                                <Grid xs={12}>
-                                    <Typography variant="h5" fontWeight="bold">
-                                        Entre na sua conta
-                                    </Typography>
-                                    <Typography variant="caption" color="GrayText">
-                                        Seja bem-vindo de volta!
-                                    </Typography>
-                                </Grid>
-                                <Grid container spacing={2} xs={12} py={3}>
+                        <FormProvider {...methods}>
+                            <form onSubmit={(e) => e.preventDefault()} noValidate autoComplete="false">
+                                <Grid
+                                    container
+                                    padding={3}
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    style={{
+                                        textAlign: "center",
+                                        backgroundColor: theme.palette.secondary.main,
+                                        borderBottomRightRadius: 20,
+                                        borderBottomLeftRadius: 20,
+                                    }}
+                                >
                                     <Grid xs={12}>
-                                        <TextField
-                                            label="E-mail"
-                                            type="email"
-                                            color="info"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            fullWidth
-                                            size="small"
-                                        />
+                                        <Typography variant="h5" fontWeight="bold">
+                                            Entre na sua conta
+                                        </Typography>
+                                        <Typography variant="caption" color="GrayText">
+                                            Seja bem-vindo de volta!
+                                        </Typography>
                                     </Grid>
-                                    <Grid xs={12}>
-                                        <TextField
-                                            label="Senha"
-                                            value={password}
-                                            type="password"
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            fullWidth
-                                            size="small"
-                                        />
+                                    <Grid container spacing={2} xs={12} py={3}>
+                                        <Grid xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                type="email"
+                                                color="info"
+                                                size="small"
+                                                value={email}
+                                                label="E-mail"
+                                                error={errors.email ? true : false}
+                                                {...register("email", { required: true })}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                helperText={errors.email ? "O email é obrigatório" : null}
+                                            />
+                                        </Grid>
+                                        <Grid xs={12}>
+                                            <TextField
+                                                fullWidth
+                                                size="small"
+                                                label="Senha"
+                                                type="password"
+                                                value={password}
+                                                error={errors.password ? true : false}
+                                                {...register("password", { required: true, minLength: 4 })}
+                                                onChange={(e) => setPassword(e.target.value)}
+                                                helperText={
+                                                    errors.password
+                                                        ? errors.password?.type == "required"
+                                                            ? "A senha é obrigatória"
+                                                            : "A senha deve ter no mínimo 4 caracteres"
+                                                        : null
+                                                }
+                                            />
+                                        </Grid>
                                     </Grid>
-                                </Grid>
 
-                                <Grid mb={2} xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
-                                    <Link
-                                        component="button"
-                                        variant="body2"
-                                        underline="none"
-                                        onClick={() => {
-                                            router.push("/recuperacao-senha");
-                                        }}
-                                        style={{
-                                            color: theme.palette.primary.main,
-                                        }}
-                                    >
-                                        Esqueceu a senha?
-                                    </Link>
+                                    <Grid mb={2} xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
+                                        <Link
+                                            component="button"
+                                            variant="body2"
+                                            underline="none"
+                                            onClick={() => {
+                                                router.push("/recuperacao-senha");
+                                            }}
+                                            style={{
+                                                color: theme.palette.primary.main,
+                                            }}
+                                        >
+                                            Esqueceu a senha?
+                                        </Link>
+                                    </Grid>
+                                    <Grid xs={12} sm={6} md={6}>
+                                        <Button onClick={onSubmit} fullWidth type="submit" variant="contained" color="darker">
+                                            Login
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid xs={12} sm={6} md={6}>
-                                    <Button fullWidth type="submit" variant="contained" color="darker">
-                                        Login
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </form>
+                            </form>
+                        </FormProvider>
                     </Paper>
                 </Grid>
             </Grid>
