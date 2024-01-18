@@ -1,17 +1,19 @@
 "use client";
 
+import LivrumLink from "../LivrumLink";
 import React, { useState } from "react";
 import { useUser } from "@/app/context";
+import { useRouter } from "next/navigation";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
 import LivrumButtonMenu from "../LivrumButtonMenu";
 import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
 import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
-import LivrumLink from "../LivrumLink";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
     const { user } = useUser();
+    const router = useRouter();
 
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
@@ -65,7 +67,11 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     ];
 
     function handleLogout() {
-        window.location.replace("/login");
+        if (userLevel == UserLevel.ADMIN) {
+            router.push("/admin/login");
+        } else {
+            router.push("login");
+        }
     }
 
     return (
