@@ -9,8 +9,8 @@ export default function LivrumButtonMenu({ buttons }: { buttons: LivrumButtonMen
                 return (
                     e.visible &&
                     e.visible === true && (
-                        <LivrumLink href={e.route}>
-                            <ListItem disablePadding key={e.label}>
+                        <LivrumLink href={e.route} key={e.label}>
+                            <ListItem disablePadding>
                                 <ListItemButton selected={false}>
                                     <ListItemIcon>{e.icon}</ListItemIcon>
                                     <ListItemText primary={e.label} />
