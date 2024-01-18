@@ -1,25 +1,44 @@
 "use client";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const defaultUser = {
-    isLoggedIn: false,
+interface UserContextType {
     user: {
-        id: 1,
-        tipo: "",
-        status: "",
-        nome: "Almir Livrum",
-        email: "livrum@gmail.com",
-    },
+        id: number;
+        nome: string;
+        email: string;
+        tipo: string;
+        status: string;
+    };
+    updateUser: (u) => void;
+}
+
+const defaultUser = {
+    id: 1,
+    tipo: "CLIENTE",
+    status: "",
+    nome: "Almir Livrum",
+    email: "livrum@gmail.com",
 };
 
-export const Context = createContext(defaultUser);
+export const UserContext = createContext<UserContextType | null>(null);
 
-export default function ContextProvider({ children }: { children: React.ReactNode }) {
-    return <Context.Provider value={defaultUser}>{children}</Context.Provider>;
+export default function UserContextProvider({ children }: { children: React.ReactNode }) {
+    const [user, setUser] = useState(defaultUser);
+
+    const updateUser = (u) => {
+        setUser(u);
+    };
+
+    const value = {
+        user,
+        updateUser,
+    };
+
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
 export function useUser() {
-    const context = useContext(Context);
+    const context = useContext(UserContext);
 
     if (context == null) {
         throw new Error("Não foi possível recuperar o Contexto");
