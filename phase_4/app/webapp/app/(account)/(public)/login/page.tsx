@@ -11,6 +11,7 @@ const Login = () => {
     const [value, setValue] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const router = useRouter();
     const requester = useRequest();
@@ -24,13 +25,22 @@ const Login = () => {
 
         requester
             .post("/auth", {
-                password: password,
                 username: email,
+                password: password,
             })
             .then((response) => {
                 localStorage.setItem("token", response.data.access_token);
+
+                const level = response.data.tipo;
             })
-            .catch((err) => {});
+            .catch((err) => {
+                let message = "Algo deu errado, tente novamente mais tarde";
+
+                if (err?.response?.data?.detail) {
+                    message = err?.response?.data?.detail;
+                    setErrorMessage(message);
+                }
+            });
     };
 
     return (
