@@ -26,6 +26,8 @@ const Login = () => {
     } = methods;
 
     const onSubmit = handleSubmit((data) => {
+        setErrorMessage("");
+
         requester
             .post("/auth", {
                 username: email,
@@ -126,6 +128,13 @@ const Login = () => {
                                                 }
                                             />
                                         </Grid>
+                                        {errorMessage != "" && (
+                                            <Grid xs={12} py={0}>
+                                                <Typography color="error" textAlign="left">
+                                                    {errorMessage}
+                                                </Typography>
+                                            </Grid>
+                                        )}
                                     </Grid>
 
                                     <Grid mb={2} xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
