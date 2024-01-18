@@ -18,6 +18,7 @@ const Cart = () => {
     const total = 1564;
 
     const { cartItems } = useCart();
+    const {handleRemoveEbookFromCart} = useCart();
 
     const router = useRouter();
 
@@ -79,7 +80,7 @@ const Cart = () => {
                                                 <Typography>{item.price.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</Typography>
                                             </Grid>
                                             <Grid xs={2} item textAlign="right" alignSelf="end">
-                                                <Button color="error" variant="contained">
+                                                <Button color="error" variant="contained" onClick={() => handleRemoveEbookFromCart(item)}>
                                                     Remover
                                                 </Button>
                                             </Grid>

@@ -6,6 +6,7 @@ type CartContextType = {
     //cartItems: CartItemType[];
     cartItems: Array<CartItemType>;
     handleAddEbookToCart: (item: CartItemType) => void;
+    handleRemoveEbookFromCart: (item: CartItemType) => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -40,10 +41,23 @@ export const CartContextProvider = (props: Props) => {
         });
     }, []);
 
+    const handleRemoveEbookFromCart = useCallback((
+        product: CartItemType
+    ) => {
+        if(cartItems){
+            const filteredProducts = cartItems.filter((item) => {
+                return item.id != product.id
+            })
+            setcartItems(filteredProducts)
+            localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
+        }
+    }, [cartItems])
+
     const value = {
         cartTotalQnt,
         cartItems,
         handleAddEbookToCart,
+        handleRemoveEbookFromCart,
     };
 
     return <CartContext.Provider value={value} {...props} />;
