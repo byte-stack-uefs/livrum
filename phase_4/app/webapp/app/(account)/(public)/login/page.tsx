@@ -2,6 +2,7 @@
 
 import { theme } from "@/app/theme";
 import React, { useState } from "react";
+import { useUser } from "@/app/context";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Unstable_Grid2";
 import useRequest from "@/app/services/requester";
@@ -26,6 +27,8 @@ const Login = () => {
         formState: { errors },
     } = methods;
 
+    const { user, updateUser } = useUser();
+
     const onSubmit = handleSubmit((data) => {
         setErrorMessage("");
         setLoggingIn(true);
@@ -40,6 +43,8 @@ const Login = () => {
 
                 const level = response.data.user.tipo;
                 const link = redirectByType(level);
+
+                updateUser(response.data.user);
 
                 router.push(link);
             })
