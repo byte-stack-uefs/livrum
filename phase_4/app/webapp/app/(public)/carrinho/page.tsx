@@ -18,7 +18,7 @@ const Cart = () => {
     const total = 1564;
 
     const { cartItems } = useCart();
-    const {handleRemoveEbookFromCart} = useCart();
+    const {handleRemoveEbookFromCart, handleClearCart} = useCart();
 
     const router = useRouter();
 
@@ -40,11 +40,16 @@ const Cart = () => {
         <Container maxWidth={false}>
             <Grid container mt={4}>
                 <Grid xs={9} container item sx={{ backgroundColor: "secondary.main", borderRadius: 5 }}>
-                    <Grid xs={12} p={2} item>
+                    <Grid xs={8} p={2} item>
                         <Typography variant="h4" color="dark.main" fontWeight="bold">
                             Carrinho
                         </Typography>
                         <Divider width="25%" />
+                    </Grid>
+                    <Grid xs={4} p={3} item textAlign="right" alignSelf="left">
+                        <Button color="error" variant="outlined" onClick={() => handleClearCart()}>
+                            Limpar Carrinho
+                        </Button>
                     </Grid>
                     <Grid xs={12} item p={2}>
                         <Box sx={{ borderRadius: 5, backgroundColor: "#fff" }}>

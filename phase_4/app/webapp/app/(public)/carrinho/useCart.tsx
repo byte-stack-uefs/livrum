@@ -3,10 +3,11 @@ import { CartItemType } from "../ebook/[id]/page";
 
 type CartContextType = {
     cartTotalQnt: number;
-    //cartItems: CartItemType[];
-    cartItems: Array<CartItemType>;
+    cartItems: CartItemType[];
+    //cartItems: Array<CartItemType>;
     handleAddEbookToCart: (item: CartItemType) => void;
     handleRemoveEbookFromCart: (item: CartItemType) => void;
+    handleClearCart: () => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -53,11 +54,18 @@ export const CartContextProvider = (props: Props) => {
         }
     }, [cartItems])
 
+    const handleClearCart = useCallback(() => {
+        setcartItems([])
+        localStorage.setItem("shopCartItens", JSON.stringify(null));
+        
+    }, [cartItems])
+
     const value = {
         cartTotalQnt,
         cartItems,
         handleAddEbookToCart,
         handleRemoveEbookFromCart,
+        handleClearCart,
     };
 
     return <CartContext.Provider value={value} {...props} />;
