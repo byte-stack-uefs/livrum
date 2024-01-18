@@ -20,17 +20,17 @@ const Login = () => {
     };
 
     const handleSubmitClient = (event) => {
-
         event.preventDefault();
 
-        requester.post('/auth', {
-            password: password,
-            username: email
-        }).then(response => {
-            localStorage.setItem('token', response.data.access_token);
-        }).catch(err => {
-
-        });
+        requester
+            .post("/auth", {
+                password: password,
+                username: email,
+            })
+            .then((response) => {
+                localStorage.setItem("token", response.data.access_token);
+            })
+            .catch((err) => {});
     };
 
     return (
@@ -44,18 +44,25 @@ const Login = () => {
                         onChange={handleChange}
                         centered
                         TabIndicatorProps={{ style: { display: "none" } }}
-                        sx={{ width: '100%' }}
+                        sx={{ width: "100%" }}
                     >
                         <Tab label="Sou Autor" />
                         <Tab label="Sou Leitor" />
                     </Tabs>
                     <Paper elevation={0} sx={{ borderRadius: 50 }}>
                         <form onSubmit={handleSubmitClient}>
-                            <Grid container padding={3} justifyContent="center" alignItems="center" style={{
-                                textAlign: "center", backgroundColor: theme.palette.secondary.main, borderBottomRightRadius: 20,
-                                borderBottomLeftRadius: 20,
-                            }}>
-
+                            <Grid
+                                container
+                                padding={3}
+                                justifyContent="center"
+                                alignItems="center"
+                                style={{
+                                    textAlign: "center",
+                                    backgroundColor: theme.palette.secondary.main,
+                                    borderBottomRightRadius: 20,
+                                    borderBottomLeftRadius: 20,
+                                }}
+                            >
                                 <Grid xs={12}>
                                     <Typography variant="h5" fontWeight="bold">
                                         Entre na sua conta
@@ -68,7 +75,6 @@ const Login = () => {
                                     <Grid xs={12}>
                                         <TextField
                                             label="E-mail"
-
                                             type="email"
                                             color="info"
                                             value={email}
@@ -95,7 +101,7 @@ const Login = () => {
                                         variant="body2"
                                         underline="none"
                                         onClick={() => {
-                                            router.push('/recuperacao-senha')
+                                            router.push("/recuperacao-senha");
                                         }}
                                         style={{
                                             color: theme.palette.primary.main,
@@ -113,11 +119,8 @@ const Login = () => {
                         </form>
                     </Paper>
                 </Grid>
-
-
             </Grid>
         </>
-
     );
 };
 
