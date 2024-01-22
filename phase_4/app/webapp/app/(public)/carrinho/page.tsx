@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Divider from "@/app/components/Divider";
 import LivrumLink from "@/app/components/LivrumLink";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import { Box, Button, Container, Grid, Typography, Link, Alert } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, Alert } from "@mui/material";
 
 const Cart = () => {
     const { cartItems } = useCart();
@@ -22,9 +22,9 @@ const Cart = () => {
                         <Typography variant="body1" fontSize={20}>
                             Carrinho Vazio
                         </Typography>
-                        <Link href={"/"}>
+                        <LivrumLink href="/">
                             <Typography variant="body2">Vamos as Compras</Typography>
-                        </Link>
+                        </LivrumLink>
                     </Alert>
                 </Grid>
             </Grid>
@@ -104,7 +104,7 @@ const Cart = () => {
                                         <Divider width="90%" style={{ margin: "auto" }} />
                                     </Grid>
                                     <Grid item xs={12} p={1}>
-                                        <Link href="/">Continuar comprando</Link>
+                                        <LivrumLink href="/">Continuar comprando</LivrumLink>
                                     </Grid>
                                 </Grid>
                                 <Grid xs={12} item textAlign="center">
