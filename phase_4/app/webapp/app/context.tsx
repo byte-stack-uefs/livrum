@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface UserContextType {
     user: {
-        id: number;
+        idUsuario: number;
         nome: string;
         email: string;
         tipo: string;
@@ -13,7 +13,7 @@ interface UserContextType {
     updateUser: (u) => void;
 }
 
-const defaultUser = {
+export const defaultUser = {
     idUsuario: 1,
     tipo: "CLIENTE",
     status: "",
@@ -30,8 +30,10 @@ export default function UserContextProvider({ children }: { children: React.Reac
         let u = localStorage.getItem("user");
         if (!u) {
             u = defaultUser;
+        } else {
+            u = JSON.parse(u);
         }
-        setUser(JSON.parse(u));
+        setUser(u);
     }, []);
 
     const updateUser = (u) => {
