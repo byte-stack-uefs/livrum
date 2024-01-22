@@ -10,15 +10,14 @@ import {
     Typography,
     Link,
 } from "@mui/material";
-import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
-import Divider from "@/app/components/Divider";
 import { useRouter } from "next/navigation";
+import Divider from "@/app/components/Divider";
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 const Cart = () => {
-    const total = 1564;
 
     const { cartItems } = useCart();
-    const {handleRemoveEbookFromCart, handleClearCart, cartTotalAmount, cartTotalQnt} = useCart();
+    const {handleRemoveEbookFromCart, handleClearCart, cartTotalAmount} = useCart();
 
     const router = useRouter();
 
