@@ -64,7 +64,7 @@ const Cart = () => {
                                                 </div>
                                             </Grid>
                                             <Grid xs={7} item p={2} alignSelf="center">
-                                                <Link color="dark.main" variant="h5" fontWeight="bold" href={"/ebook/${item.id}"} underline="none">
+                                                <Link color="dark.main" variant="h5" fontWeight="bold" href={`/ebook/${item.id}`} underline="none">
                                                     {item.title}
                                                 </Link>
                                                 <Typography color="dark.main">{item.author}</Typography>
