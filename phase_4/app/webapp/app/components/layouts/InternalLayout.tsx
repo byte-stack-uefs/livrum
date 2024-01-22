@@ -3,7 +3,7 @@
 import Cookies from "js-cookie";
 import LivrumLink from "../LivrumLink";
 import React, { useState } from "react";
-import { useUser } from "@/app/context";
+import { useUser, defaultUser } from "@/app/context";
 import { useRouter } from "next/navigation";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
@@ -13,7 +13,7 @@ import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/materia
 import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
-    const { user } = useUser();
+    const { user, updateUser } = useUser();
     const router = useRouter();
 
     const avatarSrc =
@@ -69,11 +69,13 @@ export default function InternalLayout({ children }: { children: React.ReactNode
 
     function handleLogout() {
         Cookies.remove("token");
+
         if (userLevel == UserLevel.ADMIN) {
             router.push("/admin/login");
         } else {
             router.push("login");
         }
+        updateUser(defaultUser);
     }
 
     return (
