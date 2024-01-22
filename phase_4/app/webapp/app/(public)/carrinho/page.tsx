@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { useCart } from "./useCart";
-import { Box, Button, Container, Grid, Typography, Link, Alert } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Divider from "@/app/components/Divider";
+import LivrumLink from "@/app/components/LivrumLink";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import { Box, Button, Container, Grid, Typography, Link, Alert } from "@mui/material";
 
 const Cart = () => {
     const { cartItems } = useCart();
@@ -64,9 +65,11 @@ const Cart = () => {
                                                 </div>
                                             </Grid>
                                             <Grid xs={7} item p={2} alignSelf="center">
-                                                <Link color="dark.main" variant="h5" fontWeight="bold" href={`/ebook/${item.id}`} underline="none">
-                                                    {item.title}
-                                                </Link>
+                                                <LivrumLink href={`/ebook/${item.id}`}>
+                                                    <Typography color="dark.main" variant="h5" fontWeight="bold">
+                                                        {item.title}
+                                                    </Typography>
+                                                </LivrumLink>
                                                 <Typography color="dark.main">{item.author}</Typography>
                                                 <Typography>{item.price.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</Typography>
                                             </Grid>
