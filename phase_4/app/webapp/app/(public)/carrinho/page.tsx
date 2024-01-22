@@ -67,7 +67,6 @@ const Cart = () => {
                                             <Grid xs={3} item>
                                                 <div style={{ width: "100%", height: 250, position: "relative", borderRadius: 5 }}>
                                                     <Image
-                                                        //src="https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg"
                                                         src = {item.cover}
                                                         fill
                                                         alt="Ebook cover"
