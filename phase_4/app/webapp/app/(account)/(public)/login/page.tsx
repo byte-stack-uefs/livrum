@@ -25,7 +25,7 @@ const Login = () => {
         formState: { errors },
     } = methods;
 
-    const { user, updateUser } = useUser();
+    const { updateUser } = useUser();
 
     const onSubmit = handleSubmit((data) => {
         setErrorMessage("");
@@ -45,7 +45,7 @@ const Login = () => {
             });
     });
 
-    const handleChange = (event, newValue) => {
+    const handleTabChange = (event, newValue) => {
         setValue(newValue);
     };
 
@@ -57,7 +57,7 @@ const Login = () => {
                         value={value}
                         variant="fullWidth"
                         scrollButtons={false}
-                        onChange={handleChange}
+                        onChange={handleTabChange}
                         centered
                         TabIndicatorProps={{ style: { display: "none" } }}
                         sx={{ width: "100%" }}
