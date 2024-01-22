@@ -32,7 +32,7 @@ const Login = () => {
         setLoggingIn(true);
 
         login(email, password)
-            .then((response) => {
+            .then((response: any) => {
                 const level = response.data.user.tipo;
                 const link = redirectByType(level);
                 updateUser(response.data.user);
