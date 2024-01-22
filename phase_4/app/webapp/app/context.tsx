@@ -1,5 +1,6 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+
+import { createContext, useContext, useEffect, useState } from "react";
 
 interface UserContextType {
     user: {
@@ -25,8 +26,17 @@ export const UserContext = createContext<UserContextType | null>(null);
 export default function UserContextProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState(defaultUser);
 
+    useEffect(() => {
+        let u = localStorage.getItem("user");
+        if (!u) {
+            u = defaultUser;
+        }
+        setUser(JSON.parse(u));
+    }, []);
+
     const updateUser = (u) => {
         setUser(u);
+        localStorage.setItem("user", JSON.stringify(u));
     };
 
     const value = {
