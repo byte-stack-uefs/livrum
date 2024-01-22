@@ -5,9 +5,8 @@ import React, { useState } from "react";
 import { useUser } from "@/app/context";
 import { useRouter } from "next/navigation";
 import Grid from "@mui/material/Unstable_Grid2";
-import useRequest from "@/app/services/requester";
-import { redirectByType } from "@/app/helpers/helpers";
 import { FormProvider, useForm } from "react-hook-form";
+import { login, redirectByType } from "@/app/helpers/login";
 import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
 
 const Login = () => {
@@ -18,7 +17,6 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const router = useRouter();
-    const requester = useRequest();
 
     const methods = useForm();
     const {
@@ -33,28 +31,16 @@ const Login = () => {
         setErrorMessage("");
         setLoggingIn(true);
 
-        requester
-            .post("/auth", {
-                username: email,
-                password: password,
-            })
+        login(email, password)
             .then((response) => {
-                localStorage.setItem("token", response.data.access_token);
-
                 const level = response.data.user.tipo;
                 const link = redirectByType(level);
-
                 updateUser(response.data.user);
 
                 router.push(link);
             })
-            .catch((err) => {
-                let message = "Algo deu errado, tente novamente mais tarde";
-
-                if (err?.response?.data?.detail) {
-                    message = err?.response?.data?.detail;
-                    setErrorMessage(message);
-                }
+            .catch((err: string) => {
+                setErrorMessage(err);
                 setLoggingIn(false);
             });
     });
