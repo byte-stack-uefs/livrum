@@ -16,8 +16,8 @@ const defaultUser = {
     id: 1,
     tipo: "CLIENTE",
     status: "",
-    nome: "Almir Livrum",
-    email: "livrum@gmail.com",
+    nome: "[NAME]",
+    email: "[EMAIL]",
 };
 
 export const UserContext = createContext<UserContextType | null>(null);
