@@ -1,5 +1,6 @@
 "use client";
 
+import Cookies from "js-cookie";
 import LivrumLink from "../LivrumLink";
 import React, { useState } from "react";
 import { useUser } from "@/app/context";
@@ -67,6 +68,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     ];
 
     function handleLogout() {
+        Cookies.remove("token");
         if (userLevel == UserLevel.ADMIN) {
             router.push("/admin/login");
         } else {
