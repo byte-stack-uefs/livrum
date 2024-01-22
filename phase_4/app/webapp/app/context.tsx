@@ -14,7 +14,7 @@ interface UserContextType {
 }
 
 const defaultUser = {
-    id: 1,
+    idUsuario: 1,
     tipo: "CLIENTE",
     status: "",
     nome: "[NAME]",
