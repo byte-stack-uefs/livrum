@@ -2,35 +2,29 @@
 
 import Image from "next/image";
 import { useCart } from "./useCart";
-import {
-    Box,
-    Button,
-    Container,
-    Grid,
-    Typography,
-    Link,
-} from "@mui/material";
+import { Box, Button, Container, Grid, Typography, Link, Alert } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Divider from "@/app/components/Divider";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 
 const Cart = () => {
-
     const { cartItems } = useCart();
-    const {handleRemoveEbookFromCart, handleClearCart, cartTotalAmount} = useCart();
+    const { handleRemoveEbookFromCart, handleClearCart, cartTotalAmount } = useCart();
 
     const router = useRouter();
 
     if (!cartItems || cartItems.length == 0) {
         return (
             <Grid container justifyContent={"center"}>
-                <Typography variant="body1" fontSize={20}>
-                    Carrinho Vazio
-                </Typography>
-                <Grid container justifyContent={"center"}>
-                    <Link href={"/"}>
-                        <Typography variant="body2">Vamos as Compras</Typography>
-                    </Link>
+                <Grid xs={12} md={8} mt={2}>
+                    <Alert severity="warning" sx={{ alignItems: "center" }}>
+                        <Typography variant="body1" fontSize={20}>
+                            Carrinho Vazio
+                        </Typography>
+                        <Link href={"/"}>
+                            <Typography variant="body2">Vamos as Compras</Typography>
+                        </Link>
+                    </Alert>
                 </Grid>
             </Grid>
         );
@@ -66,13 +60,7 @@ const Cart = () => {
                                         >
                                             <Grid xs={3} item>
                                                 <div style={{ width: "100%", height: 250, position: "relative", borderRadius: 5 }}>
-                                                    <Image
-                                                        src = {item.cover}
-                                                        fill
-                                                        alt="Ebook cover"
-                                                        objectFit="cover"
-                                                        style={{ borderRadius: 5 }}
-                                                    />
+                                                    <Image src={item.cover} fill alt="Ebook cover" objectFit="cover" style={{ borderRadius: 5 }} />
                                                 </div>
                                             </Grid>
                                             <Grid xs={7} item p={2} alignSelf="center">
@@ -117,9 +105,14 @@ const Cart = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid xs={12} item textAlign="center">
-                                    <Button onClick={() => {
-                                        router.push('/pagamento');
-                                    }} color="primary" variant="contained" startIcon={<ShoppingCartCheckoutIcon />}>
+                                    <Button
+                                        onClick={() => {
+                                            router.push("/pagamento");
+                                        }}
+                                        color="primary"
+                                        variant="contained"
+                                        startIcon={<ShoppingCartCheckoutIcon />}
+                                    >
                                         Finalizar compra
                                     </Button>
                                 </Grid>
