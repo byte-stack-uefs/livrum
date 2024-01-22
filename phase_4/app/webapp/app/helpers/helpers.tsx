@@ -9,15 +9,3 @@ export function makeid(length: number) {
     }
     return result;
 }
-
-export function redirectByType(type: string) {
-    switch (type) {
-        case "ADM":
-            return "/admin";
-        case "AUTOR":
-            return "/autor";
-        case "CLIENTE":
-            return "/cliente";
-    }
-    return "/";
-}
