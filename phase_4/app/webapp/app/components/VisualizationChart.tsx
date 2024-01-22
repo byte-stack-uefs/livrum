@@ -56,12 +56,12 @@ export function VisualizationChart({ data }: { data: Array<ChartData> }) {
     return (<Card elevation={0} sx={{ borderRadius: 2 }} id="chart-parent">
 
         <Grid container>
-            <Grid xs={12} p={2} textAlign="right">
+            <Grid item xs={12} p={2} textAlign="right">
                 <LocalizationProvider dateAdapter={AdapterLuxon}>
                     <DatePicker defaultValue={DateTime.now()} label={'Período'} views={['month', 'year']} />
                 </LocalizationProvider>
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
                 {data && (
                     <LineChart
                         dataset={data}
