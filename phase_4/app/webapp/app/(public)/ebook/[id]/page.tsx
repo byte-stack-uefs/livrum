@@ -8,6 +8,8 @@ import { useCart } from "../../carrinho/useCart";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Container, Typography } from "@mui/material";
 import EbookDetails from "@/app/components/EbookDetails";
+import Alert from '@mui/material/Alert';
+
 
 interface EbookPageParams {
     id: number;
@@ -58,31 +60,28 @@ export default function Page({ params }: { params: EbookPageParams }) {
         cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
         author: "Fiodor Dostoievsk",
         price: 110,
-        releaseYear: '2012',
-        summary: `<p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-            praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-            consequatur?
-        </p>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                consequatur?
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                consequatur?
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora
-                praesentium alias itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint
-                consequatur?
-            </p>`,
+        releaseYear: "2012",
+        summary: `
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora praesentium alias
+                    itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora praesentium alias
+                    itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora praesentium alias
+                    itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At temporibus recusandae facere eveniet, magni tempora praesentium alias
+                    itaque explicabo accusamus asperiores officiis blanditiis. Natus, tempore esse! Porro alias sint consequatur?
+                </p>
+            `,
         isAvailable: true,
-        languages: ['Português'],
-        size: 8952
-
+        languages: ["Português"],
+        size: 8952,
     };
     const { handleAddEbookToCart } = useCart();
 
@@ -99,17 +98,17 @@ export default function Page({ params }: { params: EbookPageParams }) {
     }
 
     function mensagemClick() {
-        <span>Produto adicionado ao carrinho</span>;
+        <Alert severity="success">Livro adicionado no carrinho Alert.</Alert>
     }
     function handleClickAddCart(item: CartItemType) {
         handleAddEbookToCart(item);
-        mensagemClick();
+ 
+      setTimeout(mensagemClick, 2000)
     }
 
     return (
         <Container maxWidth={false}>
             <Grid container>
-
                 <EbookDetails ebook={ebook} onAddCart={handleClickAddCart} shouldDisableAddCart={checkIsProductInCart} />
 
                 <Grid xs={12} container>
@@ -139,5 +138,3 @@ function SimilarEbooks(ebook: any) {
         </div>
     );
 }
-
-

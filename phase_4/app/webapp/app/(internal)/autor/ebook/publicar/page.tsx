@@ -219,7 +219,7 @@ export default function Page() {
                 </Grid>
                 <Grid item xs={12} textAlign="center">
                     <Button onClick={dados} variant="contained" color="success">
-                        Submeter e-Book
+                        Publicar e-Book
                     </Button>
                 </Grid>
             </Grid>
