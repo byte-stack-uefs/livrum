@@ -5,3 +5,4 @@ python-jose[cryptography]
 python-multipart
 mysql-connector-python
 pytest==7.4.3
+efipay
