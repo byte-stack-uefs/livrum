@@ -19,6 +19,9 @@ services:
       - livrum-network
     volumes:
       - ./api/:/usr/app/
+    environment:
+      - EFI_CLIENT_ID=Client_Id_ebbdfcfb01a17e43db9859d920998347bc3c7037
+      - EFI_CLIENT_SECRET=Client_Secret_b71d254f0a20bf4f4f676dc9bd441a5e5db01614
   database:
     image: mysql
     ports:
