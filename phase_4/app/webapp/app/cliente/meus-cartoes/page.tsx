@@ -13,6 +13,9 @@ import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 
+// @ts-ignore
+import { EfiJs } from "payment-token-efi";
+
 export default function Page() {
     const [open, setOpen] = useState(false);
 
@@ -167,8 +170,6 @@ export default function Page() {
                     </Button>
                 </DialogActions>
             </Dialog>
-
-            <script src="https://cdn.jsdelivr.net/gh/efipay/js-payment-token-efi/dist/payment-token-efi.min.js"></script>
         </Box>
     );
 }
