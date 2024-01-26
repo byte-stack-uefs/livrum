@@ -13,13 +13,41 @@ import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 
-// @ts-ignore
-import { EfiJs } from "payment-token-efi";
-
 export default function Page() {
     const [open, setOpen] = useState(false);
 
     const [openModal, setOpenModal] = useState(false);
+
+    try {
+        EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
+            .setEnvironment("sandbox") // 'production' or 'sandbox'
+            .setCreditCardData({
+                brand: "visa",
+                number: "4485785674290087",
+                cvv: "123",
+                expirationMonth: "05",
+                expirationYear: "2029",
+                reuse: false,
+            })
+            .getPaymentToken()
+            .then((data) => {
+                const payment_token = data.payment_token;
+                const card_mask = data.card_mask;
+
+                console.log("payment_token", payment_token);
+                console.log("card_mask", card_mask);
+            })
+            .catch((err) => {
+                console.log("Código: ", err.code);
+                console.log("Nome: ", err.error);
+                console.log("Mensagem: ", err.error_description);
+            });
+    } catch (error) {
+        console.log("Código: ", error.code);
+        console.log("Nome: ", error.error);
+        console.log("Mensagem: ", error.error_description);
+    }
+
     const [creditCards, setCreditCards] = useState([
         {
             id: 0,
@@ -170,6 +198,7 @@ export default function Page() {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <script src="https://cdn.jsdelivr.net/gh/efipay/js-payment-token-efi/dist/payment-token-efi.min.js"></script>
         </Box>
     );
 }
