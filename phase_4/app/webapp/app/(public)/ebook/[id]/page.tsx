@@ -8,6 +8,9 @@ import { useCart } from "../../carrinho/useCart";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Container, Typography } from "@mui/material";
 import EbookDetails from "@/app/components/EbookDetails";
+import { useState } from "react";
+import Snackbar from '@mui/material/Snackbar';
+import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 
 
@@ -24,6 +27,7 @@ export type CartItemType = {
 };
 
 export default function Page({ params }: { params: EbookPageParams }) {
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
     const { id } = params;
 
     const similars = [
@@ -97,20 +101,32 @@ export default function Page({ params }: { params: EbookPageParams }) {
         }
     }
 
-    function mensagemClick() {
-        <Alert severity="success">Livro adicionado no carrinho Alert.</Alert>
-    }
+   
     function handleClickAddCart(item: CartItemType) {
         handleAddEbookToCart(item);
- 
-      setTimeout(mensagemClick, 2000)
-    }
+        setIsAlertVisible(true)
+     }
+    
+     const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setIsAlertVisible(false);
+      };
 
     return (
         <Container maxWidth={false}>
             <Grid container>
+    
                 <EbookDetails ebook={ebook} onAddCart={handleClickAddCart} shouldDisableAddCart={checkIsProductInCart} />
-
+                {isAlertVisible && (
+                        <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}                        > 
+                            <Alert severity="success" variant="filled" sx={{ width: '100%' }} >
+                            Ebook adicionado ao carrinho
+                           </Alert> 
+                        </Snackbar>
+      
+                )}
                 <Grid xs={12} container>
                     <Grid xs={12} textAlign="center">
                         <Typography variant="h4" color="dark.main">
@@ -123,6 +139,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
                     </Grid>
                 </Grid>
             </Grid>
+            
         </Container>
     );
 }
