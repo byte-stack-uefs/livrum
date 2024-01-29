@@ -9,7 +9,7 @@ router = APIRouter(prefix="/credit-card", tags=["Credit Card"])
 service = CreditCardService()
 access = security.UserHasAccess([UserType.CUSTOMER])
 
-@router.post("/create", description="Create a Credit Card")
+@router.post("/", description="Create a Credit Card")
 def add(creditCardData: FrontToBackEndCreditCardDTO, user:Annotated[User,Depends(access)]):
     response = service.addCreditCard(creditCardData,user.idUsuario)
     return {"message": response}
