@@ -3,7 +3,7 @@ from jose import JWTError, jwt
 from pydantic import BaseModel
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
-from services.userService import UserService
+from services.UserService import UserService
 from models.user import User, UserStatus, UserType
 from fastapi import Depends, HTTPException, status, APIRouter, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -95,6 +95,7 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()], response: Respo
     if not verify_password(form.password, user.senha):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
+    del user.senha
     access_token = create_access_token({"id": user.idUsuario, "type": user.tipo}, 60)
     response.set_cookie("token", access_token)
     return {"access_token": access_token, "token_type": "bearer", "user": user}

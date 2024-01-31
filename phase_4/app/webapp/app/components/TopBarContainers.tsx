@@ -6,11 +6,13 @@ import { theme } from '@/app/theme';
 import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
 import { Badge, Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Toolbar, Tooltip } from "@mui/material";
+import { useCart } from "../(public)/carrinho/useCart";
 
 export function TopMain() {
 
     const [category, setCategory] = useState('all');
-    const [numCartItems, setNumCartItems] = useState(1);
+    const { cartTotalQnt} = useCart();
+    const [numCartItems, setNumCartItems] = useState(0);
 
     const handleChange = (event: SelectChangeEvent) => {
         setCategory(event.target.value as string);
@@ -83,7 +85,7 @@ export function TopMain() {
                                 <Badge anchorOrigin={{
                                     vertical: 'bottom',
                                     horizontal: 'right'
-                                }} badgeContent={numCartItems} color="primary">
+                                }} badgeContent={cartTotalQnt} color="primary">
                                     <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
                                 </Badge>
                             </Tooltip>

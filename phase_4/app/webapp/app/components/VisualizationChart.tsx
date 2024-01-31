@@ -2,12 +2,12 @@
 
 import { theme } from "../theme";
 import { DateTime } from "luxon";
-import { Card, Grid } from "@mui/material";
 import { LineChart } from "@mui/x-charts";
+import { Card, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 function getMaxX() {
     const today = DateTime.now();
@@ -56,12 +56,12 @@ export function VisualizationChart({ data }: { data: Array<ChartData> }) {
     return (<Card elevation={0} sx={{ borderRadius: 2 }} id="chart-parent">
 
         <Grid container>
-            <Grid xs={12} p={2} textAlign="right">
+            <Grid item xs={12} p={2} textAlign="right">
                 <LocalizationProvider dateAdapter={AdapterLuxon}>
                     <DatePicker defaultValue={DateTime.now()} label={'Período'} views={['month', 'year']} />
                 </LocalizationProvider>
             </Grid>
-            <Grid xs={12}>
+            <Grid item xs={12}>
                 {data && (
                     <LineChart
                         dataset={data}

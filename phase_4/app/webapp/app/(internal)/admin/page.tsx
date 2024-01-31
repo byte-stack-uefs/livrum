@@ -1,19 +1,17 @@
 "use client";
 
 import { theme } from "@/app/theme";
+import { useUser } from "@/app/context";
+import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DashboardCard from "@/app/components/DashboardCard";
 import { Book, MonetizationOn, Sell } from "@mui/icons-material";
-import {
-    Typography,
-} from "@mui/material";
-import { VisualizationChart, getFakeData } from "@/app/components/VisualizationChart";
 import { PopularityTable } from "@/app/components/PopularityTable";
+import { VisualizationChart, getFakeData } from "@/app/components/VisualizationChart";
 
 export default function Page() {
-    const username = "Admin";
-
+    const { user } = useUser();
 
     const [data, setData] = useState([]);
     const [author, setAuthor] = useState(null);
@@ -21,8 +19,6 @@ export default function Page() {
     useEffect(() => {
         setData(getFakeData());
     }, []);
-
-
 
     const cards = [
         {
@@ -65,7 +61,7 @@ export default function Page() {
         <Grid container spacing={2}>
             <Grid xs={12}>
                 <Typography variant="h5" sx={{ color: theme.palette.dark.main }}>
-                    Bem-vindo, {username}
+                    Bem-vindo, {user.nome}
                 </Typography>
             </Grid>
             <Grid xs={12} container>
@@ -83,5 +79,3 @@ export default function Page() {
         </Grid>
     );
 }
-
-
