@@ -61,9 +61,9 @@ class BackToFrontEndCreditCardDTO:
 class FrontToBackEndCreditCardDTO(BaseModel):
     token: str
     namePrinted: str
-    cvv: Annotated[str, Query(pattern=r"^\d{3}$")]
-    cardNumber: Annotated[str, Query(pattern=r"^\d{4}$")]
-    expiryDate: Annotated[str, Query(pattern=r"^\d{4}-\d{2}$", example="2040-11")]
+    cvv: Annotated[str, Query(pattern=r"^\d{3}$", examples=["591"])]
+    cardNumber: Annotated[str, Query(pattern=r"^\d{4}$", examples=["4817"])]
+    expiryDate: Annotated[str, Query(pattern=r"^\d{4}-\d{2}$", examples=["2040-11"])]
 
 
 def _classify_card_type(card_number):
