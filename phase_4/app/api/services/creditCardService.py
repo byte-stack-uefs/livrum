@@ -36,16 +36,15 @@ class CreditCardService:
 
     def deleteCreditCardById(self, idCard: int, idClient: int):
         with DB() as db:
-            result = db.execute(
-                "DELETE FROM cartao WHERE idCartao = %s AND idCliente = %s",
-                (idCard, idClient),
-            )
+            try:
+                db.execute(
+                    "DELETE FROM cartao WHERE idCartao = %s AND idCliente = %s",
+                    (idCard, idClient),
+                )
+            except:
+                return False
 
-        credit_card_deleted = self.getCreditCardByCardId(idCard)
-        if credit_card_deleted is not None:
-            return f"Cartão de crédito não foi excluido"
-        else:
-            return f"Cartão de crédito excluído com sucesso."
+            return True
 
     def addCreditCard(self, creditCardDTO: FrontToBackEndCreditCardDTO, idClient):
         creditCardDTO.expiryDate = creditCardDTO.expiryDate + "-01"

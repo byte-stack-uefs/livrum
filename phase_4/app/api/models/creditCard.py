@@ -8,10 +8,10 @@ class CreditCard:
     def __init__(self, **kwargs):
         self.cvv = kwargs.get("cvv")
         self.idCard = kwargs.get("idCartao")
-        self.idClient = kwargs.get("idClient")
-        self.cardNumber = kwargs.get("cardNumber")
-        self.expiryDate = kwargs.get("expiryDate")
-        self.namePrinted = kwargs.get("namePrinted")
+        self.idClient = kwargs.get("idCliente")
+        self.cardNumber = kwargs.get("numero")
+        self.expiryDate = kwargs.get("dataVencimento")
+        self.namePrinted = kwargs.get("nomeImpresso")
 
 
 class BackToFrontEndCreditCardDTO:
