@@ -2,11 +2,11 @@
 
 import { theme } from "@/app/theme";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { TextField, Button, Paper, Typography, InputLabel, Modal } from "@mui/material";
-import Link from "next/link";
 
 const UserPasswordRestore = () => {
     const [value, setValue] = useState(0);
@@ -14,12 +14,12 @@ const UserPasswordRestore = () => {
     const [openModal, setOpenModal] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(true);
 
-    const validateEmail = (email) => {
+    const router = useRouter();
 
+    const validateEmail = (email) => {
         const isValidEmail = /\S+@\S+\.\S+/.test(email);
 
         setButtonDisabled(!isValidEmail);
-
     };
 
     const handleChange = (event, newValue) => {
@@ -36,9 +36,7 @@ const UserPasswordRestore = () => {
         const isValidEmail = /\S+@\S+\.\S+/.test(email);
 
         if (isValidEmail) {
-
             setOpenModal(true);
-
         }
     };
 
@@ -51,7 +49,7 @@ const UserPasswordRestore = () => {
                 <Divider width={"35%"} style={{ margin: "auto" }} />
             </Grid>
             <Grid xs={11} sm={9} md={6} margin="auto">
-                <Paper elevation={0} style={{ padding: '30px', backgroundColor: theme.palette.secondary.main }}>
+                <Paper elevation={0} style={{ padding: "30px", backgroundColor: theme.palette.secondary.main }}>
                     <Paper>
                         <form onSubmit={handleSubmitClient}>
                             <Grid container padding={3} spacing={3} justifyContent="center" alignItems="center">
@@ -65,9 +63,22 @@ const UserPasswordRestore = () => {
                                         Confirme o endereço de e-mail utilizado em seu cadastro, e enviaremos sua senha novamente
                                     </Typography>
                                 </Grid>
-                                <Grid container spacing={2} xs={12} py={3} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
+                                <Grid
+                                    container
+                                    spacing={2}
+                                    xs={12}
+                                    py={3}
+                                    justifyContent="center"
+                                    alignItems="center"
+                                    style={{ textAlign: "center" }}
+                                >
                                     <Grid xs={8}>
-                                        <InputLabel htmlFor="labelEmail" style={{ fontWeight: "Roboto", textAlign: 'left', color: theme.palette.primary.main }}>E-mail </InputLabel>
+                                        <InputLabel
+                                            htmlFor="labelEmail"
+                                            style={{ fontWeight: "Roboto", textAlign: "left", color: theme.palette.primary.main }}
+                                        >
+                                            E-mail{" "}
+                                        </InputLabel>
                                         <TextField
                                             required
                                             id="labelEmail"
@@ -85,35 +96,49 @@ const UserPasswordRestore = () => {
                                     </Grid>
                                 </Grid>
                                 <Grid xs={6} sm={4}>
-                                    <Link href={"/login"} style={{ textDecoration: 'none' }}>
-                                        <Button fullWidth variant="contained" color="primary">
-                                            Cancelar
-                                        </Button>
-                                    </Link>
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => {
+                                            router.push("/login");
+                                        }}
+                                    >
+                                        Cancelar
+                                    </Button>
                                 </Grid>
                                 <Grid xs={6} sm={4}>
-                                    <Button fullWidth type="submit" variant="contained" color="primary" onClick={handleSubmitClient} disabled={isButtonDisabled}>
+                                    <Button
+                                        fullWidth
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={handleSubmitClient}
+                                        disabled={isButtonDisabled}
+                                    >
                                         Enviar
                                     </Button>
                                 </Grid>
-                                <Modal
-                                    open={openModal}
-                                    onClose={handleCloseModal}
-                                    aria-labelledby="modal-title"
-                                    aria-describedby="modal-description"
-                                >
-                                    <Paper style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', padding: '30px', backgroundColor: '#FFF' }}>
+                                <Modal open={openModal} onClose={handleCloseModal} aria-labelledby="modal-title" aria-describedby="modal-description">
+                                    <Paper
+                                        style={{
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            padding: "30px",
+                                            backgroundColor: "#FFF",
+                                        }}
+                                    >
                                         <Grid container direction="column" alignItems="center" justifyContent="center">
-                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: 'center' }}>
-                                                <CheckCircleOutlineIcon sx={{ fontSize: 50, color: 'green' }} />
+                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: "center" }}>
+                                                <CheckCircleOutlineIcon sx={{ fontSize: 50, color: "green" }} />
                                             </Grid>
-                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: 'center', width: '100%' }}>
-                                                <Typography variant="h6">
-                                                    E-mail enviado com sucesso
-                                                </Typography>
-                                            </Grid >
-                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: 'center', width: '100%' }}>
-                                                <Typography variant="caption" >
+                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: "center", width: "100%" }}>
+                                                <Typography variant="h6">E-mail enviado com sucesso</Typography>
+                                            </Grid>
+                                            <Grid xs={12} md={4} margin="auto" style={{ textAlign: "center", width: "100%" }}>
+                                                <Typography variant="caption">
                                                     Caso o email não apareça na caixa de entrada, verifique a caixa de spam
                                                 </Typography>
                                             </Grid>

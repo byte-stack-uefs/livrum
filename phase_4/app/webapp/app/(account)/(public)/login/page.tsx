@@ -8,6 +8,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { FormProvider, useForm } from "react-hook-form";
 import { login, redirectByType } from "@/app/helpers/login";
 import { Tab, Tabs, TextField, Button, Paper, Typography, Link } from "@mui/material";
+import LivrumLink from "@/app/components/LivrumLink";
 
 const Login = () => {
     const [value, setValue] = useState(0);
@@ -132,19 +133,11 @@ const Login = () => {
                                     </Grid>
 
                                     <Grid mb={2} xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
-                                        <Link
-                                            component="button"
-                                            variant="body2"
-                                            underline="none"
-                                            onClick={() => {
-                                                router.push("/recuperacao-senha");
-                                            }}
-                                            style={{
-                                                color: theme.palette.primary.main,
-                                            }}
-                                        >
-                                            Esqueceu a senha?
-                                        </Link>
+                                        <LivrumLink href="/recuperacao-senha">
+                                            <Typography variant="body2" color="primary.main">
+                                                Esqueceu a senha?
+                                            </Typography>
+                                        </LivrumLink>
                                     </Grid>
                                     <Grid xs={12} sm={6} md={6}>
                                         <Button disabled={loggingIn} onClick={onSubmit} fullWidth type="submit" variant="contained" color="darker">
