@@ -3,7 +3,7 @@ from dependencies import security
 from models.user import User, UserType
 from models.creditCard import FrontToBackEndCreditCardDTO
 from fastapi import APIRouter, Depends, HTTPException
-from services.creditCardService import CreditCardService
+from services.CreditCardService import CreditCardService
 
 router = APIRouter(prefix="/credit-card", tags=["Credit Card"])
 service = CreditCardService()
