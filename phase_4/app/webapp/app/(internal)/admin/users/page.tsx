@@ -47,7 +47,7 @@ import { CreditCard } from "@mui/icons-material";
 // },
 
 interface Column {
-    id: "id" | "nome" | "status" | "acao1" | "acao2" | "acao3";
+    id: "nome" | "status" | "acao1" | "acao2" | "acao3";
     label: string;
     minWidth?: number;
     align?: "right" | "left" | "center";
@@ -55,7 +55,6 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: "id", label: "ID", minWidth: 70, align: "center" },
     { id: "nome", label: "Nome", minWidth: 200, align: "left" },
     {
         id: "status",
