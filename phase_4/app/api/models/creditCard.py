@@ -6,19 +6,19 @@ from typing_extensions import Annotated
 
 class CreditCard:
     def __init__(self, **kwargs):
-        self.idCard = kwargs.get("idCartao")
-        self.namePrinted = kwargs.get("namePrinted")
-        self.cardNumber = kwargs.get("cardNumber")
         self.cvv = kwargs.get("cvv")
-        self.expiryDate = kwargs.get("expiryDate")
+        self.idCard = kwargs.get("idCartao")
         self.idClient = kwargs.get("idClient")
+        self.cardNumber = kwargs.get("cardNumber")
+        self.expiryDate = kwargs.get("expiryDate")
+        self.namePrinted = kwargs.get("namePrinted")
 
 
 class BackToFrontEndCreditCardDTO:
     def __init__(self, **kwargs):
         self.idCard = kwargs.get("idCartao")
+        self.cardNumber = kwargs.get("numero")
         self.namePrinted = kwargs.get("nomeImpresso")
-        self.ultimosDigitos = self._mask_card_number(kwargs.get("numero"))
         self.expiryDate = self._parse_date(kwargs.get("dataVencimento"))
 
     def _parse_date(self, date_str):
@@ -32,12 +32,6 @@ class BackToFrontEndCreditCardDTO:
 
             except ValueError:
                 return None
-
-        return None
-
-    def _mask_card_number(self, card_number):
-        if card_number:
-            return f"**** **** **** {card_number[-4:]}"
 
         return None
 
