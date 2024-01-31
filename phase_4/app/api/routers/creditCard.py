@@ -14,7 +14,7 @@ def add(creditCardData: FrontToBackEndCreditCardDTO, user:Annotated[User,Depends
     response = service.addCreditCard(creditCardData,user.idUsuario)
     return {"message": response}
 
-@router.get("/all", description="Get all customer credit cards")
+@router.get("/", description="Get all customer credit cards")
 def list(user:Annotated[User,Depends(access)]):
     response = service.getAllCreditCardsByClientId(user.idUsuario);
     return response
