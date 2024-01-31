@@ -119,12 +119,13 @@ DROP TABLE IF EXISTS `cartao`;
 ;
 CREATE TABLE `cartao` (
     `idCartao` int NOT NULL AUTO_INCREMENT,
+    `idCliente` int NOT NULL,
     `nomeImpresso` varchar(64) NOT NULL,
-    `numero` varchar(32) NOT NULL,
+    `numero` varchar(4) NOT NULL,
     `cvv` int NOT NULL,
     `dataVencimento` date NOT NULL,
+    `token` VARCHAR(60) NOT NULL,
     `criadoEm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    `idCliente` int NOT NULL,
     PRIMARY KEY (`idCartao`),
     KEY `fk_Cartao_Cliente1_idx` (`idCliente`),
     CONSTRAINT `fk_Cartao_Cliente1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idUsuario`)
@@ -162,13 +163,13 @@ DROP TABLE IF EXISTS `cupom`;
 ;
 CREATE TABLE `cupom` (
     `idCupom` int NOT NULL AUTO_INCREMENT,
+    `idUsuario` int NOT NULL,
     `nome` varchar(45) NOT NULL,
     `status` enum('active', 'inactive', 'expired') NOT NULL DEFAULT 'active',
     `porcentagem` decimal(4, 2) NOT NULL,
     `dataExpiracao` date DEFAULT NULL,
     `criadoEm` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `modificadoEM` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-    `idUsuario` int NOT NULL,
     PRIMARY KEY (`idCupom`),
     UNIQUE KEY `nome_UNIQUE` (`nome`),
     KEY `fk_Cupom_Autor1_idx` (`idUsuario`),
