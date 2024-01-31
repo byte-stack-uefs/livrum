@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from models.user import UserType, User
 from dependencies.security import UserHasAccess
-from services.userService import UserService
+from services.UserService import UserService
 
 access = UserHasAccess([UserType.ADMIN])
 
