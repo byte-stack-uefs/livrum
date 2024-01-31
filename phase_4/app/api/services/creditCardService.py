@@ -1,18 +1,22 @@
 from typing import List
-from datetime import date
 from database.database import DB
-from models.creditCard import CreditCard, CardType, BackToFrontEndCreditCardDTO, FrontToBackEndCreditCardDTO, _classify_card_type
+from models.creditCard import (
+    CreditCard,
+    BackToFrontEndCreditCardDTO,
+    FrontToBackEndCreditCardDTO,
+)
+
 
 class CreditCardService:
-
     def _convertDTOFront(self, item: dict) -> BackToFrontEndCreditCardDTO:
         return BackToFrontEndCreditCardDTO(**item)
 
-    def getAllCreditCardsByClientId(self, idClient: int) -> List[BackToFrontEndCreditCardDTO]:
+    def getAllCreditCardsByClientId(
+        self, idClient: int
+    ) -> List[BackToFrontEndCreditCardDTO]:
         credit_cards = []
 
         with DB() as db:
-
             db.execute("SELECT * FROM cartao WHERE idCliente = %s", [idClient])
             data_list = db.fetchall()
 
@@ -31,9 +35,11 @@ class CreditCardService:
         return credit_card
 
     def deleteCreditCardById(self, idCard: int, idClient: int):
-
         with DB() as db:
-            result = db.execute("DELETE FROM cartao WHERE idCartao = %s AND idCliente = %s", (idCard, idClient))
+            result = db.execute(
+                "DELETE FROM cartao WHERE idCartao = %s AND idCliente = %s",
+                (idCard, idClient),
+            )
 
         credit_card_deleted = self.getCreditCardByCardId(idCard)
         if credit_card_deleted is not None:
@@ -41,19 +47,20 @@ class CreditCardService:
         else:
             return f"Cartão de crédito excluído com sucesso."
 
-    def addCreditCard(self, creditCardDTO:FrontToBackEndCreditCardDTO, idClient):
+    def addCreditCard(self, creditCardDTO: FrontToBackEndCreditCardDTO, idClient):
+        creditCardDTO.expiryDate = creditCardDTO.expiryDate + "-01"
 
-        if(_classify_card_type(creditCardDTO.cardNumber) != CardType.UNKNOWN):
+        with DB() as db:
+            db.execute(
+                "INSERT INTO cartao (token, nomeImpresso, numero, cvv, dataVencimento, idCliente) VALUES (%s, %s, %s, %s, %s, %s)",
+                [
+                    creditCardDTO.token,
+                    creditCardDTO.namePrinted,
+                    creditCardDTO.cardNumber,
+                    creditCardDTO.cvv,
+                    creditCardDTO.expiryDate,
+                    idClient,
+                ],
+            )
 
-            with DB() as db:
-                db.execute("INSERT INTO cartao (nomeImpresso, numero, cvv, dataVencimento, idCliente) VALUES (%s, %s, %s, %s, %s)",
-                        [creditCardDTO.namePrinted,creditCardDTO.cardNumber,creditCardDTO.cvv,creditCardDTO.expiryDate,idClient]
-                )
-
-            return "Cartão adicionado com sucesso"
-        
-        else:
-
-            return "Número inválido de cartão de crédito"
-
-        
+        return "Cartão adicionado com sucesso"
