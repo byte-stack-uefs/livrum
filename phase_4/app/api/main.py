@@ -1,7 +1,7 @@
 import json
 import uvicorn
 from fastapi import FastAPI
-from dependencies import security
+from dependencies import security, settings
 from database.database import connect
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -40,6 +40,14 @@ async def version_api():
         content=json.dumps({"versao do banco de dados": versao[0]}),
         media_type="application/json",
     )
+
+
+settings = settings.Settings()
+
+
+@app.get("/info")
+def info():
+    return settings
 
 
 if __name__ == "__main__":

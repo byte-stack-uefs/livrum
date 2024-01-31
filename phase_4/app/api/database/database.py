@@ -45,4 +45,5 @@ class DB:
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         self.cursor.close()
+        self.db.commit()
         self.db.close()
