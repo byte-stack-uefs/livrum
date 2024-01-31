@@ -51,16 +51,19 @@ class CreditCardService:
         creditCardDTO.expiryDate = creditCardDTO.expiryDate + "-01"
 
         with DB() as db:
-            db.execute(
-                "INSERT INTO cartao (token, nomeImpresso, numero, cvv, dataVencimento, idCliente) VALUES (%s, %s, %s, %s, %s, %s)",
-                [
-                    creditCardDTO.token,
-                    creditCardDTO.namePrinted,
-                    creditCardDTO.cardNumber,
-                    creditCardDTO.cvv,
-                    creditCardDTO.expiryDate,
-                    idClient,
-                ],
-            )
+            try:
+                db.execute(
+                    "INSERT INTO cartao (token, nomeImpresso, numero, cvv, dataVencimento, idCliente) VALUES (%s, %s, %s, %s, %s, %s)",
+                    [
+                        creditCardDTO.token,
+                        creditCardDTO.namePrinted,
+                        creditCardDTO.cardNumber,
+                        creditCardDTO.cvv,
+                        creditCardDTO.expiryDate,
+                        idClient,
+                    ],
+                )
+            except:
+                return False
 
-        return "Cartão adicionado com sucesso"
+        return True
