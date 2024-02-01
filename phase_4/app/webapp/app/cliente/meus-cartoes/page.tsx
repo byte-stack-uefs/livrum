@@ -55,7 +55,9 @@ export default function Page() {
 
     console.log(errors);
 
-    const handleSave = handleSubmit((data) => {});
+    const handleSave = handleSubmit((data) => {
+        console.log(data);
+    });
 
     const tokenizeCard = () => {
         try {
@@ -163,108 +165,112 @@ export default function Page() {
                     Cadastro novo cartão
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 1 }}>
-                        <Grid xs={12}>
-                            <TextField
-                                {...register("cardHolder", {
-                                    required: {
-                                        value: true,
-                                        message: "O nome no cartão é obrigatório",
-                                    },
-                                })}
-                                value={cardHolder}
-                                onChange={handleInputCardHolderChange}
-                                label={"Nome no Cartão *"}
-                                fullWidth
-                                size="small"
-                                error={errors.cardHolder ? true : false}
-                                helperText={errors.cardHolder ? errors.cardHolder.message : ""}
-                            />
-                        </Grid>
-                        <Grid xs={12}>
-                            <TextField
-                                label={"Número do Cartão *"}
-                                fullWidth
-                                size="small"
-                                value={cardNumber}
-                                inputProps={{
-                                    inputMode: "numeric",
-                                    maxLength: 16,
-                                }}
-                                {...register("cardNumber", {
-                                    required: {
-                                        value: true,
-                                        message: "O número do cartão é obrigatório",
-                                    },
-                                    minLength: {
-                                        value: 16,
-                                        message: "O número do cartão deve ter 16 números",
-                                    },
-                                    maxLength: {
-                                        value: 16,
-                                        message: "O número do cartão deve ter 16 números",
-                                    },
-                                })}
-                                onChange={handleInputCardNumberChange}
-                                error={errors.cardNumber ? true : false}
-                                helperText={errors.cardNumber ? errors.cardNumber.message : ""}
-                            />
-                        </Grid>
-                        <Grid xs={12} container>
-                            <Grid xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterLuxon}>
-                                    <DatePicker
-                                        label={"Vencimento"}
-                                        views={["month", "year"]}
-                                        slotProps={{ textField: { size: "small" } }}
-                                        value={cardExpiration}
-                                        disablePast
-                                        onChange={(value) => {
-                                            setCardExpiration(value);
-                                        }}
+                    <FormProvider {...methods}>
+                        <form onSubmit={(e) => e.preventDefault()} noValidate autoComplete="false">
+                            <Grid container spacing={2} sx={{ mt: 1 }}>
+                                <Grid xs={12}>
+                                    <TextField
+                                        {...register("cardHolder", {
+                                            required: {
+                                                value: true,
+                                                message: "O nome no cartão é obrigatório",
+                                            },
+                                        })}
+                                        value={cardHolder}
+                                        onChange={handleInputCardHolderChange}
+                                        label={"Nome no Cartão *"}
+                                        fullWidth
+                                        size="small"
+                                        error={errors.cardHolder ? true : false}
+                                        helperText={errors.cardHolder ? errors.cardHolder.message : ""}
                                     />
-                                </LocalizationProvider>
-                                {/* <Typography variant="caption" color="error">
+                                </Grid>
+                                <Grid xs={12}>
+                                    <TextField
+                                        label={"Número do Cartão *"}
+                                        fullWidth
+                                        size="small"
+                                        value={cardNumber}
+                                        inputProps={{
+                                            inputMode: "numeric",
+                                            maxLength: 16,
+                                        }}
+                                        {...register("cardNumber", {
+                                            required: {
+                                                value: true,
+                                                message: "O número do cartão é obrigatório",
+                                            },
+                                            minLength: {
+                                                value: 16,
+                                                message: "O número do cartão deve ter 16 números",
+                                            },
+                                            maxLength: {
+                                                value: 16,
+                                                message: "O número do cartão deve ter 16 números",
+                                            },
+                                        })}
+                                        onChange={handleInputCardNumberChange}
+                                        error={errors.cardNumber ? true : false}
+                                        helperText={errors.cardNumber ? errors.cardNumber.message : ""}
+                                    />
+                                </Grid>
+                                <Grid xs={12} container>
+                                    <Grid xs={6}>
+                                        <LocalizationProvider dateAdapter={AdapterLuxon}>
+                                            <DatePicker
+                                                label={"Vencimento"}
+                                                views={["month", "year"]}
+                                                slotProps={{ textField: { size: "small" } }}
+                                                value={cardExpiration}
+                                                disablePast
+                                                onChange={(value) => {
+                                                    setCardExpiration(value);
+                                                }}
+                                            />
+                                        </LocalizationProvider>
+                                        {/* <Typography variant="caption" color="error">
                                     {errors.cardExpiration ? errors.cardExpiration.message : ""}
                                 </Typography> */}
+                                    </Grid>
+                                    <Grid xs={6} pl={2}>
+                                        <TextField
+                                            label={"CVV *"}
+                                            fullWidth
+                                            size="small"
+                                            value={cvv}
+                                            inputProps={{
+                                                inputMode: "numeric",
+                                                maxLength: 3,
+                                            }}
+                                            {...register("cvv", {
+                                                required: {
+                                                    value: true,
+                                                    message: "O código de segurança do cartão é obrigatório",
+                                                },
+                                                minLength: {
+                                                    value: 3,
+                                                    message: "O código de segurança deve ter 3 números",
+                                                },
+                                                maxLength: {
+                                                    value: 3,
+                                                    message: "O código de segurança deve ter 3 números",
+                                                },
+                                            })}
+                                            onChange={handleInputCVVChange}
+                                            error={errors.cvv ? true : false}
+                                            helperText={errors.cvv ? errors.cvv?.message : ""}
+                                        />
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                            <Grid xs={6} pl={2}>
-                                <TextField
-                                    label={"CVV *"}
-                                    fullWidth
-                                    size="small"
-                                    value={cvv}
-                                    inputProps={{
-                                        inputMode: "numeric",
-                                        maxLength: 3,
-                                    }}
-                                    {...register("cvv", {
-                                        required: {
-                                            value: true,
-                                            message: "O código de segurança do cartão é obrigatório",
-                                        },
-                                        minLength: {
-                                            value: 3,
-                                            message: "O código de segurança deve ter 3 números",
-                                        },
-                                        maxLength: {
-                                            value: 3,
-                                            message: "O código de segurança deve ter 3 números",
-                                        },
-                                    })}
-                                    onChange={handleInputCVVChange}
-                                    error={errors.cvv ? true : false}
-                                    helperText={errors.cvv ? errors.cvv?.message : ""}
-                                />
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                        </form>
+                    </FormProvider>
                 </DialogContent>
                 <DialogActions>
                     <Button color="error" variant="contained" onClick={handleClose}>
                         Cancelar
                     </Button>
-                    <Button color="success" variant="contained" onClick={handleSave}>
+                    <Button type="submit" color="success" variant="contained" onClick={handleSave}>
                         Salvar
                     </Button>
                 </DialogActions>
