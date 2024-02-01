@@ -56,7 +56,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
             route: `${base}/cupons`,
         },
         {
-            label: "Submeter",
+            label: "Publicar",
             icon: <SubdirectoryArrowRight />,
             visible: userLevel == UserLevel.AUTHOR,
             route: "/autor/ebook/publicar",
