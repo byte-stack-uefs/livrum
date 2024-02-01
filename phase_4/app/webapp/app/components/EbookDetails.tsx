@@ -42,13 +42,13 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
         </Grid>
         <Grid container xs={12} py={2}>
             <Grid xs={5} id="ebook-cover-container" p={2}>
-                <Image
+                {ebook.cover && (<Image
                     src={ebook.cover}
                     width={width}
                     height={height}
                     alt="Ebook cover"
                     style={{ height: "100%", width: "100%", borderRadius: 30, objectFit: "contain" }}
-                />
+                />)}
             </Grid>
             <Grid container xs={7} p={2}>
                 <Grid xs={12} pt={6}>
@@ -56,7 +56,7 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
                         Descrição
                     </Typography>
                 </Grid>
-                <Grid xs={12} sx={{ color: "textLight.main" }}>
+                <Grid xs={12} sx={{ color: "textLight.main", wordBreak: 'break-all' }}>
                     {ebook.summary}
                 </Grid>
                 <Grid xs={12} container justifyContent="center" mt={4}>
@@ -90,13 +90,13 @@ export default function EbookDetails({ ebook, onAddCart, shouldDisableAddCart }:
                 <Grid xs={3}>
                     <ul style={{ listStyle: "none", padding: 0 }}>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Autor" value={ebook.author} />
+                            <ListItem title="Autor" value={ebook.author ? ebook.author : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
                             <ListItem title="Número de Páginas" value={ebook.pages ? ebook.pages : '-'} />
                         </li>
                         <li style={{ paddingTop: 4, paddingBottom: 4 }}>
-                            <ListItem title="Ano de lançamento" value={ebook.releaseYear} />
+                            <ListItem title="Ano de lançamento" value={ebook.releaseYear ? ebook.releaseYear : '-'} />
                         </li>
                     </ul>
                 </Grid>

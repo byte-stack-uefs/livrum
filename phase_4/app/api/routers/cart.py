@@ -22,7 +22,7 @@ def delete(idEbook: int):
 def deleteAll():
     return {"message": "Delete all ebooks"}
 
-
+# Talvez seja removido
 @router.post("/buy", description="Buy all ebooks in cart")
 def buy():
     return {"message": "Buy all books in cart"}

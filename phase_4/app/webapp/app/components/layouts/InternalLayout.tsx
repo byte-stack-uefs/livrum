@@ -1,7 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import Cookies from "js-cookie";
+import LivrumLink from "../LivrumLink";
 import React, { useState } from "react";
+import { useUser, defaultUser } from "@/app/context";
+import { useRouter } from "next/navigation";
 import AccountHeader from "../AccountHeader";
 import { UserLevel } from "@/app/interfaces/User";
 import LivrumButtonMenu from "../LivrumButtonMenu";
@@ -10,13 +13,14 @@ import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/materia
 import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
-    const name = "Username";
-    const email = "email@gmail.com";
+    const { user, updateUser } = useUser();
+    const router = useRouter();
+
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
-    const [userLevel, setUserLevel] = useState(UserLevel.AUTHOR);
+    const [userLevel, setUserLevel] = useState(user.tipo);
 
-    const base = userLevel == UserLevel.ADMIN ? "/admin" : "/autor";
+    const base = UserLevel.ADMIN ? "/admin" : "/autor";
 
     const buttons: LivrumButtonMenuItems[] = [
         {
@@ -35,7 +39,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
             label: "Obras",
             icon: <LibraryBooks />,
             visible: userLevel == UserLevel.ADMIN,
-            route: `${base}/obras`,
+            route: `${base}/ebooks`,
         },
         {
             label: "Minhas Obras",
@@ -64,7 +68,14 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     ];
 
     function handleLogout() {
-        window.location.replace("/login");
+        Cookies.remove("token");
+
+        if (userLevel == UserLevel.ADMIN) {
+            router.push("/admin/login");
+        } else {
+            router.push("login");
+        }
+        updateUser(defaultUser);
     }
 
     return (
@@ -106,20 +117,20 @@ export default function InternalLayout({ children }: { children: React.ReactNode
                     >
                         <Grid container sx={{ height: "100%" }}>
                             <Grid item xs={12}>
-                                <Link
+                                <LivrumLink
                                     href={userLevel == UserLevel.ADMIN ? "/admin" : "/autor"}
-                                    style={{ display: "flex", justifyContent: "space-evenly", textDecoration: "none" }}
+                                    style={{ display: "flex", justifyContent: "space-evenly" }}
                                 >
                                     <AccountHeader logoScale={0.15} fontSize={32} />
-                                </Link>
+                                </LivrumLink>
                             </Grid>
                             <Grid item xs={12} sx={{ textAlign: "center", paddingY: 1.5 }}>
                                 <Avatar sx={{ margin: "auto", width: 56, height: 56 }} src={avatarSrc} />
                                 <Typography variant="h5" color="darker">
-                                    {name}
+                                    {user.nome}
                                 </Typography>
                                 <Typography variant="body2" color="darker">
-                                    {email}
+                                    {user.email}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>

@@ -7,7 +7,7 @@ export default interface Ebook {
     author: string;
     genre?: string;
     pages?: number;
-    summary: string;
+    summary: string | JSX.Element;
     releaseYear: string;
     languages?: string[];
     isAvailable: boolean;

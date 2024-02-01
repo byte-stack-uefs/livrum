@@ -33,6 +33,6 @@ def update(id: int):
     return {"message": "Coupon updated", "id": id}
 
 
-@router.get("/{idAuthor}", description="Get all author's coupons")
-def getByAuthor(idAuthor: int):
-    return {"message": "Get all author's coupons", "author": idAuthor}
+@router.get("/author/{id}", description="Get all author's coupons")
+def getByAuthor(id: int):
+    return {"message": "Get all author's coupons", "author": id}

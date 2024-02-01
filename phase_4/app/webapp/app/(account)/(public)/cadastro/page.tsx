@@ -343,5 +343,3 @@ const ClientRegister = () => {
 };
 
 export default ClientRegister;
-// tenho que mudar as cores do botao, textfield, tab, texto de termos de uso, grid
-// baixar a biblioteca de estilização da tab

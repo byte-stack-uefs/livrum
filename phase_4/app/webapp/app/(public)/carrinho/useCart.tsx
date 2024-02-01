@@ -3,9 +3,12 @@ import { CartItemType } from "../ebook/[id]/page";
 
 type CartContextType = {
     cartTotalQnt: number;
-    //cartItems: CartItemType[];
-    cartItems: Array<CartItemType>;
+    cartTotalAmount: number;
+    cartItems: CartItemType[];
+    //cartItems: Array<CartItemType>;
     handleAddEbookToCart: (item: CartItemType) => void;
+    handleRemoveEbookFromCart: (item: CartItemType) => void;
+    handleClearCart: () => void;
 };
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -16,6 +19,7 @@ interface Props {
 
 export const CartContextProvider = (props: Props) => {
     const [cartTotalQnt, setCardTotalQnt] = useState(0);
+    const [cartTotalAmount, setCardTotalAmount] = useState(0);
     const [cartItems, setcartItems] = useState<CartItemType[]>([]);
 
     useEffect(() => {
@@ -25,6 +29,27 @@ export const CartContextProvider = (props: Props) => {
 
         setcartItems(cartItems);
     }, []);
+
+    useEffect(() => {
+        const getTotal = () =>{
+            if(cartItems){
+                const {total, qty} = cartItems.reduce((accumulator, item) => {
+                    accumulator.total += item.price;
+                    accumulator.qty += 1;
+    
+                    return accumulator;
+                }, {
+                    total: 0,
+                    qty:0,
+                })
+                setCardTotalQnt(qty)
+                setCardTotalAmount(total)
+            }
+            
+        }
+
+        getTotal()
+    }, [cartItems])
 
     const handleAddEbookToCart = useCallback((item: CartItemType) => {
         setcartItems((prev) => {
@@ -40,10 +65,31 @@ export const CartContextProvider = (props: Props) => {
         });
     }, []);
 
+    const handleRemoveEbookFromCart = useCallback((
+        product: CartItemType
+    ) => {
+        if(cartItems){
+            const filteredProducts = cartItems.filter((item) => {
+                return item.id != product.id
+            })
+            setcartItems(filteredProducts)
+            localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
+        }
+    }, [cartItems])
+
+    const handleClearCart = useCallback(() => {
+        setcartItems([])
+        localStorage.setItem("shopCartItens", JSON.stringify(null));
+        
+    }, [cartItems])
+
     const value = {
         cartTotalQnt,
+        cartTotalAmount,
         cartItems,
         handleAddEbookToCart,
+        handleRemoveEbookFromCart,
+        handleClearCart,
     };
 
     return <CartContext.Provider value={value} {...props} />;

@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-    return;
     if (request.nextUrl.pathname == "/") {
         return;
     }
@@ -24,6 +23,6 @@ export const config = {
          * - _next/image (image optimization files)
          * - favicon.ico (favicon file)
          */
-        "/((?!api|login|admin/login|recuperacao-senha|catalogo|_next/static|_next/image|favicon.ico).*)",
+        "/((?!api|login|admin/login|recuperacao-senha|catalogo|_next/static|_next/image|favicon.ico|ebook|carrinho).*)",
     ],
 };
