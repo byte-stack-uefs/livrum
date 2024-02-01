@@ -2,16 +2,15 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 import Ebook from "@/app/interfaces/Ebook";
-import Snackbar from '@mui/material/Snackbar';
+import Snackbar from "@mui/material/Snackbar";
 import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Container, Typography } from "@mui/material";
 import EbookDetails from "@/app/components/EbookDetails";
-
 
 interface EbookPageParams {
     id: number;
@@ -100,32 +99,27 @@ export default function Page({ params }: { params: EbookPageParams }) {
         }
     }
 
-   
     function handleClickAddCart(item: CartItemType) {
         handleAddEbookToCart(item);
-        setIsAlertVisible(true)
-     }
-    
-     const handleClose = (event, reason) => {
-        if (reason === 'clickaway') {
-          return;
+        setIsAlertVisible(true);
+    }
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
         }
         setIsAlertVisible(false);
-      };
+    };
 
     return (
         <Container maxWidth={false}>
             <Grid container>
-    
                 <EbookDetails ebook={ebook} onAddCart={handleClickAddCart} shouldDisableAddCart={checkIsProductInCart} />
-                {isAlertVisible && (
-                        <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}                        > 
-                            <Alert severity="success" variant="filled" sx={{ width: '100%' }} >
-                            Ebook adicionado ao carrinho
-                           </Alert> 
-                        </Snackbar>
-      
-                )}
+                <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
+                    <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                        Ebook adicionado ao carrinho
+                    </Alert>
+                </Snackbar>
                 <Grid xs={12} container>
                     <Grid xs={12} textAlign="center">
                         <Typography variant="h4" color="dark.main">
@@ -138,7 +132,6 @@ export default function Page({ params }: { params: EbookPageParams }) {
                     </Grid>
                 </Grid>
             </Grid>
-            
         </Container>
     );
 }
