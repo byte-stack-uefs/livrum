@@ -66,8 +66,6 @@ export default function Page() {
 
         const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth;
 
-        console.log(expirationMonth, expirationYear);
-
         try {
             EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
                 .setEnvironment("sandbox") // 'production' or 'sandbox'
