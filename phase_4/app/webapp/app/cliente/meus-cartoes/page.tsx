@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { DateTime } from "luxon";
 import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import Divider from "@/app/components/Divider";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { FormProvider, useForm } from "react-hook-form";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
@@ -15,38 +16,11 @@ import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typograp
 
 export default function Page() {
     const [open, setOpen] = useState(false);
+    const [cvv, setCVV] = useState("");
+    const [numberCard, setNumberCard] = useState("");
+    const [cardHolder, setCardHolder] = useState("");
 
-    const [openModal, setOpenModal] = useState(false);
-
-    try {
-        EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
-            .setEnvironment("sandbox") // 'production' or 'sandbox'
-            .setCreditCardData({
-                brand: "visa",
-                number: "4485785674290087",
-                cvv: "123",
-                expirationMonth: "05",
-                expirationYear: "2029",
-                reuse: false,
-            })
-            .getPaymentToken()
-            .then((data) => {
-                const payment_token = data.payment_token;
-                const card_mask = data.card_mask;
-
-                console.log("payment_token", payment_token);
-                console.log("card_mask", card_mask);
-            })
-            .catch((err) => {
-                console.log("Código: ", err.code);
-                console.log("Nome: ", err.error);
-                console.log("Mensagem: ", err.error_description);
-            });
-    } catch (error) {
-        console.log("Código: ", error.code);
-        console.log("Nome: ", error.error);
-        console.log("Mensagem: ", error.error_description);
-    }
+    const [cardExpiration, setCardExpiration] = React.useState<DateTime | null>(null);
 
     const [creditCards, setCreditCards] = useState([
         {
@@ -72,8 +46,46 @@ export default function Page() {
         },
     ]);
 
-    const [numberCard, setNumberCard] = useState("");
-    const [cvv, setCVV] = useState("");
+    const methods = useForm();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = methods;
+
+    const handleSave = handleSubmit((data) => {});
+
+    const tokenizeCard = () => {
+        try {
+            EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
+                .setEnvironment("sandbox") // 'production' or 'sandbox'
+                .setCreditCardData({
+                    brand: "visa",
+                    number: "4485785674290087",
+                    cvv: "123",
+                    expirationMonth: "05",
+                    expirationYear: "2029",
+                    reuse: false,
+                })
+                .getPaymentToken()
+                .then((data) => {
+                    const payment_token = data.payment_token;
+                    const card_mask = data.card_mask;
+
+                    console.log("payment_token", payment_token);
+                    console.log("card_mask", card_mask);
+                })
+                .catch((err) => {
+                    console.log("Código: ", err.code);
+                    console.log("Nome: ", err.error);
+                    console.log("Mensagem: ", err.error_description);
+                });
+        } catch (error) {
+            console.log("Código: ", error.code);
+            console.log("Nome: ", error.error);
+            console.log("Mensagem: ", error.error_description);
+        }
+    };
 
     const handleInputCardNumberChange: any = (event: { target: { value: string } }) => {
         const inputValue = event.target.value.replace(/[^0-9]/g, "");
@@ -82,6 +94,10 @@ export default function Page() {
     const handleInputCVVChange: any = (event: { target: { value: string } }) => {
         const inputValue = event.target.value.replace(/[^0-9]/g, "");
         setCVV(inputValue);
+    };
+
+    const handleInputCardHolderChange: any = (event: { target: { value: string } }) => {
+        setCardHolder(inputValue);
     };
 
     function handleClose() {
@@ -147,11 +163,11 @@ export default function Page() {
                 <DialogContent>
                     <Grid container spacing={2} sx={{ mt: 1 }}>
                         <Grid xs={12}>
-                            <TextField label={"Nome no Cartão *"} fullWidth size="small" />
+                            <TextField value={cardHolder} onChange={handleInputCardHolderChange} label={"Nome no Cartão *"} fullWidth size="small" />
                         </Grid>
                         <Grid xs={12}>
                             <TextField
-                                label={"Numero do Cartão *"}
+                                label={"Número do Cartão *"}
                                 fullWidth
                                 size="small"
                                 value={numberCard}
@@ -166,10 +182,13 @@ export default function Page() {
                             <Grid xs={6}>
                                 <LocalizationProvider dateAdapter={AdapterLuxon}>
                                     <DatePicker
-                                        defaultValue={DateTime.now()}
                                         label={"Vencimento"}
                                         views={["month", "year"]}
                                         slotProps={{ textField: { size: "small" } }}
+                                        value={cardExpiration}
+                                        onChange={(value) => {
+                                            setCardExpiration(value);
+                                        }}
                                     />
                                 </LocalizationProvider>
                             </Grid>
@@ -193,7 +212,7 @@ export default function Page() {
                     <Button color="error" variant="contained" onClick={handleClose}>
                         Cancelar
                     </Button>
-                    <Button color="success" variant="contained" onClick={handleClose}>
+                    <Button color="success" variant="contained" onClick={handleSave}>
                         Salvar
                     </Button>
                 </DialogActions>
