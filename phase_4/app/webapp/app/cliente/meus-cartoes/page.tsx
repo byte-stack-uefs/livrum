@@ -57,19 +57,27 @@ export default function Page() {
 
     const handleSave = handleSubmit((data) => {
         console.log(data);
+        tokenizeCard();
     });
 
     const tokenizeCard = () => {
+        const expirationMonth = cardExpiration?.month;
+        const expirationYear = cardExpiration?.year;
+
+        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth;
+
+        console.log(expirationMonth, expirationYear);
+
         try {
             EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
                 .setEnvironment("sandbox") // 'production' or 'sandbox'
                 .setCreditCardData({
                     brand: "visa",
-                    number: "4485785674290087",
-                    cvv: "123",
-                    expirationMonth: "05",
-                    expirationYear: "2029",
-                    reuse: false,
+                    number: cardNumber,
+                    cvv: cvv,
+                    expirationMonth: month,
+                    expirationYear: expirationYear + "",
+                    reuse: true,
                 })
                 .getPaymentToken()
                 .then((data) => {
