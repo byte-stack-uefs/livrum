@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import Alert from "@mui/material/Alert";
 import Ebook from "@/app/interfaces/Ebook";
+import Snackbar from "@mui/material/Snackbar";
 import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
@@ -22,6 +25,7 @@ export type CartItemType = {
 };
 
 export default function Page({ params }: { params: EbookPageParams }) {
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
     const { id } = params;
 
     const similars = [
@@ -95,19 +99,27 @@ export default function Page({ params }: { params: EbookPageParams }) {
         }
     }
 
-    function mensagemClick() {
-        <span>Produto adicionado ao carrinho</span>;
-    }
     function handleClickAddCart(item: CartItemType) {
         handleAddEbookToCart(item);
-        mensagemClick();
+        setIsAlertVisible(true);
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setIsAlertVisible(false);
+    };
 
     return (
         <Container maxWidth={false}>
             <Grid container>
                 <EbookDetails ebook={ebook} onAddCart={handleClickAddCart} shouldDisableAddCart={checkIsProductInCart} />
-
+                <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
+                    <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                        Ebook adicionado ao carrinho
+                    </Alert>
+                </Snackbar>
                 <Grid xs={12} container>
                     <Grid xs={12} textAlign="center">
                         <Typography variant="h4" color="dark.main">
