@@ -1,17 +1,16 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+import Alert from '@mui/material/Alert';
 import Ebook from "@/app/interfaces/Ebook";
+import Snackbar from '@mui/material/Snackbar';
 import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Container, Typography } from "@mui/material";
 import EbookDetails from "@/app/components/EbookDetails";
-import { useState } from "react";
-import Snackbar from '@mui/material/Snackbar';
-import Stack from '@mui/material/Stack';
-import Alert from '@mui/material/Alert';
 
 
 interface EbookPageParams {
