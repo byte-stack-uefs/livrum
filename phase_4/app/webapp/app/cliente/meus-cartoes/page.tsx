@@ -272,10 +272,12 @@ export default function Page() {
                                         size="small"
                                         error={errors.cardHolder ? true : false}
                                         helperText={errors.cardHolder ? errors.cardHolder.message : ""}
+                                        disabled={isLoading}
                                     />
                                 </Grid>
                                 <Grid xs={12}>
                                     <TextField
+                                        disabled={isLoading}
                                         label={"Número do Cartão *"}
                                         fullWidth
                                         size="small"
@@ -315,11 +317,9 @@ export default function Page() {
                                                 onChange={(value) => {
                                                     setCardExpiration(value);
                                                 }}
+                                                disabled={isLoading}
                                             />
                                         </LocalizationProvider>
-                                        {/* <Typography variant="caption" color="error">
-                                    {errors.cardExpiration ? errors.cardExpiration.message : ""}
-                                </Typography> */}
                                     </Grid>
                                     <Grid xs={6} pl={2}>
                                         <TextField
@@ -348,6 +348,7 @@ export default function Page() {
                                             onChange={handleInputCVVChange}
                                             error={errors.cvv ? true : false}
                                             helperText={errors.cvv ? errors.cvv?.message : ""}
+                                            disabled={isLoading}
                                         />
                                     </Grid>
                                 </Grid>
