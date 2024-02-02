@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
 import { DateTime } from "luxon";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import Divider from "@/app/components/Divider";
 import TextField from "@mui/material/TextField";
+import useRequest from "@/app/services/requester";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { FormProvider, useForm } from "react-hook-form";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
-import useRequest from "@/app/services/requester";
+import { Alert, Box, Dialog, DialogActions, DialogContent, DialogTitle, Snackbar, Stack, Typography } from "@mui/material";
 
 export default function Page() {
     const [open, setOpen] = useState(false);
@@ -25,6 +25,10 @@ export default function Page() {
     const [cardToken, setCardToken] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
+    const [cardCreatedSuccessfully, setCardCreatedSuccessfully] = useState(false);
+
+    const [creationError, setCreationError] = useState("");
+    const [hasCreationFailed, setHasCreationFailed] = useState(false);
 
     const [creditCards, setCreditCards] = useState([
         {
@@ -61,6 +65,8 @@ export default function Page() {
 
     const handleSave = handleSubmit(async (data) => {
         setIsLoading(true);
+        setHasCreationFailed(false);
+        setCreationError("");
 
         console.log(data);
         const token = await tokenizeCard();
@@ -79,8 +85,22 @@ export default function Page() {
                 cardNumber: cardNumber.slice(12),
                 expiryDate: cardExpiration?.toFormat("yyyy-LL"),
             })
-            .then((response) => {})
-            .catch((err) => {})
+            .then((response) => {
+                setCardCreatedSuccessfully(true);
+                setOpen(false);
+                setCVV("");
+                setCardHolder("");
+                setCardNumber("");
+                setCardToken("");
+                setCardExpiration(null);
+
+                setHasCreationFailed(false);
+                setCreationError("");
+            })
+            .catch((err) => {
+                setHasCreationFailed(true);
+                setCreationError(err.response.data.detail);
+            })
             .finally(() => {
                 setIsLoading(false);
             });
@@ -168,6 +188,17 @@ export default function Page() {
 
     return (
         <Box sx={{ backgroundColor: "secondary.main", borderRadius: 5 }}>
+            <Snackbar
+                open={cardCreatedSuccessfully}
+                autoHideDuration={5000}
+                onClose={() => {
+                    setCardCreatedSuccessfully(false);
+                }}
+            >
+                <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                    Cartão cadastrado com sucesso
+                </Alert>
+            </Snackbar>
             <Grid container>
                 <Grid xs={12} p={2}>
                     <Typography variant="h4" fontWeight="bold" color="dark.main">
@@ -320,6 +351,13 @@ export default function Page() {
                                         />
                                     </Grid>
                                 </Grid>
+                                {hasCreationFailed && (
+                                    <Grid xs={12}>
+                                        <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+                                            {creationError}
+                                        </Alert>
+                                    </Grid>
+                                )}
                             </Grid>
                         </form>
                     </FormProvider>
