@@ -13,7 +13,7 @@ const useRequest = () => {
     const requester = axios.create({
         baseURL: 'http://localhost:3000',
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
             ...h
         },
         withCredentials: true

@@ -13,6 +13,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import useRequest from "@/app/services/requester";
 
 export default function Page() {
     const [open, setOpen] = useState(false);
@@ -21,6 +22,9 @@ export default function Page() {
     const [cardHolder, setCardHolder] = useState("");
 
     const [cardExpiration, setCardExpiration] = React.useState<DateTime | null>(null);
+    const [cardToken, setCardToken] = useState("");
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [creditCards, setCreditCards] = useState([
         {
@@ -53,24 +57,80 @@ export default function Page() {
         formState: { errors },
     } = methods;
 
-    console.log(errors);
+    const requester = useRequest();
 
-    const handleSave = handleSubmit((data) => {
+    const handleSave = handleSubmit(async (data) => {
+        setIsLoading(true);
+
         console.log(data);
-        tokenizeCard();
+        const token = await tokenizeCard();
+
+        if (!token) {
+            return;
+        }
+
+        setCardToken(token);
+
+        requester
+            .post("/credit-card", {
+                cvv: cvv,
+                token: cardToken,
+                namePrinted: cardHolder,
+                cardNumber: cardNumber.slice(12),
+                expiryDate: cardExpiration?.toFormat("yyyy-LL"),
+            })
+            .then((response) => {})
+            .catch((err) => {})
+            .finally(() => {
+                setIsLoading(false);
+            });
     });
 
-    const tokenizeCard = () => {
+    const getBrand = () => {
+        return new Promise((resolve, reject) => {
+            try {
+                EfiJs.CreditCard.setCardNumber(cardNumber)
+                    .verifyCardBrand()
+                    .then((brand) => {
+                        if (brand !== "undefined") {
+                            resolve(brand);
+                        } else {
+                            reject("Não foi possível identificar a bandeira do cartão");
+                        }
+                    })
+                    .catch((err) => {
+                        reject(err.error_description);
+                    });
+            } catch (error) {
+                reject(error.error_description);
+            }
+        });
+    };
+
+    const tokenizeCard = async () => {
         const expirationMonth = cardExpiration?.month;
         const expirationYear = cardExpiration?.year;
 
         const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth;
 
+        const brand = await getBrand()
+            .then((response) => {
+                return response;
+            })
+            .catch((err) => {
+                // Tratar o erro aqui dentro
+                return false;
+            });
+
+        if (!brand) {
+            return false;
+        }
+
         try {
-            EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
+            return EfiJs.CreditCard.setAccount("49c8fb5b596a53f8a7da4f02b1a18bc5")
                 .setEnvironment("sandbox") // 'production' or 'sandbox'
                 .setCreditCardData({
-                    brand: "visa",
+                    brand: brand,
                     number: cardNumber,
                     cvv: cvv,
                     expirationMonth: month,
@@ -79,21 +139,13 @@ export default function Page() {
                 })
                 .getPaymentToken()
                 .then((data) => {
-                    const payment_token = data.payment_token;
-                    const card_mask = data.card_mask;
-
-                    console.log("payment_token", payment_token);
-                    console.log("card_mask", card_mask);
+                    return data.payment_token;
                 })
                 .catch((err) => {
-                    console.log("Código: ", err.code);
-                    console.log("Nome: ", err.error);
-                    console.log("Mensagem: ", err.error_description);
+                    return false;
                 });
         } catch (error) {
-            console.log("Código: ", error.code);
-            console.log("Nome: ", error.error);
-            console.log("Mensagem: ", error.error_description);
+            return false;
         }
     };
 
@@ -273,11 +325,11 @@ export default function Page() {
                     </FormProvider>
                 </DialogContent>
                 <DialogActions>
-                    <Button color="error" variant="contained" onClick={handleClose}>
+                    <Button disabled={isLoading} color="error" variant="contained" onClick={handleClose}>
                         Cancelar
                     </Button>
-                    <Button type="submit" color="success" variant="contained" onClick={handleSave}>
-                        Salvar
+                    <Button disabled={isLoading} type="submit" color="success" variant="contained" onClick={handleSave}>
+                        {isLoading ? "Carregando" : "Salvar"}
                     </Button>
                 </DialogActions>
             </Dialog>
