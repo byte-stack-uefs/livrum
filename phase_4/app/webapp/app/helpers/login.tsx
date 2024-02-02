@@ -18,12 +18,19 @@ export function login(email: string, password: string) {
     const requester = useRequest();
 
     return requester
-        .post("/auth", {
-            username: email,
-            password: password,
-        })
+        .post(
+            "/auth",
+            {
+                username: email,
+                password: password,
+            },
+            {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+            }
+        )
         .then((response) => {
-
             return new Promise((resolve, reject) => {
                 resolve(response);
             });
