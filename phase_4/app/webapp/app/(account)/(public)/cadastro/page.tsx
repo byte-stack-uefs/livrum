@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import {
     Tab,
     Tabs,
@@ -21,8 +21,10 @@ import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
-
+import { UserAttributes, AutorAttributes,UserLevel} from "@/app/interfaces/User";
 const ClientRegister = () => {
+
+    const [userType, setUserType] = useState(UserLevel.CUSTOMER);
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [value, setValue] = useState(0);
@@ -49,20 +51,17 @@ const ClientRegister = () => {
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-        // Verificar correspondência de senhas quando a senha é alterada
         setPasswordsMatch(e.target.value === passwordConfirm);
     };
 
     const handlePasswordConfirmChange = (e) => {
         setPasswordConfirm(e.target.value);
-        // Verificar correspondência de senhas quando a senha de confirmação é alterada
+       
         setPasswordsMatch(e.target.value === password);
     };
     const handleOpen = () => {
         setOpenModal(true);
     };
-
-    // Função para fechar o modal
     const handleClose = () => {
         setOpenModal(false);
     };
@@ -80,23 +79,50 @@ const ClientRegister = () => {
     };
 
     const handleSubmitClient = (event) => {
-        event.preventDefault();
-    };
 
-    return (
-        <>
-            <Grid container>
-                <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
-                    <Tabs
-                        value={value}
-                        variant="fullWidth"
-                        scrollButtons={false}
-                        onChange={handleChange}
-                        centered
-                        TabIndicatorProps={{ style: { display: "none" } }}
-                    >
-                        <Tab label="Cliente" />
-                        <Tab label="Autor" />
+                event.preventDefault();
+                if (userType === UserLevel.CUSTOMER){
+                    const [user, setUser] = useState<UserAttributes>({
+                        cpf: cpf,
+                        name: name,
+                        email: email,
+                        address: address,
+                        birthday: birthday, 
+                        password: password,
+                        telephone: telephone,
+                        type: userType
+                      });
+                
+                }else{
+                    const [user, setUser] = useState<AutorAttributes>({
+                        cpf: cpf,
+                        name: name,
+                        email: email,
+                        address: address,
+                        birthday: birthday, 
+                        password: password,
+                        telephone: telephone,
+                        type: userType,
+                        agencyNumber: agencyNumber,
+                        accountNumber: accountNumber,
+                        operationNumber: operationNumber
+                      });
+                }
+
+            return (
+                <>
+                    <Grid container>
+                        <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
+                            <Tabs
+                                value={value}
+                                variant="fullWidth"
+                                scrollButtons={false}
+                                onChange={handleChange}
+                                centered
+                                TabIndicatorProps={{ style: { display: "none" } }}
+                            >
+                                <Tab label="Cliente"   onClick={()=>setUserType(UserLevel.CUSTOMER)}/>
+                                <Tab label="Autor"     onClick={()=>setUserType(UserLevel.AUTHOR)}/>
                     </Tabs>
                     <form onSubmit={handleSubmitClient}>
                         <Grid
