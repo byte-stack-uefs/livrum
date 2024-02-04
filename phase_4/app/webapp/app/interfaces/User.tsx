@@ -12,6 +12,7 @@ export interface UserAttributes {
     password: any;
     telephone: any;
     type: UserLevel;
+    status:any
 }
 export interface AutorAttributes extends UserAttributes{
     agencyNumber: any;

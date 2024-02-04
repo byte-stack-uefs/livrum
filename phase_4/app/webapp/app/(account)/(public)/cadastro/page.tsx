@@ -22,8 +22,10 @@ import Grid from "@mui/material/Unstable_Grid2";
 
 import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
 import { UserAttributes, AutorAttributes,UserLevel} from "@/app/interfaces/User";
+import { EnumUserStatus } from "@/app/User";
 const ClientRegister = () => {
-
+    
+    const [userStatus,setUserStatus]= useState(EnumUserStatus.CREATED);
     const [userType, setUserType] = useState(UserLevel.CUSTOMER);
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
@@ -82,6 +84,7 @@ const ClientRegister = () => {
 
                 event.preventDefault();
                 if (userType === UserLevel.CUSTOMER){
+                    setUserStatus(EnumUserStatus.CREATED);
                     const [user, setUser] = useState<UserAttributes>({
                         cpf: cpf,
                         name: name,
@@ -90,10 +93,12 @@ const ClientRegister = () => {
                         birthday: birthday, 
                         password: password,
                         telephone: telephone,
-                        type: userType
+                        type: userType,
+                        status:userStatus
                       });
                 
                 }else{
+                    setUserStatus(EnumUserStatus.PENDING);
                     const [user, setUser] = useState<AutorAttributes>({
                         cpf: cpf,
                         name: name,
@@ -105,7 +110,8 @@ const ClientRegister = () => {
                         type: userType,
                         agencyNumber: agencyNumber,
                         accountNumber: accountNumber,
-                        operationNumber: operationNumber
+                        operationNumber: operationNumber,
+                        status:userStatus
                       });
                 }
 
