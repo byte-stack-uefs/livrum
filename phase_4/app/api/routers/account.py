@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from fastapi import APIRouter, Depends
 from typing import Annotated
 from dependencies import security
@@ -22,8 +23,9 @@ def logout():
 def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
     return {"message": "uau"}
 
-@router.post("/cliente")
+@router.post("/create")
 def create_user(new_user: UserBase or UserAutor):
     response = UserService.create_user(new_user)
-    if response:
-        return 
+    if not response:
+        raise HTTPException(500, "Não foi possível cadastrar o usuario")
+
