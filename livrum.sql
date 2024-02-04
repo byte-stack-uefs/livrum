@@ -141,7 +141,7 @@ DROP TABLE IF EXISTS `cliente`;
 /*!50503 SET character_set_client = utf8mb4 */
 ;
 CREATE TABLE `cliente` (
-    `idUsuario` int NOT NULL AUTO_INCREMENT,
+    `idUsuario` int NOT NULL,
     `cpf` varchar(11) NOT NULL,
     `dataNascimento` date NOT NULL,
     `endereco` varchar(255) DEFAULT NULL,
@@ -374,7 +374,7 @@ VALUES(
         1,
         'Livrum Admin',
         'admin@livrum.com.br',
-        '$2a$12$XxaiyU6Cgz5jnSfFCPSXpewkpGdoA5LklYieiBPzN6gveeki32p4W',
+        '$2a$12$pf0VmXpOunFCdQUdgwVssu/plIMUgmfURDZ9HfgVPg9IQ0M.y9eMS',
         'active',
         'ADM'
     );
