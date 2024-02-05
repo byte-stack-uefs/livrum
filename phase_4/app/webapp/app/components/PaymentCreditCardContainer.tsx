@@ -17,9 +17,16 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
     useEffect(() => {
 
         requester.get('/credit-card').then(response => {
-            setCards(response.data)
+            setCards(response.data);
+            if (cards != null) {
+                console.log('entrou')
+                setCard(cards[0]);
+            }
         })
-            .catch(err => { })
+            .catch(err => { }).finally(() => {
+                setCards([{}])
+                console.log(cards);
+            })
     }, [])
 
     if (cards == null) {

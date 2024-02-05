@@ -88,16 +88,6 @@ export default function Page() {
         },
     ];
 
-    function getCurrentTab(tab: number) {
-        if (tab == 0) {
-            return <PaymentCreditCardContainer onConfirm={() => {
-                setShowSuccessModal(true)
-            }} />
-        } else {
-            return <PixContainer />
-        }
-    }
-
     return (
         <Container maxWidth="md" sx={{ mt: 3 }}>
 
@@ -196,7 +186,16 @@ export default function Page() {
                     </Grid>
                     <Grid item xs={12}>
                         <Box sx={{ border: '1px solid #e5e5e5' }} p={2} borderRadius={2}>
-                            {getCurrentTab(tab)}
+
+                            <Box sx={{ display: tab == 0 ? 'block' : 'none' }}>
+                                <PaymentCreditCardContainer onConfirm={() => {
+                                    setShowSuccessModal(true)
+                                }} />
+                            </Box>
+
+                            <Box sx={{ display: tab == 1 ? 'block' : 'none' }}>
+                                <PixContainer />
+                            </Box>
                         </Box>
                     </Grid>
                 </Grid>
