@@ -52,6 +52,12 @@ export default function Page() {
     const [discount, setDiscount] = useState(0);
     const [subtotal, setSubtotal] = useState(50);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [tab, setTab] = useState(0);
+
+    useEffect(() => {
+        const calculate = subtotal - discount;
+        setTotal(calculate < 0 ? 0 : calculate);
+    }, [subtotal, discount]);
 
     const books = [
         {
@@ -69,13 +75,6 @@ export default function Page() {
             price: 25.90
         }
     ];
-
-    useEffect(() => {
-        const calculate = subtotal - discount;
-        setTotal(calculate < 0 ? 0 : calculate);
-    }, [subtotal, discount]);
-
-    const [tab, setTab] = useState(0);
 
     const tabItems = [
         {
