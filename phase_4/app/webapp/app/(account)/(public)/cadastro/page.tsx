@@ -101,14 +101,25 @@ const ClientRegister = () => {
                 status: userStatus
             });
             requester
-                .post("/credit-card", {
-                
+                .post("/account/create", {
+                    user 
                 })
                 .then((response) => {
-                    
+                    setAccountNumber('');
+                    setAddress('');
+                    setCpf('');
+                    setName('');
+                    setEmail('');
+                    setBirthday('');
+                    setPassword('');
+                    setTelephone('');
+                    setAgencyNumber('');
+                    setPasswordConfirm('');
+                    setOperationNumber('');
                 })
                 .catch((err) => {
-                    
+                    setHasCreationFailed(true);
+                    setCreationError(err.response.data.detail);  
                 })
                 .finally(() => {
                     
@@ -136,13 +147,6 @@ const ClientRegister = () => {
                     user 
                 })
                 .then((response) => {
-                    
-                })
-                .catch((err) => {
-                    setHasCreationFailed(true);
-                    setCreationError(err.response.data.detail);
-                })
-                .finally(() => {
                     setAccountNumber('');
                     setAddress('');
                     setCpf('');
@@ -153,7 +157,14 @@ const ClientRegister = () => {
                     setTelephone('');
                     setAgencyNumber('');
                     setPasswordConfirm('');
-                    setOperationNumber('');
+                    setOperationNumber(''); 
+                })
+                .catch((err) => {
+                    setHasCreationFailed(true);
+                    setCreationError(err.response.data.detail);
+                })
+                .finally(() => {
+                   
                 });
         }
 
