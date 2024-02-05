@@ -124,7 +124,7 @@ export default function Page() {
         const expirationMonth = cardExpiration?.month;
         const expirationYear = cardExpiration?.year;
 
-        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth;
+        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth + "";
 
         const brand = await getBrand()
             .then((response) => {
