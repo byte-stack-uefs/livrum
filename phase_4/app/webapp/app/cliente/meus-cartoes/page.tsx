@@ -34,12 +34,7 @@ export default function Page() {
     const [creditCards, setCreditCards] = useState<CreditCard[]>([]);
 
     useEffect(() => {
-        requester.get('/credit-card').then(response => {
-            setCreditCards(prev => {
-                return response.data;
-            });
-        })
-            .catch(err => { })
+        getCreditCards();
     }, [])
 
     const methods = useForm();
@@ -50,6 +45,15 @@ export default function Page() {
     } = methods;
 
     const requester = useRequest();
+
+    const getCreditCards = () => {
+        requester.get('/credit-card').then(response => {
+            setCreditCards(prev => {
+                return response.data;
+            });
+        })
+            .catch(err => { })
+    }
 
     const handleSave = handleSubmit(async (data) => {
         setIsLoading(true);
@@ -83,6 +87,8 @@ export default function Page() {
 
                 setHasCreationFailed(false);
                 setCreationError("");
+
+                getCreditCards();
             })
             .catch((err) => {
                 setHasCreationFailed(true);
@@ -209,7 +215,10 @@ export default function Page() {
                             </Grid>
 
                             <Grid xs={12} container mt={2}>
-                                <Stack direction="column" width="100%" divider={<Divider width="85%" height={2} style={{ margin: "auto" }} />}>
+
+                                {creditCards == null || creditCards.length == 0 ? (<Alert sx={{ width: '100%' }} severity="warning" variant="filled">
+                                    Nenhum cartão de crédito cadastrado
+                                </Alert>) : (<Stack direction="column" width="100%" divider={<Divider width="85%" height={2} style={{ margin: "auto" }} />}>
                                     {creditCards.map((creditcard) => (
                                         <Grid key={creditcard.idCard} xs={12} sx={{ backgroundColor: "white" }} py={2}>
                                             <Grid container>
@@ -229,7 +238,9 @@ export default function Page() {
                                             </Grid>
                                         </Grid>
                                     ))}
-                                </Stack>
+                                </Stack>)}
+
+
                             </Grid>
                         </Grid>
                     </Box>
