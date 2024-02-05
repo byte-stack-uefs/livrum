@@ -1,8 +1,11 @@
 from database.database import DB
 from models.user import User, UserType, UserDAO
+from passlib.context import CryptContext
 
+passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class UserService:
+
     def _convertDAO(self, item: dict) -> UserDAO:
         return UserDAO(**item)
 
@@ -58,7 +61,7 @@ class UserService:
                     [
                         user.nome,
                         user.email,
-                        user.senha,
+                        get_password_hash(user.senha),
                         user.status,
                         user.tipo,
                         idUser,
@@ -66,4 +69,7 @@ class UserService:
                 )
             except Exception as e:
                 print(f"Erro ao atualizar o usuário: {e}")
-                db.rollback()
+
+
+def get_password_hash(plain: str) -> str:
+    return passwordContext.hash(plain)

@@ -1,4 +1,6 @@
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel, EmailStr
+from fastapi import Query
+from typing_extensions import Annotated
 
 class Customer:
     
@@ -19,8 +21,8 @@ class Customer:
 
 
 class CustomerUpdateForm(BaseModel):
-
-    telefone: str
+    
+    telefone: Annotated[str, Query(pattern=r"^\(\d{2}\) 9\d{4}-\d{4}$", examples=["(12) 94567-8901"])]
     email: EmailStr
     senha: str
     endereco: str

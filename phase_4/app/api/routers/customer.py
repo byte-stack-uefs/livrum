@@ -31,6 +31,7 @@ def getHistory():
 
 @router.patch("/{id}")
 def update(id:int, customerForm:CustomerUpdateForm, user: Annotated[User, Depends(security.get_current_active_user)]):
+    
     serviceCustomer = CustomerService()
     serviceUser = UserService()
 
@@ -40,9 +41,9 @@ def update(id:int, customerForm:CustomerUpdateForm, user: Annotated[User, Depend
     if (customer or user) is None:
         raise HTTPException(404, "Cliente não encontrado")
 
-    user.updateAttributes(customerForm.email,costumerForm.senha)
-    customer.updateAttributes(customerForm.endereco,costumerForm.telefone)
+    user.updateAttributes(customerForm.email,customerForm.senha)
+    customer.updateAttributes(customerForm.endereco,customerForm.telefone)
 
-    sucess_user = service.updateUserById(id,user)
-    success_customer = service.updateCustomerById(id,Customer)
+    sucess_user = serviceUser.updateUserById(id,user)
+    success_customer = serviceCustomer.updateCustomerById(id,customer)
 
