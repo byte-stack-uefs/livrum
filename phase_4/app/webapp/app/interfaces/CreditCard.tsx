@@ -1,4 +1,4 @@
-export interface Credit {
+export interface CreditCard {
     id: number;
     num: number;
     expiryDate: string;

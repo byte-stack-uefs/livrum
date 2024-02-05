@@ -1,20 +1,20 @@
 "use client";
 import Divider from "./Divider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 
 export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => void }) {
 
-    const cards = [
-        {
-            id: 4,
-            number: '8922'
-        },
-        {
-            id: 15,
-            number: '4450'
-        }
-    ]
+    useEffect(() => {
+        console.log("mounted")
+    }, [])
+
+    const [cards, setCards] = useState(null);
+
+    if (cards == null) {
+        return <></>;
+    }
+
     const [card, setCard] = useState(cards[0]);
     const [selectedCard, setSelectedCard] = useState(4);
     const [selectedInstallment, setSelectedInstallment] = useState(1);
