@@ -1,7 +1,8 @@
 "use client";
 import Divider from "./Divider";
 import { useEffect, useState } from "react";
-import { Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { CreditCard } from "../interfaces/CreditCard";
 
 export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => void }) {
 
@@ -9,10 +10,10 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
         console.log("mounted")
     }, [])
 
-    const [cards, setCards] = useState(null);
+    const [cards, setCards] = useState<CreditCard[] | null>(null);
 
     if (cards == null) {
-        return <></>;
+        return <CircularProgress />;
     }
 
     const [card, setCard] = useState(cards[0]);
