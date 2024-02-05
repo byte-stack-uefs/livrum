@@ -48,3 +48,22 @@ class UserService:
 
         data = map(self._convertDAO, data)
         return list(data)
+
+    def updateUserById(self, idUser: int, user: User):
+        
+        with DB() as db:
+            try:
+                db.execute(
+                    "UPDATE usuario SET nome = %s, email = %s, senha = %s, status = %s, tipo = %s WHERE idUsuario = %s",
+                    [
+                        user.nome,
+                        user.email,
+                        user.senha,
+                        user.status,
+                        user.tipo,
+                        idUser,
+                    ]
+                )
+            except Exception as e:
+                print(f"Erro ao atualizar o usuário: {e}")
+                db.rollback()

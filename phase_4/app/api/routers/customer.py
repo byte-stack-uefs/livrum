@@ -1,9 +1,9 @@
 from typing import Annotated
 from dependencies import security
 from models.user import User, UserType
-from models.costumer import CostumerUpdateForm, Costumer
+from models.customer import CustomerUpdateForm, Customer
 from fastapi import APIRouter, Depends, HTTPException
-from services.CostumerService import CostumerService
+from services.CustomerService import CustomerService
 from services.UserService import UserService
 
 router = APIRouter(prefix="/customer", tags=["Customer"])
@@ -30,14 +30,19 @@ def getHistory():
     return {"message": "Get transaction history made by a client"}
 
 @router.patch("/{id}")
-def update(id:int, costumer:CostumerUpdateForm, user: Annotated[User, Depends(security.get_current_active_user)]):
-    serviceCostumer = CostumerService()
+def update(id:int, customerForm:CustomerUpdateForm, user: Annotated[User, Depends(security.get_current_active_user)]):
+    serviceCustomer = CustomerService()
     serviceUser = UserService()
-    user = serviceUser.findUserById
-    costumer = serviceCostumer.findCostumerById(id)
 
-    if (costumer or user) is None:
+    user = serviceUser.findUserById(id)
+    customer = serviceCustomer.findCustomerById(id)
+
+    if (customer or user) is None:
         raise HTTPException(404, "Cliente não encontrado")
 
-    success = service.accountUpdate(costumer)
+    user.updateAttributes(customerForm.email,costumerForm.senha)
+    customer.updateAttributes(customerForm.endereco,costumerForm.telefone)
+
+    sucess_user = service.updateUserById(id,user)
+    success_customer = service.updateCustomerById(id,Customer)
 

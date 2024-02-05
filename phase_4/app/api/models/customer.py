@@ -1,6 +1,7 @@
 from pydantic import BaseModel, EmailStr, constr
 
-class Costumer:
+class Customer:
+    
     def __init__(self, **kwargs):
         self.idUsuario = kwargs.get("idUsuario")
         self.cpf = kwargs.get("cpf")
@@ -8,11 +9,20 @@ class Costumer:
         self.endereco: UserStatus = kwargs.get("endereco")
         self.telefone = kwargs.get("telefone")
 
+    def updateAttributes(self, endereco, telefone):
+
+        if endereco != self.endereco:
+            self.endereco = endereco
+
+        if telefone != self.telefone:
+            self.telefone = telefone
+
+
 class CustomerUpdateForm(BaseModel):
 
-    telefone: constr(regex=r'^\(\d{2}\)\s\d{4,5}-\d{4}$')  # Máscara para telefone (ex: (99) 12345-6789)
+    telefone: str
     email: EmailStr
-    senha: constr(min_length=8)  # Exemplo mínimo de comprimento da senha
+    senha: str
     endereco: str
 
 
