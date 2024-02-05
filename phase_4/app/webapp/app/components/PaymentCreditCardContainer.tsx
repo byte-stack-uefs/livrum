@@ -17,16 +17,22 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
     useEffect(() => {
 
         requester.get('/credit-card').then(response => {
-            setCards(response.data);
-            if (cards != null) {
-                console.log('entrou')
-                setCard(cards[0]);
-            }
+            setCards(prev => {
+
+                let cs = response.data;
+
+                if (cs.length > 0) {
+
+                    setCard(cs[0]);
+                    setSelectedCard(cs[0].idCard);
+                }
+                return cs;
+
+            });
         })
-            .catch(err => { }).finally(() => {
-                setCards([{}])
-                console.log(cards);
-            })
+            .catch(err => { })
+
+
     }, [])
 
     if (cards == null) {
@@ -46,7 +52,7 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
     }
 
     function getContent() {
-        if (card == null) {
+        if (cards == null || card == null) {
             return <Alert severity="error" variant="filled">
                 Nenhum cartão de crédito encontrado.
             </Alert>
@@ -59,7 +65,7 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
                         Cartão de Crédito &ensp;
                     </Typography>
                     <Typography display="inline" variant="subtitle2" color="textLight.main">
-                        **** **** **** {card?.number}
+                        **** **** **** {card?.cardNumber}
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -74,7 +80,7 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
                             size="small"
                         >
                             {cards.map(e => {
-                                return <MenuItem key={e.id} value={e.id}>final {e.number}</MenuItem>
+                                return <MenuItem key={e.idCard} value={e.idCard}>final {e.cardNumber}</MenuItem>
                             })}
                         </Select>
                     </FormControl>

@@ -1,14 +1,15 @@
 "use client";
 
 import { DateTime } from "luxon";
-import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import Divider from "@/app/components/Divider";
 import TextField from "@mui/material/TextField";
 import useRequest from "@/app/services/requester";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { FormProvider, useForm } from "react-hook-form";
+import { CreditCard } from "@/app/interfaces/CreditCard";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
@@ -30,29 +31,16 @@ export default function Page() {
     const [creationError, setCreationError] = useState("");
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
 
-    const [creditCards, setCreditCards] = useState([
-        {
-            id: 0,
-            cardNumber: "**** **** **** 1234",
-            expiryDate: "11/2030",
-            cvv: 110,
-            name: "Alguem da Silva",
-        },
-        {
-            id: 1,
-            cardNumber: "**** **** **** 4321",
-            expiryDate: "11/2040",
-            cvv: 852,
-            name: "Alguem dos Santos",
-        },
-        {
-            id: 2,
-            cardNumber: "**** **** **** 4567",
-            expiryDate: "11/2035",
-            cvv: 951,
-            name: "Alguem de Jesus",
-        },
-    ]);
+    const [creditCards, setCreditCards] = useState<CreditCard[]>([]);
+
+    useEffect(() => {
+        requester.get('/credit-card').then(response => {
+            setCreditCards(prev => {
+                return response.data;
+            });
+        })
+            .catch(err => { })
+    }, [])
 
     const methods = useForm();
     const {
@@ -223,15 +211,15 @@ export default function Page() {
                             <Grid xs={12} container mt={2}>
                                 <Stack direction="column" width="100%" divider={<Divider width="85%" height={2} style={{ margin: "auto" }} />}>
                                     {creditCards.map((creditcard) => (
-                                        <Grid key={creditcard.id} xs={12} sx={{ backgroundColor: "white" }} py={2}>
+                                        <Grid key={creditcard.idCard} xs={12} sx={{ backgroundColor: "white" }} py={2}>
                                             <Grid container>
                                                 <Grid xs={4} textAlign="center">
                                                     <CreditCardIcon color="dark" sx={{ fontSize: 80 }} />
                                                 </Grid>
                                                 <Grid xs={4}>
-                                                    <Typography variant="body1">{creditcard.name}</Typography>
+                                                    <Typography variant="body1">{creditcard.namePrinted}</Typography>
                                                     <Typography variant="body2">Válido até {creditcard.expiryDate}</Typography>
-                                                    <Typography>{creditcard.cardNumber}</Typography>
+                                                    <Typography>**** **** **** {creditcard.cardNumber}</Typography>
                                                 </Grid>
                                                 <Grid xs={4} textAlign="right">
                                                     <Button variant="contained" color="error">
