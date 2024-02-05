@@ -1,7 +1,7 @@
 export interface CreditCard {
-    id: number;
-    num: number;
+    idCard: number;
+    cardNumber: number;
     expiryDate: string;
-    cvc: number;
-    name: string;
+    cvv: number;
+    namePrinted: string;
 }

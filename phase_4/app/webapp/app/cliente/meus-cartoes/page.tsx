@@ -33,23 +33,23 @@ export default function Page() {
     const [creditCards, setCreditCards] = useState([
         {
             id: 0,
-            num: "**** **** **** 1234",
+            cardNumber: "**** **** **** 1234",
             expiryDate: "11/2030",
-            cvc: 110,
+            cvv: 110,
             name: "Alguem da Silva",
         },
         {
             id: 1,
-            num: "**** **** **** 4321",
+            cardNumber: "**** **** **** 4321",
             expiryDate: "11/2040",
-            cvc: 852,
+            cvv: 852,
             name: "Alguem dos Santos",
         },
         {
             id: 2,
-            num: "**** **** **** 4567",
+            cardNumber: "**** **** **** 4567",
             expiryDate: "11/2035",
-            cvc: 951,
+            cvv: 951,
             name: "Alguem de Jesus",
         },
     ]);
@@ -68,7 +68,6 @@ export default function Page() {
         setHasCreationFailed(false);
         setCreationError("");
 
-        console.log(data);
         const token = await tokenizeCard();
 
         if (!token) {
@@ -232,7 +231,7 @@ export default function Page() {
                                                 <Grid xs={4}>
                                                     <Typography variant="body1">{creditcard.name}</Typography>
                                                     <Typography variant="body2">Válido até {creditcard.expiryDate}</Typography>
-                                                    <Typography>{creditcard.num}</Typography>
+                                                    <Typography>{creditcard.cardNumber}</Typography>
                                                 </Grid>
                                                 <Grid xs={4} textAlign="right">
                                                     <Button variant="contained" color="error">

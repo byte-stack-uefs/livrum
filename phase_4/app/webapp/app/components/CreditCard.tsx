@@ -8,7 +8,7 @@ export default function CreditCard(credit: CreditCard){
     return (
         <Card>
             <CreditCardIcon color="primary" ></CreditCardIcon>
-            <Typography>{credit.num}</Typography>
+            <Typography>{credit.cardNumber}</Typography>
             <Typography>{credit.expiryDate}</Typography>
             <Button variant="contained" color="error">Delete</Button>
         </Card>
