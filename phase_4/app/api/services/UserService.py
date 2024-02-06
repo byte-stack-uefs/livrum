@@ -52,7 +52,7 @@ class UserService:
         data = map(self._convertDAO, data)
         return list(data)
 
-    def updateUserById(self, idUser: int, user: User):
+    def updateUserById(self, id: int, user: User):
         
         with DB() as db:
             try:
@@ -73,3 +73,4 @@ class UserService:
 
 def get_password_hash(plain: str) -> str:
     return passwordContext.hash(plain)
+

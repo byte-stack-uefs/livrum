@@ -1,5 +1,5 @@
 from database.database import DB
-from models.customer import Customer,CustomerUpdateForm
+from models.customer import Customer
 
 class CustomerService:
 
@@ -14,7 +14,7 @@ class CustomerService:
 
         return customer
 
-    def updateCustomerById(self, idCustomer: int, customer: Customer):
+    def updateCustomerById(self, id: int, customer: Customer):
         with DB() as db:
             try:
                 db.execute(
@@ -24,7 +24,7 @@ class CustomerService:
                     customer.dataNascimento,
                     customer.telefone,
                     customer.endereco,
-                    idCustomer,
+                    id,
                 ]
             )
             except Exception as e:

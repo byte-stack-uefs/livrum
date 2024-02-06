@@ -10,15 +10,6 @@ class User:
         self.senha = kwargs.get("senha")
         self.tipo: UserType = kwargs.get("tipo")
 
-    def updateAttributes(self, email, senha):
-
-        if email != self.email:
-            self.email = email
-
-        if senha != self.senha:
-            self.senha = senha
-
-
 class UserType(str, Enum):
     ADMIN = "ADM"
     AUTHOR = "AUTOR"
