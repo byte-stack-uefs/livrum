@@ -47,7 +47,6 @@ async def get_current_user(token: Annotated[str, Depends(authScheme)]):
     )
     try:
         payload = jwt.decode(token, SECRET, algorithms=[ALGO])
-        print(payload)
         id: str = payload.get("id")
         if id is None:
             raise credentials_exception
@@ -71,7 +70,7 @@ class UserHasAccess:
         self.access = access
 
     def __call__(self, user: Annotated[User, Depends(get_current_active_user)]):
-        if user and user.type not in self.access:
+        if user and user.tipo not in self.access:
             raise HTTPException(
                 status.HTTP_403_FORBIDDEN, detail="User has no access to this resource"
             )

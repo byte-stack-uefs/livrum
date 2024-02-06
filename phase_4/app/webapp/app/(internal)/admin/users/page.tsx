@@ -271,24 +271,24 @@ const UserManagment = () => {
                     <DialogContent dividers>
                         <Grid container>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="primary.main">
+                                <Typography variant="body2" color="dark.main">
                                     <strong>Autor:</strong> {"Almir Neto"}
                                 </Typography>
-                                <Typography variant="body2" color="primary.main">
+                                <Typography variant="body2" color="dark.main">
                                     <strong>Email:</strong> {"email"}
                                 </Typography>
-                                <Typography variant="body2" color="secondary.main">
+                                <Typography variant="body2" color="dark.main">
                                     <strong>Data de Nascimento:</strong> {"dataNascimento"}
                                 </Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="secondary.main">
+                                <Typography variant="body2" color="dark.main">
                                     <strong>Telefone:</strong> {"telefone"}
                                 </Typography>
-                                <Typography variant="body2" color="secondary.main">
+                                <Typography variant="body2" color="dark.main">
                                     <strong>CPF:</strong> {"cpf"}
                                 </Typography>
-                                <Typography variant="body2" color="secondary.main">
+                                <Typography variant="body2" color="dark.main">
                                     <strong>Endereço:</strong> {"endereco"}
                                 </Typography>
                             </Grid>

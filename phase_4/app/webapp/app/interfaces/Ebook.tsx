@@ -2,9 +2,13 @@ export default interface Ebook {
     id: number;
     title: string;
     cover: string;
-    author: string;
-    releaseYear: string;
-    isAvailable: boolean;
     price: number;
-    summary: string;
+    size?: number;
+    author: string;
+    genre?: string;
+    pages?: number;
+    summary: string | JSX.Element;
+    releaseYear: string;
+    languages?: string[];
+    isAvailable: boolean;
 }

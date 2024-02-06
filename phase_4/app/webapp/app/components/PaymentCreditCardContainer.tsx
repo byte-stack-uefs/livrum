@@ -40,7 +40,7 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
                         Cartão de Crédito &ensp;
                     </Typography>
                     <Typography display="inline" variant="subtitle2" color="textLight.main">
-                        termina em {card.number}
+                        **** **** **** {card.number}
                     </Typography>
                 </Grid>
                 <Grid item xs={4}>
@@ -55,7 +55,7 @@ export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => voi
                             size="small"
                         >
                             {cards.map(e => {
-                                return <MenuItem key={e.id} value={e.id}>{e.number}</MenuItem>
+                                return <MenuItem key={e.id} value={e.id}>final {e.number}</MenuItem>
                             })}
                         </Select>
                     </FormControl>
