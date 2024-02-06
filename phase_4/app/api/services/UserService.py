@@ -48,3 +48,13 @@ class UserService:
 
         data = map(self._convertDAO, data)
         return list(data)
+    def recoverPass(email: str, newPass: str):
+        with DB() as db:
+            try:
+               db.execute("UPDATE usuario SET senha = %s WHERE email = %s",(newPass, email))
+            except:
+                return False
+
+            return True
+            
+        
