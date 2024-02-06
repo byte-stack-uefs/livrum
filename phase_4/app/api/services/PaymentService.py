@@ -35,7 +35,7 @@ class PaymentService:
 
         qrcode = efi.pix_generate_qrcode(params={"id": response["loc"]["id"]})
 
-        return qrcode["imagemQrcode"]
+        return {"txid": response["txid"], "qrcode": qrcode["imagemQrcode"]}
 
     def checkPixPaid(self):
         pass
