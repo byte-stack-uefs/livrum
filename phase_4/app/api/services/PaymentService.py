@@ -33,9 +33,9 @@ class PaymentService:
         except Exception as err:
             print(err)
 
-        print(response)
+        qrcode = efi.pix_generate_qrcode(params={"id": response["loc"]["id"]})
 
-        return response
+        return qrcode["imagemQrcode"]
 
     def checkPixPaid(self):
         pass
