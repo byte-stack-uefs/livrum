@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from typing_extensions import Annotated
 from models.user import User, UserType
 from services.PaymentService import PaymentService
@@ -12,7 +12,13 @@ userAccess = UserHasAccess([UserType.CUSTOMER])
 @router.get("/pix")
 def getPix(user: Annotated[User, Depends(userAccess)]):
     service = PaymentService()
-    response = service.createPix()
+    try:
+        response = service.createPix()
+    except:
+        raise HTTPException(
+            500,
+            "Não foi possível criar o pix para pagamento, tente novamente mais tarde",
+        )
 
     return response
 
@@ -20,3 +26,18 @@ def getPix(user: Annotated[User, Depends(userAccess)]):
 @router.post("/pay-by-credit-card")
 def payByCreditCard():
     pass
+
+
+@router.get("/pix/isPaid")
+def isPixPaid(txid: str) -> bool:
+
+    service = PaymentService()
+    try:
+
+        response = service.checkPixPaid(txid)
+    except:
+        raise HTTPException(
+            500,
+            "Não foi possível consultar o status do Pix, tente novamente mais tarde",
+        )
+    return response
