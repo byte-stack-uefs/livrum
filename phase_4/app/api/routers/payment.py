@@ -28,7 +28,7 @@ def payByCreditCard():
     pass
 
 
-@router.get("/pix/isPaid")
+@router.get("/pix/isPaid/{txid}")
 def isPixPaid(txid: str) -> bool:
 
     service = PaymentService()
