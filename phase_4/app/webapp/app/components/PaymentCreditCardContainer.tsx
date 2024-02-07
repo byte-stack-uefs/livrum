@@ -17,7 +17,7 @@ import {
     Typography,
 } from "@mui/material";
 
-export function PaymentCreditCardContainer({ onConfirm }: { onConfirm: () => void }) {
+export function PaymentCreditCardContainer({ onConfirm, total, userId }: { onConfirm: () => void; total: number; userId: number }) {
     const requester = useRequest();
 
     const [cards, setCards] = useState<CreditCard[] | null>(null);
