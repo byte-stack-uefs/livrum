@@ -9,6 +9,7 @@ import { PixContainer } from "@/app/components/PixContainer";
 import { CheckCircle, CreditCard, Pix } from "@mui/icons-material";
 import { PaymentCreditCardContainer } from "@/app/components/PaymentCreditCardContainer";
 import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography } from "@mui/material";
+import { useUser } from "@/app/context";
 
 export interface PaymentEbook {
     id: number;
@@ -54,6 +55,8 @@ export default function Page() {
     const [subtotal, setSubtotal] = useState(50);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [tab, setTab] = useState(0);
+
+    const { user } = useUser();
 
     useEffect(() => {
         const calculate = subtotal - discount;
@@ -182,7 +185,13 @@ export default function Page() {
                         ></TextField>
                     </Grid>
                     <Grid item xs={3}>
-                        <Button variant="contained" color="primary">
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => {
+                                setTotal(total + 1);
+                            }}
+                        >
                             Aplicar
                         </Button>
                     </Grid>
@@ -212,11 +221,13 @@ export default function Page() {
                                     onConfirm={() => {
                                         setShowSuccessModal(true);
                                     }}
+                                    total={total}
+                                    userId={user.idUsuario}
                                 />
                             </Box>
 
                             <Box sx={{ display: tab == 1 ? "block" : "none" }}>
-                                <PixContainer />
+                                <PixContainer total={total} userId={user.idUsuario} />
                             </Box>
                         </Box>
                     </Grid>
