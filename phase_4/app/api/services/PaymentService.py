@@ -47,7 +47,7 @@ class PaymentService:
             raise Exception("Failed to retrieve Pix Details")
 
         if response.get("erros", None) is not None:
-            return False
+            raise Exception("Failed to get Pix details.")
 
         return (
             response["status"] == "CONCLUIDA"
