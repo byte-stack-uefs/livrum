@@ -23,7 +23,7 @@ class RecoverEmail:
 
         corpo_email = f"""
         <p>Você solicitou uma recuperação de senha.</p>
-        <p>Esta é a sua senha temporaria de acesso <strong>{password}</strong> entre na sua conta para redefinir sua senha.</p>
+        <p>Esta é a sua senha temporaria de acesso <strong>{password}</strong> entre na sua conta para alterar sua senha.</p>
         """
         msg.attach(MIMEText(corpo_email, 'html'))
 
