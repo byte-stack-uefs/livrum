@@ -1,4 +1,7 @@
 from enum import Enum
+from pydantic import BaseModel
+from typing_extensions import Annotated
+from fastapi import Query
 
 
 class User:
@@ -31,3 +34,8 @@ class UserDAO:
         self.id = kwargs.get("idUsuario")
         self.type: UserType = kwargs.get("tipo")
         self.status: UserStatus = kwargs.get("status")
+
+class RecoveryEmailForm(BaseModel):
+    email: Annotated[str, Query(pattern=r"^[a-zA-Z0-9.%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$", examples=["example@email.com"])]
+
+

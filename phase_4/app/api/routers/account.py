@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from typing import Annotated
 from dependencies import security
-from models.user import User, UserType
+from models.user import User, UserType, RecoveryEmailForm
 from services.UserService import UserService
 import random
 import string
@@ -23,15 +23,15 @@ def logout():
 def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
     return {"message": "uau"}
 
-
-
 @router.patch("/recuperar-senha")
-def passwordRecover(emailUser: str):
+def passwordRecover(emailUser: RecoveryEmailForm):
+    
     alphabet = string.ascii_letters + string.digits + string.punctuation
-    newPass =  ''.join(random.choice(alphabet) for i in range(length))
-    response = UserService.recoverPass(emailUser,newPass)
+    newPass =  ''.join(random.choice(alphabet) for i in range(10))
+    response = UserService.recoverPass(emailUser.email,newPass)
+
     if response:
-       operation = RecoverEmail.emailRecover(emailUser,newPass)
+       operation = RecoverEmail.emailRecover(emailUser.email,newPass)
        return operation
     return  {
                 "status": "error",
