@@ -25,7 +25,9 @@ const UserPasswordRestore = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+    const resquestPassword(email) =>{
+        
+    }
     const handleCloseModal = (event: {}, reason: "backdropClick" | "escapeKeyDown") => {
         setOpenModal(false);
     };
@@ -37,6 +39,7 @@ const UserPasswordRestore = () => {
 
         if (isValidEmail) {
             setOpenModal(true);
+            resquestPassword(email);
         }
     };
 

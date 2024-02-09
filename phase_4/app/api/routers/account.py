@@ -22,8 +22,11 @@ def logout():
 @router.get("/isAuthenticated")
 def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
     return {"message": "uau"}
+
+
+
 @router.patch("/recuperar-senha")
-def passwordRecover(emailUser: str, temporaryPass:str):
+def passwordRecover(emailUser: str):
     alphabet = string.ascii_letters + string.digits + string.punctuation
     newPass =  ''.join(random.choice(alphabet) for i in range(length))
     response = UserService.recoverPass(emailUser,newPass)

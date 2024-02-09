@@ -55,14 +55,13 @@ const ClientRegister = () => {
 
     const handlePasswordConfirmChange = (e) => {
         setPasswordConfirm(e.target.value);
-        // Verificar correspondência de senhas quando a senha de confirmação é alterada
         setPasswordsMatch(e.target.value === password);
     };
     const handleOpen = () => {
         setOpenModal(true);
     };
 
-    // Função para fechar o modal
+
     const handleClose = () => {
         setOpenModal(false);
     };
