@@ -8,11 +8,6 @@ class RecoverEmail:
         smtp_server = 'smtp-mail.outlook.com.'
         smtp_port = 587 
 
-
-        """
-        Falta colocar a autenticação de dois fatores no email e criar uma senha de aplicativo :)
-        """
-
         remetente = 'livrum@hotmail.com'  
         senha = '@uefs1234'
 
