@@ -6,6 +6,7 @@ from services.UserService import UserService
 import random
 import string
 from services.RecoverEmail import RecoverEmail
+from dependencies.security import get_password_hash
 router = APIRouter(prefix="/account", tags=["Account"])
 
 
@@ -28,7 +29,8 @@ def passwordRecover(emailUser: RecoveryEmailForm):
     
     alphabet = string.ascii_letters + string.digits + string.punctuation
     newPass =  ''.join(random.choice(alphabet) for i in range(10))
-    response = UserService.recoverPass(emailUser.email,newPass)
+    passToHash = get_password_hash(newPass)
+    response = UserService.recoverPass(emailUser.email,passToHash)
 
     if response:
        operation = RecoverEmail.emailRecover(emailUser.email,newPass)
