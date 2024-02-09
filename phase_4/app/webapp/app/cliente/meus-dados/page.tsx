@@ -66,11 +66,11 @@ function ClientDataContainer() {
     }
    
     const saveChanges = () => { 
-        requester.patch(`/user/${id}`,{name: name, email:email, password:password}).then(response => {
+        requester.patch(`/user/${id}`,{nome: name, email:email, senha:password}).then(response => {
             getOldDataUser();
         
         }).catch(err => { })
-        requester.patch(`/customer/${id}`,{ cpf: cpf ,birthday: birthday, address: address, telephone: telephone
+        requester.patch(`/customer/${id}`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone
            
         }).then(response => {
             getOldDataUser();
