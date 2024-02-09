@@ -2,12 +2,14 @@
 import 'swiper/swiper-bundle.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode, Autoplay, Navigation } from 'swiper/modules';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Button, InputLabel, TextField, Typography } from "@mui/material";
 import { cellphoneInput, cpfInput } from "@/app/components/CustomInputs";
+import useRequest from '@/app/services/requester';
+import { UserAttributes } from '@/app/interfaces/User';
 
 function ClientDataContainerHeader() {
     return (
@@ -23,6 +25,8 @@ function ClientDataContainerHeader() {
 }
 
 function ClientDataContainer() {
+    const [clientData, setClientData] = useState<UserAttributes>;
+    const [customerData, setCustomerData] = useState<UserAttributes>;
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -30,6 +34,11 @@ function ClientDataContainer() {
     const [birthday, setBirthday] = useState("");
     const [password, setPassword] = useState("");
     const [telephone, setTelephone] = useState("");
+    const requester = useRequest();
+    useEffect(() => {
+        getOldDataUser();
+
+    }, [])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -38,7 +47,37 @@ function ClientDataContainer() {
     const handleSubmitClient = (event) => {
         event.preventDefault();
     };
-
+    const getOldDataUser = () => {
+        requester.get(`/user/${id}`).then(response => {
+            setClientData(response.data)
+            setName(clientData.name)
+            setEmail(clientData.email)
+            setPassword(clientData.password)
+            
+        }).catch(err => { })
+        requester.get(`/costumer/${id}`).then(response => {
+            setCustomerData(response.data)
+            setCpf(customerData.cpf)
+            setBirthday(customerData.birthday)
+            setAddress(customerData.address)
+            setTelephone(customerData.telephone)
+        
+        }).catch(err => { })
+    }
+   
+    const saveChanges = () => { 
+        requester.patch(`/user/${id}`,{name: name, email:email, password:password}).then(response => {
+            getOldDataUser();
+        
+        }).catch(err => { })
+        requester.patch(`/customer/${id}`,{ cpf: cpf ,birthday: birthday, address: address, telephone: telephone
+           
+        }).then(response => {
+            getOldDataUser();
+        
+        }).catch(err => { })
+        
+    }   
     return (
         <Grid xs={11} sm={9} md={7} lg={5} style={{ width: "100%" }}>
             <form onSubmit={handleSubmitClient}>
@@ -184,6 +223,8 @@ function ClientDataContainer() {
                             variant="contained"
                             color="primary"
                             fullWidth
+                            onClick={saveChanges()
+                            }
                             sx={{
                                 marginTop: "10px",
                             }}
