@@ -18,6 +18,7 @@ import {
     TextField,
     Typography,
     CircularProgress,
+    Skeleton,
 } from "@mui/material";
 import { useUser } from "@/app/context";
 
@@ -75,13 +76,13 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
 
 export default function Page() {
     const router = useRouter();
-    const [total, setTotal] = useState(0);
-    const [coupon, setCoupon] = useState("");
-    const [discount, setDiscount] = useState(0);
-    const [subtotal, setSubtotal] = useState(50);
-    const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [tab, setTab] = useState(0);
+    const [total, setTotal] = useState(null);
+    const [coupon, setCoupon] = useState("");
     const [books, setBooks] = useState(null);
+    const [discount, setDiscount] = useState(null);
+    const [subtotal, setSubtotal] = useState(null);
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const { user } = useUser();
 
@@ -107,6 +108,9 @@ export default function Page() {
                 price: 25.9,
             },
         ]);
+
+        setSubtotal(49.9);
+        setDiscount(1.99);
     }, []);
 
     const tabItems = [
@@ -196,10 +200,14 @@ export default function Page() {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography color="dark.main" variant="body1">
-                            {subtotal.toLocaleString("pt-br", {
-                                currency: "BRL",
-                                style: "currency",
-                            })}
+                            {subtotal !== null ? (
+                                subtotal.toLocaleString("pt-br", {
+                                    currency: "BRL",
+                                    style: "currency",
+                                })
+                            ) : (
+                                <Skeleton variant="text" />
+                            )}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -213,10 +221,14 @@ export default function Page() {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography color="dark.main" variant="body1">
-                            {discount.toLocaleString("pt-br", {
-                                currency: "BRL",
-                                style: "currency",
-                            })}
+                            {discount !== null ? (
+                                discount.toLocaleString("pt-br", {
+                                    currency: "BRL",
+                                    style: "currency",
+                                })
+                            ) : (
+                                <Skeleton variant="text" />
+                            )}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
@@ -230,10 +242,14 @@ export default function Page() {
                     </Grid>
                     <Grid item xs={6}>
                         <Typography color="dark.main" variant="body1">
-                            {total.toLocaleString("pt-br", {
-                                currency: "BRL",
-                                style: "currency",
-                            })}
+                            {total !== null ? (
+                                total.toLocaleString("pt-br", {
+                                    currency: "BRL",
+                                    style: "currency",
+                                })
+                            ) : (
+                                <Skeleton variant="text" />
+                            )}
                         </Typography>
                     </Grid>
                 </Grid>
