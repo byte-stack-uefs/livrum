@@ -10,6 +10,10 @@ def searchWithOptionalFilters(id = None, name = None, author = None, title = Non
     ebooks = EbookService.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client);
     return ebooks
 
+@router.get("/", description="Get ebooks")
+def get():
+    return EbookService.findAll()
+
 @router.get("/{id}", description="Get an ebook by its ID")
 def get(id: int):
     return {"message": "Get ebook", "id": id}

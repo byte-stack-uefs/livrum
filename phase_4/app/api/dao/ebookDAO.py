@@ -1,4 +1,4 @@
-from models.ebook import EbookDTO
+from models.ebook import AuthorEbookDTO, Ebook, EbookDTO
 from database.database import DB
 
 class EbookDAO:
@@ -45,4 +45,30 @@ class EbookDAO:
                     ebookDTO.isAvailable = response is None
 
 
+        return ebooks
+
+    def findAll() -> [AuthorEbookDTO]:
+        ebooks = []
+        with DB() as db:
+            consulta = "SELECT * FROM Ebook"
+            db.execute(consulta)
+            data = db.fetchall()
+            for ebook in data:
+                ebookDTO = Ebook(**ebook)
+                db.execute("SELECT * FROM usuario WHERE idUsuario = %s", [ebookDTO.idAutor])
+                usuario = db.fetchone()
+                ebookDTO = AuthorEbookDTO(**ebook)
+                ebookDTO.nome_autor = usuario['nome']
+
+                # Obter informações sobre os gêneros do eBook
+                db.execute("""
+                    SELECT genero.nome
+                    FROM genero
+                    INNER JOIN generoebook ON genero.idGenero = generoebook.idGenero
+                    INNER JOIN ebook ON generoebook.idEBook = ebook.idEBook
+                    WHERE generoebook.idEBook = %s
+                """, [ebookDTO.id])
+                generos = db.fetchall()
+                ebookDTO.genero = [genero['nome'] for genero in generos]
+                ebooks.append(ebookDTO)
         return ebooks

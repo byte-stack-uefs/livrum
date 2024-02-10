@@ -31,6 +31,22 @@ class EbookDTO:
         self.isAvailable = True
         self.cover = kwargs.get("capa")
 
+class AuthorEbookDTO:
+    def __init__(self, **kwargs):
+        self.id = kwargs.get("idEBook")
+        self.nome = kwargs.get("nome")
+        self.data = "01/01/2000"
+        self.ano_lancamento = kwargs.get("anoLancamento")
+        self.preco = kwargs.get("preco")
+        self.link_foto = kwargs.get("capa")
+        self.status = kwargs.get("status")
+        self.qtd_pag = kwargs.get("qtdPaginas")
+        self.nome_autor = ""
+        self.genero = ""
+        self.idioma = kwargs.get("idioma")
+        self.sinopse = kwargs.get("sinopse")
+        self.motivo_recusa = kwargs.get("motivoRejeicao")
+
 
 class EbookStatus(str, Enum):
     PENDING = 'pending'

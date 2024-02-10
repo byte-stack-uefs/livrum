@@ -1,4 +1,4 @@
-from models.ebook import EbookDTO
+from models.ebook import AuthorEbookDTO, EbookDTO
 from dao.ebookDAO import EbookDAO
 
 class EbookService:
@@ -6,6 +6,14 @@ class EbookService:
         ebooks = []
         try:
             ebooks = EbookDAO.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client)
+        except Exception as ex:
+            print("Erro ao buscar Ebooks", ex)
+
+        return ebooks
+    def findAll() -> [AuthorEbookDTO]:
+        ebooks = []
+        try:
+            ebooks = EbookDAO.findAll()
         except Exception as ex:
             print("Erro ao buscar Ebooks", ex)
 
