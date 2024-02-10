@@ -80,6 +80,7 @@ export default function Page() {
     const [total, setTotal] = useState(null);
     const [coupon, setCoupon] = useState("");
     const [books, setBooks] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [discount, setDiscount] = useState(null);
     const [subtotal, setSubtotal] = useState(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -132,6 +133,14 @@ export default function Page() {
         return books.map((e) => {
             return <PaymentEbook key={e.id} ebook={e} />;
         });
+    };
+
+    const checkCoupon = () => {
+        setLoading(true);
+
+        setTimeout(() => {
+            setLoading(false);
+        }, 3000);
     };
 
     return (
@@ -274,12 +283,14 @@ export default function Page() {
                     <Grid item xs={3}>
                         <Button
                             variant="contained"
+                            disabled={loading}
                             color="primary"
                             onClick={() => {
                                 setTotal(total + 1);
+                                checkCoupon();
                             }}
                         >
-                            Aplicar
+                            {loading ? <CircularProgress /> : "Aplicar"}
                         </Button>
                     </Grid>
                 </Grid>
