@@ -9,7 +9,6 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import {
     Box,
     List,
-    Stack,
     Button,
     Slider,
     Checkbox,
@@ -21,6 +20,9 @@ import {
     Typography,
     FormControlLabel,
 } from "@mui/material";
+import axios from "axios";
+import Ebook, { EbookResponse } from "@/app/interfaces/Ebook";
+import useRequest from "@/app/services/requester";
 
 function PageHeader() {
     return (
@@ -158,23 +160,56 @@ function PriceSection() {
     );
 }
 
-const PriceMarks = [
-    {
-        value: 15,
-        label: "R$ 15,00",
-    },
-    {
-        value: 315,
-        label: "R$ 315,00",
-    },
-];
 
 function valuetext(value: number) {
     return `R$ ${value},00`;
 }
 
+
+function getPriceRange() : number[] {
+    
+    const [books, setBooks] = useState<(Ebook)[]>([]);
+    const [fetched, setFetched] = useState(Boolean);
+    const [minPrice, setMinPrice] = useState(Number);
+    const [maxPrice, setMaxPrice] = useState(Number);
+    
+    const fetchEbooks = async () => {
+        const requester = useRequest()
+        
+        const { data } = await requester.get<EbookResponse>("/catalog/list");
+        setBooks(data.ebooks);
+        setFetched(true);     
+        var priceValues: number[] = [];
+        data.ebooks.forEach(function(book){priceValues.push(book.price)});
+        var min = priceValues.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0);
+        var max = priceValues.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);        
+        setMaxPrice(data.ebooks[max].price);
+        setMinPrice(data.ebooks[min].price);
+        return [minPrice, maxPrice];          
+    };
+    if (!(fetched)){
+        fetchEbooks();
+    }
+    return [minPrice, maxPrice];
+}
+
 function PriceSlider() {
-    const [value, setValue] = React.useState<number[]>([50, 200]);
+    var priceRange: number[] = getPriceRange();
+    var minPrice = priceRange[0];
+    var maxPrice = priceRange[1];
+
+    const PriceMarks = [
+        {
+            value: minPrice,
+            label: "R$" + minPrice.toString(),
+        },
+        {
+            value: maxPrice,
+            label: "R$" + maxPrice.toString(),
+        },
+    ];    
+
+    const [value, setValue] = React.useState<number[]>([minPrice, maxPrice]);
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -185,32 +220,61 @@ function PriceSlider() {
             <Slider
                 aria-label="Always visible"
                 value={value}
-                min={15}
-                max={315}
+                min={minPrice}
+                max={maxPrice}
                 getAriaValueText={valuetext}
                 onChange={handleChange}
                 step={5}
                 marks={PriceMarks}
-                valueLabelDisplay="off"
+                valueLabelDisplay="auto"
             />
         </Box>
     );
 }
 
-const YearMarks = [
-    {
-        value: 1880,
-        label: "1880",
-    },
-    {
-        value: 2024,
-        label: "2024",
-    },
-];
+function getYearRange() : number[] {
+    const [books, setBooks] = useState<(Ebook)[]>([]);
+    const [fetched, setFetched] = useState(Boolean);
+    const [minYear, setMinYear] = useState(Number);
+    const [maxYear, setMaxYear] = useState(Number);
+    
+    const fetchEbooks = async () => {
+        const requester = useRequest()
+        
+        const { data } = await requester.get<EbookResponse>("/catalog/list");
+        setBooks(data.ebooks);
+        setFetched(true);     
+        var yearValues: number[] = [];
+        data.ebooks.forEach(function(book){yearValues.push(parseInt(book.releaseYear))});
+        var min = yearValues.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0);
+        var max = yearValues.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);        
+        setMaxYear(parseInt(data.ebooks[max].releaseYear));
+        setMinYear(parseInt(data.ebooks[min].releaseYear));
+        return [minYear, maxYear];          
+    };
+    if (!(fetched)){
+        fetchEbooks();
+    }
+    return [minYear, maxYear];
+}
 
 function YearSlider() {
-    const [value, setValue] = React.useState<number[]>([1940, 2010]);
+    var yearRange: number[] = getYearRange();
+    var minYear = yearRange[0];
+    var maxYear = yearRange[1];
 
+    const YearMarks = [
+        {
+            value: minYear,
+            label: minYear.toString(),
+        },
+        {
+            value: maxYear,
+            label: maxYear.toString(),
+        },
+    ];
+    
+    const [value, setValue] = React.useState<number[]>([minYear, maxYear]);
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
     };
@@ -219,14 +283,14 @@ function YearSlider() {
             <Slider
                 aria-label="Always visible"
                 defaultValue={1880}
-                min={1880}
-                max={2024}
+                min={minYear}
+                max={maxYear}
                 value={value}
                 onChange={handleChange}
                 getAriaValueText={valuetext}
                 step={1}
                 marks={YearMarks}
-                valueLabelDisplay="off"
+                valueLabelDisplay="auto"
             />
         </Box>
     );
@@ -248,7 +312,7 @@ function ReleaseYear() {
 function BookSectionHeader() {
     return (
         <Grid container xs={12}>
-            <Grid xs={8}>Exibindo X resultados de Y</Grid>
+            <Grid xs={8}> </Grid>
             <Grid xs={4} sx={{ textAlign: "right" }}>
                 <SortIcon></SortIcon>
             </Grid>
@@ -256,59 +320,30 @@ function BookSectionHeader() {
     );
 }
 
+function listComprehension<T>(list: T[], callback: (item: T) => boolean): T[] {
+    return list.filter(callback).map((item) => item)
+  }
+
 function BookList() {
-    const [books, setBooks] = useState([
-        {
-            id: 0,
-            author: "Fiodor Dostoievski",
-            title: "Os irmãos Karamazov",
-            releaseYear: "27/11/1880",
-            price: 110,
-            isAvailable: true,
-            summary: "",
-            cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
-        },
-        {
-            id: 1,
-            author: "Plato",
-            price: 220,
-            title: "The Republic",
-            releaseYear: "27/11/2023",
-            isAvailable: true,
-            summary: "",
-            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg",
-        },
-        {
-            id: 1,
-            author: "Andrew Hodges",
-            price: 20,
-            title: "Turing: Um filósofo da natureza",
-            releaseYear: "27/11/2023",
-            isAvailable: true,
-            summary: "",
-            cover: "https://m.media-amazon.com/images/I/819ACs3AuzL._AC_AA360_.jpg",
-        },
-        {
-            id: 0,
-            author: "Austin Wright",
-            title: "Tony & Susan",
-            releaseYear: "27/11/1990",
-            isAvailable: true,
-            summary: "",
-            price: 50,
-            cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg",
-        },
-        {
-            id: 1,
-            author: "Plato",
-            price: 220,
-            title: "The Republic",
-            releaseYear: "27/11/2023",
-            isAvailable: true,
-            summary: "",
-            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg",
-        },
-    ]);
+
+    const [books, setBooks] = useState<(Ebook)[]>([]);
+    const [filteredBooks, setFilteredBooks] = useState<Ebook[]>([]);
+    const [fetched, setFetched] = useState(Boolean);
+    
+    const fetchEbooks = async () => {
+        const requester = useRequest()
+        
+        const { data } = await requester.get<EbookResponse>(
+          "/catalog/list",
+        );
+        setBooks(data.ebooks);
+        setFilteredBooks(data.ebooks);
+        setFetched(true);
+      
+      };
+      if (!(fetched)){
+        fetchEbooks();
+      }
 
     return (
         <Grid xs={12}>
@@ -340,7 +375,6 @@ function BookSection() {
     return (
         <Grid xs={8}>
             <Grid container>
-                <BookSectionHeader></BookSectionHeader>
                 <BookListContainer></BookListContainer>
             </Grid>
         </Grid>

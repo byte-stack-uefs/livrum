@@ -1,4 +1,5 @@
 from enum import Enum
+from database.database import DB
 
 
 class Ebook:
@@ -24,12 +25,23 @@ class Ebook:
 class EbookDTO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idEBook")
-        self.author = ""
+        self.author = getAuthor(int(kwargs.get("idAutor")))
         self.title = kwargs.get("nome")
         self.releaseYear = kwargs.get("anoLancamento")
         self.price = kwargs.get("preco")
-        self.isAvailable = True
+        if kwargs.get("status") == "active":
+            self.isAvailable = True
+        else:
+            self.isAvailable = False
+        self.summary = kwargs.get("sinopse")
         self.cover = kwargs.get("capa")
+
+def getAuthor(authorId):
+    with DB() as db:
+        query = "SELECT nome FROM usuario WHERE idUsuario = %s"
+        db.execute(query, [authorId])
+        name = db.fetchone()
+    return name['nome']
 
 
 class EbookStatus(str, Enum):
