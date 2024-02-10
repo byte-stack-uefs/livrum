@@ -17,7 +17,7 @@ const Cart = () => {
     if (!cartItems || cartItems.length == 0) {
         return (
             <Grid container justifyContent={"center"}>
-                <Grid xs={12} md={8} mt={2}>
+                <Grid item xs={12} md={8} mt={2}>
                     <Alert severity="warning" sx={{ alignItems: "center" }}>
                         <Typography variant="body1" fontSize={20}>
                             Carrinho Vazio
@@ -47,7 +47,7 @@ const Cart = () => {
                     </Grid>
                     <Grid xs={12} item p={2}>
                         <Box sx={{ borderRadius: 5, backgroundColor: "#fff" }}>
-                            <Grid container xs={12} p={2}>
+                            <Grid container item xs={12} p={2}>
                                 {cartItems.map((item) => {
                                     return (
                                         <Grid
