@@ -23,6 +23,18 @@ def get(id: int):
 def add():
     return {"message": "Creating ebook"}
 
+@router.put("/approve/{id}", description="approve an ebook")
+def approve(id: str):
+    return EbookService.approveEbook(id)
+
+@router.put("/repprove/{id}", description="approve an ebook")
+def approve(id: str):
+    return EbookService.repproveEbook(id)
+
+@router.put("/disable/{id}", description="approve an ebook")
+def approve(id: str):
+    return EbookService.disableEbook(id)
+
 
 @router.patch("/{id}", description="Update an ebook's field")
 def patch(id: int):

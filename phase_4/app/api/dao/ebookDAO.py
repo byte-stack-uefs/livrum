@@ -1,4 +1,4 @@
-from models.ebook import AuthorEbookDTO, Ebook, EbookDTO
+from models.ebook import AuthorEbookDTO, Ebook, EbookDTO, EbookStatus
 from database.database import DB
 
 class EbookDAO:
@@ -72,3 +72,18 @@ class EbookDAO:
                 ebookDTO.genero = [genero['nome'] for genero in generos]
                 ebooks.append(ebookDTO)
         return ebooks
+    
+    def approveEbook(id):
+        with DB() as db:
+            update = "UPDATE Ebook SET status = %s where idEBook = %s"
+            db.execute(update, [EbookStatus.ACTIVE, id])
+    
+    def repproveEbook(id):
+        with DB() as db:
+            update = "UPDATE Ebook SET status = %s where idEBook = %s"
+            db.execute(update, [EbookStatus.REJECTED, id])
+
+    def disableEbook(id):
+        with DB() as db:
+            update = "UPDATE Ebook SET status = %s where idEBook = %s"
+            db.execute(update, [EbookStatus.INACTIVE, id])

@@ -103,6 +103,27 @@ export default function ListagemEbooks() {
     const handleClose = () => {
         setOpenDialog(false);
     };
+    
+    const handleApproveEbook = () => {
+        requester.put('/ebook/approve/'+openEbook.id).then(response => {
+            //setOpenDialog(false);
+            window.location.reload();
+        }).catch(err => { })
+    };
+    
+    const handleRepproveEbook = () => {
+        requester.put('/ebook/repprove/'+openEbook.id).then(response => {
+            //setOpenDialog(false);
+            window.location.reload();
+        }).catch(err => { })
+    };
+    
+    const handleDisableEbook = () => {
+        requester.put('/ebook/disable/'+openEbook.id).then(response => {
+            //setOpenDialog(false);
+            window.location.reload();
+        }).catch(err => { })
+    };
 
     
     const requester = useRequest();
@@ -204,6 +225,8 @@ export default function ListagemEbooks() {
         switch (ebook.status) {
             case EnumAuthorEbookStatus.PENDING:
                 return <Chip label="Pendente" />;
+            case EnumAuthorEbookStatus.INACTIVE:
+                return <Chip label="Inativo" />;
             case EnumAuthorEbookStatus.ACTIVE:
                 return <Chip label="Aprovado" color="success" size="medium" />;
             default:
@@ -310,7 +333,7 @@ export default function ListagemEbooks() {
                             <strong style={{ color: theme.palette.dark.main }}>Status: </strong> {getButtonStatus(openEbook)}
                         </Typography>
                     </DialogContent>
-                    {openEbook.status === EnumAuthorEbookStatus.BLOCKED && (
+                    {openEbook.status === EnumAuthorEbookStatus.REJECTED && (
                         <DialogContent sx={{ color: "dark.main", backgroundColor: "secondary.main", mx: 2, borderRadius: 3 }}>
                             <Typography variant="body2">
                                 <strong>{openEbook.motivo_recusa} </strong>
@@ -318,19 +341,26 @@ export default function ListagemEbooks() {
                         </DialogContent>
                     )}
                     <DialogActions style={{ justifyContent: "center" }}>
-                        {openEbook.status === EnumAuthorEbookStatus.APPROVED ? (
+                        {openEbook.status === EnumAuthorEbookStatus.ACTIVE ? (
                             <DialogActions>
-                                <Button variant="contained" color="error" autoFocus onClick={handleClose}>
+                                <Button variant="contained" color="error" autoFocus onClick={handleDisableEbook}>
                                     Inativar EBook
+                                </Button>
+                            </DialogActions>
+                        ) : null}
+                        {openEbook.status === EnumAuthorEbookStatus.INACTIVE ? (
+                            <DialogActions>
+                                <Button variant="contained" color="success" autoFocus onClick={handleApproveEbook}>
+                                    Ativar EBook
                                 </Button>
                             </DialogActions>
                         ) : null}
                         {openEbook.status == EnumAuthorEbookStatus.PENDING ? (
                             <DialogActions>
-                                <Button variant="contained" color="success" autoFocus onClick={handleClose}>
+                                <Button variant="contained" color="success" autoFocus onClick={handleApproveEbook}>
                                     Aprovar
                                 </Button>
-                                <Button variant="contained" color="error" autoFocus onClick={handleRefuseClickOpen}>
+                                <Button variant="contained" color="error" autoFocus onClick={handleRepproveEbook}>
                                     Recusar
                                 </Button>
                             </DialogActions>

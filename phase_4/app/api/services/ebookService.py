@@ -10,6 +10,7 @@ class EbookService:
             print("Erro ao buscar Ebooks", ex)
 
         return ebooks
+    
     def findAll() -> [AuthorEbookDTO]:
         ebooks = []
         try:
@@ -18,3 +19,21 @@ class EbookService:
             print("Erro ao buscar Ebooks", ex)
 
         return ebooks
+    
+    def approveEbook(id):
+        try:
+            EbookDAO.approveEbook(id)
+        except Exception as ex:
+            print("Erro ao aprovar Ebook com id:", id, ex)
+            
+    def repproveEbook(id):
+        try:
+            EbookDAO.repproveEbook(id)
+        except Exception as ex:
+            print("Erro ao reprovar Ebook com id:", id, ex)
+
+    def disableEbook(id):
+        try:
+            EbookDAO.disableEbook(id)
+        except Exception as ex:
+            print("Erro ao inativar Ebook com id:", id, ex)
