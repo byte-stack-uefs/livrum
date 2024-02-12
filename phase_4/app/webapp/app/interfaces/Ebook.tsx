@@ -11,7 +11,7 @@ export type Ebook = {
     size?: number;
     genre?: string;
     pages?: number;    
-    languages?: string[];
+    languages?: string;
     
 }
 

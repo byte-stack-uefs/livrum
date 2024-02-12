@@ -23,7 +23,7 @@ class EbookDAO:
                 consulta += " AND nome like %s"
                 valores.append(f"%{title}%")
             if release_year is not None:
-                consulta += " AND anoLancamento = %s"
+                consulta += " AND anoLancamento <= %s"
                 valores.append(release_year)
             if price_min is not None:
                 consulta += " AND preco >= %s"
