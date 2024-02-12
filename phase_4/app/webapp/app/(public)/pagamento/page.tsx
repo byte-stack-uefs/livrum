@@ -87,12 +87,14 @@ export default function Page() {
     const requester = useRequest();
     const [tab, setTab] = useState(0);
     const [total, setTotal] = useState<number | null>(null);
-    const [coupon, setCoupon] = useState("");
+    const [coupon, setCoupon] = useState<string>("");
     const [books, setBooks] = useState<null | Ebook[]>(null);
     const [loading, setLoading] = useState(false);
     const [discount, setDiscount] = useState<number | null>(0);
     const [subtotal, setSubtotal] = useState<number | null>(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+    const [errors, setErrors] = useState<{ coupon?: string }>({});
 
     const { user } = useUser();
 
@@ -143,9 +145,20 @@ export default function Page() {
     const checkCoupon = () => {
         setLoading(true);
 
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
+        delete errors.coupon;
+
+        requester
+            .get(`/coupon/${coupon}`)
+            .then((response) => {})
+            .catch((err) => {
+                setErrors((prev) => {
+                    prev.coupon = err.response.data.detail;
+                    return prev;
+                });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     return (
@@ -278,11 +291,15 @@ export default function Page() {
                         <TextField
                             value={coupon}
                             onChange={(e) => {
-                                setCoupon(e.target.value);
+                                delete errors.coupon;
+                                setCoupon(e.target.value.toUpperCase());
                             }}
                             fullWidth
                             placeholder="Possui cupom? Digite-o aqui"
                             size="small"
+                            disabled={loading}
+                            error={errors.coupon ? true : false}
+                            helperText={errors.coupon ? errors.coupon : null}
                         ></TextField>
                     </Grid>
                     <Grid item xs={3}>
@@ -291,7 +308,6 @@ export default function Page() {
                             disabled={loading}
                             color="primary"
                             onClick={() => {
-                                setSubtotal(subtotal + 1);
                                 checkCoupon();
                             }}
                         >
