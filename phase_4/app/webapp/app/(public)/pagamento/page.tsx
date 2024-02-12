@@ -143,22 +143,23 @@ export default function Page() {
     };
 
     const checkCoupon = () => {
-        setLoading(true);
-
         delete errors.coupon;
 
-        requester
-            .get(`/coupon/${coupon}`)
-            .then((response) => {})
-            .catch((err) => {
-                setErrors((prev) => {
-                    prev.coupon = err.response.data.detail;
-                    return prev;
+        if (coupon != "") {
+            setLoading(true);
+            requester
+                .get(`/coupon/${coupon}`)
+                .then((response) => {})
+                .catch((err) => {
+                    setErrors((prev) => {
+                        prev.coupon = err.response.data.detail;
+                        return prev;
+                    });
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        }
     };
 
     return (
