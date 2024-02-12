@@ -4,7 +4,8 @@ export default interface Ebook {
     cover: string;
     price: number;
     size?: number;
-    authors: string | string[];
+    authors?: string;
+    author: string;
     genre?: string;
     pages?: number;
     summary: string | JSX.Element;
