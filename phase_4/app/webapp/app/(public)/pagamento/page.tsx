@@ -396,14 +396,14 @@ export default function Page() {
                                     onConfirm={() => {
                                         setShowSuccessModal(true);
                                     }}
-                                    total={total}
+                                    total={total ?? 0}
                                     userId={user.idUsuario}
                                 />
                             </Box>
 
                             <Box sx={{ display: tab == 1 ? "block" : "none" }}>
                                 <PixContainer
-                                    total={total}
+                                    total={total ?? 0}
                                     userId={user.idUsuario}
                                 />
                             </Box>
