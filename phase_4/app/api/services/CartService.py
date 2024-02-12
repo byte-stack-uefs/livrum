@@ -4,10 +4,7 @@ from models.ebook import Ebook, EbookDAO
 
 class CartService:
 
-    def __init__(self, id) -> None:
-        self.idUsuario = id
-
-    def getCartEbooksByUserId(self) -> list:
+    def getCartEbooksByUserId(self, id) -> list:
 
         query = "SELECT \
                     e.*, u.nome AS nomeAutor	 \
@@ -22,7 +19,7 @@ class CartService:
                 WHERE \
                     c.idUsuario = %s;"
         with DB() as db:
-            db.execute(query, [self.idUsuario])
+            db.execute(query, [id])
             data = db.fetchall()
 
         ebooks = map(lambda x: EbookDAO(**x), data)
