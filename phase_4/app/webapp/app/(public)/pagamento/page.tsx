@@ -19,10 +19,12 @@ import {
     Typography,
     CircularProgress,
     Skeleton,
+    Alert,
 } from "@mui/material";
 import { useUser } from "@/app/context";
 import Ebook from "@/app/interfaces/Ebook";
 import useRequest from "@/app/services/requester";
+import { Coupon } from "@/app/interfaces/Coupon";
 
 export interface PaymentEbook {
     id: number;
@@ -107,7 +109,7 @@ export default function Page() {
     const [discount, setDiscount] = useState<number | null>(0);
     const [subtotal, setSubtotal] = useState<number | null>(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [couponObject, setCouponObject] = useState(null);
+    const [couponObject, setCouponObject] = useState<Coupon | null>(null);
 
     const [errors, setErrors] = useState<{ coupon?: string }>({});
 
@@ -135,14 +137,14 @@ export default function Page() {
             let discountPercentage = 0;
 
             if (couponObject != null) {
-                discountPercentage = couponObject.porcentagem / 100;
+                discountPercentage = couponObject.percentage / 100;
             }
 
             for (let b of books) {
                 if (b.isAvailable) {
                     sub += b.price;
 
-                    if (couponObject && couponObject.idUsuario == b.idAuthor) {
+                    if (couponObject && couponObject.idAuthor == b.idAuthor) {
                         b.discount = b.price * discountPercentage;
                         d += b.discount;
                     }
@@ -184,6 +186,7 @@ export default function Page() {
                 .get(`/coupon/${coupon}`)
                 .then((response) => {
                     setCouponObject(response.data);
+                    setCoupon("");
                 })
                 .catch((err) => {
                     setErrors((prev) => {
@@ -354,6 +357,15 @@ export default function Page() {
                             )}
                         </Button>
                     </Grid>
+                    {couponObject != null ? (
+                        <Grid item xs={9} mt={1}>
+                            <Alert variant="filled" severity="success">
+                                Cupom aplicado: {couponObject.name}
+                            </Alert>
+                        </Grid>
+                    ) : (
+                        <></>
+                    )}
                 </Grid>
             </Grid>
             <Grid container mt={2}>

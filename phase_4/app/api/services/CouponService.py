@@ -13,7 +13,7 @@ class CouponService:
 
         coupon = None
         if data is not None:
-            coupon = Coupon(**data)
+            coupon = CouponDAO(**data)
 
         return coupon
 
@@ -24,7 +24,7 @@ class CouponService:
 
         coupon = None
         if data is not None:
-            coupon = Coupon(**data)
+            coupon = CouponDAO(**data)
 
         return coupon
 
