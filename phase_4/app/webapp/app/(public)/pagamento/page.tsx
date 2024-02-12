@@ -22,25 +22,31 @@ import {
 } from "@mui/material";
 import { useUser } from "@/app/context";
 import Ebook from "@/app/interfaces/Ebook";
+import useRequest from "@/app/services/requester";
 
 export interface PaymentEbook {
     id: number;
     title: string;
     price: number;
     cover: string;
-    authors: Array<string> | string;
+    authors: string;
+    author: string;
 }
 
 function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
     return (
         <Grid container py={2}>
             <Grid item xs={3} position="relative" minHeight={200}>
-                <Image
-                    src={ebook.cover}
-                    fill
-                    alt="Book cover"
-                    objectFit="contain"
-                />
+                {ebook.cover ? (
+                    <Image
+                        src={ebook.cover}
+                        fill
+                        alt="Book cover"
+                        objectFit="contain"
+                    />
+                ) : (
+                    <></>
+                )}
             </Grid>
             <Grid item xs={9} container alignContent={"center"}>
                 <Grid item xs={12}>
@@ -54,7 +60,8 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
                 </Grid>
                 <Grid item xs={12}>
                     <Typography variant="body1" color="dark.main">
-                        por {ebook.authors.join(", ")}
+                        por {ebook.author}{" "}
+                        {ebook.authors ? ", " + ebook.authors : ""}
                     </Typography>
                     <Divider width="80%" height={2} />
                 </Grid>
@@ -77,12 +84,13 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
 
 export default function Page() {
     const router = useRouter();
+    const requester = useRequest();
     const [tab, setTab] = useState(0);
     const [total, setTotal] = useState<number | null>(null);
     const [coupon, setCoupon] = useState("");
     const [books, setBooks] = useState<null | Ebook[]>(null);
     const [loading, setLoading] = useState(false);
-    const [discount, setDiscount] = useState<number | null>(null);
+    const [discount, setDiscount] = useState<number | null>(0);
     const [subtotal, setSubtotal] = useState<number | null>(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -94,40 +102,22 @@ export default function Page() {
     }, [subtotal, discount]);
 
     useEffect(() => {
-        let b = [
-            {
-                id: 5,
-                cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
-                title: "Teste ebook",
-                authors: ["Almir Neto"],
-                price: 25.9,
-                releaseYear: "2020",
-                summary: "",
-                isAvailable: true,
-            },
-            {
-                id: 10,
-                cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
-                title: "Teste ebook",
-                authors: ["Almir Neto"],
-                price: 25.9,
-                releaseYear: "2020",
-                summary: "",
-                isAvailable: true,
-            },
-        ];
+        requester
+            .get("/cart")
+            .then((response) => {
+                setBooks(response.data);
+            })
+            .catch((err) => {});
+    }, []);
 
-        setBooks(b);
-
-        if (b != null) {
-            const val = b.reduce((acc, cur) => {
-                return acc + cur.price;
+    useEffect(() => {
+        if (books) {
+            const val = books.reduce((acc: number, cur: Ebook) => {
+                return cur.isAvailable ? acc + cur.price : acc;
             }, 0);
             setSubtotal(val);
         }
-
-        setDiscount(1.99);
-    }, []);
+    }, [books]);
 
     const tabItems = [
         {
