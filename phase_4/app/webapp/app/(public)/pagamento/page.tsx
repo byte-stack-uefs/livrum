@@ -290,7 +290,11 @@ export default function Page() {
                                 checkCoupon();
                             }}
                         >
-                            {loading ? <CircularProgress /> : "Aplicar"}
+                            {loading ? (
+                                <CircularProgress size="1.5rem" />
+                            ) : (
+                                "Aplicar"
+                            )}
                         </Button>
                     </Grid>
                 </Grid>
