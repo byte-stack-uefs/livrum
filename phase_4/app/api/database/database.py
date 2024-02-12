@@ -3,7 +3,7 @@ import mysql.connector
 # Configurações de conexão com o banco de dados
 settings = {
     "user": "root",
-    "password": "S3nh@F0rt3",
+    "password": "root",
     "port": 3306,
     "host": "127.0.0.1",  # Endereço do servidor MySQL
     "database": "livrum",  # Nome do banco de dados
