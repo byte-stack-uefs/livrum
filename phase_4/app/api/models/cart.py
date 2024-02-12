@@ -6,11 +6,6 @@ class Cart:
         self.idCart = kwargs.get("idCarrinho")
         self.idUsuario = kwargs.get("idUsuario")
 
-    def create_cart():
-        pass
-
-    def get_items():
-        pass
 
 class CartDTO:
     def __init__(self, **kwargs):

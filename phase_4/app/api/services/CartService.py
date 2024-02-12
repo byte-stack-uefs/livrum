@@ -1,7 +1,6 @@
 from database.database import DB
 from models.cart import Cart, CartDTO
-from models.cartItem import CartItemDTO, CartItemForm, EbookCartItemForm
-from models.user import User, UserType, UserDAO
+from models.cartItem import CartItemDTO, CartItemForm
 
 class CartService():
     def _convertDTOCart(self, item: dict) -> CartDTO:
@@ -26,61 +25,70 @@ class CartService():
         return cart
 
     def getAllCartItemsIDByCartId(
-        self, idCart: int
+        self, idUsuario: int
     ) -> list[CartItemForm]:
-        items_ids = []
-        ebooks = []
-
+        cart = self.getCartByClientId(idUsuario)
         with DB() as db:
-            db.execute("SELECT * FROM itemcarrinho WHERE idCarrinho = %s", [idCart])
-            #items_ids.append(db.fetchall())
+            db.execute("SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco FROM itemcarrinho, ebook WHERE itemcarrinho.idCarrinho = %s", [cart.idCart])
             data_list = db.fetchall()
 
-        items_ids = map(self._convertDTO, data_list)
-        return list(items_ids)
+        items = map(self._convertDTOCartItem, data_list)
+        return list(items)
 
-    def getCartByCartId(self, idCart: int) -> Cart:
-        with DB() as db:
-            db.execute("SELECT * FROM carrinho WHERE idCarrinho = %s", [idCart])
-            data = db.fetchone()
+    # def getCartByCartId(self, idCart: int) -> Cart:
+    #     with DB() as db:
+    #         db.execute("SELECT * FROM carrinho WHERE idCarrinho = %s", [idCart])
+    #         data = db.fetchone()
 
-        cart = None
-        if data is not None:
-            cart = Cart(**data)
+    #     cart = None
+    #     if data is not None:
+    #         cart = Cart(**data)
 
-        return cart
+    #     return cart
 
-    def deleteCartById(self, idCart: int, idUsuario: int):
+    def deleteCart(self, idCart: int, idUsuario: int):
         with DB() as db:
             try:
                 db.execute(
                     "DELETE FROM carrinho WHERE idCarrinho = %s AND idUsuario = %s",
-                    (idCart, idUsuario),
+                    (idCart, idUsuario)
                 )
             except:
                 return False
 
             return True
 
-    def addCreditCard(self, CartDTO: FrontToBackEndCreditCardDTO, idClient):
-        creditCardDTO.expiryDate = creditCardDTO.expiryDate + "-01"
-
+    def addCartItem(self, idCart: int, idEbook: int):
         with DB() as db:
             try:
                 db.execute(
-                    "INSERT INTO cartao (token, nomeImpresso, numero, cvv, dataVencimento, idCliente) VALUES (%s, %s, %s, %s, %s, %s)",
-                    [
-                        creditCardDTO.token,
-                        creditCardDTO.namePrinted,
-                        creditCardDTO.cardNumber,
-                        creditCardDTO.cvv,
-                        creditCardDTO.expiryDate,
-                        idClient,
-                    ],
+                    "INSERT INTO itemcarrinho (idCarrinho, idEbook) VALUES (%s, %s)",
+                    [idCart, idEbook]
                 )
             except:
                 return False
 
         return True
+    
+    def removeCartItem(self, idCart: int, idEbook: int):
+        with DB() as db:
+            try:
+                db.execute(
+                    "DELETE FROM itemcarrinho WHERE idCarrinho = %s AND idEbook = %s",
+                    [idCart, idEbook])                
+            except:
+                return False
+            return True
+        
+    def removeAllCartItems(self, idCart: int, idUsuario: int):
+        with DB() as db:
+            try:
+                db.execute(
+                    "DELETE FROM itemcarrinho WHERE idCarrinho = %s", idCart)
+                self.deleteCart()
+            except:
+                return False
+            return True
+            
 
 
