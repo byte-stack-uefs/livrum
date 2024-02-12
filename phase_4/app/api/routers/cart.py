@@ -11,8 +11,8 @@ access = UserHasAccess([UserType.CUSTOMER])
 
 @router.get("/", description="Get ebooks in cart")
 def list(user: Annotated[User, Depends(access)]):
-    cart = CartService(user.idUsuario)
-    return cart.getCartEbooksByUserId()
+    cart = CartService()
+    return cart.getCartEbooksByUserId(user.idUsuario)
 
 
 @router.post("/{idEbook}", description="Add an ebook to customer's cart")
