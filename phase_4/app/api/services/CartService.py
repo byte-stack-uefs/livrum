@@ -1,5 +1,5 @@
 from database.database import DB
-from models.ebook import Ebook, EbookDTO
+from models.ebook import Ebook, EbookDAO
 
 
 class CartService:
@@ -7,7 +7,7 @@ class CartService:
     def __init__(self, id) -> None:
         self.idUsuario = id
 
-    def getCartEbooksByUserId(self) -> list[Ebook]:
+    def getCartEbooksByUserId(self) -> list:
 
         query = "SELECT \
                     e.*, u.nome AS nomeAutor	 \
@@ -25,5 +25,5 @@ class CartService:
             db.execute(query, [self.idUsuario])
             data = db.fetchall()
 
-        ebooks = map(lambda x: EbookDTO(**x), data)
+        ebooks = map(lambda x: EbookDAO(**x), data)
         return list(ebooks)

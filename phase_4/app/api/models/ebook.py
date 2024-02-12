@@ -28,16 +28,17 @@ class Ebook:
 
 class EbookDAO:
     def __init__(self, **kwargs):
-        self.idEbook = kwargs.get("idEbook")
-        self.nome = kwargs.get("nome")
-        self.autor = kwargs.get("autor")
+        self.id = kwargs.get("idEbook")
+        self.title = kwargs.get("nome")
+        self.author = kwargs.get("nomeAutor")
         self.n_paginas: int = kwargs.get("n_paginas")
         self.criadoEm = kwargs.get("criadoEm")
-        self.idioma = kwargs.get("idioma")
+        self.languages = kwargs.get("idioma")
         self.sinopse = kwargs.get("sinopse")
-        self.img = kwargs.get("img")
+        self.authors = kwargs.get("outrosAutores")
         self.tamArqEmMb = kwargs.get("tamArq")
-        self.preco = kwargs.get("preco")
+        self.price: float = kwargs.get("preco")
+        self.cover = kwargs.get("capa")
 
 
 class EbookDTO(BaseModel):
@@ -45,7 +46,7 @@ class EbookDTO(BaseModel):
     nome: str
     autor: str
     n_paginas: int
-    criadoEm = Annotated[str, Query(pattern=r"^\d{4}-\d{2}$", examples=["2024-12"])]
+    criadoEm: Annotated[str, Query(pattern=r"^\d{4}-\d{2}$", examples=["2024-12"])]
     img: str
     tamArqEmMb: str
     preco: float
