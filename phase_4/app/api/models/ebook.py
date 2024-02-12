@@ -24,16 +24,18 @@ class Ebook:
 class EbookDTO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idEBook")
-        self.author = ""
-        self.title = kwargs.get("nome")
+        self.author: str = kwargs.get("nomeAutor")
+        self.otherAuthors: str = kwargs.get("outrosAutores")
+        self.title: str = kwargs.get("nome")
         self.releaseYear = kwargs.get("anoLancamento")
-        self.price = kwargs.get("preco")
-        self.isAvailable = True
-        self.cover = kwargs.get("capa")
+        self.price: float = kwargs.get("preco")
+        self.status: EbookStatus = kwargs.get("status")
+        self.isAvailable: bool = self.status == EbookStatus.ACTIVE
+        self.cover: str = kwargs.get("capa")
 
 
 class EbookStatus(str, Enum):
-    PENDING = 'pending'
-    ACTIVE = 'active'
-    INACTIVE = 'inactive'
-    REJECTED = 'rejected'
+    PENDING = "pending"
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    REJECTED = "rejected"
