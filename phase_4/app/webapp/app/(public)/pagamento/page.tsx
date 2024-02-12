@@ -31,6 +31,7 @@ export interface PaymentEbook {
     cover: string;
     authors?: string;
     author: string;
+    discount?: number;
 }
 
 function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
@@ -77,6 +78,19 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
                         })}
                     </Typography>
                 </Grid>
+                {ebook.discount ? (
+                    <Grid item xs={12}>
+                        <Typography variant="body1" color="error">
+                            Desconto:{" "}
+                            {ebook.discount.toLocaleString("pt-br", {
+                                currency: "BRL",
+                                style: "currency",
+                            })}
+                        </Typography>
+                    </Grid>
+                ) : (
+                    <></>
+                )}
             </Grid>
         </Grid>
     );
@@ -93,6 +107,7 @@ export default function Page() {
     const [discount, setDiscount] = useState<number | null>(0);
     const [subtotal, setSubtotal] = useState<number | null>(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [couponObject, setCouponObject] = useState(null);
 
     const [errors, setErrors] = useState<{ coupon?: string }>({});
 
@@ -114,12 +129,30 @@ export default function Page() {
 
     useEffect(() => {
         if (books) {
-            const val = books.reduce((acc: number, cur: Ebook) => {
-                return cur.isAvailable ? acc + cur.price : acc;
-            }, 0);
-            setSubtotal(val);
+            let sub = 0;
+            let d = 0;
+
+            let discountPercentage = 0;
+
+            if (couponObject != null) {
+                discountPercentage = couponObject.porcentagem / 100;
+            }
+
+            for (let b of books) {
+                if (b.isAvailable) {
+                    sub += b.price;
+
+                    if (couponObject && couponObject.idUsuario == b.idAuthor) {
+                        b.discount = b.price * discountPercentage;
+                        d += b.discount;
+                    }
+                }
+            }
+
+            setSubtotal(sub);
+            setDiscount(d);
         }
-    }, [books]);
+    }, [books, couponObject]);
 
     const tabItems = [
         {
@@ -149,7 +182,9 @@ export default function Page() {
             setLoading(true);
             requester
                 .get(`/coupon/${coupon}`)
-                .then((response) => {})
+                .then((response) => {
+                    setCouponObject(response.data);
+                })
                 .catch((err) => {
                     setErrors((prev) => {
                         prev.coupon = err.response.data.detail;
