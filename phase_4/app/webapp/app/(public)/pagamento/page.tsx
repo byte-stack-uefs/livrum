@@ -77,12 +77,12 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
 export default function Page() {
     const router = useRouter();
     const [tab, setTab] = useState(0);
-    const [total, setTotal] = useState(null);
+    const [total, setTotal] = useState<number | null>(null);
     const [coupon, setCoupon] = useState("");
     const [books, setBooks] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [discount, setDiscount] = useState(null);
-    const [subtotal, setSubtotal] = useState(null);
+    const [discount, setDiscount] = useState<number | null>(null);
+    const [subtotal, setSubtotal] = useState<number | null>(null);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const { user } = useUser();
@@ -275,7 +275,7 @@ export default function Page() {
                             onChange={(e) => {
                                 setCoupon(e.target.value);
                             }}
-                            fullWidth
+                            fullWidth55
                             placeholder="Possui cupom? Digite-o aqui"
                             size="small"
                         ></TextField>
@@ -286,7 +286,7 @@ export default function Page() {
                             disabled={loading}
                             color="primary"
                             onClick={() => {
-                                setTotal(total + 1);
+                                setSubtotal(subtotal + 1);
                                 checkCoupon();
                             }}
                         >
