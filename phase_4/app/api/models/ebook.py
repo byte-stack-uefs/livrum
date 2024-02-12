@@ -31,14 +31,17 @@ class EbookDAO:
         self.id = kwargs.get("idEbook")
         self.title = kwargs.get("nome")
         self.author = kwargs.get("nomeAutor")
-        self.n_paginas: int = kwargs.get("n_paginas")
-        self.criadoEm = kwargs.get("criadoEm")
+        self.pages: int = kwargs.get("n_paginas")
+        self.createdAt = kwargs.get("criadoEm")
         self.languages = kwargs.get("idioma")
-        self.sinopse = kwargs.get("sinopse")
+        self.summary: str = kwargs.get("sinopse")
         self.authors = kwargs.get("outrosAutores")
-        self.tamArqEmMb = kwargs.get("tamArq")
+        self.size = kwargs.get("tamArq")
         self.price: float = kwargs.get("preco")
         self.cover = kwargs.get("capa")
+        self.releaseYear = kwargs.get("anoLancamento")
+        self.status: EbookStatus = kwargs.get("status")
+        self.isAvailable: bool = self.status == EbookStatus.ACTIVE
 
 
 class EbookDTO(BaseModel):
