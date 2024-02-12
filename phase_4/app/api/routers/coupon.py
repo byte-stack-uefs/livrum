@@ -16,10 +16,10 @@ allUsers = security.UserHasAccess([UserType.AUTHOR, UserType.ADMIN, UserType.CUS
 @router.get("/{name}", description="Get a coupon by its name")
 def getByName(name: str, user: Annotated[User, Depends(allUsers)]):
     service = CouponService()
-    success = service.buscarPorNome(name)
-    if not success:
+    coupon = service.buscarPorNome(name)
+    if not coupon:
         raise HTTPException(404, "Cupom não encontrado")
-    return success
+    return coupon
 
 
 @router.get("/", description="Get all coupons")
