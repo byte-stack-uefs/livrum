@@ -25,8 +25,8 @@ function ClientDataContainerHeader() {
 }
 
 function ClientDataContainer() {
-    const [clientData, setClientData] = useState<UserAttributes>;
-    const [customerData, setCustomerData] = useState<UserAttributes>;
+    const [clientData, setClientData] = useState<UserAttributes>();
+    const [customerData, setCustomerData] = useState<UserAttributes>();
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
