@@ -359,8 +359,18 @@ export default function Page() {
                     </Grid>
                     {couponObject != null ? (
                         <Grid item xs={9} mt={1}>
-                            <Alert variant="filled" severity="success">
-                                Cupom aplicado: {couponObject.name}
+                            <Alert
+                                variant="filled"
+                                severity="success"
+                                sx={{ textAlign: "left" }}
+                            >
+                                <Typography variant="body1">
+                                    Cupom aplicado: {couponObject.name}
+                                </Typography>
+                                <Typography variant="caption">
+                                    O cupom só é aplicado nos ebooks cujo autor
+                                    disponibilizou o cupom
+                                </Typography>
                             </Alert>
                         </Grid>
                     ) : (
