@@ -1,11 +1,18 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from models.user import User, UserType
+from typing_extensions import Annotated
+from services.CartService import CartService
+from dependencies.security import UserHasAccess
 
 router = APIRouter(prefix="/cart", tags=["Cart"])
 
+access = UserHasAccess([UserType.CUSTOMER])
+
 
 @router.get("/", description="Get ebooks in cart")
-def list():
-    return {"message": "Ebooks"}
+def list(user: Annotated[User, Depends(access)]):
+    cart = CartService(user.idUsuario)
+    return cart.getCartEbooksByUserId()
 
 
 @router.post("/{idEbook}", description="Add an ebook to customer's cart")
@@ -21,6 +28,7 @@ def delete(idEbook: int):
 @router.delete("/", description="Delete all ebooks from cart")
 def deleteAll():
     return {"message": "Delete all ebooks"}
+
 
 # Talvez seja removido
 @router.post("/buy", description="Buy all ebooks in cart")
