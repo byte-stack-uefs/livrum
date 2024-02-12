@@ -29,6 +29,7 @@ class Ebook:
 class EbookDAO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idEbook")
+        self.idAuthor = kwargs.get("idAutor")
         self.title = kwargs.get("nome")
         self.author = kwargs.get("nomeAutor")
         self.pages: int = kwargs.get("n_paginas")

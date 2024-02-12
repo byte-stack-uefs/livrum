@@ -1,5 +1,6 @@
 export default interface Ebook {
     id: number;
+    idAuthor: number;
     title: string;
     cover: string;
     price: number;
