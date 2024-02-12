@@ -21,13 +21,14 @@ import {
     Skeleton,
 } from "@mui/material";
 import { useUser } from "@/app/context";
+import Ebook from "@/app/interfaces/Ebook";
 
 export interface PaymentEbook {
     id: number;
     title: string;
     price: number;
     cover: string;
-    authors: Array<string>;
+    authors: Array<string> | string;
 }
 
 function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
@@ -79,7 +80,7 @@ export default function Page() {
     const [tab, setTab] = useState(0);
     const [total, setTotal] = useState<number | null>(null);
     const [coupon, setCoupon] = useState("");
-    const [books, setBooks] = useState(null);
+    const [books, setBooks] = useState<null | Ebook[]>(null);
     const [loading, setLoading] = useState(false);
     const [discount, setDiscount] = useState<number | null>(null);
     const [subtotal, setSubtotal] = useState<number | null>(null);
@@ -93,13 +94,16 @@ export default function Page() {
     }, [subtotal, discount]);
 
     useEffect(() => {
-        setBooks([
+        let b = [
             {
                 id: 5,
                 cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
                 title: "Teste ebook",
                 authors: ["Almir Neto"],
                 price: 25.9,
+                releaseYear: "2020",
+                summary: "",
+                isAvailable: true,
             },
             {
                 id: 10,
@@ -107,10 +111,21 @@ export default function Page() {
                 title: "Teste ebook",
                 authors: ["Almir Neto"],
                 price: 25.9,
+                releaseYear: "2020",
+                summary: "",
+                isAvailable: true,
             },
-        ]);
+        ];
 
-        setSubtotal(49.9);
+        setBooks(b);
+
+        if (b != null) {
+            const val = b.reduce((acc, cur) => {
+                return acc + cur.price;
+            }, 0);
+            setSubtotal(val);
+        }
+
         setDiscount(1.99);
     }, []);
 
@@ -275,7 +290,7 @@ export default function Page() {
                             onChange={(e) => {
                                 setCoupon(e.target.value);
                             }}
-                            fullWidth55
+                            fullWidth
                             placeholder="Possui cupom? Digite-o aqui"
                             size="small"
                         ></TextField>
