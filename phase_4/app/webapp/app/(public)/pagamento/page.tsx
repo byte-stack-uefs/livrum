@@ -29,7 +29,7 @@ export interface PaymentEbook {
     title: string;
     price: number;
     cover: string;
-    authors: string;
+    authors?: string;
     author: string;
 }
 
