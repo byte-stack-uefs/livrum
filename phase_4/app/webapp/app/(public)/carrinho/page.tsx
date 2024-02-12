@@ -23,7 +23,7 @@ const Cart = () => {
                             Carrinho Vazio
                         </Typography>
                         <LivrumLink href="/">
-                            <Typography variant="body2">Vamos as Compras</Typography>
+                            <Typography variant="body2">Vamos às Compras</Typography>
                         </LivrumLink>
                     </Alert>
                 </Grid>
