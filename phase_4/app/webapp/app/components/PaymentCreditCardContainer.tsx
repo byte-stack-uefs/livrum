@@ -7,12 +7,8 @@ import {
     Alert,
     Button,
     CircularProgress,
-    Dialog,
-    DialogContent,
-    DialogTitle,
     FormControl,
     Grid,
-    IconButton,
     InputLabel,
     MenuItem,
     Select,
@@ -20,7 +16,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { DialogError } from "./DialogError";
 
 export function PaymentCreditCardContainer({
     onConfirm,
@@ -124,31 +120,13 @@ export function PaymentCreditCardContainer({
         } else {
             return (
                 <>
-                    <Dialog open={showErrorDialog}>
-                        <DialogTitle>
-                            <Grid container>
-                                <Grid item xs={12} sx={{ textAlign: "right" }}>
-                                    <IconButton
-                                        onClick={() => {
-                                            setShowErrorDialog(false);
-                                        }}
-                                    >
-                                        <Close />
-                                    </IconButton>
-                                </Grid>
-                            </Grid>
-                        </DialogTitle>
-                        <DialogContent>
-                            <Grid container sx={{ textAlign: "center" }}>
-                                <Grid item xs={12}>
-                                    <Close color="error" fontSize="large" />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    {dialogMessageError}
-                                </Grid>
-                            </Grid>
-                        </DialogContent>
-                    </Dialog>
+                    <DialogError
+                        open={showErrorDialog}
+                        message={dialogMessageError}
+                        onClose={() => {
+                            setShowErrorDialog(false);
+                        }}
+                    />
                     <Grid xs={12} container item>
                         <Grid item xs={8}>
                             <Typography
