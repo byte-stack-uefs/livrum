@@ -36,7 +36,9 @@ def payByCreditCard(
     creditCard = cardService.getCreditCardByCardId(form.idCreditCard)
 
     if creditCard.cvv != form.cvv:
-        raise HTTPException(400, "O código de segurança está inválido")
+        raise HTTPException(
+            400, {"field": "cvv", "message": "O código de segurança está inválido"}
+        )
 
     cartService = CartService()
     ebooks = cartService.getCartEbooksByUserId(user.idUsuario)

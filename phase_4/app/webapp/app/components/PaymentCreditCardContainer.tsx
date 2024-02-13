@@ -33,6 +33,8 @@ export function PaymentCreditCardContainer({
     const [selectedCard, setSelectedCard] = useState(0);
     const [selectedInstallment, setSelectedInstallment] = useState(1);
     const [cvv, setCvv] = useState<string>("");
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState<{ cvv?: string }>({});
 
     useEffect(() => {
         requester
@@ -68,6 +70,32 @@ export function PaymentCreditCardContainer({
             })[0]
         );
     }
+
+    const pay = () => {
+        setLoading(true);
+
+        requester
+            .post("/payment/pay-by-credit-card", {
+                cvv: cvv,
+                installments: selectedInstallment,
+                idCreditCard: selectedCard,
+            })
+            .then((response) => {})
+            .catch((err) => {
+                const detail: { field: string; message: string } =
+                    err.response.data.detail;
+
+                if (detail.field) {
+                    setErrors((prev) => {
+                        prev[detail.field] = detail.message;
+                        return prev;
+                    });
+                }
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    };
 
     const installments: int[] = [];
     for (let i = 1; i <= 12; i++) {
@@ -167,15 +195,20 @@ export function PaymentCreditCardContainer({
                                 label="Código de Segurança"
                                 size="small"
                                 value={cvv}
+                                error={errors.cvv ? true : false}
+                                helperText={errors.cvv ? errors.cvv : null}
                             />
                         </Grid>
                         <Grid item xs={4} textAlign="right">
                             <Button
                                 variant="contained"
                                 color="primary"
-                                onClick={onConfirm}
+                                onClick={pay}
+                                disabled={loading}
                             >
-                                Confirmar pagamento
+                                {loading
+                                    ? "Carregando..."
+                                    : "Confirmar Pagamento"}
                             </Button>
                         </Grid>
                     </Grid>
