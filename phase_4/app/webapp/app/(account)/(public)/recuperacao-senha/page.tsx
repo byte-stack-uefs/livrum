@@ -4,6 +4,7 @@ import { theme } from "@/app/theme";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Divider from "@/app/components/Divider";
+import useRequest from '@/app/services/requester';
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import {
@@ -21,6 +22,7 @@ const UserPasswordRestore = () => {
   const [isButtonDisabled, setButtonDisabled] = useState(true);
 
   const router = useRouter();
+  const requester = useRequest();
 
   const validateEmail = (email) => {
     const isValidEmail = /\S+@\S+\.\S+/.test(email);
@@ -28,14 +30,12 @@ const UserPasswordRestore = () => {
     setButtonDisabled(!isValidEmail);
   };
 
-  const resquestPassword = (email) => {
-    router
-      .patch("/account/recuperar-senha", { emailUser: email })
+  const resquestRecoverPassword = () => {
+      requester.post("/account/recuperar-senha", {email: email })
       .then(() => {
-        setEmail("");
-        setButtonDisabled(true);
+
       })
-      .catch(() => {
+      .catch((err: any) => {
         
       })
   };
@@ -52,9 +52,10 @@ const UserPasswordRestore = () => {
     const isValidEmail = /\S+@\S+\.\S+/.test(email);
 
     if (isValidEmail) {
+      resquestRecoverPassword();
       setOpenModal(true);
-      resquestPassword(email);
     }
+
   };
 
   return (

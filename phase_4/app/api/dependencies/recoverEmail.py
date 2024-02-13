@@ -1,6 +1,9 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from dependencies.security import get_password_hash
+import random
+import string
 class RecoverEmail:
     
     def emailRecover(email, password):
@@ -16,10 +19,8 @@ class RecoverEmail:
         msg['To'] = email
         msg['Subject'] = 'Recuperação de Senha'
 
-        corpo_email = f"""
-        <p>Você solicitou uma recuperação de senha.</p>
-        <p>Esta é a sua senha temporaria de acesso <strong>{password}</strong> entre na sua conta para alterar sua senha.</p>
-        """
+        corpo_email = RecoverEmail.generateEmailBody(password)
+
         msg.attach(MIMEText(corpo_email, 'html'))
 
         try:
@@ -31,4 +32,18 @@ class RecoverEmail:
             return True
         except Exception as e:
             return False
+
+    def generateRandomPassword():
+
+        alphabet = string.ascii_letters + string.digits + string.punctuation
+        password =  ''.join(random.choice(alphabet) for i in range(10))
+        passToHash = get_password_hash(password)
+
+        return password
+
+    def generateEmailBody(password):
+        return f"""
+        <p>Você solicitou uma recuperação de senha.</p>
+        <p>Esta é a sua senha temporária de acesso: <strong>{password}</strong>. Por favor, entre na sua conta para alterar a sua senha.</p>
+        """
              
