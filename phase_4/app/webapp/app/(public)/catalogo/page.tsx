@@ -23,6 +23,7 @@ import {
 import axios from "axios";
 import Ebook, { EbookResponse } from "@/app/interfaces/Ebook";
 import useRequest from "@/app/services/requester";
+import { Mina } from "next/font/google";
 
 function PageHeader() {
     return (
@@ -51,13 +52,12 @@ function SearchBox() {
 interface SearchButtonProps {   
     price_min: Number;
     price_max: Number;
-    minYear: Number;
     maxYear: Number;
     language: String;
     setBooks: React.Dispatch<React.SetStateAction<Ebook[]>>;
 }
-
-function SearchButton({price_min,price_max,minYear,maxYear,language, setBooks}: SearchButtonProps) {
+// TODO: REMOVE PRICE MIN (not used)
+function SearchButton({price_min,price_max,maxYear,language, setBooks}: SearchButtonProps) {
     const requester = useRequest()
     console.log("Release Year:", maxYear);
     console.log("Min Price:", price_min);
@@ -163,19 +163,28 @@ interface SettingFilteredBooksProps {
     fetched: boolean;
 }
 
+// minVal, maxVal, yearInput, setYearInput, fetched}: YearSliderProps
 function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
     const [price_min, setPriceMin] = useState(Number);
     const [price_max, setPriceMax] = useState(Number);
-    const [minYear, setMinYear] = useState(Number);
     const [maxYear, setMaxYear] = useState(Number);
     const [language, setLanguage] = useState(String);
     if(fetched){
+        var year = getYearRange(books);
+        var prices = getPriceRange(books);
+        
+        var minPriceVal = prices[0]; // These are not modified
+        var maxPriceVal = prices[1]; // These are not modified
+
+        var minYearVal = year[0]; // These are not modified
+        var maxYearVal = year[1]; // These are not modified
+
         return (
             <Grid xs={4}>
                 <Grid container sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                     <Grid xs={12} container>
                         <SearchBox></SearchBox>
-                        <SearchButton price_min={price_min} price_max={price_max} minYear={minYear} maxYear={maxYear} language={language} setBooks={setBooks}></SearchButton>
+                        <SearchButton price_min={price_min} price_max={price_max} maxYear={maxYear} language={language} setBooks={setBooks}></SearchButton>
                     </Grid>
                     <Grid xs={12}>
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
@@ -189,11 +198,11 @@ function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                     </Grid>
                     <Grid xs={12}>
-                        <PriceSection setPriceMin={setPriceMin} setPriceMax={setPriceMax} ></PriceSection>
+                        <PriceSection minVal={minPriceVal} maxVal={maxPriceVal} setPriceMin={setPriceMin} setPriceMax={setPriceMax} ></PriceSection>
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                     </Grid>
                     <Grid xs={12}>
-                        <ReleaseYear books={books} setMinYear={setMinYear} setMaxYear={setMaxYear} fetched={fetched}></ReleaseYear>
+                        <ReleaseYear minVal={minYearVal} maxVal={maxYearVal} setYearInput={setMaxYear}></ReleaseYear>
                     </Grid>
                 </Grid>
             </Grid>
@@ -202,18 +211,20 @@ function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
 }
 
 interface PriceSectionProps {
+    minVal: number;
+    maxVal: number;
     setPriceMin : React.Dispatch<React.SetStateAction<number>>;
     setPriceMax : React.Dispatch<React.SetStateAction<number>>;
 }
 
-function PriceSection({setPriceMin, setPriceMax}: PriceSectionProps) {
+function PriceSection({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionProps) {
     return (
         <Grid container>
             <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Preço</h1>
             </Grid>
             <Grid xs={12}>
-                <PriceSlider setPriceMin={setPriceMin} setPriceMax={setPriceMax}></PriceSlider>
+                <PriceSlider minVal={minVal} maxVal={maxVal} setPriceMin={setPriceMin} setPriceMax={setPriceMax}></PriceSlider>
             </Grid>
         </Grid>
     );
@@ -225,50 +236,35 @@ function valuetext(value: number) {
 }
 
 
-function getPriceRange() : number[] {
-    
-    const [books, setBooks] = useState<(Ebook)[]>([]);
-    const [fetched, setFetched] = useState(Boolean);
-    const [minPrice, setMinPrice] = useState(Number);
-    const [maxPrice, setMaxPrice] = useState(Number);
-    
-    const fetchEbooks = async () => {
-        const requester = useRequest()
+function getPriceRange(books:Ebook[]) : number[] {
         
-        const { data } = await requester.get<EbookResponse>("/catalog/list");
-        setBooks(data.ebooks);
-        setFetched(true);     
-        var priceValues: number[] = [];
-        data.ebooks.forEach(function(book){priceValues.push(book.price)});
-        var min = priceValues.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0);
-        var max = priceValues.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);        
-        setMaxPrice(data.ebooks[max].price);
-        setMinPrice(data.ebooks[min].price);
-        return [minPrice, maxPrice];          
-    };
-    if (!(fetched)){
-        fetchEbooks();
-    }
-    return [minPrice, maxPrice];
+    var priceValues: number[] = [];
+    books.forEach(function(book){priceValues.push(book.price)});
+    var min = priceValues.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0);
+    var max = priceValues.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);        
+    var minPrice = books[min].price;
+    var maxPrice = books[max].price;
+
+    return [minPrice, maxPrice];          
 }
 
-function PriceSlider({setPriceMin, setPriceMax}: PriceSectionProps) {
-    var priceRange: number[] = getPriceRange();
-    var minPrice = priceRange[0];
-    var maxPrice = priceRange[1];
+function PriceSlider({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionProps) {
 
     const PriceMarks = [
         {
-            value: minPrice,
-            label: "R$" + minPrice.toString(),
+            value: minVal,
+            label: "R$" + minVal.toString(),
         },
         {
-            value: maxPrice,
-            label: "R$" + maxPrice.toString(),
+            value: maxVal,
+            label: "R$" + maxVal.toString(),
         },
     ];    
 
-    const [value, setValue] = React.useState<number[]>([minPrice, maxPrice]);
+    const [value, setValue] = React.useState<number[]>([minVal, maxVal]);
+    setPriceMin(value[0]);
+    setPriceMax(value[1]);
+
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -281,8 +277,8 @@ function PriceSlider({setPriceMin, setPriceMax}: PriceSectionProps) {
             <Slider
                 aria-label="Always visible"
                 value={value}
-                min={minPrice}
-                max={maxPrice}
+                min={minVal}
+                max={maxVal}
                 getAriaValueText={valuetext}
                 onChange={handleChange}
                 step={5}
@@ -306,26 +302,35 @@ function getYearRange(books: Ebook[]) : number[] {
     return [minYear, maxYear];
 }
 
-function YearSlider({books, setMinYear, setMaxYear}: YearSectionProps) {
-    var yearRange: number[] = getYearRange(books); // Get years range from books
-    var minYear = yearRange[0];
-    var maxYear = yearRange[1];
 
-    const [value, setValue] = React.useState<number[]>([minYear, maxYear]);
+function yearValueText(value: number) {
+    return `${value}`;
+}
+
+interface YearSliderProps {
+    minVal: number;
+    maxVal: number;
+    setYearInput: React.Dispatch<React.SetStateAction<number>>;
+}
+
+
+function YearSlider({minVal, maxVal, setYearInput}: YearSliderProps) {
+    
+    const [value, setValue] = React.useState<number>(maxVal);
+    setYearInput(value);
     const handleChange = (event: Event, newValue: number | number[]) => {
-        setValue(newValue as number[]);
-        setMinYear(value[0]);
-        setMaxYear(value[1]);
+        setYearInput(newValue as number);
+        setValue(newValue as number);
     };
 
     const YearMarks = [
         {
-            value: minYear,
-            label: minYear.toString(),
+            value: minVal,
+            label: minVal.toString(),
         },
         {
-            value: maxYear,
-            label: maxYear.toString(),
+            value: maxVal,
+            label: maxVal.toString()
         },
     ];
     
@@ -333,12 +338,12 @@ function YearSlider({books, setMinYear, setMaxYear}: YearSectionProps) {
         <Box>
             <Slider
                 aria-label="Always visible"
-                min={minYear}
-                max={maxYear}
+                min={minVal}
+                max={maxVal}
                 value={value}
                 onChange={handleChange}
-                getAriaValueText={valuetext}
-                step={1}
+                getAriaValueText={yearValueText}
+                step={2}
                 marks={YearMarks}
                 valueLabelDisplay="auto"
             />
@@ -346,21 +351,14 @@ function YearSlider({books, setMinYear, setMaxYear}: YearSectionProps) {
     );
 }
 
-interface YearSectionProps {
-    books: Ebook[];
-    setMinYear: React.Dispatch<React.SetStateAction<number>>;
-    setMaxYear: React.Dispatch<React.SetStateAction<number>>;
-    fetched: boolean;
-}
-
-function ReleaseYear({books, setMinYear, setMaxYear, fetched}: YearSectionProps) {    
+function ReleaseYear({minVal, maxVal, setYearInput}: YearSliderProps) {    
     return (
         <Grid container>
             <Grid xs={12} sx={{ fontSize: 12 }}>
                 <h1>Ano de Lançamento</h1>
             </Grid>
             <Grid xs={12}>
-                <YearSlider books={books} setMinYear={setMinYear} setMaxYear={setMaxYear} fetched={fetched}></YearSlider>
+                <YearSlider minVal={minVal} maxVal={maxVal} setYearInput={setYearInput}></YearSlider>
             </Grid>
         </Grid>
     );
