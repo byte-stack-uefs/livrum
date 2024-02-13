@@ -34,7 +34,16 @@ function PageHeader() {
     );
 }
 
-function SearchBox() {
+interface SearchBoxProps{
+    setSearchBarContent: React.Dispatch<React.SetStateAction<string>>;
+}
+function SearchBox({setSearchBarContent}:SearchBoxProps) {
+    const [value,setValue] = useState("");
+
+    const handleChanges = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+        setValue(event.target.value);
+    }
+
     return (
         <Grid xs={8}>
             <TextField
@@ -42,6 +51,7 @@ function SearchBox() {
                 size="small"
                 variant="outlined"
                 id="outlined-basic"
+                onChange={handleChanges}
                 label="Pesquise por nome ou autor"
                 sx={{ backgroundColor: "#FFFFFF" }}
             />
@@ -50,27 +60,31 @@ function SearchBox() {
 }
 
 interface SearchButtonProps {   
+    author_title: String;
     price_min: Number;
     price_max: Number;
     maxYear: Number;
     language: String;
     setBooks: React.Dispatch<React.SetStateAction<Ebook[]>>;
 }
-// TODO: REMOVE PRICE MIN (not used)
-function SearchButton({price_min,price_max,maxYear,language, setBooks}: SearchButtonProps) {
+
+function SearchButton({author_title ,price_min,price_max,maxYear,language, setBooks}: SearchButtonProps) {
     const requester = useRequest()
     console.log("Release Year:", maxYear);
     console.log("Min Price:", price_min);
     console.log("Max Price:", price_max);
+
+    var name = author_title;
+    var author = author_title;
+    var title = author_title;
+
     const handleClick = async () => {
         const { data } = await requester.get<EbookResponse>(
             "/catalog/search", 
             {
-                params: {release_year: maxYear,price_min: price_min,price_max: price_max}
+                params: {name, author, title, release_year: maxYear,price_min: price_min,price_max: price_max}
             }
         );
-        
-        console.log("BOOKS", data.ebooks);
         setBooks(data.ebooks);        
     };
     return (
@@ -165,6 +179,7 @@ interface SettingFilteredBooksProps {
 
 // minVal, maxVal, yearInput, setYearInput, fetched}: YearSliderProps
 function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
+    const [searchBarContent, setSearchBarContent] = useState("");
     const [price_min, setPriceMin] = useState(Number);
     const [price_max, setPriceMax] = useState(Number);
     const [maxYear, setMaxYear] = useState(Number);
@@ -183,8 +198,8 @@ function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
             <Grid xs={4}>
                 <Grid container sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                     <Grid xs={12} container>
-                        <SearchBox></SearchBox>
-                        <SearchButton price_min={price_min} price_max={price_max} maxYear={maxYear} language={language} setBooks={setBooks}></SearchButton>
+                        <SearchBox setSearchBarContent={setSearchBarContent}></SearchBox>
+                        <SearchButton author_title={searchBarContent} price_min={price_min} price_max={price_max} maxYear={maxYear} language={language} setBooks={setBooks}></SearchButton>
                     </Grid>
                     <Grid xs={12}>
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
