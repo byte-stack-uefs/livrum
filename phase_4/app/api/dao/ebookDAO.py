@@ -1,4 +1,4 @@
-from models.ebook import AuthorEbookDTO, Ebook, EbookDTO, EbookStatus
+from models.ebook import AuthorEbookDTO, Ebook, EbookDTO, EbookStatus, ReproveEbookDTO
 from database.database import DB
 
 class EbookDAO:
@@ -78,10 +78,10 @@ class EbookDAO:
             update = "UPDATE Ebook SET status = %s where idEBook = %s"
             db.execute(update, [EbookStatus.ACTIVE, id])
     
-    def repproveEbook(id):
+    def repproveEbook(reproveEbook: ReproveEbookDTO):
         with DB() as db:
-            update = "UPDATE Ebook SET status = %s where idEBook = %s"
-            db.execute(update, [EbookStatus.REJECTED, id])
+            update = "UPDATE Ebook SET status = %s, motivoRejeicao=%s where idEBook = %s"
+            db.execute(update, [EbookStatus.REJECTED, reproveEbook.reason, str(reproveEbook.id)])
 
     def disableEbook(id):
         with DB() as db:

@@ -83,7 +83,8 @@ export default function ListagemEbooks() {
     const [openDialog, setOpenDialog] = useState(false);
     const [openRefuseDialog, setRefuseOpenDialog] = useState(false);
     const [openEbook, setOpenEbook] = useState({} as AuthorEbook);
-    const [ebooks, setEbooks] = useState([] as Array<AuthorEbook>)
+    const [ebooks, setEbooks] = useState([] as Array<AuthorEbook>);
+    const [searchEbook, setSearchEbook] = useState("");
 
     const handleClickOpen = (ebook: AuthorEbook) => {
         setOpenEbook(ebook);
@@ -112,7 +113,14 @@ export default function ListagemEbooks() {
     };
     
     const handleRepproveEbook = () => {
-        requester.put('/ebook/repprove/'+openEbook.id).then(response => {
+        let reasonRefusal = document?.getElementById("refusalReason")?.value;
+        console.log(reasonRefusal);
+        if (!reasonRefusal) {
+            alert("Motivo de recusa não fornecido.");
+            console.error("Motivo de recusa não fornecido.");
+            return;
+        }
+        requester.put('/ebook/repprove', {"id": openEbook.id, "reason": reasonRefusal}).then(response => {
             //setOpenDialog(false);
             window.location.reload();
         }).catch(err => { })
@@ -124,6 +132,13 @@ export default function ListagemEbooks() {
             window.location.reload();
         }).catch(err => { })
     };
+
+    function searchEbooks(name: string) {
+        setSearchEbook(name);
+        console.log("here")
+        let ebooksFiltered = ebooks.filter(ebook => ebook.nome.toLowerCase().includes(name.toLowerCase()));
+        setEbooks(ebooksFiltered);
+    }
 
     
     const requester = useRequest();
@@ -256,7 +271,7 @@ export default function ListagemEbooks() {
                     </IconButton>
                     <DialogContent sx={{ color: "dark.main", justifyContent: "center" }}>
                         <Box textAlign="center">
-                            <TextField label="Motivo da Recusa" multiline style={{ width: "400px" }} rows={6} />
+                            <TextField label="Motivo da Recusa" id="refusalReason" multiline style={{ width: "400px" }} rows={6} />
                         </Box>
                     </DialogContent>
                     <DialogContent sx={{ color: "dark.main" }}>
@@ -266,10 +281,10 @@ export default function ListagemEbooks() {
                     </DialogContent>
                     <DialogContent>
                         <DialogActions style={{ justifyContent: "center" }}>
-                            <Button variant="contained" color="error" autoFocus>
+                            <Button variant="contained" color="error" autoFocus onClick={handleRefuseClose}>
                                 Cancelar
                             </Button>
-                            <Button variant="contained" color="success" autoFocus>
+                            <Button variant="contained" color="success" autoFocus onClick={handleRepproveEbook}>
                                 Salvar
                             </Button>
                         </DialogActions>
@@ -360,7 +375,7 @@ export default function ListagemEbooks() {
                                 <Button variant="contained" color="success" autoFocus onClick={handleApproveEbook}>
                                     Aprovar
                                 </Button>
-                                <Button variant="contained" color="error" autoFocus onClick={handleRepproveEbook}>
+                                <Button variant="contained" color="error" autoFocus onClick={handleRefuseClickOpen}>
                                     Recusar
                                 </Button>
                             </DialogActions>
@@ -388,7 +403,11 @@ export default function ListagemEbooks() {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase placeholder="Buscar por nome" inputProps={{ "aria-label": "search" }} />
+                        <StyledInputBase 
+                        placeholder="Buscar por nome" 
+                        inputProps={{ "aria-label": "search" }}
+                        value={searchEbook}
+                        onChange={(e) => {searchEbooks(e.target.value)}}/>
                     </Search>
                 </Box>
                 <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "10px" }}>

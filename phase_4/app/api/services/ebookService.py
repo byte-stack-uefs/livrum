@@ -1,4 +1,4 @@
-from models.ebook import AuthorEbookDTO, EbookDTO
+from models.ebook import AuthorEbookDTO, EbookDTO, ReproveEbookDTO
 from dao.ebookDAO import EbookDAO
 
 class EbookService:
@@ -26,9 +26,9 @@ class EbookService:
         except Exception as ex:
             print("Erro ao aprovar Ebook com id:", id, ex)
             
-    def repproveEbook(id):
+    def repproveEbook(reproveEbook: ReproveEbookDTO):
         try:
-            EbookDAO.repproveEbook(id)
+            EbookDAO.repproveEbook(reproveEbook)
         except Exception as ex:
             print("Erro ao reprovar Ebook com id:", id, ex)
 

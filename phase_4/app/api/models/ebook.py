@@ -1,5 +1,7 @@
 from enum import Enum
 
+from pydantic import BaseModel
+
 
 class Ebook:
     def __init__(self, **kwargs):
@@ -47,6 +49,9 @@ class AuthorEbookDTO:
         self.sinopse = kwargs.get("sinopse")
         self.motivo_recusa = kwargs.get("motivoRejeicao")
 
+class ReproveEbookDTO(BaseModel):
+    id: int
+    reason: str
 
 class EbookStatus(str, Enum):
     PENDING = 'pending'

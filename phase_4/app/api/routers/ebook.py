@@ -1,5 +1,6 @@
 import ujson
 from fastapi import APIRouter
+from models.ebook import ReproveEbookDTO
 from services.ebookService import EbookService
 
 router = APIRouter(prefix="/ebook", tags=["Ebook"])
@@ -27,9 +28,9 @@ def add():
 def approve(id: str):
     return EbookService.approveEbook(id)
 
-@router.put("/repprove/{id}", description="approve an ebook")
-def approve(id: str):
-    return EbookService.repproveEbook(id)
+@router.put("/repprove", description="repprove an ebook")
+def approve(reproveEbook: ReproveEbookDTO):
+    return EbookService.repproveEbook(reproveEbook)
 
 @router.put("/disable/{id}", description="approve an ebook")
 def approve(id: str):
