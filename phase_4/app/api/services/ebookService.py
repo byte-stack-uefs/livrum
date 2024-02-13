@@ -1,12 +1,20 @@
-from models.ebook import EbookDTO
-from dao.ebookDAO import EbookDAO
+from database.database import DB
+from models.ebook import Ebook, EbookDAO, EbookDTO
 
 class EbookService:
-    def findEbookByOptionalFilters(id = None, name = None, author = None, title = None, release_year = None, price_min = None, price_max = None, id_client = None) -> [EbookDTO]:
-        ebooks = []
-        try:
-            ebooks = EbookDAO.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client)
-        except Exception as ex:
-            print("Erro ao buscar Ebooks", ex)
+    def _convertDAO(self, item: dict) -> EbookDAO:
+        return EbookDAO(**item)
+    
+    def addEbook(self, novoEbook:EbookDTO,idAutor) -> Ebook:
 
-        return ebooks
+        with DB() as db:
+            try:
+                db.execute("INSERT INTO EBook (nome,idAutor,qtdPaginas,anoLancamento,idioma,sinopse,capa,tamanhoEmMB,preco)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s)", 
+                        [novoEbook.nome,idAutor,novoEbook.n_paginas,novoEbook.anoLancamento,novoEbook.idioma,novoEbook.sinopse,novoEbook.img,novoEbook.tamArqEmMb,novoEbook.preco])
+                data = db.commit()
+
+            except:
+                return False
+
+        return True
+
