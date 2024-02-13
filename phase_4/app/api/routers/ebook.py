@@ -4,7 +4,7 @@ from dependencies import security
 from models.user import User, UserType
 from fastapi import APIRouter, Depends, HTTPException
 from models.ebook import EbookDTO
-from services.ebookService import EbookService
+from services.EbookService import EbookService
 
 router = APIRouter(prefix="/ebook", tags=["Ebook"])
 
