@@ -1,8 +1,16 @@
 from database.database import DB
 from models.ebook import Ebook, EbookDAO
+from typing import List
 
 
 class CartService:
+
+    def hasUnavailableEbooks(self, ebooks: List[EbookDAO]) -> bool:
+
+        for e in ebooks:
+            if e.isAvailable:
+                return True
+        return False
 
     def getCartEbooksByUserId(self, id) -> list:
 

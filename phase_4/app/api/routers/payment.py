@@ -43,7 +43,8 @@ def payByCreditCard(
     cartService = CartService()
     ebooks = cartService.getCartEbooksByUserId(user.idUsuario)
 
-    print(ebooks)
+    if cartService.hasUnavailableEbooks(ebooks):
+        raise HTTPException(409, "Alguns ebooks não estão mais disponíveis para compra")
 
 
 @router.get("/pix/isPaid/{txid}")
