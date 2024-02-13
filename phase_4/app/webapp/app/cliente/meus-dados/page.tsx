@@ -36,18 +36,11 @@ function ClientDataContainer() {
     const [telephone, setTelephone] = useState("");
     const requester = useRequest();
     useEffect(() => {
-        getOldDataUser();
+        getDataUserObject();
+        getDataCustomerObject();
     }, [])
 
-    const getOldDataUser = () => {
-
-        requester.get(`/user/`).then((response: { data: UserAttributes; }) => {
-            const userData = response.data;
-            setName(userData.nome);
-            setEmail(userData.email);
-            setPassword(userData.senha);
-
-        }).catch((err: any) => { })
+    const getDataUserObject = () => {
         
         requester.get(`/customer/`).then((response: { data: CustomerAttributes; }) => {
             const customerData = response.data;
@@ -56,15 +49,28 @@ function ClientDataContainer() {
             setAddress(customerData.endereco);
             setTelephone(customerData.telefone);
         }).catch((err: any) => { });
+
+    }
+
+    const getDataCustomerObject = () => {
+        
+        requester.get(`/user/`).then((response: { data: UserAttributes; }) => {
+            const userData = response.data;
+            setName(userData.nome);
+            setEmail(userData.email);
+            setPassword(userData.senha);
+    
+        }).catch((err: any) => { })
+       
     }
    
     const saveChanges = () => { 
         requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
-
+            getDataUserObject();
         }).catch((err: any) => { })
 
         requester.patch(`/customer/`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone}).then((response: any) => {
-        
+            getDataCustomerObject();
         }).catch((err: any) => { })
         
     }   

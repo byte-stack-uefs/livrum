@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, InputAdornment, Typography, FormControl, IconButton } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -8,7 +8,8 @@ import Divider from "@/app/components/Divider";
 import { theme } from "@/app/theme";
 // @ts-ignore
 import BootstrapInput from "@/app/theme";
-
+import useRequest from '@/app/services/requester';
+import { UserAttributes } from '@/app/interfaces/User';
 import { alpha } from "@mui/material/styles";
 
 import Box from "@mui/material/Box";
@@ -24,8 +25,8 @@ const AdminData = () => {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [oldPassword, setOldPassword] = useState("");
-
     const [showPassword, setShowPassword] = React.useState(false);
+    const requester = useRequest();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -52,6 +53,28 @@ const AdminData = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
     };
+
+    useEffect(() => {
+        getDataUserObject();
+    }, [])
+
+    const getDataUserObject = () => {
+
+        requester.get(`/user/`).then((response: { data: UserAttributes; }) => {
+            const userData = response.data;
+            setName(userData.nome);
+            setEmail(userData.email);
+            setOldPassword(userData.senha);
+
+        }).catch((err: any) => { })
+        
+    }
+   
+    const saveChanges = () => { 
+        requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
+            getDataUserObject();
+        }).catch((err: any) => { })
+    }   
 
     return (
         <form onSubmit={handleSubmit}>
@@ -188,10 +211,10 @@ const AdminData = () => {
 
                         <Grid xs={12} sm={6} md={4} lg={2}>
                             <Button
-                                type="submit"
                                 variant="contained"
                                 color="primary"
                                 fullWidth
+                                onClick={saveChanges}
                                 sx={{
                                     marginTop: "10px",
                                     backgroundColor: theme.palette.dark.main,
