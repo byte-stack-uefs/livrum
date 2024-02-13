@@ -39,11 +39,7 @@ export interface PaymentEbook {
 
 function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
     return (
-        <Grid
-            container
-            py={2}
-            sx={{ backgroundColor: ebook.isAvailable ? "" : "error.main" }}
-        >
+        <Grid container py={2}>
             <Grid item xs={3} position="relative" minHeight={200}>
                 {ebook.cover ? (
                     <Image
@@ -79,12 +75,20 @@ function PaymentEbook({ ebook }: { ebook: PaymentEbook }) {
                         color="dark.main"
                         fontWeight="bold"
                     >
-                        {ebook.isAvailable
-                            ? ebook.price.toLocaleString("pt-br", {
-                                  currency: "BRL",
-                                  style: "currency",
-                              })
-                            : "Ebook indisponível para compra"}
+                        {ebook.isAvailable ? (
+                            ebook.price.toLocaleString("pt-br", {
+                                currency: "BRL",
+                                style: "currency",
+                            })
+                        ) : (
+                            <Alert
+                                sx={{ mt: 1 }}
+                                severity="error"
+                                variant="filled"
+                            >
+                                Ebook indisponível para compra
+                            </Alert>
+                        )}
                     </Typography>
                 </Grid>
                 {ebook.discount ? (
