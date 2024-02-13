@@ -74,6 +74,8 @@ export function PaymentCreditCardContainer({
     const pay = () => {
         setLoading(true);
 
+        delete errors.cvv;
+
         requester
             .post("/payment/pay-by-credit-card", {
                 cvv: cvv,
