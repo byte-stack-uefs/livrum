@@ -75,9 +75,17 @@ export function PaymentCreditCardContainer({
     }
 
     const pay = () => {
-        setLoading(true);
-
         delete errors.cvv;
+
+        if (cvv == "") {
+            setErrors((prev) => {
+                let n = Object.assign({}, prev);
+                n.cvv = "CVV é obrigatório";
+                return n;
+            });
+            return;
+        }
+        setLoading(true);
 
         requester
             .post("/payment/pay-by-credit-card", {
