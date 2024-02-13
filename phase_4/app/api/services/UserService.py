@@ -64,7 +64,7 @@ class UserService:
                         get_password_hash(user.senha),
                         user.status,
                         user.tipo,
-                        idUser,
+                        id,
                     ]
                 )
             except Exception as e:

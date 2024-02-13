@@ -14,19 +14,17 @@ access = security.UserHasAccess([UserType.CUSTOMER])
 def add():
     return {"message", "Add a customer"}
 
-@router.get("/{id}", description="Get a customer by ID")
-def get(id:int, user: Annotated[User, Depends(access)]):
+@router.get("/", description="Get a customer by ID")
+def get(user: Annotated[User, Depends(access)]):
 
     service = CustomerService()
    
-    customer = service.findCustomerById(id)
+    customer = service.findCustomerById(user.idUsuario)
 
     if customer is None:
         raise HTTPException(404, "Cliente não encontrado")
                       
     return customer
-
-
 
 @router.get("/library", description="Get all books bought by a client")
 def getLibrary():
@@ -37,14 +35,17 @@ def getLibrary():
 def getHistory():
     return {"message": "Get transaction history made by a client"}
 
-@router.patch("/{id}")
-def update(id:int, customerPartial:PartialCustomerForm, user: Annotated[User, Depends(access)]):
+@router.patch("/")
+def update(customerPartial:PartialCustomerForm, user: Annotated[User, Depends(access)]):
     
     service = CustomerService()
-    customerOriginal = get(id,user)
-    customerPartial.updateOriginalByPartial(customerOriginal,customerPartial)
+    customer = service.findCustomerById(user.idUsuario)
 
-    success = service.updateCustomerById(id,customerOriginal)
+    if customer is None:
+        raise HTTPException(404, "Cliente não encontrado")
+
+    customerPartial.updateOriginalByPartial(customer,customerPartial)
+    success = service.updateCustomerById(user.idUsuario,customer)
 
 
     

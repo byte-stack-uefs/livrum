@@ -9,7 +9,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Button, InputLabel, TextField, Typography } from "@mui/material";
 import { cellphoneInput, cpfInput } from "@/app/components/CustomInputs";
 import useRequest from '@/app/services/requester';
-import { UserAttributes } from '@/app/interfaces/User';
+import { UserAttributes, CustomerAttributes } from '@/app/interfaces/User';
 
 function ClientDataContainerHeader() {
     return (
@@ -37,47 +37,45 @@ function ClientDataContainer() {
     const requester = useRequest();
     useEffect(() => {
         getOldDataUser();
-
     }, [])
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
-    const handleSubmitClient = (event) => {
-        event.preventDefault();
-    };
     const getOldDataUser = () => {
-        requester.get(`/user/${id}`).then(response => {
-            setClientData(response.data)
-            setName(clientData.name)
-            setEmail(clientData.email)
-            setPassword(clientData.password)
-            
-        }).catch(err => { })
-        requester.get(`/costumer/${id}`).then(response => {
-            setCustomerData(response.data)
-            setCpf(customerData.cpf)
-            setBirthday(customerData.birthday)
-            setAddress(customerData.address)
-            setTelephone(customerData.telephone)
+
+        requester.get(`/user/`).then((response: { data: UserAttributes; }) => {
+            const userData = response.data;
+            setName(userData.nome);
+            setEmail(userData.email);
+            setPassword(userData.senha);
+
+        }).catch((err: any) => { })
         
-        }).catch(err => { })
+        requester.get(`/customer/`).then((response: { data: CustomerAttributes; }) => {
+            const customerData = response.data;
+            setCpf(customerData.cpf);
+            setBirthday(customerData.dataNascimento);
+            setAddress(customerData.endereco);
+            setTelephone(customerData.telefone);
+        }).catch((err: any) => { });
     }
    
     const saveChanges = () => { 
-        requester.patch(`/user/${id}`,{nome: name, email:email, senha:password}).then(response => {
-            getOldDataUser();
+        requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
+
+        }).catch((err: any) => { })
+
+        requester.patch(`/customer/`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone}).then((response: any) => {
         
-        }).catch(err => { })
-        requester.patch(`/customer/${id}`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone
-           
-        }).then(response => {
-            getOldDataUser();
-        
-        }).catch(err => { })
+        }).catch((err: any) => { })
         
     }   
+
+    const handleChange = (event: any, newValue: any) => {
+        setValue(newValue);
+    };
+
+    const handleSubmitClient = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+    };
     return (
         <Grid xs={11} sm={9} md={7} lg={5} style={{ width: "100%" }}>
             <form onSubmit={handleSubmitClient}>
@@ -92,7 +90,7 @@ function ClientDataContainer() {
                             value={name}
                             size="small"
                             variant="outlined"
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setName(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
@@ -134,7 +132,7 @@ function ClientDataContainer() {
                             size="small"
                             variant="outlined"
                             type='date'
-                            onChange={(e) => setBirthday(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setBirthday(e.target.value)}
                         />
                     </Grid>
 
@@ -150,7 +148,7 @@ function ClientDataContainer() {
                             size="small"
                             value={telephone}
                             variant="outlined"
-                            onChange={(e) => setTelephone(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setTelephone(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                                 inputComponent: cellphoneInput as any,
@@ -172,7 +170,7 @@ function ClientDataContainer() {
                             value={email}
                             id="labelEmail"
                             variant="outlined"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setEmail(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
@@ -191,7 +189,7 @@ function ClientDataContainer() {
                             type="password"
                             value={password}
                             variant="outlined"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setPassword(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
@@ -210,7 +208,7 @@ function ClientDataContainer() {
                             value={address}
                             id="labelAddress"
                             variant="outlined"
-                            onChange={(e) => setAddress(e.target.value)}
+                            onChange={(e: { target: { value: any; }; }) => setAddress(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
@@ -219,12 +217,10 @@ function ClientDataContainer() {
                     <Grid xs={12} lg={10}></Grid>
                     <Grid xs={12} lg={2}>
                         <Button
-                            type="submit"
                             variant="contained"
                             color="primary"
                             fullWidth
-                            onClick={saveChanges()
-                            }
+                            onClick={saveChanges}
                             sx={{
                                 marginTop: "10px",
                             }}

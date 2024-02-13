@@ -31,25 +31,29 @@ def getCustomers(user: Annotated[User, Depends(accessAdmin)]):
     return service.getUsersByType(UserType.CUSTOMER)
 
 
-@router.get("/{id}")
-def get(id:int, user: Annotated[User, Depends(accessCustomer)]):
+@router.get("/")
+def get(user: Annotated[User, Depends(accessCustomer)]):
 
     service = UserService()
-    user = service.findUserById(id)
+    user = service.findUserById(user.idUsuario)
 
     if user is None:
         raise HTTPException(404, "Usuário não encontrado")
                       
     return user
 
-@router.patch("/{id}")
-def update(id:int, userPartial:PartialUserForm, user: Annotated[User, Depends(accessCustomer)]):
+@router.patch("/")
+def update(userPartial:PartialUserForm, user: Annotated[User, Depends(accessCustomer)]):
 
     service = UserService()
-    userOriginal = get(id,user)
-    userPartial.updateOriginalByPartial(userOriginal,userPartial)
 
-    success = service.updateUserById(id,userOriginal)
+    userOriginal = service.findUserById(user.idUsuario)
+
+    if user is None:
+        raise HTTPException(404, "Usuário não encontrado")
+    
+    userPartial.updateOriginalByPartial(userOriginal,userPartial)
+    success = service.updateUserById(user.idUsuario,userOriginal)
 
 
 
