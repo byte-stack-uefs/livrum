@@ -2,7 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from typing_extensions import Annotated
 from models.user import User, UserType
 from services.PaymentService import PaymentService
+from services.CreditCardService import CreditCardService
 from dependencies.security import UserHasAccess
+from models.creditCard import CreditCardPaymentForm
+from services.CartService import CartService
 
 router = APIRouter(prefix="/payment", tags=["Payment"])
 
@@ -24,8 +27,24 @@ def getPix(user: Annotated[User, Depends(userAccess)]):
 
 
 @router.post("/pay-by-credit-card")
-def payByCreditCard():
-    pass
+def payByCreditCard(
+    form: CreditCardPaymentForm,
+    user: Annotated[User, Depends(userAccess)],
+):
+
+    cardService = CreditCardService()
+    creditCard = cardService.getCreditCardByCardId(form.idCreditCard)
+
+    if creditCard.cvv != form.cvv:
+        raise HTTPException(
+            400, {"field": "cvv", "message": "O código de segurança está inválido"}
+        )
+
+    cartService = CartService()
+    ebooks = cartService.getCartEbooksByUserId(user.idUsuario)
+
+    if cartService.hasUnavailableEbooks(ebooks):
+        raise HTTPException(409, "Alguns ebooks não estão mais disponíveis para compra")
 
 
 @router.get("/pix/isPaid/{txid}")

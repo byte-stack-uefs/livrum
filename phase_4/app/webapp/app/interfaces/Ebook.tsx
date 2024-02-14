@@ -1,6 +1,7 @@
 export type Ebook = {
     id: number;
     author: string;
+    idAuthor: number;
     title: string;
     releaseYear: string;
     price: number;
@@ -9,6 +10,7 @@ export type Ebook = {
     cover: string;    
 
     size?: number;
+    authors?: string;
     genre?: string;
     pages?: number;    
     languages?: string;
