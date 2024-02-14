@@ -49,6 +49,8 @@ const ClientRegister = () => {
     const [creationError, setCreationError] = useState("");
     const [cardCreatedSuccessfully, setCardCreatedSuccessfully] = useState(false);
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [user, setUser] = useState<UserForm>();
+    const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm >();
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         "& .MuiDialogContent-root": {
             padding: theme.spacing(2),
@@ -91,8 +93,6 @@ const ClientRegister = () => {
         setHasCreationFailed(false);
         setCreationError("");
         event.preventDefault();
-        const [user, setUser] = useState<UserForm>();
-        const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm >();
     
         setUser({
             name: name,
@@ -128,7 +128,7 @@ const ClientRegister = () => {
 
             }
 
-            await requester.post("/account/create", { user, customerOrAuthor })
+             requester.post("/account/create", { user, customerOrAuthor })
                 .then((response) => {
                     setAccountNumber('');
                     setAddress('');

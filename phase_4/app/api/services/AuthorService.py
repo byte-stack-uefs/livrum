@@ -1,5 +1,5 @@
 from database.database import DB
-from models.author import CreateAuthorForm
+from models.author import CreateAuthorForm, Author
 
 class AuthorService:
 
@@ -8,7 +8,7 @@ class AuthorService:
         with DB() as db:
             try:
                 db.execute(
-                    "INSERT INTO autor (idUsuario, cpf, dataNascimento, endereco, numeroAgencia, numeroConta, numeroOperacao) VALUES (%s, %s, %s, %s, %s)",
+                    "INSERT INTO autor (idUsuario, cpf, dataNascimento, endereco, numeroAgencia, numeroConta, numeroOperacao) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                     [
                         idUser,
                         author.cpf,
@@ -20,9 +20,19 @@ class AuthorService:
                     ],
                 )
             except:
-                return False
+                return e
 
-        return True
+    def findAuthorByCpf(self, cpf: int) -> Author:
+
+        with DB() as db:
+            db.execute("SELECT * FROM autor WHERE cpf = %s", [cpf])
+            data = db.fetchone()
+        author = None
+        if data is not None:
+            author = Author(**data)
+
+        return author
+        
 
 
 

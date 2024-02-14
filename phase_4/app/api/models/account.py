@@ -6,7 +6,7 @@ from typing import Optional
 
 class CreateAccount(BaseModel):
 
-    formUser: CreateUserForm
-    formCustomer: Optional[CreateCustomerForm] = None
-    formAuthor: Optional[CreateAuthorForm] = None
+    userForm: CreateUserForm
+    customerForm: Optional[CreateCustomerForm] = None
+    authorForm: Optional[CreateAuthorForm] = None
 

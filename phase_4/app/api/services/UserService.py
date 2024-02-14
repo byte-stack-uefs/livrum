@@ -53,24 +53,21 @@ class UserService:
     def changeStatus(id, t: UserStatus):
         try:
             with DB() as db:
-                db.execute("UPDATE usuario SET status = %s WHERE idUsuario = %s "[t, id])
-                return "Status Change"
+                db.execute("UPDATE usuario SET status = %s WHERE idUsuario = %s ", [t, id])
         except:
             return 
 
-            
 
-    def addUser(user: CreateUserForm):
+    def addUser(self, user: CreateUserForm):
         try:
             with DB() as db:
 
                 db.execute("INSERT INTO usuario (nome, email, senha, status, tipo) VALUES (%s, %s, %s, %s, %s)", 
-                        [user.name, user.email, user.password, user.status, user.type])
+                        [user.nome, user.email, user.senha, str(user.status.value), str(user.tipo.value)])
                 
                 last_insert_id = db.lastrowid
-                return last_inser_id
+                return last_insert_id
 
-        except Exception as e:      
-            print("Erro durante a criação do usuário:", e)
-            db.rollback()
+        except:    
+            
             return False

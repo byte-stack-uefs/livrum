@@ -22,6 +22,7 @@ class User:
         self.tipo: UserType = kwargs.get("tipo")
 
 class CreateUserForm(BaseModel):
+    
     nome: str
     email: EmailStr
     status: UserStatus

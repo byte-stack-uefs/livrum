@@ -1,5 +1,5 @@
 from http.client import HTTPException
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated
 from dependencies import security
 from models.user import User, UserType
@@ -30,17 +30,41 @@ def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
 @router.post("/create")
 def createAccount(createAccountForm: CreateAccount):
     
-    idUser = serviceUser.createUser(createAccountForm.formUser)
-    if not idUser:
-        raise HTTPException(500, "Não foi possível cadastrar o usuario")
+    if(createAccountForm.authorForm is not None):
 
-    if(createAccountForm.formUser.type == UserType.AUTHOR):
+        isExistingCpf = serviceAuthor.findAuthorByCpf(createAccountForm.authorForm.cpf)
 
-        serviceAuthor.createAuthor(createAccountForm.formAuthor,idUser)
+    else: 
+
+        isExistingCpf = serviceCustomer.findCustomerByCpf(createAccountForm.customerForm.cpf)
+
+    if(not isExistingCpf):
+
+        isExistingEmail = serviceUser.findUserByEmail(createAccountForm.userForm.email)
+
+        if(not isExistingEmail):
+
+            idUser = serviceUser.addUser(createAccountForm.userForm)
+
+            if(createAccountForm.userForm.tipo == UserType.AUTHOR):
+
+                response = serviceAuthor.addAuthor(createAccountForm.authorForm,idUser)
+
+            else:
+
+                response = serviceCustomer.addCustomer(createAccountForm.customerForm,idUser)
+
+        else:
+
+            raise HTTPException(400, "Email já cadastrado.")
 
     else:
 
-        serviceCustomer.createCustomer(createAccountForm.formCustomer,idUser)
+         raise HTTPException(400, "CPF já cadastrado.")
+
+
+    
+    
 
     
 
