@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 class UserType(str, Enum):
     ADMIN = "ADM"
@@ -12,35 +12,26 @@ class UserStatus(str, Enum):
     PENDING = "pending"
     INACTIVE = "inactive"
 
-class UserBase(BaseModel):
-    cpf: str
-    name: str
-    email: str
-    address: str
-    birthday: str
-    password: str
-    telephone: str
-    type: UserType
-    status: UserStatus
+class User:
+    def __init__(self, **kwargs):
+        self.idUsuario = kwargs.get("idUsuario")
+        self.nome = kwargs.get("nome")
+        self.email = kwargs.get("email")
+        self.status: UserStatus = kwargs.get("status")
+        self.senha = kwargs.get("senha")
+        self.tipo: UserType = kwargs.get("tipo")
 
-class UserAutor(UserBase):
-    agencyNumber: str
-    accountNumber: str
-    operationNumber: str
+class CreateUserForm(BaseModel):
+    nome: str
+    email: EmailStr
+    status: UserStatus
+    senha: str
+    tipo: UserType
 
 class UserDAO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idUsuario")
         self.name = kwargs.get("name")
         self.email = kwargs.get("email")
-        self.cpf = kwargs.get("cpf")
-        self.address = kwargs.get("address")
-        self.birthday = kwargs.get("birthday")
-        self.password = kwargs.get("password")
-        self.telephone = kwargs.get("telephone")
         self.type = kwargs.get("type")
         self.status = kwargs.get("status")
-    
-        self.agencyNumber = kwargs.get("agencyNumber")
-        self.accountNumber = kwargs.get("accountNumber")
-        self.operationNumber = kwargs.get("operationNumber")

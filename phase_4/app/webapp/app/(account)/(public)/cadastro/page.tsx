@@ -22,7 +22,9 @@ import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
-import { UserAttributes, AutorAttributes, UserLevel } from "@/app/interfaces/User";
+import { UserForm, UserLevel } from "@/app/interfaces/User";
+import { CustomerForm } from "@/app/interfaces/Customer";
+import { AuthorForm } from "@/app/interfaces/Author";
 import { EnumUserStatus } from "@/app/User";
 import useRequest from "@/app/services/requester";
 const ClientRegister = () => {
@@ -89,41 +91,44 @@ const ClientRegister = () => {
         setHasCreationFailed(false);
         setCreationError("");
         event.preventDefault();
-        const [user, setUser] = useState<UserAttributes | AutorAttributes>();
+        const [user, setUser] = useState<UserForm>();
+        const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm >();
     
+        setUser({
+            name: name,
+            email: email,
+            password: password,
+            type: userType,
+            status: userStatus
+        });
+
+
         try {
-            if (userType === UserLevel.CUSTOMER) {
-                setUserStatus(EnumUserStatus.CREATED);
-                setUser({
+
+            if(userType == UserLevel.AUTHOR){
+                
+                setCustomerOrAuthor({
                     cpf: cpf,
-                    name: name,
-                    email: email,
-                    address: address,
                     birthday: birthday,
-                    password: password,
-                    telephone: telephone,
-                    type: userType,
-                    status: userStatus
-                });
-            } else {
-                setUserStatus(EnumUserStatus.PENDING);
-                setUser({
-                    cpf: cpf,
-                    name: name,
-                    email: email,
                     address: address,
-                    birthday: birthday,
-                    password: password,
-                    telephone: telephone,
-                    type: userType,
                     agencyNumber: agencyNumber,
                     accountNumber: accountNumber,
                     operationNumber: operationNumber,
-                    status: userStatus
                 });
+
+            
+            }else{
+
+                setCustomerOrAuthor({
+                    cpf: cpf,
+                    birthday: birthday,
+                    address: address,
+                    telephone: telephone,
+                });
+
             }
 
-            await requester.post("/account/create", { user })
+            await requester.post("/account/create", { user, customerOrAuthor })
                 .then((response) => {
                     setAccountNumber('');
                     setAddress('');
@@ -148,6 +153,24 @@ const ClientRegister = () => {
         }
     };
 
+    const handleTabClick = (type:UserLevel) => {
+        
+        setUserType(type)
+
+        if(type == UserLevel.CUSTOMER){
+
+            setUserStatus(EnumUserStatus.CREATED);
+
+        }else{
+
+            setUserStatus(EnumUserStatus.PENDING);
+
+        }
+
+    }
+
+       
+
     return (
         <>
             <Grid container>
@@ -160,8 +183,8 @@ const ClientRegister = () => {
                         centered
                         TabIndicatorProps={{ style: { display: "none" } }}
                     >
-                        <Tab label="Cliente" onClick={() => setUserType(UserLevel.CUSTOMER)} />
-                        <Tab label="Autor" onClick={() => setUserType(UserLevel.AUTHOR)} />
+                        <Tab label="Cliente" onClick={() => handleTabClick(UserLevel.CUSTOMER)} />
+                        <Tab label="Autor" onClick={() => handleTabClick(UserLevel.AUTHOR)} />
                     </Tabs>
                     <form onSubmit={handleSubmitClient}>
                         <Grid

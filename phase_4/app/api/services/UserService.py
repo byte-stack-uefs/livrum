@@ -1,6 +1,6 @@
 from typing import Union
 from database.database import DB
-from models.user import User, UserAutor, UserBase, UserStatus, UserType, UserDAO
+from models.user import User, CreateUserForm, UserStatus, UserType, UserDAO
 
 
 class UserService:
@@ -57,24 +57,19 @@ class UserService:
                 return "Status Change"
         except:
             return 
-    def create_user(user: Union[UserAutor, UserBase]):
+
+            
+
+    def addUser(user: CreateUserForm):
         try:
             with DB() as db:
-                db.start_transaction()
 
                 db.execute("INSERT INTO usuario (nome, email, senha, status, tipo) VALUES (%s, %s, %s, %s, %s)", 
                         [user.name, user.email, user.password, user.status, user.type])
+                
                 last_insert_id = db.lastrowid
+                return last_inser_id
 
-                if isinstance(user, UserAutor):
-                    db.execute("INSERT INTO autor (idUsuario, cpf, dataNascimento, endereço, numeroAgencia, numeroConta) VALUES (%s, %s, %s, %s, %s, %s)", 
-                            [last_insert_id, user.cpf, user.birthday, user.address, user.agencyNumber, user.accountNumber])
-                else:
-                    db.execute("INSERT INTO cliente (idUsuario, cpf, dataNascimento, endereço, telefone) VALUES (%s, %s, %s, %s, %s)", 
-                            [last_insert_id, user.cpf, user.birthday, user.address, user.telephone])
-
-                db.commit()
-                return True
         except Exception as e:      
             print("Erro durante a criação do usuário:", e)
             db.rollback()
