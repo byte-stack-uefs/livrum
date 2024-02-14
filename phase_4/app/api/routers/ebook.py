@@ -1,14 +1,21 @@
-import ujson
 from fastapi import APIRouter
+from typing import Annotated
+from dependencies import security
+from models.user import User, UserType
+from fastapi import APIRouter, Depends, HTTPException
+from models.ebook import EbookDTO
+from services.EbookService import EbookService
 from models.ebook import ReproveEbookDTO
-from services.ebookService import EbookService
+from services.EbookService import EbookService
 
 router = APIRouter(prefix="/ebook", tags=["Ebook"])
+
+access = security.UserHasAccess([UserType.AUTHOR])
 
 
 @router.get("/search", description="Get ebooks by optional filters")
 def searchWithOptionalFilters(id = None, name = None, author = None, title = None, release_year = None, price_min = None, price_max = None, id_client = None):
-    ebooks = EbookService.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client);
+    ebooks = EbookService.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client)
     return ebooks
 
 @router.get("/", description="Get ebooks")
@@ -21,8 +28,11 @@ def get(id: int):
 
 
 @router.post("/", description="Create an ebook")
-def add():
-    return {"message": "Creating ebook"}
+def add(
+    newEbook: EbookDTO,
+    user: Annotated[User, Depends(access)],
+):
+    pass
 
 @router.put("/approve/{id}", description="approve an ebook")
 def approve(id: str):

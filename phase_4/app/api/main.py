@@ -5,7 +5,18 @@ from dependencies import security, settings
 from database.database import connect
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
-from routers import creditCard, cart, genre, coupon, customer, ebook, account, user
+from routers import (
+    creditCard,
+    cart,
+    genre,
+    coupon,
+    customer,
+    ebook,
+    account,
+    user,
+    payment,
+    catalog
+)
 import logging
 
 logging.getLogger("passlib").setLevel(logging.ERROR)
@@ -17,6 +28,7 @@ origins = ["http://localhost", "http://localhost:80", "http://localhost:8000", "
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,6 +43,8 @@ app.include_router(genre.router)
 app.include_router(ebook.router)
 app.include_router(account.router)
 app.include_router(user.router)
+app.include_router(payment.router)
+app.include_router(catalog.router)
 
 
 @app.get("/version", description="Test MySQL Connection", tags=["Test"])

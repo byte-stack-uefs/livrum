@@ -65,6 +65,7 @@ CREATE TABLE `autor` (
     `endereço` varchar(255) NOT NULL,
     `numeroAgencia` varchar(16) NOT NULL,
     `numeroConta` varchar(16) NOT NULL,
+    `numeroOperacao` VARCHAR(4) NOT NULL,
     PRIMARY KEY (`idUsuario`),
     UNIQUE KEY `cpf_UNIQUE` (`cpf`),
     KEY `fk_Autor_Usuario1_idx` (`idUsuario`),
