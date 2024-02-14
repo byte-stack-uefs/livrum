@@ -1,7 +1,11 @@
 from enum import Enum
+
+from database.database import DB
+
 from pydantic import BaseModel
 from typing_extensions import Annotated
 from fastapi import Query
+
 
 
 class Ebook:
@@ -54,6 +58,13 @@ class EbookDTO(BaseModel):
     img: str
     tamArqEmMb: str
     preco: float
+
+def getAuthor(authorId):
+    with DB() as db:
+        query = "SELECT nome FROM usuario WHERE idUsuario = %s"
+        db.execute(query, [authorId])
+        name = db.fetchone()
+    return name['nome']
 
 
 class EbookStatus(str, Enum):

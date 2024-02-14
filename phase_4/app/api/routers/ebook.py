@@ -12,19 +12,8 @@ access = security.UserHasAccess([UserType.AUTHOR])
 
 
 @router.get("/search", description="Get ebooks by optional filters")
-def searchWithOptionalFilters(
-    id=None,
-    name=None,
-    author=None,
-    title=None,
-    release_year=None,
-    price_min=None,
-    price_max=None,
-    id_client=None,
-):
-    ebooks = EbookService.findEbookByOptionalFilters(
-        id, name, author, title, release_year, price_min, price_max, id_client
-    )
+def searchWithOptionalFilters(id = None, name = None, author = None, title = None, release_year = None, price_min = None, price_max = None, id_client = None):
+    ebooks = EbookService.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client)
     return ebooks
 
 

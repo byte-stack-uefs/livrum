@@ -1,16 +1,25 @@
-export default interface Ebook {
+export type Ebook = {
     id: number;
+    author: string;
     idAuthor: number;
     title: string;
-    cover: string;
+    releaseYear: string;
     price: number;
+    isAvailable: boolean;
+    summary: string | JSX.Element;
+    cover: string;    
+
     size?: number;
     authors?: string;
-    author: string;
     genre?: string;
-    pages?: number;
-    summary: string | JSX.Element;
-    releaseYear: string;
-    languages?: string[];
-    isAvailable: boolean;
+    pages?: number;    
+    languages?: string;
+    
 }
+
+export type EbookResponse = {
+    ebooks: Ebook[];
+};  
+  export default Ebook;
+
+
