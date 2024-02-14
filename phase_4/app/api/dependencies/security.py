@@ -24,7 +24,7 @@ class Token(BaseModel):
 def verify_password(plain: str, hashed: str) -> bool:
     return passwordContext.verify(plain, hashed)
 
-@staticmethod
+
 def get_password_hash(plain: str) -> str:
     return passwordContext.hash(plain)
 

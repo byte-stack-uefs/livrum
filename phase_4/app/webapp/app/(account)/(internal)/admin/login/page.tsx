@@ -105,7 +105,7 @@ const AdminLogin = () => {
                                 </Grid>
 
                                 <Grid xs={12} style={{ textAlign: "right", alignSelf: "flex-start" }}>
-                                    <LivrumLink href="/admin/recuperacao-senha">
+                                    <LivrumLink href="/recuperacao-senha">
                                         <Typography variant="body2" color="primary.main">
                                             Esqueceu a senha?
                                         </Typography>
