@@ -53,6 +53,16 @@ class EbookDTO(BaseModel):
     tamArqEmMb: str
     preco: float
 
+class CatalogEbookDTO:
+    def __init__(self, **kwargs):
+        self.id = kwargs.get("idEBook")
+        self.author = ""
+        self.title = kwargs.get("nome")
+        self.releaseYear = kwargs.get("anoLancamento")
+        self.price = kwargs.get("preco")
+        self.isAvailable = True
+        self.cover = kwargs.get("capa")
+
 def getAuthor(authorId):
     with DB() as db:
         query = "SELECT nome FROM usuario WHERE idUsuario = %s"

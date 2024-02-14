@@ -1,4 +1,4 @@
-from models.ebook import AuthorEbookDTO, Ebook, EbookDTO, EbookStatus, ReproveEbookDTO
+from models.ebook import AuthorEbookDTO, CatalogEbookDTO, Ebook, EbookDTO, EbookStatus, ReproveEbookDTO
 from database.database import DB
 
 class EbookDAO:
@@ -35,7 +35,7 @@ class EbookDAO:
             data = db.fetchall()
 
             for ebook in data:
-                ebookDTO = EbookDTO(**ebook)
+                ebookDTO = CatalogEbookDTO(**ebook)
                 ebooks.append(ebookDTO)
 
                 if id_client is not None:
