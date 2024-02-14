@@ -41,7 +41,7 @@ function SearchBox({setSearchBarContent}:SearchBoxProps) {
     const [value,setValue] = useState("");
 
     const handleChanges = (event: { target: { value: React.SetStateAction<string>; }; }) => {
-        setValue(event.target.value);
+        setSearchBarContent(event.target.value);
     }
 
     return (
@@ -52,7 +52,7 @@ function SearchBox({setSearchBarContent}:SearchBoxProps) {
                 variant="outlined"
                 id="outlined-basic"
                 onChange={handleChanges}
-                label="Pesquise por nome ou autor"
+                label="Pesquise por Título ou Autor"
                 sx={{ backgroundColor: "#FFFFFF" }}
             />
         </Grid>
@@ -73,19 +73,38 @@ function SearchButton({author_title ,price_min,price_max,maxYear,language, setBo
     console.log("Release Year:", maxYear);
     console.log("Min Price:", price_min);
     console.log("Max Price:", price_max);
+    console.log("Str", author_title);
 
     var name = author_title;
     var author = author_title;
     var title = author_title;
 
     const handleClick = async () => {
-        const { data } = await requester.get<EbookResponse>(
-            "/catalog/search", 
-            {
-                params: {name, author, title, release_year: maxYear,price_min: price_min,price_max: price_max}
+        if (!(author_title.length === 0)) {
+            const { data } = await requester.get<EbookResponse>(
+                "/catalog/search", 
+                {
+                    params: {release_year: maxYear,price_min: price_min,price_max: price_max}
+                }
+            );
+            let updatedBooks: Ebook[] = [];
+            for (const book of data.ebooks){
+                let query = author_title;
+              // .toString().toLowerCase().indexOf(filterText.toLowerCase()
+                if (!(book.author.toLowerCase().indexOf(query.toLowerCase()) === -1) || !(book.title.toLowerCase().indexOf(query.toLowerCase()) === -1)){
+                    updatedBooks.push(book); 
+                }
             }
-        );
-        setBooks(data.ebooks);        
+            setBooks(updatedBooks);
+        }else{
+            const { data } = await requester.get<EbookResponse>(
+                "/catalog/search", 
+                {
+                    params: {release_year: maxYear,price_min: price_min,price_max: price_max}
+                }
+            );
+            setBooks(data.ebooks);        
+        }
     };
     return (
         <Grid xs={4} textAlign="center">
@@ -107,30 +126,6 @@ function GenreSection() {
                     <FormControlLabel control={<Checkbox />} label="Drama" />
                     <FormControlLabel control={<Checkbox />} label="Romance" />
                 </FormGroup>
-            </Grid>
-        </Grid>
-    );
-}
-
-function SearchSection() {
-    // TODO: testar novamente depois
-    return (
-        <Grid xs={12}>
-            <Grid container>
-                <Grid xs={8}>
-                    <TextField
-                        id="outlined-basic"
-                        label="Pesquise por nome ou autor"
-                        variant="outlined"
-                        fullWidth
-                        style={{ backgroundColor: "#FFFFFF" }}
-                        inputProps={{ style: { fontSize: 10 } }} // font size of input text
-                        InputLabelProps={{ style: { fontSize: 10 } }} // font size of input label
-                    />
-                    <Grid xs={4}>
-                        <Button variant="contained">Buscar</Button>
-                    </Grid>
-                </Grid>
             </Grid>
         </Grid>
     );
