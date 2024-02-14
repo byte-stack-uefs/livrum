@@ -48,3 +48,14 @@ class UserService:
 
         data = map(self._convertDAO, data)
         return list(data)
+
+    def updatePasswordByEmail(email: str, password: str):
+        with DB() as db:
+            try:
+               db.execute("UPDATE usuario SET senha = %s WHERE email = %s",(password, email))
+            except:
+                return False
+
+            return True
+            
+        
