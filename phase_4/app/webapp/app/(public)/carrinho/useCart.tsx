@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { CartItemType } from "../ebook/[id]/page";
 import useRequest from "@/app/services/requester";
 import Cookies from 'js-cookie';
+import { error } from "console";
 
 type CartContextType = {
     cartTotalQnt: number;
@@ -24,15 +25,34 @@ export const CartContextProvider = (props: Props) => {
     const [cartTotalAmount, setCardTotalAmount] = useState(0);
     const [cartItems, setcartItems] = useState<CartItemType[]>([]);
 
-    const tokenUser = Cookies.get('token');
+    //const tokenUser = Cookies.get('token');
+    const requester = useRequest();
+    //console.log(localStorage.getItem("shopCartItens"));
+    //console.log(cartItems)
 
     useEffect(() => {
-        const cartEbooks: any = localStorage.getItem("shopCartItens");
+        // const cartEbooks: any = localStorage.getItem("shopCartItens");
 
-        const cartItems: CartItemType[] = JSON.parse(cartEbooks);
+        // const cartItems: CartItemType[] = JSON.parse(cartEbooks);
 
-        setcartItems(cartItems);
+        // setcartItems(cartItems);
+        getCart();
     }, []);
+
+    const getCart = () =>{
+        requester.get("/carrinho/").then(response => {
+            setcartItems(prev=>{
+                return response.data;
+            }
+        )
+            }).catch(err => {
+                const cartEbooks: any = localStorage.getItem("shopCartItens");
+
+                const cartItemsLocalSTORAGE: CartItemType[] = JSON.parse(cartEbooks);
+                setcartItems(cartItemsLocalSTORAGE);
+            })
+    } 
+        
 
     useEffect(() => {
         const getTotal = () =>{
@@ -57,14 +77,20 @@ export const CartContextProvider = (props: Props) => {
 
     const handleAddEbookToCart = useCallback((item: CartItemType) => {
         setcartItems((prev) => {
-            let updatedCart;
+            let updatedCart: CartItemType[];
             if (prev) {
                 updatedCart = [...prev, item];
             } else {
                 updatedCart = [item];
             }
-
-            localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
+            requester
+            .post("/carrinho/${item.id}", {
+                idEbook: item.id
+            })
+            .then((response) => {
+                localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
+            })
+            .catch((err) => {})
             return updatedCart;
         });
     }, []);
@@ -74,16 +100,33 @@ export const CartContextProvider = (props: Props) => {
     ) => {
         if(cartItems){
             const filteredProducts = cartItems.filter((item) => {
+                if(item.id != product.id){
+                    requester
+                    .delete("/carrinho/${item.id}")
+                    .then(response => {
+                        setcartItems(filteredProducts)
+                        localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
+                    })
+                    .catch(error => {
+                        console.error('Erro ao remover item do carrinho', error);
+                    })  
+                }
                 return item.id != product.id
             })
-            setcartItems(filteredProducts)
-            localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
+           
         }
     }, [cartItems])
 
     const handleClearCart = useCallback(() => {
-        setcartItems([])
-        localStorage.setItem("shopCartItens", JSON.stringify(null));
+        requester
+        .delete("/carrinho/")
+        .then(response => {
+            setcartItems([])
+            localStorage.setItem("shopCartItens", JSON.stringify(null));
+        })
+        .catch(error => {
+            console.error('Erro ao limpar carrinho', error);
+        })
         
     }, [cartItems])
 
@@ -96,44 +139,7 @@ export const CartContextProvider = (props: Props) => {
         handleClearCart,
     };
 
-    const requester = useRequest();
-    console.log(cartItems)
-
-    // function verificarSeUsuarioEstaLogado(): boolean {
-    //     if (tokenUser != null){
-    //         const data = localStorage.getItem('shopCartItens');
-    //         //mandar post pro banco
-    //         requester
-    //         .post("/credit-card", {
-    //             // cvv: cvv,
-    //             // token: cardToken,
-    //             // namePrinted: cardHolder,
-    //             // cardNumber: cardNumber.slice(12),
-    //             // expiryDate: cardExpiration?.toFormat("yyyy-LL"),
-    //         })
-    //         .then((response) => {
-    //             setCardCreatedSuccessfully(true);
-    //             setOpen(false);
-    //             setCVV("");
-    //             setCardHolder("");
-    //             setCardNumber("");
-    //             setCardToken("");
-    //             setCardExpiration(null);
-
-    //             setHasCreationFailed(false);
-    //             setCreationError("");
-    //         })
-    //         .catch((err) => {
-    //             setHasCreationFailed(true);
-    //             setCreationError(err.response.data.detail);
-    //         })
-    //         .finally(() => {
-    //             setIsLoading(false);
-    //         });
-    //     }
-    //     return true;
-    // }
-
+   
     return <CartContext.Provider value={value} {...props} />;
 };
 

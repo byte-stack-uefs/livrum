@@ -14,10 +14,6 @@ service = CartService()
 
 @router.get("/", description="Get all ebooks in cart")
 def list(user: Annotated[User, Depends(access)]):
-    # if user:
-    #     pass
-    # else:
-    #     pass
     response = service.getAllCartItemsIDByCartId(user.idUsuario)
     return response
 

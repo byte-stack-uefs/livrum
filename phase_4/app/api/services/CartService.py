@@ -26,7 +26,7 @@ class CartService():
 
     def getAllCartItemsIDByCartId(
         self, idUsuario: int
-    ) -> list[CartItemForm]:
+    ) -> list[CartItemDTO]:
         cart = self.getCartByClientId(idUsuario)
         with DB() as db:
             db.execute("SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco FROM itemcarrinho, ebook WHERE itemcarrinho.idCarrinho = %s", [cart.idCart])
@@ -64,7 +64,7 @@ class CartService():
                 db.execute(
                     "INSERT INTO itemcarrinho (idCarrinho, idEbook) VALUES (%s, %s)",
                     [idCart, idEbook]
-                )
+                ) 
             except:
                 return False
 
