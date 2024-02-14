@@ -1,6 +1,4 @@
 from enum import Enum
-from pydantic import BaseModel, EmailStr
-from typing_extensions import Annotated
 
 
 class User:
@@ -33,8 +31,3 @@ class UserDAO:
         self.id = kwargs.get("idUsuario")
         self.type: UserType = kwargs.get("tipo")
         self.status: UserStatus = kwargs.get("status")
-
-class RecoveryEmailForm(BaseModel):
-    email: EmailStr
-
-
