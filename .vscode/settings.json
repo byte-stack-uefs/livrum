@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./phase_4/app/api"
+    ]
+}

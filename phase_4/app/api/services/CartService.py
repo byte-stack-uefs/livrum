@@ -1,11 +1,11 @@
 from database.database import DB
-from models.ebook import Ebook, EbookDAO
+from models.ebook import Ebook, EbookModel
 from typing import List
 
 
 class CartService:
 
-    def hasUnavailableEbooks(self, ebooks: List[EbookDAO]) -> bool:
+    def hasUnavailableEbooks(self, ebooks: List[EbookModel]) -> bool:
 
         for e in ebooks:
             if e.isAvailable:
@@ -30,5 +30,5 @@ class CartService:
             db.execute(query, [id])
             data = db.fetchall()
 
-        ebooks = map(lambda x: EbookDAO(**x), data)
+        ebooks = map(lambda x: EbookModel(**x), data)
         return list(ebooks)
