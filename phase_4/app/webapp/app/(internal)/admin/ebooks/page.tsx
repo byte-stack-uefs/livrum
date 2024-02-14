@@ -84,6 +84,7 @@ export default function ListagemEbooks() {
     const [openRefuseDialog, setRefuseOpenDialog] = useState(false);
     const [openEbook, setOpenEbook] = useState({} as AuthorEbook);
     const [ebooks, setEbooks] = useState([] as Array<AuthorEbook>);
+    const [ebooksWithoutSearch, setEbooksWithoutSearch] = useState([] as Array<AuthorEbook>);
     const [searchEbook, setSearchEbook] = useState("");
 
     const handleClickOpen = (ebook: AuthorEbook) => {
@@ -114,7 +115,6 @@ export default function ListagemEbooks() {
     
     const handleRepproveEbook = () => {
         let reasonRefusal = document?.getElementById("refusalReason")?.value;
-        console.log(reasonRefusal);
         if (!reasonRefusal) {
             alert("Motivo de recusa não fornecido.");
             console.error("Motivo de recusa não fornecido.");
@@ -135,8 +135,7 @@ export default function ListagemEbooks() {
 
     function searchEbooks(name: string) {
         setSearchEbook(name);
-        console.log("here")
-        let ebooksFiltered = ebooks.filter(ebook => ebook.nome.toLowerCase().includes(name.toLowerCase()));
+        let ebooksFiltered = ebooksWithoutSearch.filter(ebook => ebook.nome.toLowerCase().includes(name.toLowerCase()));
         setEbooks(ebooksFiltered);
     }
 
@@ -150,6 +149,9 @@ export default function ListagemEbooks() {
     const getEbooks = () => {
         requester.get('/ebook').then(response => {
             setEbooks(prev => {
+                return response.data;
+            });
+            setEbooksWithoutSearch(prev => {
                 return response.data;
             });
         })

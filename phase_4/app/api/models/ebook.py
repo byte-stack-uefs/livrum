@@ -37,7 +37,7 @@ class AuthorEbookDTO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idEBook")
         self.nome = kwargs.get("nome")
-        self.data = "01/01/2000"
+        self.data = format(kwargs.get("criadoEm"), "%d/%m/%Y")
         self.ano_lancamento = kwargs.get("anoLancamento")
         self.preco = kwargs.get("preco")
         self.link_foto = kwargs.get("capa")
