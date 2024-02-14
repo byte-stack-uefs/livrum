@@ -4,7 +4,6 @@ from dependencies import security
 from models.user import User, UserType
 from fastapi import APIRouter, Depends, HTTPException
 from models.ebook import EbookDTO
-from services.EbookService import EbookService
 from models.ebook import ReproveEbookDTO
 from services.EbookService import EbookService
 
