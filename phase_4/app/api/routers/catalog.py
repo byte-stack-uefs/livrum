@@ -2,8 +2,7 @@
 from fastapi import APIRouter
 from services.EbookService import EbookService
 from database.database import DB
-from models.ebook import EbookDTO
-
+from models.ebook import EbookDAO
 
 
 router = APIRouter(prefix="/catalog", tags=["Ebook"])
@@ -21,6 +20,7 @@ def listEbooks():
         db.execute(consulta)
         data = db.fetchall()
         for ebook in data:
-            ebookDTO = EbookDTO(**ebook)
+            ebookDTO = EbookDAO(**ebook)
+
             ebooks.append(ebookDTO)
     return {"ebooks": ebooks} 
