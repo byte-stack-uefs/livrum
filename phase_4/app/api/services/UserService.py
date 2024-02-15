@@ -1,7 +1,9 @@
 from typing import Union
 from database.database import DB
+from passlib.context import CryptContext
 from models.user import User, CreateUserForm, UserStatus, UserType, UserDAO
 
+passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 class UserService:
     def _convertDAO(self, item: dict) -> UserDAO:
@@ -63,7 +65,7 @@ class UserService:
             with DB() as db:
 
                 db.execute("INSERT INTO usuario (nome, email, senha, status, tipo) VALUES (%s, %s, %s, %s, %s)", 
-                        [user.nome, user.email, user.senha, str(user.status.value), str(user.tipo.value)])
+                        [user.nome, user.email, get_password_hash(user.senha), str(user.status.value), str(user.tipo.value)])
                 
                 last_insert_id = db.lastrowid
                 return last_insert_id
@@ -71,3 +73,6 @@ class UserService:
         except:    
             
             return False
+
+def get_password_hash(plain: str) -> str:
+    return passwordContext.hash(plain)

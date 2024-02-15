@@ -21,5 +21,3 @@ class CreateAuthorForm(BaseModel):
     numeroConta: Annotated[str, Query(regex=r"^\d{8}-\d$", example="12345678-9")]
     numeroOperacao: Annotated[str, Query(regex=r"^\d{3}$", example="123")]
 
-
-

@@ -19,8 +19,9 @@ class AuthorService:
                         author.numeroOperacao
                     ],
                 )
+                return True
             except:
-                return e
+                return False
 
     def findAuthorByCpf(self, cpf: int) -> Author:
 

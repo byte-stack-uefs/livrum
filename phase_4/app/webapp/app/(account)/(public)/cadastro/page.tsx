@@ -116,48 +116,46 @@ const ClientRegister = () => {
     };
 
     const saveChanges = (event) => {
+        event.preventDefault();
         setHasCreationFailed(false);
         setCreationError("");
     
-        const cpfValue = cpf.replace(/\D/g, ''); 
-        const agencyNumberValue = agencyNumber.replace(/\D/g, '');
-        const accountNumberValue = accountNumber.replace(/\D/g, ''); 
-
-        setUser({
-            nome: name,
-            email: email,
-            senha: password,
-            tipo: userType,
-            status: userStatus
-        });
-
-        if(userType == UserLevel.AUTHOR){
-                
-            setCustomerOrAuthor({
+        const validationError = validateFields();
+        if (validationError) {
+            setHasCreationFailed(true);
+            setCreationError(validationError);
+            return;
+        }
+    
+        try {
+            
+            const cpfValue = cpf.replace(/\D/g, ''); 
+    
+            const userData = {
+                nome: name,
+                email: email,
+                senha: password,
+                tipo: userType,
+                status: userType === UserLevel.CUSTOMER ? EnumUserStatus.CREATED : EnumUserStatus.PENDING,
+            };
+    
+            const customerOrAuthorData = userType === UserLevel.AUTHOR ? {
                 cpf: cpfValue,
                 dataNascimento: birthday,
                 endereco: address,
-                numeroAgencia: agencyNumberValue,
-                numeroConta: accountNumberValue,
+                numeroAgencia: agencyNumber,
+                numeroConta: accountNumber,
                 numeroOperacao: operationNumber,
-            });
-            
-        }else{
-
-            setCustomerOrAuthor({
+            } : {
                 cpf: cpfValue,
                 dataNascimento: birthday,
                 endereco: address,
                 telefone: telephone,
-            });
-
-        }
-          
-        try {
-            
+            };
+    
             requester.post("/account/create", userType === UserLevel.AUTHOR ? 
-                { userForm: user, authorForm: customerOrAuthor } : 
-                { userForm: user, customerForm: customerOrAuthor })
+                { userForm: userData, authorForm: customerOrAuthorData } : 
+                { userForm: userData, customerForm: customerOrAuthorData })
                 .then((response) => {
                     setAccountNumber('');
                     setAddress('');
@@ -173,13 +171,56 @@ const ClientRegister = () => {
                     setHasCreationFailed(false);
                     setCreationError("");
                 })
-
+                .catch((err) => {
+                    if (err.response && err.response.data && err.response.data.detail) {
+                        setHasCreationFailed(true);
+                        setCreationError(err.response.data.detail);
+                    } else {
+                        setHasCreationFailed(true);
+                        setCreationError("Erro desconhecido ao criar conta.");
+                    }
+                });
         } catch (err) {
             setHasCreationFailed(true);
-            setCreationError(err.response?.data?.detail || "Erro desconhecido ao criar conta.");
+            setCreationError(err.message || "Erro ao processar os dados.");
         }
     };
-       
+
+    const validateFields = () => {
+        
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isCpfValid = cpf.replace(/\D/g, '').length === 11;
+        const isAgencyNumberValid = agencyNumber.replace(/\D/g, '').length >= 4;
+        const isAccountNumberValid = accountNumber.replace(/\D/g, '').length >= 6;
+        const isOperationNumberValid = operationNumber.replace(/\D/g, '').length === 3;
+        const isTelephoneValid = telephone.replace(/\D/g, '').length === 11;
+        const isDateOfBirthValid = /\d{4}-\d{2}-\d{2}/.test(birthday);
+    
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+        if (!isCpfValid) {
+            return "Por favor, preencha o CPF corretamente.";
+        }
+        if (!isAgencyNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número da agência corretamente.";
+        }
+        if (!isAccountNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número da conta corretamente.";
+        }
+        if (!isOperationNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número de operação corretamente.";
+        }
+        if (!isTelephoneValid) {
+            return "Por favor, preencha o telefone corretamente.";
+        }
+        if (!isDateOfBirthValid) {
+            return "Por favor, preencha a data de nascimento corretamente.";
+        }
+    
+        return null; // Retorna null se todos os campos estiverem preenchidos corretamente
+    };
+    
 
     return (
         <>
