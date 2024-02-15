@@ -84,13 +84,13 @@ export const CartContextProvider = (props: Props) => {
                 updatedCart = [item];
             }
             requester
-            .post("/carrinho/${item.id}", {
+            .post(`/carrinho/${item.id}`, {
                 idEbook: item.id
             })
             .then((response) => {
                 localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
             })
-            .catch((err) => {})
+            .catch((err) => {console.error('Erro ao remover item do carrinho', err);})
             return updatedCart;
         });
     }, []);
@@ -98,24 +98,22 @@ export const CartContextProvider = (props: Props) => {
     const handleRemoveEbookFromCart = useCallback((
         product: CartItemType
     ) => {
-        if(cartItems){
-            const filteredProducts = cartItems.filter((item) => {
-                if(item.id != product.id){
-                    requester
-                    .delete("/carrinho/${item.id}")
-                    .then(response => {
-                        setcartItems(filteredProducts)
-                        localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
-                    })
-                    .catch(error => {
-                        console.error('Erro ao remover item do carrinho', error);
-                    })  
-                }
-                return item.id != product.id
+        if (cartItems) {
+            // Filtrar os produtos para remover apenas o produto atual
+            const filteredProducts = cartItems.filter(item => item.id !== product.id);
+            console.log('Item removido com sucesso:', product);
+            requester
+            .delete(`/carrinho/${product.id}`)
+            .then(response => {
+                console.log('Item removido com sucesso:', product.id);
+                setcartItems(filteredProducts);
+                localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
             })
-           
+            .catch(error => {
+                console.error('Erro ao remover item do carrinho', error);
+            })
         }
-    }, [cartItems])
+    }, [cartItems, setcartItems])
 
     const handleClearCart = useCallback(() => {
         requester

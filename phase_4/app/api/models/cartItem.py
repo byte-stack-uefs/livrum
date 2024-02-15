@@ -14,5 +14,5 @@ class CartItemDTO:
         self.price = kwargs.get("preco")
 
 class CartItemForm(BaseModel):
-    idEbook: int
+    id: int
 

@@ -29,7 +29,7 @@ class CartService():
     ) -> list[CartItemDTO]:
         cart = self.getCartByClientId(idUsuario)
         with DB() as db:
-            db.execute("SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco FROM itemcarrinho, ebook WHERE itemcarrinho.idCarrinho = %s", [cart.idCart])
+            db.execute("SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco FROM itemcarrinho JOIN ebook ON itemcarrinho.idEbook = ebook.idEbook WHERE itemcarrinho.idCarrinho = %s;", [cart.idCart])
             data_list = db.fetchall()
 
         items = map(self._convertDTOCartItem, data_list)
@@ -46,12 +46,12 @@ class CartService():
 
     #     return cart
 
-    def deleteCart(self, idCart: int, idUsuario: int):
+    def deleteCart(self, idCart: int):
         with DB() as db:
             try:
                 db.execute(
-                    "DELETE FROM carrinho WHERE idCarrinho = %s AND idUsuario = %s",
-                    (idCart, idUsuario)
+                    "DELETE FROM carrinho WHERE idCarrinho = %s",
+                    (idCart)
                 )
             except:
                 return False
@@ -80,12 +80,12 @@ class CartService():
                 return False
             return True
         
-    def removeAllCartItems(self, idCart: int, idUsuario: int):
+    def removeAllCartItems(self, idCart: int):
         with DB() as db:
             try:
                 db.execute(
                     "DELETE FROM itemcarrinho WHERE idCarrinho = %s", idCart)
-                self.deleteCart()
+                self.deleteCart(idCart)
             except:
                 return False
             return True
