@@ -25,17 +25,9 @@ export const CartContextProvider = (props: Props) => {
     const [cartTotalAmount, setCardTotalAmount] = useState(0);
     const [cartItems, setcartItems] = useState<CartItemType[]>([]);
 
-    //const tokenUser = Cookies.get('token');
     const requester = useRequest();
-    //console.log(localStorage.getItem("shopCartItens"));
-    //console.log(cartItems)
 
     useEffect(() => {
-        // const cartEbooks: any = localStorage.getItem("shopCartItens");
-
-        // const cartItems: CartItemType[] = JSON.parse(cartEbooks);
-
-        // setcartItems(cartItems);
         getCart();
     }, []);
 
@@ -101,7 +93,6 @@ export const CartContextProvider = (props: Props) => {
         if (cartItems) {
             // Filtrar os produtos para remover apenas o produto atual
             const filteredProducts = cartItems.filter(item => item.id !== product.id);
-            console.log('Item removido com sucesso:', product);
             requester
             .delete(`/carrinho/${product.id}`)
             .then(response => {
@@ -126,7 +117,7 @@ export const CartContextProvider = (props: Props) => {
             console.error('Erro ao limpar carrinho', error);
         })
         
-    }, [cartItems])
+    }, [cartItems, setcartItems])
 
     const value = {
         cartTotalQnt,

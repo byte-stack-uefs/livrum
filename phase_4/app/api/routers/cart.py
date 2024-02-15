@@ -32,7 +32,7 @@ def delete(idEbook: int, user: Annotated[Optional[User], Depends(access)]):
     if cart is None:
         raise HTTPException(404, "Carrinho não encontrado")
 
-    if cart.idClient != user.idUsuario:
+    if cart.idUsuario != user.idUsuario:
         raise HTTPException(403, "O carrinho não pertence ao usuário logado")
 
     success = service.removeCartItem(idCart=cart.idCart, idEbook=idEbook)
@@ -47,15 +47,12 @@ def deleteAll(user: Annotated[Optional[User], Depends(access)]):
     if cart is None:
         raise HTTPException(404, "Carrinho não encontrado")
 
-    if cart.idClient != user.idUsuario:
+    if cart.idUsuario != user.idUsuario:
         raise HTTPException(403, "O carrinho não pertence ao usuário logado")
 
-    success = service.removeAllCartItems(idCart=cart.idCart, idUsuario=user.idUsuario)
+    success = service.removeAllCartItems(idCart=cart.idCart)
 
     if not success:
         raise HTTPException(500, "Não foi possível limpar o carrinho")
 
-# Talvez seja removido
-@router.post("/buy", description="Create cart with all ebooks")
-def addCart(user: Annotated[User, Depends(access)]):
-    return {"message": "Buy all books in cart"}
+
