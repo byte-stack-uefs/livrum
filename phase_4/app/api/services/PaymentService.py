@@ -1,5 +1,7 @@
 from efipay import EfiPay
 from dependencies.settings import Settings
+from forms.PaymentForm import PaymentForm
+from models.creditCard import CreditCardPaymentForm, CreditCard
 
 
 class PaymentService:
@@ -55,5 +57,41 @@ class PaymentService:
             and len(response["pix"][0].get("devolucoes", [])) == 0
         )
 
-    def payByCreditCard(self):
-        pass
+    def payByCreditCard(
+        self, creditCard: CreditCard, ebooks: list, data: CreditCardPaymentForm
+    ):
+
+        efi = EfiPay(self._getCredentials())
+
+        try:
+            response = efi.create_one_step_charge(
+                {
+                    "items": [{}],
+                    "payment": {
+                        "credit_card": {
+                            "customer": {
+                                "name": "",
+                                "cpf": "",
+                                "email": "",
+                                "birth": "",
+                                "phone_number": "",
+                            },
+                            "installments": data.installments,
+                            "payment_token": creditCard.token,
+                            "billing_address": {
+                                "street": "",
+                                "number": "",
+                                "city": "",
+                                "zipcode": "",
+                                "complement": "",
+                                "state": "",
+                                "neighborhood": "",
+                            },
+                        }
+                    },
+                }
+            )
+            print(response)
+        except Exception as e:
+            print(e)
+            return False
