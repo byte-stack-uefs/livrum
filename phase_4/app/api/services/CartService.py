@@ -8,7 +8,7 @@ class CartService:
     def hasUnavailableEbooks(self, ebooks: List[EbookModel]) -> bool:
 
         for e in ebooks:
-            if e.isAvailable:
+            if not e.isAvailable:
                 return True
         return False
 
