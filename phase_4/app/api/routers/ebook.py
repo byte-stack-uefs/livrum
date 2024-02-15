@@ -49,3 +49,7 @@ def approve(id: str):
 @router.patch("/{id}", description="Update an ebook's field")
 def patch(id: int):
     return {"message": "Update ebook", "id": id}
+
+@router.get("/download/{id}", description="download an ebook")
+def download(id: str):
+    return EbookService.downloadEbook(id)

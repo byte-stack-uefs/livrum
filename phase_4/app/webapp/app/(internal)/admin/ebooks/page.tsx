@@ -132,6 +132,12 @@ export default function ListagemEbooks() {
             window.location.reload();
         }).catch(err => { })
     };
+    
+    function downloadEbook(id: number) {
+        requester.get('/ebook/download/'+id, {responseType: 'blob'}).then(response => {
+            window.open(URL.createObjectURL(response.data));
+        }).catch(err => { })
+    };
 
     function searchEbooks(name: string) {
         setSearchEbook(name);
@@ -438,7 +444,7 @@ export default function ListagemEbooks() {
                                                         ) : column.id === "status" ? (
                                                             getButtonStatus(tableItem)
                                                         ) : column.id == "download" ? (
-                                                            <DownloadIcon />
+                                                            <IconButton onClick={()=>downloadEbook(tableItem.id)}><DownloadIcon/></IconButton>
                                                         ) : (
                                                             tableItem[column.id]
                                                         )}

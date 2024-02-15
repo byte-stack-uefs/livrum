@@ -1,3 +1,5 @@
+from pathlib import Path
+from fastapi.responses import FileResponse
 from dao.ebookDAO import EbookDAO
 from database.database import DB
 from models.ebook import AuthorEbookDTO, Ebook, EbookModel, EbookDTO, ReproveEbookDTO
@@ -55,4 +57,11 @@ class EbookService:
         except Exception as ex:
             print("Erro ao inativar Ebook com id:", id, ex)
 
-
+    def downloadEbook(id):
+        file_path = Path("./phase_4/app/api/files/") / (id + ".pdf")
+        print(file_path.exists())
+        # Verifica se o arquivo existe antes de tentar abri-lo
+        if file_path.is_file():
+            print(FileResponse(file_path, filename=id + ".pdf"))
+            # Retorna o arquivo como uma resposta de arquivo
+            return FileResponse(file_path, filename=id + ".pdf")
