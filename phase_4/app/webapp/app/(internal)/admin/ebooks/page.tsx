@@ -111,8 +111,8 @@ export default function ListagemEbooks() {
         requester
             .put("/ebook/approve/" + openEbook.id)
             .then((response) => {
-                //setOpenDialog(false);
-                window.location.reload();
+                setOpenDialog(false);
+                getEbooks();
             })
             .catch((err) => {});
     };
@@ -126,8 +126,8 @@ export default function ListagemEbooks() {
         requester
             .put("/ebook/repprove", { id: openEbook.id, reason: reasonRefusal })
             .then((response) => {
-                //setOpenDialog(false);
-                window.location.reload();
+                setOpenDialog(false);
+                getEbooks();
             })
             .catch((err) => {});
     };
@@ -136,8 +136,8 @@ export default function ListagemEbooks() {
         requester
             .put("/ebook/disable/" + openEbook.id)
             .then((response) => {
-                //setOpenDialog(false);
-                window.location.reload();
+                setOpenDialog(false);
+                getEbooks();
             })
             .catch((err) => {});
     };
@@ -347,7 +347,7 @@ export default function ListagemEbooks() {
                                     <strong>Quantidade de Páginas:</strong> {openEbook.qtd_pag}
                                 </Typography>
                                 <Typography variant="body2">
-                                    <strong>Gêneros:</strong> {openEbook.genero}
+                                    <strong>Gêneros:</strong> {openEbook.genero?.join(", ")}
                                 </Typography>
                                 <Typography variant="body2">
                                     <strong>Preço:</strong> {openEbook?.preco?.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
