@@ -47,6 +47,7 @@ const ClientRegister = () => {
     const [operationNumber, setOperationNumber] = useState("");
     const requester = useRequest();
     const [creationError, setCreationError] = useState("");
+    const [creationSuccess, setCreationSuccess] = useState("");
     const [cardCreatedSuccessfully, setCardCreatedSuccessfully] = useState(false);
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
     const [user, setUser] = useState<UserForm>();
@@ -114,7 +115,8 @@ const ClientRegister = () => {
         event.preventDefault();
         setHasCreationFailed(false);
         setCreationError("");
-    
+        setCardCreatedSuccessfully(false);
+        setCreationSuccess("");
         const validationError = validateFields();
         if (validationError) {
             setHasCreationFailed(true);
@@ -163,8 +165,8 @@ const ClientRegister = () => {
                     setAgencyNumber('');
                     setPasswordConfirm('');
                     setOperationNumber('');
-                    setHasCreationFailed(false);
-                    setCreationError("");
+                    setCardCreatedSuccessfully(true);
+                    setCreationSuccess("Usuario cadastrado com sucesso");
                 })
                 .catch((err) => {
                     if (err.response && err.response.data && err.response.data.detail) {
@@ -436,6 +438,9 @@ const ClientRegister = () => {
                                 <Grid xs={12}>
                                     <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
                                         {creationError}
+                                    </Alert>
+                                    <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                                        {creationSuccess}
                                     </Alert>
                                 </Grid>
                             )}
