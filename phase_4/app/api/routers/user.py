@@ -7,7 +7,7 @@ from services.UserService import UserService
 
 accessAdmin = UserHasAccess([UserType.ADMIN])
 accessCustomer = UserHasAccess([UserType.CUSTOMER])
-accessAuthor = UserHasAccess([UserType.AUTHOR])
+accessAdminOrCustomer = UserHasAccess([UserType.ADMIN, UserType.CUSTOMER])
 
 
 router = APIRouter(prefix="/user", tags=["Users"])
@@ -32,7 +32,7 @@ def getCustomers(user: Annotated[User, Depends(accessAdmin)]):
 
 
 @router.get("/")
-def get(user: Annotated[User, Depends(accessCustomer)]):
+def get(user: Annotated[User, Depends(accessAdminOrCustomer)]):
 
     service = UserService()
     user = service.findUserById(user.idUsuario)
@@ -43,7 +43,7 @@ def get(user: Annotated[User, Depends(accessCustomer)]):
     return user
 
 @router.patch("/")
-def update(userPartial:PartialUserForm, user: Annotated[User, Depends(accessCustomer)]):
+def update(userPartial:PartialUserForm, user: Annotated[User, Depends(accessAdminOrCustomer)]):
 
     service = UserService()
 
