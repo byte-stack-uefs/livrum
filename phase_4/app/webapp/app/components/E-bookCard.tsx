@@ -23,7 +23,7 @@ const DisplayBookInfo: React.FC<EbookCardProps> = ({ ebook }) => {
             </Grid>
             <Grid item xs={4} sx={{ textAlign: "right" }}>
                 <Stack direction="column" height="100%" justifyContent="space-between">
-                    <div>R$ {ebook.price},00</div>
+                    <div>R$ {ebook.price}</div>
                     <div>
                         <Button variant="contained" startIcon={<AddShoppingCart />}>
                             Comprar

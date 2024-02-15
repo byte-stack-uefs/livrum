@@ -6,10 +6,13 @@ from models.user import User, UserType
 from typing import Annotated, Optional
 from services.CartService import CartService
 from fastapi import APIRouter, Depends, HTTPException
+from dependencies.security import UserHasAccess
 
 router = APIRouter(prefix="/carrinho", tags=["Cart"])
 access = security.UserHasAccess([UserType.CUSTOMER])
 service = CartService()
+
+access = UserHasAccess([UserType.CUSTOMER])
 
 
 @router.get("/", description="Get all ebooks in cart")
@@ -19,7 +22,9 @@ def list(user: Annotated[User, Depends(access)]):
 
 
 @router.post("/{idEbook}", description="Add an ebook to customer's cart")
-def add(cartData: CartForm, idEbook: int, user: Annotated[Optional[User], Depends(access)]):
+def add(
+    cartData: CartForm, idEbook: int, user: Annotated[Optional[User], Depends(access)]
+):
     response = service.addCartItem(idCart=cartData.id, idEbook=idEbook)
     if not response:
         raise HTTPException(500, "Não foi possível cadastrar o cartão")
@@ -54,5 +59,3 @@ def deleteAll(user: Annotated[Optional[User], Depends(access)]):
 
     if not success:
         raise HTTPException(500, "Não foi possível limpar o carrinho")
-
-

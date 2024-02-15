@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from services.CreditCardService import CreditCardService
 
 router = APIRouter(prefix="/credit-card", tags=["Credit Card"])
-service = CreditCardService()
+
 access = security.UserHasAccess([UserType.CUSTOMER])
 
 
@@ -15,6 +15,7 @@ def add(
     creditCardData: FrontToBackEndCreditCardDTO,
     user: Annotated[User, Depends(access)],
 ):
+    service = CreditCardService()
     success = service.addCreditCard(creditCardData, user.idUsuario)
     if not success:
         raise HTTPException(500, "Não foi possível cadastrar o cartão")
@@ -22,12 +23,14 @@ def add(
 
 @router.get("/", description="Get all customer credit cards")
 def list(user: Annotated[User, Depends(access)]):
+    service = CreditCardService()
     response = service.getAllCreditCardsByClientId(user.idUsuario)
     return response
 
 
 @router.delete("/{id}", description="Delete a customer's credit card by its ID")
 def delete(id: int, user: Annotated[User, Depends(access)]):
+    service = CreditCardService()
     creditCard = service.getCreditCardByCardId(id)
 
     if creditCard is None:
