@@ -68,6 +68,7 @@ def deleteAll(user: Annotated[Optional[User], Depends(access)]):
             raise HTTPException(403, "O carrinho não pertence ao usuário logado")
 
         success = service.removeAllCartItems(idCart=cart.idCart)
+        service.deleteCart(cart.idCart)
 
         if not success:
             raise HTTPException(500, "Não foi possível limpar o carrinho")
