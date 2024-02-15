@@ -67,7 +67,7 @@ class PaymentService:
     ):
 
         efi = EfiPay(self._getCredentials())
-        # {"name": "Ebook", "value": 1990, "amount": 1}
+
         try:
             body = {
                 "items": [
@@ -97,12 +97,13 @@ class PaymentService:
                     }
                 },
             }
-            print(body)
+
             response = efi.create_one_step_charge(body=body)
 
             if response.get("error_description", None) is not None:
                 ex = Exception()
                 ex.message = response["error_description"]
                 raise ex
+            return response["data"]["charge_id"]
         except Exception as e:
             raise e
