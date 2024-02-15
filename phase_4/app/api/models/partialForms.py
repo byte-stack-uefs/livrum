@@ -9,7 +9,8 @@ class PartialFormBase(BaseModel):
     @classmethod
     def updateOriginalByPartial(cls, original_instance, partial_instance):
         for key, value in partial_instance.dict().items():
-            if value is not None:
+            if value is not None and getattr(original_instance, key) != getattr(partial_instance, key):
+                print(f"Atributo: {key}, Valor na instância original: {getattr(original_instance, key)}, Valor na instância parcial: {value}")
                 setattr(original_instance, key, value)
 
 class PartialUserForm(PartialFormBase):

@@ -69,15 +69,15 @@ const AdminData = () => {
         }).catch((err: any) => { })
         
     }
-   
-    const saveChanges = () => { 
+
+    const handleSubmitClient = (event: { preventDefault: () => void; }) => {
         requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
             getDataUserObject();
         }).catch((err: any) => { })
-    }   
-
+    };
+   
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmitClient}>
             <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
                 <Typography
                     variant="h5"
@@ -160,6 +160,7 @@ const AdminData = () => {
                                     <strong>Nova Senha:</strong>
                                 </div>
                                 <TextField
+                                    required
                                     fullWidth
                                     size="small"
                                     type={showPassword ? "text" : "password"}
@@ -186,6 +187,7 @@ const AdminData = () => {
                                     <strong>Confirmar Senha:</strong>
                                 </div>
                                 <TextField
+                                    required
                                     fullWidth
                                     size="small"
                                     type={showPassword ? "text" : "password"}
@@ -211,10 +213,10 @@ const AdminData = () => {
 
                         <Grid xs={12} sm={6} md={4} lg={2}>
                             <Button
+                                type="submit"
                                 variant="contained"
                                 color="primary"
                                 fullWidth
-                                onClick={saveChanges}
                                 sx={{
                                     marginTop: "10px",
                                     backgroundColor: theme.palette.dark.main,
