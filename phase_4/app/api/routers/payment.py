@@ -8,6 +8,7 @@ from models.creditCard import CreditCardPaymentForm
 from services.CartService import CartService
 from forms.PaymentForm import PaymentForm
 from services.CustomerService import CustomerService
+from services.OrderService import OrderService, OrderPaymentType, OrderStatus
 
 router = APIRouter(prefix="/payment", tags=["Payment"])
 
@@ -45,6 +46,11 @@ def payByCreditCard(
     cartService = CartService()
     ebooks = cartService.getCartEbooksByUserId(user.idUsuario)
 
+    if len(ebooks) == 0:
+        raise HTTPException(
+            422, "O carrinho está vazio, adicione alguns ebooks e tente novamente"
+        )
+
     if cartService.hasUnavailableEbooks(ebooks):
         raise HTTPException(409, "Alguns ebooks não estão mais disponíveis para compra")
 
@@ -52,11 +58,37 @@ def payByCreditCard(
     customer = customerService.getCustomerById(user.idUsuario)
 
     payment = PaymentService()
+    orderService = OrderService()
+
+    orderId = orderService.createOrder(user.idUsuario, OrderPaymentType.CREDIT_CARD)
+
+    if orderId == False:
+        raise HTTPException(
+            500,
+            "Não foi possível processar o pedido, por favor, tente novamente mais tarde",
+        )
+
+    for ebook in ebooks:
+        orderService.addEbookToOrder(orderId, ebook, form.idCoupon)
+
     try:
-        payment.payByCreditCard(customer, creditCard, ebooks, form)
+        txid = payment.payByCreditCard(customer, creditCard, ebooks, form)
+        orderService.updateOrderStatus(orderId, OrderStatus.APPROVED)
+        orderService.addTxidToOrder(orderId, txid)
+        cart = cartService.getCartByClientId(user.idUsuario)
+        cartService.removeAllCartItems(cart.idCart)
+        cartService.deleteCart(cart.idCart)
+        return {}
     except Exception as err:
-        print("dentu:", err)
-        raise HTTPException(500, err.message)
+        orderService.updateOrderStatus(orderId, OrderStatus.FAILED)
+
+        message = (
+            err.message
+            if hasattr(err, "message")
+            else "Não foi possível processar o pedido, tente novamente"
+        )
+
+        raise HTTPException(500, message)
 
 
 @router.get("/pix/isPaid/{txid}")
