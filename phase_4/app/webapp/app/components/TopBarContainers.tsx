@@ -10,6 +10,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { useCart } from "../(public)/carrinho/useCart";
 import React from "react";
 
+
 export function TopMain() {
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -20,50 +21,10 @@ export function TopMain() {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    //const [open, setOpen] = useState<HTMLButtonElement | null>(null);
-    // const [open, setOpen] = useState(false);
-    // const anchorRef = React.useRef<HTMLButtonElement>(null);
 
     const [category, setCategory] = useState('all');
     const { cartTotalQnt} = useCart();
     const [numCartItems, setNumCartItems] = useState(0);
-
-    // const handleOpenMenu = (e: React.MouseEvent<HTMLButtonElement>) =>{
-    //     setOpen(e.currentTarget);
-    // }
-
-    // const handleToggle = () => {
-    //     setOpen((prevOpen) => !prevOpen);
-    //   };
-    
-    // const handleClose = (event: Event | React.SyntheticEvent) => {
-    // if (
-    //     anchorRef.current &&
-    //     anchorRef.current.contains(event.target as HTMLElement)
-    // ) {
-    //     return;
-    // }
-
-    // setOpen(false);
-    // };
-
-    // function handleListKeyDown(event: React.KeyboardEvent) {
-    //     if (event.key === 'Tab') {
-    //       event.preventDefault();
-    //       setOpen(false);
-    //     } else if (event.key === 'Escape') {
-    //       setOpen(false);
-    //     }
-    // }
-
-    // const prevOpen = React.useRef(open);
-    // React.useEffect(() => {
-    //     if (prevOpen.current === true && open === false) {
-    //     anchorRef.current!.focus();
-    //     }
-
-    //     prevOpen.current = open;
-    // }, [open]);
 
     function handleChange(event: SelectChangeEvent) {
         setCategory(event.target.value as string);
@@ -172,19 +133,11 @@ export function TopMain() {
                             open={open}
                             onClose={handleClose}
                             TransitionComponent={Fade}
-                        >
-                            <Link href={"/carrinho"} underline= "none" sx={{ textDecoration: 'none' }}>
-                                <MenuItem onClick={handleClose}>Meus Dados</MenuItem>
-                            </Link>
-                            <Link href={"/credit-card"}> 
-                                <MenuItem onClick={handleClose}>Meus Cartões</MenuItem>
-                            </Link>
-                            <Link href={"/library"}> 
-                                <MenuItem onClick={handleClose}>Biblioteca</MenuItem>
-                            </Link>
-                            <Link href={"/account/logout"}> 
-                                <MenuItem onClick={handleClose}>Sair</MenuItem>
-                            </Link>
+                        >                            
+                            <MenuItem component={"a"} href={"/carrinho"}>Meus Dados</MenuItem>
+                            <MenuItem component={"a"} href={"/client/credit-card"} onClick={handleClose}>Meus Cartões</MenuItem>
+                            <MenuItem component={"a"} href={"/carrinho"} onClick={handleClose}>Biblioteca</MenuItem>
+                            <MenuItem component={"a"} href={"/carrinho"} onClick={handleClose}>Sair</MenuItem>
                         </Menu>
                     </Grid>
                 </Grid>
