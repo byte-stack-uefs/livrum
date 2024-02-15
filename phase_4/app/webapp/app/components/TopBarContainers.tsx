@@ -28,6 +28,7 @@ import LivrumLink from "./LivrumLink";
 import { useUser } from "../context";
 import Divider from "./Divider";
 import { useRouter } from "next/navigation";
+import { logout } from "../helpers/login";
 
 export function TopMain() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -41,13 +42,19 @@ export function TopMain() {
 
     const [category, setCategory] = useState("all");
     const { cartTotalQnt } = useCart();
-    const [numCartItems, setNumCartItems] = useState(0);
+    const { user, clearUser } = useUser();
+    const router = useRouter();
 
     function handleChange(event: SelectChangeEvent) {
         setCategory(event.target.value as string);
     }
 
-    const handleLogout = () => {};
+    const handleLogout = () => {
+        logout().then(() => {
+            clearUser();
+            router.push("/");
+        });
+    };
 
     const categories = [
         {
@@ -63,9 +70,6 @@ export function TopMain() {
             value: "comedia",
         },
     ];
-
-    const { user } = useUser();
-    const router = useRouter();
 
     const searchSelect = (
         <InputAdornment position="start">

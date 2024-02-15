@@ -14,6 +14,16 @@ export function redirectByType(type: string) {
     return "/";
 }
 
+export function logout() {
+    const requester = useRequest();
+
+    return requester.post("/account/logout").then((response) => {
+        return new Promise((resolve, rej) => {
+            resolve(true);
+        });
+    });
+}
+
 export function login(email: string, password: string) {
     const requester = useRequest();
 
