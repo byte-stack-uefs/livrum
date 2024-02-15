@@ -126,7 +126,7 @@ export default function ListagemEbooks() {
         requester
             .put("/ebook/repprove", { id: openEbook.id, reason: reasonRefusal })
             .then((response) => {
-                setOpenDialog(false);
+                setRefuseOpenDialog(false);
                 getEbooks();
             })
             .catch((err) => {});
