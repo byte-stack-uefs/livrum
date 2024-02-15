@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Button, InputLabel, TextField, Typography } from "@mui/material";
+import { Alert, Button, InputLabel, TextField, Typography } from "@mui/material";
 import { cellphoneInput, cpfInput } from "@/app/components/CustomInputs";
 import useRequest from '@/app/services/requester';
 import { UserAttributes, CustomerAttributes } from '@/app/interfaces/User';
@@ -34,6 +34,8 @@ function ClientDataContainer() {
     const [birthday, setBirthday] = useState("");
     const [password, setPassword] = useState("");
     const [telephone, setTelephone] = useState("");
+    const [creationError, setCreationError] = useState("");
+    const [hasCreationFailed, setHasCreationFailed] = useState(false);
     const requester = useRequest();
     useEffect(() => {
         getDataUserObject();
@@ -67,8 +69,17 @@ function ClientDataContainer() {
     const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
     };
+    
 
     const handleSubmitClient = (event: { preventDefault: () => void; }) => {
+        setHasCreationFailed(false);
+        setCreationError("");
+        const validationError = validateFields();
+        if (validationError) {
+            setHasCreationFailed(true);
+            setCreationError(validationError);
+            return;
+        }
         requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
             getDataUserObject();
         }).catch((err: any) => { })
@@ -76,6 +87,29 @@ function ClientDataContainer() {
         requester.patch(`/customer/`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone}).then((response: any) => {
             getDataCustomerObject();
         }).catch((err: any) => { })
+    };
+
+    const validateFields = () => {
+
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isTelephoneValid = telephone.replace(/\D/g, '').length === 11;
+        const isDateOfBirthValid = /\d{4}-\d{2}-\d{2}/.test(birthday);
+        const isPasswordValid = password.length >= 4;
+    
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+        if (!isTelephoneValid) {
+            return "Por favor, preencha o telefone corretamente.";
+        }
+        if (!isDateOfBirthValid) {
+            return "Por favor, preencha a data de nascimento corretamente.";
+        }
+        if (!isPasswordValid) {
+            return "A senha deve ter no mínimo 4 caracteres.";
+        }
+    
+        return null;
     };
 
     return (
@@ -217,6 +251,13 @@ function ClientDataContainer() {
                         />
                     </Grid>
                     <Grid xs={12} lg={10}></Grid>
+                    {hasCreationFailed && (
+                        <Grid xs={12}>
+                            <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+                                    {creationError}
+                            </Alert>
+                        </Grid>
+                     )}
                     <Grid xs={12} lg={2}>
                         <Button
                             type="submit"
@@ -233,6 +274,7 @@ function ClientDataContainer() {
                 </Grid>
             </form>
         </Grid>
+        
     );
 }
 

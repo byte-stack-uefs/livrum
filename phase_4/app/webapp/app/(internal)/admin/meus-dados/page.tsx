@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button, InputAdornment, Typography, FormControl, IconButton } from "@mui/material";
+import { Button, InputAdornment, Typography, FormControl, IconButton, Alert } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -26,6 +26,8 @@ const AdminData = () => {
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [oldPassword, setOldPassword] = useState("");
     const [showPassword, setShowPassword] = React.useState(false);
+    const [creationError, setCreationError] = useState("");
+    const [hasCreationFailed, setHasCreationFailed] = useState(false);
     const requester = useRequest();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -71,9 +73,32 @@ const AdminData = () => {
     }
 
     const handleSubmitClient = (event: { preventDefault: () => void; }) => {
+        setHasCreationFailed(false);
+        setCreationError("");
+        const validationError = validateFields();
+        if (validationError) {
+            setHasCreationFailed(true);
+            setCreationError(validationError);
+            return;
+        }
         requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
             getDataUserObject();
         }).catch((err: any) => { })
+    };
+
+    const validateFields = () => {
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isPasswordValid = password.length >= 4;
+    
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+    
+        if (!isPasswordValid) {
+            return "A senha deve ter no mínimo 4 caracteres.";
+        }
+    
+        return null;
     };
    
     return (
@@ -210,6 +235,13 @@ const AdminData = () => {
                                 />
                             </Grid>
                         </Grid>
+                        {hasCreationFailed && (
+                                <Grid xs={12}>
+                                    <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+                                        {creationError}
+                                    </Alert>
+                                </Grid>
+                        )}
 
                         <Grid xs={12} sm={6} md={4} lg={2}>
                             <Button
