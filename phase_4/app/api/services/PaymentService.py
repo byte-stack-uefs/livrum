@@ -2,6 +2,7 @@ from efipay import EfiPay
 from dependencies.settings import Settings
 from forms.PaymentForm import PaymentForm
 from models.creditCard import CreditCardPaymentForm, CreditCard
+from models.customer import Customer
 
 
 class PaymentService:
@@ -58,40 +59,50 @@ class PaymentService:
         )
 
     def payByCreditCard(
-        self, creditCard: CreditCard, ebooks: list, data: CreditCardPaymentForm
+        self,
+        customer: Customer,
+        creditCard: CreditCard,
+        ebooks: list,
+        data: CreditCardPaymentForm,
     ):
 
         efi = EfiPay(self._getCredentials())
-
+        # {"name": "Ebook", "value": 1990, "amount": 1}
         try:
-            response = efi.create_one_step_charge(
-                {
-                    "items": [{}],
-                    "payment": {
-                        "credit_card": {
-                            "customer": {
-                                "name": "",
-                                "cpf": "",
-                                "email": "",
-                                "birth": "",
-                                "phone_number": "",
-                            },
-                            "installments": data.installments,
-                            "payment_token": creditCard.token,
-                            "billing_address": {
-                                "street": "",
-                                "number": "",
-                                "city": "",
-                                "zipcode": "",
-                                "complement": "",
-                                "state": "",
-                                "neighborhood": "",
-                            },
-                        }
-                    },
-                }
-            )
-            print(response)
+            body = {
+                "items": [
+                    {"name": x.title, "value": int(x.price * 100), "amount": 1}
+                    for x in ebooks
+                ],
+                "payment": {
+                    "credit_card": {
+                        "customer": {
+                            "name": customer.nome,
+                            "cpf": customer.cpf,
+                            "email": customer.email,
+                            "birth": str(customer.dataNascimento),
+                            "phone_number": customer.telefone,
+                        },
+                        "installments": data.installments,
+                        "payment_token": creditCard.token,
+                        "billing_address": {
+                            "street": "SOME STREET",
+                            "number": "99",
+                            "city": "FEIRA DE SANTANA",
+                            "zipcode": "44036900",
+                            "complement": "",
+                            "state": "BA",
+                            "neighborhood": "Novo Horizonte",
+                        },
+                    }
+                },
+            }
+            print(body)
+            response = efi.create_one_step_charge(body=body)
+
+            if response.get("error_description", None) is not None:
+                ex = Exception()
+                ex.message = response["error_description"]
+                raise ex
         except Exception as e:
-            print(e)
-            return False
+            raise e
