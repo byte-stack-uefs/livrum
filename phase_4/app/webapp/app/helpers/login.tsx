@@ -9,7 +9,7 @@ export function redirectByType(type: string) {
         case "AUTOR":
             return "/autor";
         case "CLIENTE":
-            return "/cliente";
+            return "/cliente/meus-dados";
     }
     return "/";
 }
