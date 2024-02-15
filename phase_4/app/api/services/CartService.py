@@ -5,6 +5,14 @@ from models.ebook import Ebook, EbookModel
 
 
 class CartService:
+
+    def createCart(self, idUsuario: int) -> Cart:
+        with DB() as db:
+
+            db.execute("INSERT INTO carrinho(idUsuario) VALUES(%s)", [idUsuario])
+            id = db.lastrowid
+            return Cart(idUsuario=idUsuario, idCarrinho=id)
+
     def _convertDTOCart(self, item: dict) -> CartDTO:
         return CartDTO(**item)
 
@@ -26,6 +34,8 @@ class CartService:
 
     def getAllCartItemsIDByCartId(self, idUsuario: int) -> list[CartItemDTO]:
         cart = self.getCartByClientId(idUsuario)
+        if cart is None:
+            return []
         with DB() as db:
             db.execute(
                 "SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco FROM itemcarrinho JOIN ebook ON itemcarrinho.idEbook = ebook.idEbook WHERE itemcarrinho.idCarrinho = %s;",
@@ -52,7 +62,7 @@ class CartService:
                     "INSERT INTO itemcarrinho (idCarrinho, idEbook) VALUES (%s, %s)",
                     [idCart, idEbook],
                 )
-            except:
+            except Exception as e:
                 return False
 
         return True

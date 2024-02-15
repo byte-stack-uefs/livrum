@@ -1,8 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { CartItemType } from "../ebook/[id]/page";
 import useRequest from "@/app/services/requester";
-import Cookies from 'js-cookie';
-import { error } from "console";
 
 type CartContextType = {
     cartTotalQnt: number;
@@ -31,41 +29,44 @@ export const CartContextProvider = (props: Props) => {
         getCart();
     }, []);
 
-    const getCart = () =>{
-        requester.get("/carrinho/").then(response => {
-            setcartItems(prev=>{
-                return response.data;
-            }
-        )
-            }).catch(err => {
+    const getCart = () => {
+        requester
+            .get("/carrinho/")
+            .then((response) => {
+                setcartItems((prev) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {
                 const cartEbooks: any = localStorage.getItem("shopCartItens");
 
                 const cartItemsLocalSTORAGE: CartItemType[] = JSON.parse(cartEbooks);
                 setcartItems(cartItemsLocalSTORAGE);
-            })
-    } 
-        
+            });
+    };
 
     useEffect(() => {
-        const getTotal = () =>{
-            if(cartItems){
-                const {total, qty} = cartItems.reduce((accumulator, item) => {
-                    accumulator.total += item.price;
-                    accumulator.qty += 1;
-    
-                    return accumulator;
-                }, {
-                    total: 0,
-                    qty:0,
-                })
-                setCardTotalQnt(qty)
-                setCardTotalAmount(total)
-            }
-            
-        }
+        const getTotal = () => {
+            if (cartItems) {
+                const { total, qty } = cartItems.reduce(
+                    (accumulator, item) => {
+                        accumulator.total += item.price;
+                        accumulator.qty += 1;
 
-        getTotal()
-    }, [cartItems])
+                        return accumulator;
+                    },
+                    {
+                        total: 0,
+                        qty: 0,
+                    }
+                );
+                setCardTotalQnt(qty);
+                setCardTotalAmount(total);
+            }
+        };
+
+        getTotal();
+    }, [cartItems]);
 
     const handleAddEbookToCart = useCallback((item: CartItemType) => {
         setcartItems((prev) => {
@@ -76,47 +77,47 @@ export const CartContextProvider = (props: Props) => {
                 updatedCart = [item];
             }
             requester
-            .post(`/carrinho/${item.id}`, {
-                idEbook: item.id
-            })
-            .then((response) => {
-                localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
-            })
-            .catch((err) => {console.error('Erro ao remover item do carrinho', err);})
+                .post(`/carrinho/${item.id}`)
+                .then((response) => {
+                    localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
+                })
+                .catch((err) => {
+                    console.error("Erro ao remover item do carrinho", err);
+                });
             return updatedCart;
         });
     }, []);
 
-    const handleRemoveEbookFromCart = useCallback((
-        product: CartItemType
-    ) => {
-        if (cartItems) {
-            // Filtrar os produtos para remover apenas o produto atual
-            const filteredProducts = cartItems.filter(item => item.id !== product.id);
-            requester
-            .delete(`/carrinho/${product.id}`)
-            .then(response => {
-                setcartItems(filteredProducts);
-                localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
-            })
-            .catch(error => {
-                console.error('Erro ao remover item do carrinho', error);
-            })
-        }
-    }, [cartItems, setcartItems])
+    const handleRemoveEbookFromCart = useCallback(
+        (product: CartItemType) => {
+            if (cartItems) {
+                // Filtrar os produtos para remover apenas o produto atual
+                const filteredProducts = cartItems.filter((item) => item.id !== product.id);
+                requester
+                    .delete(`/carrinho/${product.id}`)
+                    .then((response) => {
+                        setcartItems(filteredProducts);
+                        localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao remover item do carrinho", error);
+                    });
+            }
+        },
+        [cartItems, setcartItems]
+    );
 
     const handleClearCart = useCallback(() => {
         requester
-        .delete("/carrinho/")
-        .then(response => {
-            setcartItems([])
-            localStorage.setItem("shopCartItens", JSON.stringify(null));
-        })
-        .catch(error => {
-            console.error('Erro ao limpar carrinho', error);
-        })
-        
-    }, [cartItems, setcartItems])
+            .delete("/carrinho/")
+            .then((response) => {
+                setcartItems([]);
+                localStorage.setItem("shopCartItens", JSON.stringify(null));
+            })
+            .catch((error) => {
+                console.error("Erro ao limpar carrinho", error);
+            });
+    }, [cartItems, setcartItems]);
 
     const value = {
         cartTotalQnt,
@@ -127,7 +128,6 @@ export const CartContextProvider = (props: Props) => {
         handleClearCart,
     };
 
-   
     return <CartContext.Provider value={value} {...props} />;
 };
 
