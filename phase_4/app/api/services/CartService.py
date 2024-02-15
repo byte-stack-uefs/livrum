@@ -49,8 +49,8 @@ class CartService:
     def deleteCart(self, idCart: int):
         with DB() as db:
             try:
-                db.execute("DELETE FROM carrinho WHERE idCarrinho = %s", (idCart))
-            except:
+                db.execute("DELETE FROM carrinho WHERE idCarrinho = %s", [idCart])
+            except Exception as e:
                 return False
 
             return True

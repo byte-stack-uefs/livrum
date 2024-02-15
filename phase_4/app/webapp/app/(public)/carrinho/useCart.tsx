@@ -80,6 +80,7 @@ export const CartContextProvider = (props: Props) => {
                 .post(`/carrinho/${item.id}`)
                 .then((response) => {
                     localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
+                    getCart();
                 })
                 .catch((err) => {
                     console.error("Erro ao remover item do carrinho", err);
