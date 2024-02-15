@@ -11,6 +11,7 @@ interface UserContextType {
         status: string;
     };
     updateUser: (u) => void;
+    clearUser: () => void;
 }
 
 export const defaultUser = {
@@ -41,9 +42,14 @@ export default function UserContextProvider({ children }: { children: React.Reac
         localStorage.setItem("user", JSON.stringify(u));
     };
 
+    const clearUser = () => {
+        setUser(defaultUser);
+    };
+
     const value = {
         user,
         updateUser,
+        clearUser
     };
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

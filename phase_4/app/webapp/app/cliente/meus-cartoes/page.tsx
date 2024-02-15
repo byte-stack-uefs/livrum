@@ -63,6 +63,7 @@ export default function Page() {
         const token = await tokenizeCard();
 
         if (!token) {
+            setIsLoading(false);
             return;
         }
 
@@ -71,7 +72,7 @@ export default function Page() {
         requester
             .post("/credit-card", {
                 cvv: cvv,
-                token: cardToken,
+                token: token,
                 namePrinted: cardHolder,
                 cardNumber: cardNumber.slice(12),
                 expiryDate: cardExpiration?.toFormat("yyyy-LL"),

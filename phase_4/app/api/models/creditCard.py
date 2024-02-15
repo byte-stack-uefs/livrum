@@ -13,6 +13,7 @@ class CreditCard:
         self.cardNumber = kwargs.get("numero")
         self.expiryDate = kwargs.get("dataVencimento")
         self.namePrinted = kwargs.get("nomeImpresso")
+        self.token = kwargs.get("token")
 
 
 class BackToFrontEndCreditCardDTO:
@@ -46,7 +47,6 @@ class FrontToBackEndCreditCardDTO(BaseModel):
 
 
 class CreditCardPaymentForm(BaseModel):
-
     cvv: int
     installments: int
     idCreditCard: int
