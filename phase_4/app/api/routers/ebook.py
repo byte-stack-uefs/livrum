@@ -13,13 +13,26 @@ access = security.UserHasAccess([UserType.AUTHOR])
 
 
 @router.get("/search", description="Get ebooks by optional filters")
-def searchWithOptionalFilters(id = None, name = None, author = None, title = None, release_year = None, price_min = None, price_max = None, id_client = None):
-    ebooks = EbookService.findEbookByOptionalFilters(id, name, author, title, release_year, price_min, price_max, id_client)
+def searchWithOptionalFilters(
+    id=None,
+    name=None,
+    author=None,
+    title=None,
+    release_year=None,
+    price_min=None,
+    price_max=None,
+    id_client=None,
+):
+    ebooks = EbookService.findEbookByOptionalFilters(
+        id, name, author, title, release_year, price_min, price_max, id_client
+    )
     return ebooks
+
 
 @router.get("/", description="Get ebooks")
 def get():
     return EbookService.findAll()
+
 
 @router.get("/{id}", description="Get an ebook by its ID")
 def get(id: int):
@@ -33,13 +46,16 @@ def add(
 ):
     pass
 
+
 @router.put("/approve/{id}", description="approve an ebook")
 def approve(id: str):
     return EbookService.approveEbook(id)
 
+
 @router.put("/repprove", description="repprove an ebook")
 def approve(reproveEbook: ReproveEbookDTO):
     return EbookService.repproveEbook(reproveEbook)
+
 
 @router.put("/disable/{id}", description="approve an ebook")
 def approve(id: str):
@@ -49,3 +65,15 @@ def approve(id: str):
 @router.patch("/{id}", description="Update an ebook's field")
 def patch(id: int):
     return {"message": "Update ebook", "id": id}
+
+
+@router.get("/download/{id}", description="download an ebook")
+def download(id: str):
+
+    result = EbookService.downloadEbook(id)
+    if result is None:
+        raise HTTPException(
+            404,
+            "O PDF do Ebook não está disponível, por favor, tente novamente mais tarde",
+        )
+    return result
