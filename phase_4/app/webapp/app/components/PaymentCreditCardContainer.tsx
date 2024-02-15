@@ -18,15 +18,7 @@ import {
 } from "@mui/material";
 import { DialogError } from "./DialogError";
 
-export function PaymentCreditCardContainer({
-    onConfirm,
-    total,
-    userId,
-}: {
-    onConfirm: () => void;
-    total: number;
-    userId: number;
-}) {
+export function PaymentCreditCardContainer({ onConfirm, total, userId }: { onConfirm: () => void; total: number; userId: number }) {
     const requester = useRequest();
 
     const [cards, setCards] = useState<CreditCard[] | null>(null);
@@ -93,10 +85,13 @@ export function PaymentCreditCardContainer({
                 installments: selectedInstallment,
                 idCreditCard: selectedCard,
             })
-            .then((response) => {})
+            .then((response) => {
+                if (typeof onConfirm == "function") {
+                    onConfirm();
+                }
+            })
             .catch((err) => {
-                const detail: { field: string; message: string } =
-                    err.response.data.detail;
+                const detail: { field: string; message: string } = err.response.data.detail;
 
                 if (detail.field) {
                     setErrors((prev) => {
@@ -137,27 +132,16 @@ export function PaymentCreditCardContainer({
                     />
                     <Grid xs={12} container item>
                         <Grid item xs={8}>
-                            <Typography
-                                display="inline"
-                                variant="body1"
-                                color="dark.main"
-                                fontWeight="bold"
-                            >
+                            <Typography display="inline" variant="body1" color="dark.main" fontWeight="bold">
                                 Cartão de Crédito &ensp;
                             </Typography>
-                            <Typography
-                                display="inline"
-                                variant="subtitle2"
-                                color="textLight.main"
-                            >
+                            <Typography display="inline" variant="subtitle2" color="textLight.main">
                                 **** **** **** {card?.cardNumber}
                             </Typography>
                         </Grid>
                         <Grid item xs={4}>
                             <FormControl fullWidth>
-                                <InputLabel id="my-cards-select-label">
-                                    Meus cartões
-                                </InputLabel>
+                                <InputLabel id="my-cards-select-label">Meus cartões</InputLabel>
                                 <Select
                                     labelId="my-cards-select-label"
                                     id="my-cards-select"
@@ -168,10 +152,7 @@ export function PaymentCreditCardContainer({
                                 >
                                     {cards.map((e) => {
                                         return (
-                                            <MenuItem
-                                                key={e.idCard}
-                                                value={e.idCard}
-                                            >
+                                            <MenuItem key={e.idCard} value={e.idCard}>
                                                 final {e.cardNumber}
                                             </MenuItem>
                                         );
@@ -179,18 +160,12 @@ export function PaymentCreditCardContainer({
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Divider
-                            width="85%"
-                            height={2}
-                            style={{ margin: "16px auto" }}
-                        />
+                        <Divider width="85%" height={2} style={{ margin: "16px auto" }} />
                     </Grid>
                     <Grid xs={12} container justifyContent="space-between" item>
                         <Grid item xs={3}>
                             <FormControl fullWidth>
-                                <InputLabel id="installments-select-label">
-                                    Parcelas
-                                </InputLabel>
+                                <InputLabel id="installments-select-label">Parcelas</InputLabel>
                                 <Select
                                     labelId="installments-select-label"
                                     id="installments-select"
@@ -223,15 +198,8 @@ export function PaymentCreditCardContainer({
                             />
                         </Grid>
                         <Grid item xs={4} textAlign="right">
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={pay}
-                                disabled={loading}
-                            >
-                                {loading
-                                    ? "Carregando..."
-                                    : "Confirmar Pagamento"}
+                            <Button variant="contained" color="primary" onClick={pay} disabled={loading}>
+                                {loading ? "Carregando..." : "Confirmar Pagamento"}
                             </Button>
                         </Grid>
                     </Grid>
