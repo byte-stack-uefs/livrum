@@ -4,9 +4,9 @@ export enum UserLevel {
     CUSTOMER = "CLIENTE",
 }
 export interface UserForm {
-    name: any;
+    nome: any;
     email: any;
-    password: any;
+    senha: any;
     status:any;
-    type: UserLevel;
+    tipo: UserLevel;
 }

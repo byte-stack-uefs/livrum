@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
     Tab,
     Tabs,
@@ -59,6 +59,12 @@ const ClientRegister = () => {
             padding: theme.spacing(1),
         },
     }));
+    useEffect(() => {
+        handleTabClick(UserLevel.CUSTOMER)
+    }, [])
+
+    
+   
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
@@ -89,46 +95,69 @@ const ClientRegister = () => {
         setValue(newValue);
     };
 
-    const handleSubmitClient = async (event) => {
+    const handleTabClick = (type:UserLevel) => {
+        
+        setUserType(type)
+
+        if(type == UserLevel.CUSTOMER){
+
+            setUserStatus(EnumUserStatus.CREATED);
+
+        }else{
+
+            setUserStatus(EnumUserStatus.PENDING);
+
+        }
+
+    }
+
+    const handleSubmitClient = (event: { preventDefault: () => void; }) => {
+        event.preventDefault();
+    };
+
+    const saveChanges = (event) => {
         setHasCreationFailed(false);
         setCreationError("");
-        event.preventDefault();
     
+        const cpfValue = cpf.replace(/\D/g, ''); 
+        const agencyNumberValue = agencyNumber.replace(/\D/g, '');
+        const accountNumberValue = accountNumber.replace(/\D/g, ''); 
+
         setUser({
-            name: name,
+            nome: name,
             email: email,
-            password: password,
-            type: userType,
+            senha: password,
+            tipo: userType,
             status: userStatus
         });
 
-
-        try {
-
-            if(userType == UserLevel.AUTHOR){
+        if(userType == UserLevel.AUTHOR){
                 
-                setCustomerOrAuthor({
-                    cpf: cpf,
-                    birthday: birthday,
-                    address: address,
-                    agencyNumber: agencyNumber,
-                    accountNumber: accountNumber,
-                    operationNumber: operationNumber,
-                });
-
+            setCustomerOrAuthor({
+                cpf: cpfValue,
+                dataNascimento: birthday,
+                endereco: address,
+                numeroAgencia: agencyNumberValue,
+                numeroConta: accountNumberValue,
+                numeroOperacao: operationNumber,
+            });
             
-            }else{
+        }else{
 
-                setCustomerOrAuthor({
-                    cpf: cpf,
-                    birthday: birthday,
-                    address: address,
-                    telephone: telephone,
-                });
+            setCustomerOrAuthor({
+                cpf: cpfValue,
+                dataNascimento: birthday,
+                endereco: address,
+                telefone: telephone,
+            });
 
-            }
-
-             requester.post("/account/create", { user, customerOrAuthor })
+        }
+          
+        try {
+            
+            requester.post("/endpoint", userType === UserLevel.AUTHOR ? 
+                { userForm: user, authorForm: customerOrAuthor } : 
+                { userForm: user, customerForm: customerOrAuthor })
                 .then((response) => {
                     setAccountNumber('');
                     setAddress('');
@@ -147,28 +176,9 @@ const ClientRegister = () => {
 
         } catch (err) {
             setHasCreationFailed(true);
-            setCreationError(err.response.data.detail);
-        } finally {
-
+            setCreationError(err.response?.data?.detail || "Erro desconhecido ao criar conta.");
         }
     };
-
-    const handleTabClick = (type:UserLevel) => {
-        
-        setUserType(type)
-
-        if(type == UserLevel.CUSTOMER){
-
-            setUserStatus(EnumUserStatus.CREATED);
-
-        }else{
-
-            setUserStatus(EnumUserStatus.PENDING);
-
-        }
-
-    }
-
        
 
     return (
@@ -393,13 +403,13 @@ const ClientRegister = () => {
                             )}
                             <Grid xs={12} lg={4}>
                                 <Button
-                                    type="submit"
                                     variant="contained"
                                     color="darker"
                                     fullWidth
                                     sx={{
                                         marginTop: "10px",
                                     }}
+                                    onClick={saveChanges}
                                 >
                                     Prosseguir
                                 </Button>

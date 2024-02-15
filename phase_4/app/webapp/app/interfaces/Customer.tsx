@@ -1,6 +1,6 @@
 export interface CustomerForm {
     cpf: any;
-    birthday: any;
-    address: any;
-    telephone: any;
+    dataNascimento: any;
+    endereco: any;
+    telefone: any;
 }
