@@ -49,11 +49,15 @@ def update(userPartial:PartialUserForm, user: Annotated[User, Depends(accessAdmi
 
     userOriginal = service.findUserById(user.idUsuario)
 
-    if user is None:
+    if userOriginal is None:
         raise HTTPException(404, "Usuário não encontrado")
     
     userPartial.updateOriginalByPartial(userOriginal,userPartial)
-    success = service.updateUserById(user.idUsuario,userOriginal)
+    response = service.updateUserById(user.idUsuario,userOriginal)
+    if response:
+         raise HTTPException(200, "Status do usuario atualizado")
+
+    
 
 
 
