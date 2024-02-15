@@ -67,8 +67,10 @@ class UserService:
                         id,
                     ]
                 )
+                return True
             except Exception as e:
                 print(f"Erro ao atualizar o usuário: {e}")
+                return False
 
 
 def get_password_hash(plain: str) -> str:

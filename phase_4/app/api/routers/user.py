@@ -55,7 +55,7 @@ def update(userPartial:PartialUserForm, user: Annotated[User, Depends(accessAdmi
     userPartial.updateOriginalByPartial(userOriginal,userPartial)
     response = service.updateUserById(user.idUsuario,userOriginal)
     if response:
-         raise HTTPException(200, "Status do usuario atualizado")
+        raise HTTPException(200, "Status do usuario atualizado")
 
     
 
