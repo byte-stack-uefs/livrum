@@ -9,9 +9,19 @@ export function redirectByType(type: string) {
         case "AUTOR":
             return "/autor";
         case "CLIENTE":
-            return "/cliente";
+            return "/cliente/meus-dados";
     }
     return "/";
+}
+
+export function logout() {
+    const requester = useRequest();
+
+    return requester.post("/account/logout").then((response) => {
+        return new Promise((resolve, rej) => {
+            resolve(true);
+        });
+    });
 }
 
 export function login(email: string, password: string) {
