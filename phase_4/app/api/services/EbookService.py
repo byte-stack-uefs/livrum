@@ -59,9 +59,7 @@ class EbookService:
 
     def downloadEbook(id):
         file_path = Path("./phase_4/app/api/files/") / (id + ".pdf")
-        print(file_path.exists())
-        # Verifica se o arquivo existe antes de tentar abri-lo
+
         if file_path.is_file():
-            print(FileResponse(file_path, filename=id + ".pdf"))
-            # Retorna o arquivo como uma resposta de arquivo
+
             return FileResponse(file_path, filename=id + ".pdf")
