@@ -28,6 +28,8 @@ const AdminData = () => {
     const [showPassword, setShowPassword] = React.useState(false);
     const [creationError, setCreationError] = useState("");
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [hasCreationSucess, setHasCreationSucess] = useState(false);
+    const [creationSucess, setCreationSucess] = useState("");
     const requester = useRequest();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -72,18 +74,27 @@ const AdminData = () => {
         
     }
 
-    const handleSubmitClient = (event: { preventDefault: () => void; }) => {
+    const handleSubmitClient = async (event: { preventDefault: () => void; }) => {
         setHasCreationFailed(false);
         setCreationError("");
+        setHasCreationSucess(false);
+        setCreationSucess(""); 
         const validationError = validateFields();
         if (validationError) {
             setHasCreationFailed(true);
             setCreationError(validationError);
             return;
         }
-        requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
+        await requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
             getDataUserObject();
-        }).catch((err: any) => { })
+            setHasCreationSucess(true);
+            setCreationSucess("Atualização efetuada com sucesso"); 
+        }).catch((err: any) => {
+            
+            setHasCreationFailed(true);
+            setCreationError("Não foi possível realizar a atualização dos dados"); 
+        
+        })
     };
 
     const validateFields = () => {
@@ -242,7 +253,13 @@ const AdminData = () => {
                                     </Alert>
                                 </Grid>
                         )}
-
+                        {hasCreationSucess && (
+                        <Grid xs={12}>
+                            <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                                    {creationSucess}
+                            </Alert>
+                        </Grid>
+                        )}
                         <Grid xs={12} sm={6} md={4} lg={2}>
                             <Button
                                 type="submit"

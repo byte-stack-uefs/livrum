@@ -36,6 +36,9 @@ function ClientDataContainer() {
     const [telephone, setTelephone] = useState("");
     const [creationError, setCreationError] = useState("");
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [hasCreationSucess, setHasCreationSucess] = useState(false);
+    const [creationSucess, setCreationSucess] = useState("");
+
     const requester = useRequest();
     useEffect(() => {
         getDataUserObject();
@@ -74,19 +77,32 @@ function ClientDataContainer() {
     const handleSubmitClient = (event: { preventDefault: () => void; }) => {
         setHasCreationFailed(false);
         setCreationError("");
+        setHasCreationSucess(false);
+        setCreationSucess(""); 
         const validationError = validateFields();
         if (validationError) {
             setHasCreationFailed(true);
             setCreationError(validationError);
             return;
         }
-        requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
-            getDataUserObject();
-        }).catch((err: any) => { })
+        try{
 
-        requester.patch(`/customer/`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone}).then((response: any) => {
-            getDataCustomerObject();
-        }).catch((err: any) => { })
+            requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
+                getDataUserObject();
+            })
+    
+            requester.patch(`/customer/`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone}).then((response: any) => {
+                getDataCustomerObject();
+            })
+
+            setHasCreationSucess(true);
+            setCreationSucess("Atualização efetuada com sucesso"); 
+
+        } catch (error) {
+          
+            setHasCreationFailed(true);
+            setCreationError("Não foi possível realizar a atualização dos dados");
+        }
     };
 
     const validateFields = () => {
@@ -255,6 +271,13 @@ function ClientDataContainer() {
                         <Grid xs={12}>
                             <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
                                     {creationError}
+                            </Alert>
+                        </Grid>
+                     )}
+                     {hasCreationSucess && (
+                        <Grid xs={12}>
+                            <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                                    {creationSucess}
                             </Alert>
                         </Grid>
                      )}
