@@ -38,7 +38,12 @@ class CartService:
             return []
         with DB() as db:
             db.execute(
-                "SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco FROM itemcarrinho JOIN ebook ON itemcarrinho.idEbook = ebook.idEbook WHERE itemcarrinho.idCarrinho = %s;",
+                "SELECT itemcarrinho.idCarrinho, itemcarrinho.idEbook, ebook.nome, ebook.capa, ebook.preco, ebook.status, u.nome as nomeAutor \
+                FROM itemcarrinho \
+                JOIN ebook ON itemcarrinho.idEbook = ebook.idEbook \
+                JOIN autor a ON a.idUsuario = ebook.idAutor \
+                JOIN usuario u ON u.idUsuario = a.idUsuario \
+                WHERE itemcarrinho.idCarrinho = %s;",
                 [cart.idCart],
             )
             data_list = db.fetchall()

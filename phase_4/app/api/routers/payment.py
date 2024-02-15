@@ -9,6 +9,7 @@ from services.CartService import CartService
 from forms.PaymentForm import PaymentForm
 from services.CustomerService import CustomerService
 from services.OrderService import OrderService, OrderPaymentType, OrderStatus
+from services.LibraryService import LibraryService
 
 router = APIRouter(prefix="/payment", tags=["Payment"])
 
@@ -75,6 +76,11 @@ def payByCreditCard(
         txid = payment.payByCreditCard(customer, creditCard, ebooks, form)
         orderService.updateOrderStatus(orderId, OrderStatus.APPROVED)
         orderService.addTxidToOrder(orderId, txid)
+
+        library = LibraryService()
+        for ebook in ebooks:
+            library.addEbook(user.idUsuario, ebook.id)
+
         cart = cartService.getCartByClientId(user.idUsuario)
         cartService.removeAllCartItems(cart.idCart)
         cartService.deleteCart(cart.idCart)

@@ -5,7 +5,7 @@ from services.CartService import CartService
 from fastapi import APIRouter, Depends, HTTPException
 from dependencies.security import UserHasAccess
 
-router = APIRouter(prefix="/carrinho", tags=["Cart"])
+router = APIRouter(prefix="/cart", tags=["Cart"])
 
 access = UserHasAccess([UserType.CUSTOMER])
 
