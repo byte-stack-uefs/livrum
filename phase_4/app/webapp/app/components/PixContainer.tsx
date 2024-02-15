@@ -15,7 +15,7 @@ export function PixContainer({ total, userId }: { total: Number; userId: number 
     const checkPix = async () => {
         if (txid != null) {
             await requester
-                .get(`/payment/pix/isPaid/${txid}`)
+                .get(`/payment/pix/isPaid/${txid}`, {})
                 .then((response) => {
                     if (response.data) {
                         console.log("Pix Pago");
@@ -34,7 +34,7 @@ export function PixContainer({ total, userId }: { total: Number; userId: number 
         }
 
         requester
-            .get("/payment/pix")
+            .post("/payment/pix", {})
             .then(({ data }) => {
                 const { txid, qrcode } = data;
                 setTxid(txid);

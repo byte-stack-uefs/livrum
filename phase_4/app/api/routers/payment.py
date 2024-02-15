@@ -6,14 +6,15 @@ from services.CreditCardService import CreditCardService
 from dependencies.security import UserHasAccess
 from models.creditCard import CreditCardPaymentForm
 from services.CartService import CartService
+from forms.PaymentForm import PaymentForm
 
 router = APIRouter(prefix="/payment", tags=["Payment"])
 
 userAccess = UserHasAccess([UserType.CUSTOMER])
 
 
-@router.get("/pix")
-def getPix(user: Annotated[User, Depends(userAccess)]):
+@router.post("/pix")
+def getPix(user: Annotated[User, Depends(userAccess)], form: PaymentForm):
     service = PaymentService()
     try:
         response = service.createPix()
@@ -45,6 +46,9 @@ def payByCreditCard(
 
     if cartService.hasUnavailableEbooks(ebooks):
         raise HTTPException(409, "Alguns ebooks não estão mais disponíveis para compra")
+
+    payment = PaymentService()
+    payment.payByCreditCard(creditCard, ebooks, form.idCoupon)
 
 
 @router.get("/pix/isPaid/{txid}")
