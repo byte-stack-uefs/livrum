@@ -155,7 +155,7 @@ const ClientRegister = () => {
           
         try {
             
-            requester.post("/endpoint", userType === UserLevel.AUTHOR ? 
+            requester.post("/account/create", userType === UserLevel.AUTHOR ? 
                 { userForm: user, authorForm: customerOrAuthor } : 
                 { userForm: user, customerForm: customerOrAuthor })
                 .then((response) => {
