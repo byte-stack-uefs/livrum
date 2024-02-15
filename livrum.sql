@@ -300,6 +300,7 @@ CREATE TABLE `pedido` (
     `data` date NOT NULL DEFAULT (curdate()),
     `status` enum('canceled', 'pending', 'approved', 'failed') NOT NULL DEFAULT 'pending',
     `idCliente` int NOT NULL,
+    `txid` VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY (`idPedido`),
     KEY `fk_Pedido_Cliente1_idx` (`idCliente`),
     CONSTRAINT `fk_Pedido_Cliente1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idUsuario`)
