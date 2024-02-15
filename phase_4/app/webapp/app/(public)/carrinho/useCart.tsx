@@ -96,7 +96,6 @@ export const CartContextProvider = (props: Props) => {
             requester
             .delete(`/carrinho/${product.id}`)
             .then(response => {
-                console.log('Item removido com sucesso:', product.id);
                 setcartItems(filteredProducts);
                 localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
             })
