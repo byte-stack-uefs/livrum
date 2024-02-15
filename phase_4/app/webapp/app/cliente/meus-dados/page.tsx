@@ -62,9 +62,13 @@ function ClientDataContainer() {
     
         }).catch((err: any) => { })
        
-    }
-   
-    const saveChanges = () => { 
+    }  
+
+    const handleChange = (event: any, newValue: any) => {
+        setValue(newValue);
+    };
+
+    const handleSubmitClient = (event: { preventDefault: () => void; }) => {
         requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
             getDataUserObject();
         }).catch((err: any) => { })
@@ -72,16 +76,8 @@ function ClientDataContainer() {
         requester.patch(`/customer/`,{ cpf: cpf ,dataNascimento: birthday, endereco: address, telefone: telephone}).then((response: any) => {
             getDataCustomerObject();
         }).catch((err: any) => { })
-        
-    }   
-
-    const handleChange = (event: any, newValue: any) => {
-        setValue(newValue);
     };
 
-    const handleSubmitClient = (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-    };
     return (
         <Grid xs={11} sm={9} md={7} lg={5} style={{ width: "100%" }}>
             <form onSubmit={handleSubmitClient}>
@@ -223,10 +219,10 @@ function ClientDataContainer() {
                     <Grid xs={12} lg={10}></Grid>
                     <Grid xs={12} lg={2}>
                         <Button
+                            type="submit"
                             variant="contained"
                             color="primary"
                             fullWidth
-                            onClick={saveChanges}
                             sx={{
                                 marginTop: "10px",
                             }}
