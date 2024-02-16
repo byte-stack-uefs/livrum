@@ -89,3 +89,8 @@ class EbookService:
         if file_path.is_file():
             return FileResponse(file_path, filename=id + ".pdf")
         return None
+    def getBestSellers(id = None):
+        try:
+            return EbookDAO.getBestSellers(id)
+        except Exception as ex:
+            print("Erro ao buscar Ebooks para Autor com id:", id, ex)

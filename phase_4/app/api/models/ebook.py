@@ -104,6 +104,15 @@ class AuthorEbookDTO:
         self.sinopse = kwargs.get("sinopse")
         self.motivo_recusa = kwargs.get("motivoRejeicao")
 
+class BestSellerEbookDTO:
+    def __init__(self, **kwargs):
+        self.id = kwargs.get("idEBook")
+        self.name = kwargs.get("nome")
+        self.price = kwargs.get("preco")
+        self.sold = kwargs.get("qtd_pedido")
+        self.revenue = kwargs.get("faturamento")
+        self.genres = []
+
 class ReproveEbookDTO(BaseModel):
     id: int
     reason: str
