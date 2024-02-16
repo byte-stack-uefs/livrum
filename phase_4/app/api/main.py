@@ -6,6 +6,7 @@ from database.database import connect
 from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from routers import (
+    author,
     creditCard,
     cart,
     genre,
@@ -34,6 +35,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(author.router)
 app.include_router(security.router)
 app.include_router(cart.router)
 app.include_router(coupon.router)
