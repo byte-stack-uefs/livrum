@@ -33,6 +33,13 @@ def getMostBuyed():
     return service.getMostBuyed()
 
 
+@router.get("/similar/{id}")
+def getSimilar(id: int):
+    service = EbookService()
+
+    return service.getSimilarEbooks(id)
+
+
 @router.get("/search", description="Get ebooks by optional filters")
 def searchWithOptionalFilters(
     id=None,
