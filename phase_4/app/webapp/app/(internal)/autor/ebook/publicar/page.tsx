@@ -71,6 +71,16 @@ export default function Page() {
                 anoLancamento: ebook.releaseYear,
             })
             .then((response) => {
+                setEbook({
+                    ...ebook,
+                    title: "",
+                    price: "0",
+                    summary: "",
+                    languages: "",
+                    releaseYear: "",
+                    pages: 0,
+                });
+
                 const id = response.data;
                 requester.postForm(`/ebook/submit-images/${id}`, {
                     capa: document.querySelector("#image-in")?.files[0],
