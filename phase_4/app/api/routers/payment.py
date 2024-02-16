@@ -56,7 +56,7 @@ def payByCreditCard(
         raise HTTPException(409, "Alguns ebooks não estão mais disponíveis para compra")
 
     customerService = CustomerService()
-    customer = customerService.getCustomerById(user.idUsuario)
+    customer = customerService.getCustomerUserById(user.idUsuario)
 
     payment = PaymentService()
     orderService = OrderService()

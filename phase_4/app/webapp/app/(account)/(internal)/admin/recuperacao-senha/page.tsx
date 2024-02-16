@@ -5,16 +5,19 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import useRequest from "@/app/services/requester";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { TextField, Button, Paper, Typography, InputLabel, Modal } from "@mui/material";
+import { TextField, Button, Paper, Typography, InputLabel, Modal, Alert } from "@mui/material";
 
 const AdminPasswordRestore = () => {
     const [value, setValue] = useState(0);
     const [email, setEmail] = useState("");
     const [openModal, setOpenModal] = useState(false);
     const [isButtonDisabled, setButtonDisabled] = useState(true);
+    const [error, setError] = useState(null);
 
     const router = useRouter();
+    const requester = useRequest();
 
     const validateEmail = (email) => {
         const isValidEmail = /\S+@\S+\.\S+/.test(email);
@@ -30,13 +33,38 @@ const AdminPasswordRestore = () => {
         setOpenModal(false);
     };
 
+    const resquestRecoverPassword = () => {
+        return new Promise((resolve, reject) => {
+            requester
+                .patch("/account/recuperar-senha", { email: email })
+                .then(() => {
+                    resolve(true);
+                })
+                .catch((err: any) => {
+                    reject(err.response.data.detail);
+                });
+        });
+    };
+
     const handleSubmitClient = (event) => {
         event.preventDefault();
 
         const isValidEmail = /\S+@\S+\.\S+/.test(email);
 
+        setError(null);
+
         if (isValidEmail) {
-            setOpenModal(true);
+            setButtonDisabled(true);
+            resquestRecoverPassword()
+                .then(() => {
+                    setOpenModal(true);
+                })
+                .catch((err) => {
+                    setError(err);
+                })
+                .finally(() => {
+                    setButtonDisabled(false);
+                });
         }
     };
 
@@ -63,15 +91,7 @@ const AdminPasswordRestore = () => {
                                         Confirme o endereço de e-mail utilizado em seu cadastro, e enviaremos sua senha novamente
                                     </Typography>
                                 </Grid>
-                                <Grid
-                                    container
-                                    spacing={2}
-                                    xs={12}
-                                    py={3}
-                                    justifyContent="center"
-                                    alignItems="center"
-                                    style={{ textAlign: "center" }}
-                                >
+                                <Grid container spacing={2} xs={12} py={3} justifyContent="center" alignItems="center" style={{ textAlign: "center" }}>
                                     <Grid xs={12} sm={8}>
                                         <InputLabel htmlFor="labelEmail" style={{ textAlign: "left", color: theme.palette.primary.main }}>
                                             E-mail{" "}
@@ -92,6 +112,16 @@ const AdminPasswordRestore = () => {
                                         />
                                     </Grid>
                                 </Grid>
+                                {error && (
+                                    <>
+                                        <Grid xs={8}>
+                                            <Alert variant="filled" severity="error">
+                                                {error}
+                                            </Alert>
+                                        </Grid>
+                                        <Grid xs={12}></Grid>
+                                    </>
+                                )}
                                 <Grid xs={6} sm={4}>
                                     <Button
                                         fullWidth
@@ -105,14 +135,7 @@ const AdminPasswordRestore = () => {
                                     </Button>
                                 </Grid>
                                 <Grid xs={6} sm={4}>
-                                    <Button
-                                        fullWidth
-                                        type="submit"
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={handleSubmitClient}
-                                        disabled={isButtonDisabled}
-                                    >
+                                    <Button fullWidth type="submit" variant="contained" color="primary" onClick={handleSubmitClient} disabled={isButtonDisabled}>
                                         Enviar
                                     </Button>
                                 </Grid>
@@ -135,9 +158,7 @@ const AdminPasswordRestore = () => {
                                                 <Typography variant="h6">E-mail enviado com sucesso</Typography>
                                             </Grid>
                                             <Grid xs={12} md={4} margin="auto" style={{ textAlign: "center", width: "100%" }}>
-                                                <Typography variant="caption">
-                                                    Caso o email não apareça na caixa de entrada, verifique a caixa de spam
-                                                </Typography>
+                                                <Typography variant="caption">Caso o email não apareça na caixa de entrada, verifique a caixa de spam</Typography>
                                             </Grid>
                                         </Grid>
                                     </Paper>

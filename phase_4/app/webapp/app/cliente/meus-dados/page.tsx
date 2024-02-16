@@ -1,13 +1,15 @@
 "use client";
-import 'swiper/swiper-bundle.css';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Autoplay, Navigation } from 'swiper/modules';
-import { useState } from "react";
+import "swiper/swiper-bundle.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Autoplay, Navigation } from "swiper/modules";
+import { useEffect, useState } from "react";
 import { theme } from "@/app/theme";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Button, InputLabel, TextField, Typography } from "@mui/material";
+import { Alert, Button, InputLabel, TextField, Typography } from "@mui/material";
 import { cellphoneInput, cpfInput } from "@/app/components/CustomInputs";
+import useRequest from "@/app/services/requester";
+import { UserAttributes, CustomerAttributes } from "@/app/interfaces/User";
 
 function ClientDataContainerHeader() {
     return (
@@ -23,6 +25,8 @@ function ClientDataContainerHeader() {
 }
 
 function ClientDataContainer() {
+    const [clientData, setClientData] = useState<UserAttributes>();
+    const [customerData, setCustomerData] = useState<UserAttributes>();
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -30,13 +34,95 @@ function ClientDataContainer() {
     const [birthday, setBirthday] = useState("");
     const [password, setPassword] = useState("");
     const [telephone, setTelephone] = useState("");
+    const [creationError, setCreationError] = useState("");
+    const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [hasCreationSucess, setHasCreationSucess] = useState(false);
+    const [creationSucess, setCreationSucess] = useState("");
 
-    const handleChange = (event, newValue) => {
+    const requester = useRequest();
+    useEffect(() => {
+        getDataUserObject();
+        getDataCustomerObject();
+    }, []);
+
+    const getDataUserObject = () => {
+        requester
+            .get(`/customer/`)
+            .then((response: { data: CustomerAttributes }) => {
+                const customerData = response.data;
+                setCpf(customerData.cpf);
+                setBirthday(customerData.dataNascimento);
+                setAddress(customerData.endereco);
+                setTelephone(customerData.telefone);
+            })
+            .catch((err: any) => {});
+    };
+
+    const getDataCustomerObject = () => {
+        requester
+            .get(`/user/`)
+            .then((response: { data: UserAttributes }) => {
+                const userData = response.data;
+                setName(userData.nome);
+                setEmail(userData.email);
+                setPassword(userData.senha);
+            })
+            .catch((err: any) => {});
+    };
+
+    const handleChange = (event: any, newValue: any) => {
         setValue(newValue);
     };
 
-    const handleSubmitClient = (event) => {
+    const handleSubmitClient = (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        setHasCreationFailed(false);
+        setCreationError("");
+        setHasCreationSucess(false);
+        setCreationSucess("");
+        const validationError = validateFields();
+        if (validationError) {
+            setHasCreationFailed(true);
+            setCreationError(validationError);
+            return;
+        }
+        try {
+            requester.patch(`/user/`, { nome: name, email: email, senha: password }).then((response: any) => {
+                getDataUserObject();
+            });
+
+            requester.patch(`/customer/`, { cpf: cpf, dataNascimento: birthday, endereco: address, telefone: telephone }).then((response: any) => {
+                getDataCustomerObject();
+            });
+
+            setHasCreationSucess(true);
+            setCreationSucess("Atualização efetuada com sucesso");
+        } catch (error) {
+            setHasCreationFailed(true);
+            setCreationError("Não foi possível realizar a atualização dos dados");
+        }
+    };
+
+    const validateFields = () => {
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isTelephoneValid = telephone.replace(/\D/g, "").length === 11;
+        const isDateOfBirthValid = /\d{4}-\d{2}-\d{2}/.test(birthday);
+        const isPasswordValid = !password || (password && password.length >= 4);
+
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+        if (!isTelephoneValid) {
+            return "Por favor, preencha o telefone corretamente.";
+        }
+        if (!isDateOfBirthValid) {
+            return "Por favor, preencha a data de nascimento corretamente.";
+        }
+        if (!isPasswordValid) {
+            return "A senha deve ter no mínimo 4 caracteres.";
+        }
+
+        return null;
     };
 
     return (
@@ -53,11 +139,10 @@ function ClientDataContainer() {
                             value={name}
                             size="small"
                             variant="outlined"
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e: { target: { value: any } }) => setName(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
-                        
                         />
                     </Grid>
                     <Grid xs={12} md={6}>
@@ -88,14 +173,13 @@ function ClientDataContainer() {
                             Data de nascimento{" "}
                         </InputLabel>
                         <TextField
-             
                             fullWidth
                             id="labelBirthday"
                             value={birthday}
                             size="small"
                             variant="outlined"
-                            type='date'
-                            onChange={(e) => setBirthday(e.target.value)}
+                            type="date"
+                            onChange={(e: { target: { value: any } }) => setBirthday(e.target.value)}
                         />
                     </Grid>
 
@@ -111,7 +195,7 @@ function ClientDataContainer() {
                             size="small"
                             value={telephone}
                             variant="outlined"
-                            onChange={(e) => setTelephone(e.target.value)}
+                            onChange={(e: { target: { value: any } }) => setTelephone(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                                 inputComponent: cellphoneInput as any,
@@ -133,7 +217,7 @@ function ClientDataContainer() {
                             value={email}
                             id="labelEmail"
                             variant="outlined"
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e: { target: { value: any } }) => setEmail(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
@@ -145,14 +229,13 @@ function ClientDataContainer() {
                             Senha{" "}
                         </InputLabel>
                         <TextField
-                            required
                             fullWidth
                             size="small"
                             id="labelPassword"
                             type="password"
                             value={password}
                             variant="outlined"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e: { target: { value: any } }) => setPassword(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
@@ -171,13 +254,27 @@ function ClientDataContainer() {
                             value={address}
                             id="labelAddress"
                             variant="outlined"
-                            onChange={(e) => setAddress(e.target.value)}
+                            onChange={(e: { target: { value: any } }) => setAddress(e.target.value)}
                             InputProps={{
                                 sx: { backgroundColor: "white" },
                             }}
                         />
                     </Grid>
                     <Grid xs={12} lg={10}></Grid>
+                    {hasCreationFailed && (
+                        <Grid xs={12}>
+                            <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+                                {creationError}
+                            </Alert>
+                        </Grid>
+                    )}
+                    {hasCreationSucess && (
+                        <Grid xs={12}>
+                            <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                                {creationSucess}
+                            </Alert>
+                        </Grid>
+                    )}
                     <Grid xs={12} lg={2}>
                         <Button
                             type="submit"

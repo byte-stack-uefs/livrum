@@ -4,7 +4,15 @@ from fastapi import File, UploadFile
 from fastapi.responses import FileResponse
 from dao.ebookDAO import EbookDAO
 from database.database import DB
-from models.ebook import AuthorEbookDTO, Ebook, EbookCreate, EbookModel, EbookDTO, ReproveEbookDTO
+from models.ebook import (
+    AuthorEbookDTO,
+    Ebook,
+    EbookModel,
+    EbookDTO,
+    EbookShowupDTO,
+    ReproveEbookDTO,
+    EbookCreate,
+)
 
 
 class EbookService:
@@ -12,7 +20,6 @@ class EbookService:
         return EbookModel(**item)
 
     def addEbook(self, novoEbook: EbookDTO, idAutor) -> Ebook:
-
         with DB() as db:
             try:
                 db.execute(
@@ -51,7 +58,6 @@ class EbookService:
             )
         except Exception as ex:
             print("Erro ao buscar Ebooks", ex)
-
         return ebooks
 
     def findAll() -> [AuthorEbookDTO]:
@@ -79,7 +85,7 @@ class EbookService:
             EbookDAO.disableEbook(id)
         except Exception as ex:
             print("Erro ao inativar Ebook com id:", id, ex)
-            
+
     def getEbookById(id):
         try:
             return EbookDAO.getEbookById(id)
@@ -92,8 +98,7 @@ class EbookService:
             return FileResponse(file_path, filename=id + ".pdf")
         return None
 
-
-    def save_file(file: UploadFile, idEbook: int, ext: str, folder: str = 'files'):
+    def save_file(file: UploadFile, idEbook: int, ext: str, folder: str = "files"):
         if not os.path.exists(folder):
             os.makedirs(folder)
 
@@ -102,11 +107,85 @@ class EbookService:
             dest_file.write(file.file.read())
 
         return file_path
-    
-    def submit(ebook: EbookCreate, 
-    capa: UploadFile = File(...),
-    pdf: UploadFile = File(...)):
-        ebookSalvo = EbookDAO.save(ebook)
-        capa_path = EbookService.save_file(capa, ebookSalvo.id, "jpeg")
-        pdf_path = EbookService.save_file(pdf, ebookSalvo.id, "pdf")
 
+    def submit(ebook: EbookCreate):
+        return EbookDAO.save(ebook)
+
+    def getMoreViewedEbooks(self):
+        with DB() as db:
+            db.execute(
+                "SELECT * FROM ebook WHERE status = 'active' ORDER BY visto DESC LIMIT 10"
+            )
+            data = db.fetchall()
+        if data is not None:
+            return list([EbookModel(**x) for x in data])
+        return []
+
+    def getNewerEbooks(self):
+        with DB() as db:
+            db.execute(
+                "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) AND status = 'active' LIMIT 10"
+            )
+            data = db.fetchall()
+        if data is not None:
+            return list([EbookModel(**x) for x in data])
+        return []
+
+    def getMostBuyed(self):
+        with DB() as db:
+            db.execute(
+                "SELECT \
+                    e.*, \
+                    COUNT(e.idEBook) AS c \
+                FROM \
+                    ebook e \
+                JOIN itempedido i ON \
+                    i.idEBook = e.idEBook \
+                JOIN pedido p ON \
+                    p.idPedido = i.idPedido \
+                WHERE \
+                    p.status = 'approved' \
+                    AND e.status = 'active' \
+                GROUP BY \
+                    e.idEBook \
+                ORDER BY \
+                    c DESC \
+                LIMIT 10"
+            )
+            data = db.fetchall()
+        if data is not None:
+            return list([EbookModel(**x) for x in data])
+        return []
+
+    def getSimilarEbooks(self, idEbook):
+        with DB() as db:
+            db.execute("SELECT idAutor FROM ebook WHERE idEBook = %s", [idEbook])
+            idAutor = db.fetchone()["idAutor"]
+            db.execute(
+                "SELECT \
+                    * \
+                FROM \
+                    ebook e \
+                WHERE \
+                    e.status = 'active' \
+                    AND e.idEBook != %s \
+                    AND e.idAutor = %s",
+                [idEbook, idAutor],
+            )
+            data = db.fetchall()
+            if data is not None:
+                return list([EbookModel(**x) for x in data])
+        return []
+
+    def getUserLibrary(idCliente):
+        ebooks = []
+        with DB() as db:
+            query = "SELECT * FROM biblioteca WHERE idCliente = %s"
+            db.execute(query, [idCliente])
+            book_ids = db.fetchall()
+            for bookID in book_ids:
+                query = "SELECT * FROM ebook WHERE idEBook = %s"
+                db.execute(query, [bookID["idEBook"]])
+                book = db.fetchone()
+                ebooks.append(EbookShowupDTO(**book))
+        return ebooks
