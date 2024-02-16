@@ -20,7 +20,7 @@ import { theme } from "@/app/theme";
 
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
-
+import { useRouter } from "next/navigation";
 import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
 import { UserForm, UserLevel } from "@/app/interfaces/User";
 import { CustomerForm } from "@/app/interfaces/Customer";
@@ -51,6 +51,7 @@ const ClientRegister = () => {
     const [hasCreationSucess, setHasCreationSucess] = useState(false);
     const [creationSucess, setCreationSucess] = useState("");
     const [user, setUser] = useState<UserForm>();
+    const router = useRouter();
     const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm >();
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         "& .MuiDialogContent-root": {
@@ -167,6 +168,7 @@ const ClientRegister = () => {
                     setOperationNumber('');
                     setHasCreationSucess(true);
                     setCreationSucess("Usuario cadastrado com sucesso"); 
+                    router.push("/login")
                 })
                 .catch((err) => {
                     if (err.response && err.response.data && err.response.data.detail) {
