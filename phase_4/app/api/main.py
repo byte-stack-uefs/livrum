@@ -15,7 +15,8 @@ from routers import (
     account,
     user,
     payment,
-    catalog
+    catalog,
+    admin
 )
 import logging
 
@@ -45,6 +46,7 @@ app.include_router(account.router)
 app.include_router(user.router)
 app.include_router(payment.router)
 app.include_router(catalog.router)
+app.include_router(admin.router)
 
 
 @app.get("/version", description="Test MySQL Connection", tags=["Test"])

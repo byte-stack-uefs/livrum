@@ -26,25 +26,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { TabSelector } from "@/app/components/TabSelector";
 import { CreditCard } from "@mui/icons-material";
-
-// MuiTab: {
-//     styleOverrides: {
-//         root: {
-//             "&:not(.Mui-selected)": {
-//                 backgroundColor: "white",
-//                 color: "#163760",
-//                 transition: "all 0.5s",
-//                 borderRadius: "10px 10px 0 0"
-//             },
-//             "&.Mui-selected": {
-//                 backgroundColor: "#1E3345",
-//                 color: "#D9D9D9",
-//                 borderRadius: "10px 10px 0 0"
-//             },
-
-//         },
-//     },
-// },
+import useRequest from "@/app/services/requester";
 
 interface Column {
     id: "nome" | "status" | "acao1" | "acao2" | "acao3";
@@ -81,24 +63,32 @@ const columns: readonly Column[] = [
         align: "right",
     },
 ];
+    const requester = useRequest();
+// const admins: Array<User> = [
+//     createUser("ADmin 1", "IN", EnumUserStatus.CREATED, 3287263),
+//     createUser("Admin 2", "CN", EnumUserStatus.CREATED, 9596961),
+//     createUser("Admin 3", "IT", EnumUserStatus.BLOCKED, 301340),
+//     createUser("United States", "US", EnumUserStatus.CREATED, 9833520),
+//     createUser("Canada", "CA", EnumUserStatus.CREATED, 9984670),
+//     createUser("Australia", "AU", EnumUserStatus.BLOCKED, 7692024),
+//     createUser("Germany", "DE", EnumUserStatus.CREATED, 357578),
+//     createUser("Ireland", "IE", EnumUserStatus.CREATED, 70273),
+//     createUser("Mexico", "MX", EnumUserStatus.PENDING, 1972550),
+//     createUser("Japan", "JP", EnumUserStatus.CREATED, 377973),
+//     createUser("France", "FR", EnumUserStatus.CREATED, 640679),
+//     createUser("United Kingdom", "GB", EnumUserStatus.PENDING, 242495),
+//     createUser("Russia", "RU", EnumUserStatus.CREATED, 17098246),
+//     createUser("Nigeria", "NG", EnumUserStatus.PENDING, 923768),
+//     createUser("Brazil", "BR", EnumUserStatus.CREATED, 8515767),
+// ];
 
-const admins: Array<User> = [
-    createUser("ADmin 1", "IN", EnumUserStatus.CREATED, 3287263),
-    createUser("Admin 2", "CN", EnumUserStatus.CREATED, 9596961),
-    createUser("Admin 3", "IT", EnumUserStatus.BLOCKED, 301340),
-    createUser("United States", "US", EnumUserStatus.CREATED, 9833520),
-    createUser("Canada", "CA", EnumUserStatus.CREATED, 9984670),
-    createUser("Australia", "AU", EnumUserStatus.BLOCKED, 7692024),
-    createUser("Germany", "DE", EnumUserStatus.CREATED, 357578),
-    createUser("Ireland", "IE", EnumUserStatus.CREATED, 70273),
-    createUser("Mexico", "MX", EnumUserStatus.PENDING, 1972550),
-    createUser("Japan", "JP", EnumUserStatus.CREATED, 377973),
-    createUser("France", "FR", EnumUserStatus.CREATED, 640679),
-    createUser("United Kingdom", "GB", EnumUserStatus.PENDING, 242495),
-    createUser("Russia", "RU", EnumUserStatus.CREATED, 17098246),
-    createUser("Nigeria", "NG", EnumUserStatus.PENDING, 923768),
-    createUser("Brazil", "BR", EnumUserStatus.CREATED, 8515767),
-];
+const admins: Array<User> = []
+
+const getAllAdmins = () => {
+    requester.get('/admins').then(response => {
+        
+    })
+}
 
 const authors: Array<User> = [
     createUser("Autor 1", "IN", EnumUserStatus.CREATED, 3287263),
@@ -144,9 +134,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const UserManagment = () => {
     const [openDialog, setOpenDialog] = useState(false);
+    const [openUser, setOpenUser] = useState({});
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (user: any) => {
         setOpenDialog(true);
+        setOpenUser(user);
+        console.log(user);
     };
     const handleClose = () => {
         setOpenDialog(false);
@@ -183,25 +176,12 @@ const UserManagment = () => {
     };
 
     function getButtonAction(user: User, action: number): any {
+        //setOpenUser(user);
         if (action == 3) {
-            return <ArrowForwardIosIcon color="action" style={{ cursor: "pointer" }} onClick={handleClickOpen} />;
+            return <ArrowForwardIosIcon color="action" style={{ cursor: "pointer" }} onClick={() => handleClickOpen(user)} />;
         }
         switch (user.status) {
             case EnumUserStatus.PENDING:
-                /*return <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6} md={8}>
-                            <Button variant="contained" color="success">
-                                Aprovar
-                            </Button>
-                        </Grid>
-                        <Grid item xs={6} md={4}>
-                            <Button variant="contained" color="error">
-                                Recusar
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>*/
                 return action == 1 ? (
                     <Button variant="contained" color="success" fullWidth>
                         Aprovar
@@ -212,15 +192,6 @@ const UserManagment = () => {
                     </Button>
                 );
             case EnumUserStatus.CREATED:
-                /*return <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6} md={8}>
-                            <Button variant="contained" color="error">
-                                Bloquear
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>*/
                 return action == 1 ? (
                     <></>
                 ) : (
@@ -230,9 +201,6 @@ const UserManagment = () => {
                 );
             default:
                 return <></>;
-            /*<Button variant="contained" color="success">
-                    Desbloquear
-                </Button>;*/
         }
     }
 
@@ -253,7 +221,7 @@ const UserManagment = () => {
             <React.Fragment>
                 <BootstrapDialog maxWidth="sm" fullWidth={true} onClose={handleClose} aria-labelledby="customized-dialog-title" open={openDialog}>
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title" style={{ fontSize: 20, textAlign: "left" }}>
-                        Almir neto
+                        Informações Detalhadas
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
@@ -271,7 +239,7 @@ const UserManagment = () => {
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="body2" color="dark.main">
-                                    <strong>Autor:</strong> {"Almir Neto"}
+                                    <strong>Autor:</strong> {openUser.id}
                                 </Typography>
                                 <Typography variant="body2" color="dark.main">
                                     <strong>Email:</strong> {"email"}

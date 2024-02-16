@@ -5,7 +5,7 @@ class EbookDAO:
     def findEbookByOptionalFilters(id = None, name = None, author = None, title = None, release_year = None, price_min = None, price_max = None, id_client = None) -> [EbookDTO]:
         ebooks = []
         with DB() as db:
-            consulta = "SELECT * FROM Ebook WHERE 1 = 1"
+            consulta = "SELECT * FROM ebook WHERE 1 = 1"
             valores = []
             if id is not None:
                 consulta += " AND idEBook = %s"
@@ -14,7 +14,7 @@ class EbookDAO:
                 consulta += " AND nome like %s"
                 valores.append(f"%{name}%")
             if author is not None:
-                db.execute("SELECT idUsuario FROM Usuario WHERE nome like %s", [f"%{author}%"])
+                db.execute("SELECT idUsuario FROM usuario WHERE nome like %s", [f"%{author}%"])
                 autor = db.fetchone()
                 if not autor: pass
                 consulta += " AND idAutor = %s"
@@ -39,7 +39,7 @@ class EbookDAO:
                 ebooks.append(ebookDTO)
 
                 if id_client is not None:
-                    db.execute("SELECT * FROM Biblioteca WHERE idCliente = %s and idEBook = %s", [id_client, ebookDTO.id])
+                    db.execute("SELECT * FROM biblioteca WHERE idCliente = %s and idEBook = %s", [id_client, ebookDTO.id])
                     response = db.fetchone()
                     ebookDTO.isAvailable = response is None
 
@@ -49,7 +49,7 @@ class EbookDAO:
     def findAll() -> [AuthorEbookDTO]:
         ebooks = []
         with DB() as db:
-            consulta = "SELECT * FROM Ebook"
+            consulta = "SELECT * FROM ebook"
             db.execute(consulta)
             data = db.fetchall()
             for ebook in data:
@@ -74,15 +74,15 @@ class EbookDAO:
     
     def approveEbook(id):
         with DB() as db:
-            update = "UPDATE Ebook SET status = %s where idEBook = %s"
-            db.execute(update, [EbookStatus.ACTIVE, id])
+            update = "UPDATE ebook SET status = %s where idEBook = %s"
+            db.execute(update, [EbookStatus.ACTIVE.value, id])
     
     def repproveEbook(reproveEbook: ReproveEbookDTO):
         with DB() as db:
-            update = "UPDATE Ebook SET status = %s, motivoRejeicao=%s where idEBook = %s"
-            db.execute(update, [EbookStatus.REJECTED, reproveEbook.reason, str(reproveEbook.id)])
+            update = "UPDATE ebook SET status = %s, motivoRejeicao=%s where idEBook = %s"
+            db.execute(update, [EbookStatus.REJECTED.value, reproveEbook.reason, str(reproveEbook.id)])
 
     def disableEbook(id):
         with DB() as db:
-            update = "UPDATE Ebook SET status = %s where idEBook = %s"
-            db.execute(update, [EbookStatus.INACTIVE, id])
+            update = "UPDATE ebook SET status = %s where idEBook = %s"
+            db.execute(update, [EbookStatus.INACTIVE.value, id])
