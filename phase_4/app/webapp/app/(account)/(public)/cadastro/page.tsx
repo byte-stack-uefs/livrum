@@ -28,7 +28,6 @@ import { AuthorForm } from "@/app/interfaces/Author";
 import { EnumUserStatus } from "@/app/User";
 import useRequest from "@/app/services/requester";
 const ClientRegister = () => {
-
     const [userStatus, setUserStatus] = useState(EnumUserStatus.CREATED);
     const [userType, setUserType] = useState(UserLevel.CUSTOMER);
     const [cpf, setCpf] = useState("");
@@ -52,7 +51,7 @@ const ClientRegister = () => {
     const [creationSucess, setCreationSucess] = useState("");
     const [user, setUser] = useState<UserForm>();
     const router = useRouter();
-    const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm >();
+    const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm>();
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         "& .MuiDialogContent-root": {
             padding: theme.spacing(2),
@@ -62,9 +61,8 @@ const ClientRegister = () => {
         },
     }));
     useEffect(() => {
-        handleTabClick(UserLevel.CUSTOMER)
-    }, [])
-
+        handleTabClick(UserLevel.CUSTOMER);
+    }, []);
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
@@ -95,40 +93,32 @@ const ClientRegister = () => {
         setValue(newValue);
     };
 
-    const handleTabClick = (type:UserLevel) => {
-        
-        setUserType(type)
+    const handleTabClick = (type: UserLevel) => {
+        setUserType(type);
 
-        if(type == UserLevel.CUSTOMER){
-
+        if (type == UserLevel.CUSTOMER) {
             setUserStatus(EnumUserStatus.CREATED);
-
-        }else{
-
+        } else {
             setUserStatus(EnumUserStatus.PENDING);
-
         }
-
-    }
+    };
 
     const handleSubmitClient = (event) => {
-
         event.preventDefault();
         setHasCreationFailed(false);
         setCreationError("");
         setHasCreationSucess(false);
-        setCreationSucess(""); 
+        setCreationSucess("");
         const validationError = validateFields();
         if (validationError) {
             setHasCreationFailed(true);
             setCreationError(validationError);
             return;
         }
-    
+
         try {
-            
-            const cpfValue = cpf.replace(/\D/g, ''); 
-    
+            const cpfValue = cpf.replace(/\D/g, "");
+
             const userData = {
                 nome: name,
                 email: email,
@@ -136,39 +126,46 @@ const ClientRegister = () => {
                 tipo: userType,
                 status: userType === UserLevel.CUSTOMER ? EnumUserStatus.CREATED : EnumUserStatus.PENDING,
             };
-    
-            const customerOrAuthorData = userType === UserLevel.AUTHOR ? {
-                cpf: cpfValue,
-                dataNascimento: birthday,
-                endereco: address,
-                numeroAgencia: agencyNumber,
-                numeroConta: accountNumber,
-                numeroOperacao: operationNumber,
-            } : {
-                cpf: cpfValue,
-                dataNascimento: birthday,
-                endereco: address,
-                telefone: telephone,
-            };
-    
-            requester.post("/account/create", userType === UserLevel.AUTHOR ? 
-                { userForm: userData, authorForm: customerOrAuthorData } : 
-                { userForm: userData, customerForm: customerOrAuthorData })
+
+            const customerOrAuthorData =
+                userType === UserLevel.AUTHOR
+                    ? {
+                          cpf: cpfValue,
+                          dataNascimento: birthday,
+                          endereco: address,
+                          numeroAgencia: agencyNumber,
+                          numeroConta: accountNumber,
+                          numeroOperacao: operationNumber,
+                      }
+                    : {
+                          cpf: cpfValue,
+                          dataNascimento: birthday,
+                          endereco: address,
+                          telefone: telephone,
+                      };
+
+            requester
+                .post(
+                    "/account/create",
+                    userType === UserLevel.AUTHOR
+                        ? { userForm: userData, authorForm: customerOrAuthorData }
+                        : { userForm: userData, customerForm: customerOrAuthorData }
+                )
                 .then((response) => {
-                    setAccountNumber('');
-                    setAddress('');
-                    setCpf('');
-                    setName('');
-                    setEmail('');
-                    setBirthday('');
-                    setPassword('');
-                    setTelephone('');
-                    setAgencyNumber('');
-                    setPasswordConfirm('');
-                    setOperationNumber('');
+                    setAccountNumber("");
+                    setAddress("");
+                    setCpf("");
+                    setName("");
+                    setEmail("");
+                    setBirthday("");
+                    setPassword("");
+                    setTelephone("");
+                    setAgencyNumber("");
+                    setPasswordConfirm("");
+                    setOperationNumber("");
                     setHasCreationSucess(true);
-                    setCreationSucess("Usuario cadastrado com sucesso"); 
-                    router.push("/login")
+                    setCreationSucess("Usuário cadastrado com sucesso");
+                    router.push("/login");
                 })
                 .catch((err) => {
                     if (err.response && err.response.data && err.response.data.detail) {
@@ -183,45 +180,41 @@ const ClientRegister = () => {
             setHasCreationFailed(true);
             setCreationError(err.message || "Erro ao processar os dados.");
         }
-        
     };
 
     const validateFields = () => {
-        
-            const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            const isCpfValid = cpf.replace(/\D/g, '').length === 11;
-            const isAgencyNumberValid = agencyNumber.replace(/\D/g, '').length >= 4;
-            const isAccountNumberValid = accountNumber.replace(/\D/g, '').length >= 6;
-            const isOperationNumberValid = operationNumber.replace(/\D/g, '').length === 3;
-            const isTelephoneValid = telephone.replace(/\D/g, '').length === 11;
-            const isDateOfBirthValid = /\d{4}-\d{2}-\d{2}/.test(birthday);
-        
-            if (!isEmailValid) {
-                return "Por favor, preencha o e-mail corretamente.";
-            }
-            if (!isCpfValid) {
-                return "Por favor, preencha o CPF corretamente.";
-            }
-            if (!isAgencyNumberValid && userType == UserLevel.AUTHOR) {
-                return "Por favor, preencha o número da agência corretamente.";
-            }
-            if (!isAccountNumberValid && userType == UserLevel.AUTHOR) {
-                return "Por favor, preencha o número da conta corretamente.";
-            }
-            if (!isOperationNumberValid && userType == UserLevel.AUTHOR) {
-                return "Por favor, preencha o número de operação corretamente.";
-            }
-            if (!isTelephoneValid) {
-                return "Por favor, preencha o telefone corretamente.";
-            }
-            if (!isDateOfBirthValid) {
-                return "Por favor, preencha a data de nascimento corretamente.";
-            }
-        
-            return null; 
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isCpfValid = cpf.replace(/\D/g, "").length === 11;
+        const isAgencyNumberValid = agencyNumber.replace(/\D/g, "").length >= 4;
+        const isAccountNumberValid = accountNumber.replace(/\D/g, "").length >= 6;
+        const isOperationNumberValid = operationNumber.replace(/\D/g, "").length === 3;
+        const isTelephoneValid = telephone.replace(/\D/g, "").length === 11;
+        const isDateOfBirthValid = /\d{4}-\d{2}-\d{2}/.test(birthday);
+
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+        if (!isCpfValid) {
+            return "Por favor, preencha o CPF corretamente.";
+        }
+        if (!isAgencyNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número da agência corretamente.";
+        }
+        if (!isAccountNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número da conta corretamente.";
+        }
+        if (!isOperationNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número de operação corretamente.";
+        }
+        if (!isTelephoneValid) {
+            return "Por favor, preencha o telefone corretamente.";
+        }
+        if (!isDateOfBirthValid) {
+            return "Por favor, preencha a data de nascimento corretamente.";
+        }
+
+        return null;
     };
-        
-    
 
     return (
         <>
@@ -479,10 +472,8 @@ const ClientRegister = () => {
                             <Typography gutterBottom>
                                 Agradecemos por utilizar nossos serviços. Esta Política de Privacidade descreve como coletamos, usamos, compartilhamos
                                 e protegemos suas informações quando você utiliza nossos produtos e serviços. Ao acessar ou utilizar nossos Serviços,
-                                você concorda com os termos desta Política de Privacidade. Se você não concorda com os termos desta política, não
-                                utilize nossos Serviços.
+                                você concorda com os termos desta Política de Privacidade.
                             </Typography>
-                            <Typography gutterBottom>Se tiver qualquer problema, não se acanhe, contate Almir</Typography>
                         </DialogContent>
                         <DialogActions>
                             <Button autoFocus onClick={handleClose} sx={{ backgroundColor: "#E5E2E2", color: "black" }}>
