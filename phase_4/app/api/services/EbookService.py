@@ -94,7 +94,9 @@ class EbookService:
 
         with DB() as db:
 
-            db.execute("SELECT * FROM ebook ORDER BY visto DESC LIMIT 10")
+            db.execute(
+                "SELECT * FROM ebook WHERE status = 'active' ORDER BY visto DESC LIMIT 10"
+            )
             data = db.fetchall()
 
         if data is not None:
@@ -106,7 +108,7 @@ class EbookService:
         with DB() as db:
 
             db.execute(
-                "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) LIMIT 10"
+                "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) AND status = 'active' LIMIT 10"
             )
             data = db.fetchall()
 
@@ -131,6 +133,7 @@ class EbookService:
                     p.idPedido = i.idPedido \
                 WHERE \
                     p.status = 'approved' \
+                    AND e.status = 'active' \
                 GROUP BY \
                     e.idEBook \
                 ORDER BY \
@@ -142,4 +145,29 @@ class EbookService:
 
         if data is not None:
             return list([EbookModel(**x) for x in data])
+        return []
+
+    def getSimilarEbooks(self, idEbook):
+
+        with DB() as db:
+
+            db.execute("SELECT idAutor FROM ebook WHERE idEBook = %s", [idEbook])
+            idAutor = db.fetchone()["idAutor"]
+
+            db.execute(
+                "SELECT \
+                    * \
+                FROM \
+                    ebook e \
+                WHERE \
+                    e.status = 'active' \
+                    AND e.idEBook != %s \
+                    AND e.idAutor = %s",
+                [idEbook, idAutor],
+            )
+
+            data = db.fetchall()
+            if data is not None:
+                return list([EbookModel(**x) for x in data])
+
         return []
