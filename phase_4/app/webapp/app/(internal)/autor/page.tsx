@@ -10,21 +10,38 @@ import { VisualizationChart, getFakeData } from "@/app/components/VisualizationC
 import { PopularityTable } from "@/app/components/PopularityTable";
 import { EbookTableItem, EbooksTable } from "@/app/components/EbooksTable";
 import { TableSelect } from "@/app/components/TableSelect";
+import useRequest from "@/app/services/requester";
+
 
 export default function Page() {
     const username = "Almir";
 
+    const [faturamento, setfaturamento] = useState(null);
+    const [totalVendidos, settotalVendidos] = useState(null);
+    const [totalObrasCadastradas, settotalObrasCadastradas] = useState(null);
     const [data, setData] = useState([]);
+    const requester = useRequest();
 
     useEffect(() => {
         setData(getFakeData());
     }, []);
 
+    const getCardFaturamento = () => {
+        requester
+            .get("/author/")
+            .then((response) => {
+                setfaturamento((prev) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {});
+    };
+    
     const cards = [
         {
             header: "Faturamento",
             Icon: <MonetizationOn color="darker" fontSize="large" />,
-            title: "R$ 450,00",
+            title: `R$ ${faturamento[data]}`,
             month: "Julho",
             subtitle: "",
         },
