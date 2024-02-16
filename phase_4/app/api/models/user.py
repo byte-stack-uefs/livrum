@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 class UserType(str, Enum):
     ADMIN = "ADM"
@@ -24,7 +24,7 @@ class User:
 class CreateUserForm(BaseModel):
     
     nome: str
-    email: EmailStr
+    email: str
     status: UserStatus
     senha: str
     tipo: UserType

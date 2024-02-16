@@ -47,9 +47,9 @@ const ClientRegister = () => {
     const [operationNumber, setOperationNumber] = useState("");
     const requester = useRequest();
     const [creationError, setCreationError] = useState("");
-    const [creationSuccess, setCreationSuccess] = useState("");
-    const [cardCreatedSuccessfully, setCardCreatedSuccessfully] = useState(false);
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [hasCreationSucess, setHasCreationSucess] = useState(false);
+    const [creationSucess, setCreationSucess] = useState("");
     const [user, setUser] = useState<UserForm>();
     const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm >();
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -115,8 +115,8 @@ const ClientRegister = () => {
         event.preventDefault();
         setHasCreationFailed(false);
         setCreationError("");
-        setCardCreatedSuccessfully(false);
-        setCreationSuccess("");
+        setHasCreationSucess(false);
+        setCreationSucess(""); 
         const validationError = validateFields();
         if (validationError) {
             setHasCreationFailed(true);
@@ -165,8 +165,8 @@ const ClientRegister = () => {
                     setAgencyNumber('');
                     setPasswordConfirm('');
                     setOperationNumber('');
-                    setCardCreatedSuccessfully(true);
-                    setCreationSuccess("Usuario cadastrado com sucesso");
+                    setHasCreationSucess(true);
+                    setCreationSucess("Usuario cadastrado com sucesso"); 
                 })
                 .catch((err) => {
                     if (err.response && err.response.data && err.response.data.detail) {
@@ -216,7 +216,7 @@ const ClientRegister = () => {
                 return "Por favor, preencha a data de nascimento corretamente.";
             }
         
-            return null; // Retorna null se todos os campos estiverem preenchidos corretamente
+            return null; 
     };
         
     
@@ -439,8 +439,12 @@ const ClientRegister = () => {
                                     <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
                                         {creationError}
                                     </Alert>
+                                </Grid>
+                            )}
+                            {hasCreationSucess && (
+                                <Grid xs={12}>
                                     <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-                                        {creationSuccess}
+                                        {creationSucess}
                                     </Alert>
                                 </Grid>
                             )}
