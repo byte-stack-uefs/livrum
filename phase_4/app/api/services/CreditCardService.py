@@ -63,7 +63,6 @@ class CreditCardService:
                     ],
                 )
             except Exception as e:
-                print(e)
                 return False
 
         return True
