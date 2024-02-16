@@ -131,7 +131,7 @@ function SimilarEbooks(ebook: Ebook) {
                     position: "relative",
                 }}
             >
-                <Image className="image-zoom" fill objectFit="cover" src={ebook.cover} alt="book cover" />
+                {ebook.cover ? <Image className="image-zoom" fill objectFit="cover" src={ebook.cover} alt="book cover" /> : <></>}
             </div>
             <Typography fontWeight="bold" color="dark.main">
                 {ebook.title}

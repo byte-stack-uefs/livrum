@@ -248,14 +248,7 @@ export default function ListagemEbooks() {
     function getImage(ebook: AuthorEbook): any {
         return (
             <Box>
-                <Image
-                    className="image-zoom"
-                    width={100}
-                    height={125}
-                    style={{ objectFit: "cover", borderRadius: "16px" }}
-                    alt=""
-                    src={ebook.link_foto}
-                />
+                <Image className="image-zoom" width={100} height={125} style={{ objectFit: "cover", borderRadius: "16px" }} alt="" src={ebook.link_foto} />
             </Box>
         );
     }

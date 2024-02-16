@@ -2,10 +2,11 @@ from models.ebook import (
     AuthorEbookDTO,
     CatalogEbookDTO,
     Ebook,
+    EbookCreate,
     EbookDTO,
     EbookStatus,
     ReproveEbookDTO,
-    EbookShowupDTO
+    EbookShowupDTO,
 )
 
 from database.database import DB
@@ -121,7 +122,7 @@ class EbookDAO:
 
     def disableEbook(id):
         with DB() as db:
-            update = "UPDATE Ebook SET status = %s where idEBook = %s"
+            update = "UPDATE ebook SET status = %s where idEBook = %s"
             db.execute(update, [EbookStatus.INACTIVE, id])
 
     def getEbookById(id):
@@ -131,3 +132,23 @@ class EbookDAO:
             data = db.fetchone()
             ebookModel = EbookShowupDTO(**data)
         return ebookModel
+
+    def save(ebook: EbookCreate) -> int:
+        with DB() as db:
+            db.execute(
+                "INSERT INTO ebook (nome,idAutor,qtdPaginas,anoLancamento,idioma,sinopse,capa,tamanhoEmMB,preco, status)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s, %s)",
+                [
+                    ebook.nome,
+                    ebook.idAutor,
+                    ebook.qtdPaginas,
+                    ebook.anoLancamento,
+                    ebook.idioma,
+                    ebook.sinopse,
+                    ebook.capa,
+                    ebook.tamanhoEmMB,
+                    ebook.preco,
+                    EbookStatus.PENDING.value,
+                ],
+            )
+
+            return db.lastrowid

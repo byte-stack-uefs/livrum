@@ -1,8 +1,18 @@
+import os
 from pathlib import Path
+from fastapi import File, UploadFile
 from fastapi.responses import FileResponse
 from dao.ebookDAO import EbookDAO
 from database.database import DB
-from models.ebook import AuthorEbookDTO, Ebook, EbookModel, EbookDTO, EbookShowupDTO, ReproveEbookDTO
+from models.ebook import (
+    AuthorEbookDTO,
+    Ebook,
+    EbookModel,
+    EbookDTO,
+    EbookShowupDTO,
+    ReproveEbookDTO,
+    EbookCreate,
+)
 
 
 class EbookService:
@@ -88,6 +98,19 @@ class EbookService:
             return FileResponse(file_path, filename=id + ".pdf")
         return None
 
+    def save_file(file: UploadFile, idEbook: int, ext: str, folder: str = "files"):
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        file_path = os.path.join(folder, f"{idEbook}.{ext}")
+        with open(file_path, "wb") as dest_file:
+            dest_file.write(file.file.read())
+
+        return file_path
+
+    def submit(ebook: EbookCreate):
+        return EbookDAO.save(ebook)
+
     def getMoreViewedEbooks(self):
         with DB() as db:
             db.execute(
@@ -153,7 +176,7 @@ class EbookService:
             if data is not None:
                 return list([EbookModel(**x) for x in data])
         return []
-    
+
     def getUserLibrary(idCliente):
         ebooks = []
         with DB() as db:
@@ -162,8 +185,7 @@ class EbookService:
             book_ids = db.fetchall()
             for bookID in book_ids:
                 query = "SELECT * FROM ebook WHERE idEBook = %s"
-                db.execute(query, [bookID['idEBook']])
+                db.execute(query, [bookID["idEBook"]])
                 book = db.fetchone()
-                ebooks.append(EbookShowupDTO(**book))                
+                ebooks.append(EbookShowupDTO(**book))
         return ebooks
-
