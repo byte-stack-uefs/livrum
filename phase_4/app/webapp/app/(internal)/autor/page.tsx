@@ -16,7 +16,7 @@ import useRequest from "@/app/services/requester";
 export default function Page() {
     const username = "Almir";
 
-    const [faturamento, setfaturamento] = useState(null);
+    const [faturamento, setfaturamento] = useState([]);
     const [totalVendidos, settotalVendidos] = useState(null);
     const [totalObrasCadastradas, settotalObrasCadastradas] = useState(null);
     const [data, setData] = useState([]);
@@ -24,11 +24,12 @@ export default function Page() {
 
     useEffect(() => {
         setData(getFakeData());
+        getCardFaturamento()
     }, []);
 
     const getCardFaturamento = () => {
         requester
-            .get("/author/")
+            .get("/author/faturamento/mensal/02")
             .then((response) => {
                 setfaturamento((prev) => {
                     return response.data;
@@ -41,7 +42,7 @@ export default function Page() {
         {
             header: "Faturamento",
             Icon: <MonetizationOn color="darker" fontSize="large" />,
-            title: `R$ ${faturamento[data]}`,
+            title: `R$ ${faturamento[0]}`,
             month: "Julho",
             subtitle: "",
         },
