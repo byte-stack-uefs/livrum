@@ -144,6 +144,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
 const UserManagment = () => {
     const [openDialog, setOpenDialog] = useState(false);
+    const [openUser, setOpenUser] = useState({});
+
+    const [admins, setAdmins] = useState(null);
+    const [authors, setAuthors] = useState(null);
+    const [clients, setClients] = useState(null);
+    const [tableItems, setItems] = useState(admins);
+    const [tab, setTab] = useState(0);
+
 
     const handleClickOpen = () => {
         setOpenDialog(true);
@@ -155,6 +163,7 @@ const UserManagment = () => {
     const [tableItems, setItems] = useState(admins);
 
     const handleChange = (event: any, newValue: number) => {
+        setTab(newValue);
         switch (newValue) {
             case 0:
                 setItems(admins);
@@ -182,7 +191,53 @@ const UserManagment = () => {
         setPage(0);
     };
 
+    const updateUser = (user, body) => {
+        requester
+            .patch(`/user/${user.idUsuario}`, body)
+            .then((response) => {
+                switch (tab) {
+                    case 0:
+                        getAllAdmins();
+                        break;
+                    case 1:
+                        getAllAuthors();
+                        break;
+                    case 2:
+                        getAllClients();
+                        break;
+                    default:
+                        getAllUsers();
+                }
+            })
+            .catch((err) => {})
+            .finally(() => {});
+    };
+
+    const approveUser = (user) => {
+        updateUser(user, {
+            status: "active",
+        });
+    };
+    const refuseUser = (user) => {
+        updateUser(user, {
+            status: "inactive",
+        });
+    };
+    const blockUser = (user) => {
+        updateUser(user, {
+            status: "blocked",
+        });
+    };
+    const reactiveUser = (user) => {
+        updateUser(user, {
+            status: "active",
+        });
+    };
+
     function getButtonAction(user: User, action: number): any {
+        if (user.super) {
+            return <></>;
+        }
         if (action == 3) {
             return <ArrowForwardIosIcon color="action" style={{ cursor: "pointer" }} onClick={handleClickOpen} />;
         }
@@ -203,30 +258,57 @@ const UserManagment = () => {
                     </Grid>
                 </Box>*/
                 return action == 1 ? (
-                    <Button variant="contained" color="success" fullWidth>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        onClick={() => {
+                            approveUser(user);
+                        }}
+                    >
                         Aprovar
                     </Button>
                 ) : (
-                    <Button variant="contained" color="error" fullWidth>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        fullWidth
+                        onClick={() => {
+                            refuseUser(user);
+                        }}
+                    >
                         Recusar
                     </Button>
                 );
-            case EnumUserStatus.CREATED:
-                /*return <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6} md={8}>
-                            <Button variant="contained" color="error">
-                                Bloquear
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Box>*/
+            case EnumUserStatus.ACTIVE:
                 return action == 1 ? (
                     <></>
                 ) : (
-                    <Button variant="contained" color="error" fullWidth>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        fullWidth
+                        onClick={() => {
+                            blockUser(user);
+                        }}
+                    >
                         Bloquear
                     </Button>
+                );
+            case EnumUserStatus.BLOCKED:
+                return action == 2 ? (
+                    <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        onClick={() => {
+                            reactiveUser(user);
+                        }}
+                    >
+                        Reativar
+                    </Button>
+                ) : (
+                    <></>
                 );
             default:
                 return <></>;
