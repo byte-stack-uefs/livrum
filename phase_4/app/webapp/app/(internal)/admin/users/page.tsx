@@ -30,7 +30,7 @@ import { CreditCard } from "@mui/icons-material";
 import useRequest from "@/app/services/requester";
 
 interface Column {
-    id: "nome" | "status" | "acao1" | "acao2" | "acao3";
+    id: "name" | "status" | "acao1" | "acao2" | "acao3";
     label: string;
     minWidth?: number;
     align?: "right" | "left" | "center";
@@ -38,7 +38,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: "nome", label: "Nome", minWidth: 200, align: "left" },
+    { id: "name", label: "Nome", minWidth: 200, align: "left" },
     {
         id: "status",
         label: "Status",
@@ -82,14 +82,34 @@ const UserManagment = () => {
     const [tableItems, setItems] = useState(admins);
 
     const getAllAdmins = () => {
-        requester.get("/user/admins").then((response) => {
+        return requester.get("/user/admins").then((response) => {
             setAdmins(response.data);
             setItems(response.data);
         });
     };
 
-    if (!admins) {
-        getAllAdmins();
+    const getAllAuthors = () => {
+        return requester.get("/user/authors").then((response) => {
+            setAuthors(response.data);
+            setItems(response.data);
+        });
+    };
+
+    const getAllClients = () => {
+        return requester.get("/user/customers").then((response) => {
+            setClients(response.data);
+            setItems(response.data);
+        });
+    };
+
+    const getAllUsers = async () => {
+        await getAllClients();
+        await getAllAuthors();
+        await getAllAdmins();
+    };
+
+    if (!admins || !authors || !clients) {
+        getAllUsers();
     }
 
     const handleClickOpen = (user: any) => {
@@ -192,25 +212,42 @@ const UserManagment = () => {
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="body2" color="dark.main">
-                                    <strong>Autor:</strong> {openUser.id}
+                                    <strong>Nome:</strong> {openUser.name}
                                 </Typography>
                                 <Typography variant="body2" color="dark.main">
-                                    <strong>Email:</strong> {"email"}
+                                    <strong>Email:</strong> {openUser.email}
                                 </Typography>
-                                <Typography variant="body2" color="dark.main">
-                                    <strong>Data de Nascimento:</strong> {"dataNascimento"}
-                                </Typography>
+                                {openUser.type == "CLIENTE" || openUser.type == "AUTOR" ? (
+                                    <Typography variant="body2" color="dark.main">
+                                        <strong>Data de Nascimento:</strong> {"dataNascimento"}
+                                    </Typography>
+                                ) : (
+                                    <></>
+                                )}
                             </Grid>
                             <Grid item xs={6}>
-                                <Typography variant="body2" color="dark.main">
-                                    <strong>Telefone:</strong> {"telefone"}
-                                </Typography>
-                                <Typography variant="body2" color="dark.main">
-                                    <strong>CPF:</strong> {"cpf"}
-                                </Typography>
-                                <Typography variant="body2" color="dark.main">
-                                    <strong>Endereço:</strong> {"endereco"}
-                                </Typography>
+                                {openUser.type == "CLIENTE" ? (
+                                    <Typography variant="body2" color="dark.main">
+                                        <strong>Telefone:</strong> {openUser.phone}
+                                    </Typography>
+                                ) : (
+                                    <></>
+                                )}
+                                {openUser.type == "CLIENTE" || openUser.type == "AUTOR" ? (
+                                    <Typography variant="body2" color="dark.main">
+                                        <strong>CPF:</strong> {openUser.cpf}
+                                    </Typography>
+                                ) : (
+                                    <></>
+                                )}
+
+                                {openUser.type == "CLIENTE" || openUser.type == "AUTOR" ? (
+                                    <Typography variant="body2" color="dark.main">
+                                        <strong>Endereço:</strong> {openUser.address}
+                                    </Typography>
+                                ) : (
+                                    <></>
+                                )}
                             </Grid>
                         </Grid>
                     </DialogContent>

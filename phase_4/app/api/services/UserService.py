@@ -39,6 +39,43 @@ class UserService:
 
         return user
 
+    def getAllAdmins(self):
+        query = "SELECT *, u.nome AS name FROM usuario u JOIN administrador a ON a.idUsuario = u.idUsuario"
+        data = None
+        with DB() as db:
+
+            db.execute(query)
+            data = db.fetchall()
+
+        if data is not None:
+            return list([x for x in data])
+        return []
+
+    def getAllAuthors(self):
+        query = "SELECT *, u.nome AS name FROM usuario u JOIN autor a ON a.idUsuario = u.idUsuario"
+        data = None
+        with DB() as db:
+
+            db.execute(query)
+            data = db.fetchall()
+
+        if data is not None:
+            return list([x for x in data])
+        return []
+
+    def getAllCustomers(self):
+
+        query = "SELECT *, u.nome AS name FROM usuario u JOIN cliente c ON c.idUsuario = u.idUsuario"
+        data = None
+        with DB() as db:
+
+            db.execute(query)
+            data = db.fetchall()
+
+        if data is not None:
+            return list([x for x in data])
+        return []
+
     def getUsersByType(self, t: UserType) -> list[UserDAO]:
         data = []
 
