@@ -1,6 +1,5 @@
 from typing import Union
 from database.database import DB
-
 from models.user import User, CreateUserForm, UserStatus, UserType, UserDAO
 from passlib.context import CryptContext
 
