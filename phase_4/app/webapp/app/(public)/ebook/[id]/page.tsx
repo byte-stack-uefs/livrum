@@ -10,7 +10,7 @@ import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
 import useRequest from "@/app/services/requester";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { CircularProgress, Container, Skeleton, Typography } from "@mui/material";
+import { Container, Skeleton, Typography } from "@mui/material";
 import EbookDetails from "@/app/components/EbookDetails";
 
 interface EbookPageParams {
