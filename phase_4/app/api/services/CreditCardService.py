@@ -34,12 +34,12 @@ class CreditCardService:
 
         return credit_card
 
-    def deleteCreditCardById(self, idCard: int, idClient: int):
+    def deleteCreditCardById(self, idCard: int):
         with DB() as db:
             try:
                 db.execute(
-                    "DELETE FROM cartao WHERE idCartao = %s AND idCliente = %s",
-                    (idCard, idClient),
+                    "DELETE FROM cartao WHERE idCartao = %s",
+                    [idCard],
                 )
             except:
                 return False
@@ -62,7 +62,7 @@ class CreditCardService:
                         idClient,
                     ],
                 )
-            except:
+            except Exception as e:
                 return False
 
         return True

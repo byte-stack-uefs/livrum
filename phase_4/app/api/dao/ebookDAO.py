@@ -33,9 +33,11 @@ class EbookDAO:
                 consulta += " AND nome like %s"
                 valores.append(f"%{name}%")
             if author is not None:
+
                 db.execute(
                     "SELECT idUsuario FROM usuario WHERE nome like %s", [f"%{author}%"]
                 )
+
                 autor = db.fetchone()
                 if not autor:
                     pass
@@ -61,10 +63,12 @@ class EbookDAO:
                 ebooks.append(ebookDTO)
 
                 if id_client is not None:
+
                     db.execute(
                         "SELECT * FROM biblioteca WHERE idCliente = %s and idEBook = %s",
                         [id_client, ebookDTO.id],
                     )
+
                     response = db.fetchone()
                     ebookDTO.isAvailable = response is None
         return ebooks
@@ -105,6 +109,7 @@ class EbookDAO:
             update = "UPDATE ebook SET status = %s where idEBook = %s"
             db.execute(update, [EbookStatus.ACTIVE.value, id])
 
+
     def repproveEbook(reproveEbook: ReproveEbookDTO):
         with DB() as db:
             update = (
@@ -127,3 +132,4 @@ class EbookDAO:
             data = db.fetchone()
             ebookModel = EbookShowupDTO(**data)
         return ebookModel
+
