@@ -77,7 +77,7 @@ class EbookService:
             EbookDAO.disableEbook(id)
         except Exception as ex:
             print("Erro ao inativar Ebook com id:", id, ex)
-            
+
     def getEbookById(id):
         try:
             return EbookDAO.getEbookById(id)
@@ -89,8 +89,91 @@ class EbookService:
         if file_path.is_file():
             return FileResponse(file_path, filename=id + ".pdf")
         return None
+
     def getBestSellers(id = None):
         try:
             return EbookDAO.getBestSellers(id)
         except Exception as ex:
             print("Erro ao buscar Ebooks para Autor com id:", id, ex)
+
+    def getMoreViewedEbooks(self):
+
+        with DB() as db:
+
+            db.execute(
+                "SELECT * FROM ebook WHERE status = 'active' ORDER BY visto DESC LIMIT 10"
+            )
+            data = db.fetchall()
+
+        if data is not None:
+            return list([EbookModel(**x) for x in data])
+
+        return []
+
+    def getNewerEbooks(self):
+        with DB() as db:
+
+            db.execute(
+                "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) AND status = 'active' LIMIT 10"
+            )
+            data = db.fetchall()
+
+        if data is not None:
+            return list([EbookModel(**x) for x in data])
+
+        return []
+
+    def getMostBuyed(self):
+
+        with DB() as db:
+
+            db.execute(
+                "SELECT \
+                    e.*, \
+                    COUNT(e.idEBook) AS c \
+                FROM \
+                    ebook e \
+                JOIN itempedido i ON \
+                    i.idEBook = e.idEBook \
+                JOIN pedido p ON \
+                    p.idPedido = i.idPedido \
+                WHERE \
+                    p.status = 'approved' \
+                    AND e.status = 'active' \
+                GROUP BY \
+                    e.idEBook \
+                ORDER BY \
+                    c DESC \
+                LIMIT 10"
+            )
+
+            data = db.fetchall()
+
+        if data is not None:
+            return list([EbookModel(**x) for x in data])
+        return []
+
+    def getSimilarEbooks(self, idEbook):
+
+        with DB() as db:
+
+            db.execute("SELECT idAutor FROM ebook WHERE idEBook = %s", [idEbook])
+            idAutor = db.fetchone()["idAutor"]
+
+            db.execute(
+                "SELECT \
+                    * \
+                FROM \
+                    ebook e \
+                WHERE \
+                    e.status = 'active' \
+                    AND e.idEBook != %s \
+                    AND e.idAutor = %s",
+                [idEbook, idAutor],
+            )
+
+            data = db.fetchall()
+            if data is not None:
+                return list([EbookModel(**x) for x in data])
+
+        return []

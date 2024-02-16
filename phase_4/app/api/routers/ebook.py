@@ -14,6 +14,34 @@ access = security.UserHasAccess([UserType.AUTHOR])
 access2 = security.UserHasAccess([UserType.AUTHOR, UserType.ADMIN])
 
 
+@router.get("/most-viewed")
+def mostViewed():
+    service = EbookService()
+
+    return service.getMoreViewedEbooks()
+
+
+@router.get("/newer")
+def getNewer():
+    service = EbookService()
+
+    return service.getNewerEbooks()
+
+
+@router.get("/most-buyed")
+def getMostBuyed():
+    service = EbookService()
+
+    return service.getMostBuyed()
+
+
+@router.get("/similar/{id}")
+def getSimilar(id: int):
+    service = EbookService()
+
+    return service.getSimilarEbooks(id)
+
+
 @router.get("/search", description="Get ebooks by optional filters")
 def searchWithOptionalFilters(
     id=None,
@@ -42,6 +70,7 @@ def get(id: int,
     ebook = EbookService.getEbookById(id)
     return ebook
 
+
 @router.post("/", description="Create an ebook")
 def add(
     newEbook: EbookDTO,
@@ -66,6 +95,7 @@ def approve(reproveEbook: ReproveEbookDTO,
 def approve(id: str,
     user: Annotated[User, Depends(access)],):
     return EbookService.disableEbook(id)
+
 
 @router.patch("/{id}", description="Update an ebook's field")
 def patch(id: int,

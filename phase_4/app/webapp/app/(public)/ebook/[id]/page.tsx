@@ -1,18 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Ebook from "@/app/interfaces/Ebook";
+import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Container, Typography } from "@mui/material";
-import EbookDetails from "@/app/components/EbookDetails";
 import useRequest from "@/app/services/requester";
-import { Ebook } from "@/stories/Ebook.stories";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Container, Skeleton, Typography } from "@mui/material";
+import EbookDetails from "@/app/components/EbookDetails";
+import "../../../styles/image-zoom.css";
 
 interface EbookPageParams {
     id: number;
@@ -31,50 +31,27 @@ export default function Page({ params }: { params: EbookPageParams }) {
     const [ebook, setEbook] = useState<Ebook>();
     const [isAlertVisible, setIsAlertVisible] = useState(false);
     const { id } = params;
+    const [similar, setSimilar] = useState(null);
 
-    const requester = useRequest()
+    const requester = useRequest();
 
     const getEbookByID = async () => {
-        const { data } = await requester.get<Ebook>(
-            `/ebook/${id}`, 
-        );
+        const { data } = await requester.get<Ebook>(`/ebook/${id}`);
+        setEbook(data);
         setFetched(true);
-    }
-    
-    if (!fetched){
+    };
+
+    if (!fetched) {
         getEbookByID();
     }
 
-    // TODO: find similars given this ebook's ID. 
-    const similars = [
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-    ];
+    if (!similar) {
+        requester.get(`/ebook/similar/${id}`).then((response) => {
+            const { data } = response;
+            setSimilar(data);
+        });
+    }
 
-        
     const { handleAddEbookToCart } = useCart();
 
     function checkIsProductInCart(item: CartItemType) {
@@ -101,60 +78,61 @@ export default function Page({ params }: { params: EbookPageParams }) {
         setIsAlertVisible(false);
     };
 
-    if (fetched){
-        return (
-            <Container maxWidth={false}>
-                <Grid container>
+    const skeletons = [1, 2, 3, 4];
+
+    return (
+        <Container maxWidth={false}>
+            <Grid container>
+                {ebook ? (
                     <EbookDetails ebook={ebook} onAddCart={handleClickAddCart} shouldDisableAddCart={checkIsProductInCart} />
-                    <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
-                        <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-                            Ebook adicionado ao carrinho
-                        </Alert>
-                    </Snackbar>
-                    <Grid xs={12} container>
-                        <Grid xs={12} textAlign="center">
-                            <Typography variant="h4" color="dark.main">
-                                Títulos semelhantes
-                            </Typography>
-                            <Divider width={"15%"} style={{ margin: "auto" }} />
-                        </Grid>
-                        <Grid xs={12} my={3}>
-                            <Carousel items={similars} Child={SimilarEbooks} />
-                        </Grid>
+                ) : (
+                    <Grid xs={12} justifyContent={"center"} mt={2}>
+                        <Skeleton sx={{ margin: "auto" }} variant="rounded" height={500} width={"75%"}></Skeleton>
+                    </Grid>
+                )}
+                <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
+                    <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                        Ebook adicionado ao carrinho
+                    </Alert>
+                </Snackbar>
+                <Grid xs={12} container>
+                    <Grid xs={12} textAlign="center">
+                        <Typography variant="h4" color="dark.main">
+                            Títulos semelhantes
+                        </Typography>
+                        <Divider width={"15%"} style={{ margin: "auto" }} />
+                    </Grid>
+                    <Grid xs={12} my={3}>
+                        {similar ? (
+                            <Carousel items={similar} Child={SimilarEbooks} />
+                        ) : (
+                            <Grid container xs={12} sx={{ justifyContent: "space-between" }}>
+                                {skeletons.map((e) => {
+                                    return <Skeleton key={"similar-" + e} variant="rounded" width={"20%"} height={350}></Skeleton>;
+                                })}
+                            </Grid>
+                        )}
                     </Grid>
                 </Grid>
-            </Container>     
-        );   
-    }else{
-        return (
-            <Container maxWidth={false}>
-                <Grid container>
-                    <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
-                        <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-                            Ebook adicionado ao carrinho
-                        </Alert>
-                    </Snackbar>
-                    <Grid xs={12} container>
-                        <Grid xs={12} textAlign="center">
-                            <Typography variant="h4" color="dark.main">
-                                Títulos semelhantes
-                            </Typography>
-                            <Divider width={"15%"} style={{ margin: "auto" }} />
-                        </Grid>
-                        <Grid xs={12} my={3}>
-                            <Carousel items={similars} Child={SimilarEbooks} />
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Container>
-        );
-    }
+            </Grid>
+        </Container>
+    );
 }
 
 function SimilarEbooks(ebook: Ebook) {
     return (
         <div style={{ textAlign: "center", padding: 8 }}>
-            <Image src={ebook.cover} width={3000} height={3000} style={{ width: "100%", height: "100%", objectFit: "contain" }} alt="book cover" />
+            <div
+                style={{
+                    height: 400,
+                    width: 300,
+                    margin: "auto",
+                    overflow: "hidden",
+                    position: "relative",
+                }}
+            >
+                <Image className="image-zoom" fill objectFit="cover" src={ebook.cover} alt="book cover" />
+            </div>
             <Typography fontWeight="bold" color="dark.main">
                 {ebook.title}
             </Typography>

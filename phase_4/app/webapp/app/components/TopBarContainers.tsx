@@ -29,6 +29,7 @@ import { useUser } from "../context";
 import Divider from "./Divider";
 import { useRouter } from "next/navigation";
 import { logout } from "../helpers/login";
+import useRequest from "../services/requester";
 
 export function TopMain() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -43,7 +44,32 @@ export function TopMain() {
     const [category, setCategory] = useState("all");
     const { cartTotalQnt } = useCart();
     const { user, clearUser } = useUser();
+    const [genres, setGenres] = useState([
+        {
+            id: "all",
+            name: "Todos",
+        },
+    ]);
     const router = useRouter();
+    const requester = useRequest();
+
+    if (genres.length == 1) {
+        requester.get("/genre").then((response) => {
+            const { data } = response;
+            setGenres((prev) => {
+                for (const el of data) {
+                    let g = prev.filter((e) => {
+                        e.id == el.id;
+                    });
+                    if (g.length > 0) {
+                        continue;
+                    }
+                    prev.push(el);
+                }
+                return prev;
+            });
+        });
+    }
 
     function handleChange(event: SelectChangeEvent) {
         setCategory(event.target.value as string);
@@ -55,21 +81,6 @@ export function TopMain() {
             router.push("/");
         });
     };
-
-    const categories = [
-        {
-            title: "Todos",
-            value: "all",
-        },
-        {
-            title: "Aventura",
-            value: "aventura",
-        },
-        {
-            title: "Comédia",
-            value: "comedia",
-        },
-    ];
 
     const searchSelect = (
         <InputAdornment position="start">
@@ -86,10 +97,10 @@ export function TopMain() {
                     width: "150px",
                 }}
             >
-                {categories.map((e) => {
+                {genres.map((e) => {
                     return (
-                        <MenuItem key={e.value} value={e.value}>
-                            {e.title}
+                        <MenuItem key={"genre" + e.id} value={e.id}>
+                            {e.name}
                         </MenuItem>
                     );
                 })}

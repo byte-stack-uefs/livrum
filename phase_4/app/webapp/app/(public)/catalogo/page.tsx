@@ -19,6 +19,7 @@ import {
     Pagination,
     Typography,
     FormControlLabel,
+    Skeleton,
 } from "@mui/material";
 import axios from "axios";
 import Ebook, { EbookResponse } from "@/app/interfaces/Ebook";
@@ -34,15 +35,15 @@ function PageHeader() {
     );
 }
 
-interface SearchBoxProps{
+interface SearchBoxProps {
     setSearchBarContent: React.Dispatch<React.SetStateAction<string>>;
 }
-function SearchBox({setSearchBarContent}:SearchBoxProps) {
-    const [value,setValue] = useState("");
+function SearchBox({ setSearchBarContent }: SearchBoxProps) {
+    const [value, setValue] = useState("");
 
-    const handleChanges = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    const handleChanges = (event: { target: { value: React.SetStateAction<string> } }) => {
         setSearchBarContent(event.target.value);
-    }
+    };
 
     return (
         <Grid xs={8}>
@@ -59,7 +60,7 @@ function SearchBox({setSearchBarContent}:SearchBoxProps) {
     );
 }
 
-interface SearchButtonProps {   
+interface SearchButtonProps {
     author_title: String;
     price_min: Number;
     price_max: Number;
@@ -68,8 +69,8 @@ interface SearchButtonProps {
     setBooks: React.Dispatch<React.SetStateAction<Ebook[]>>;
 }
 
-function SearchButton({author_title ,price_min,price_max,maxYear,language, setBooks}: SearchButtonProps) {
-    const requester = useRequest()
+function SearchButton({ author_title, price_min, price_max, maxYear, language, setBooks }: SearchButtonProps) {
+    const requester = useRequest();
 
     var name = author_title;
     var author = author_title;
@@ -77,39 +78,48 @@ function SearchButton({author_title ,price_min,price_max,maxYear,language, setBo
 
     const handleClick = async () => {
         if (!(author_title.length === 0)) {
-            const { data } = await requester.get<EbookResponse>(
-                "/catalog/search", 
-                {
-                    params: {release_year: maxYear,price_min: price_min,price_max: price_max}
-                }
-            );
+            const { data } = await requester.get<EbookResponse>("/catalog/search", {
+                params: { release_year: maxYear, price_min: price_min, price_max: price_max },
+            });
             let updatedBooks: Ebook[] = [];
-            for (const book of data.ebooks){
+            for (const book of data.ebooks) {
                 let query = author_title;
-              // .toString().toLowerCase().indexOf(filterText.toLowerCase()
-                if (!(book.author.toLowerCase().indexOf(query.toLowerCase()) === -1) || !(book.title.toLowerCase().indexOf(query.toLowerCase()) === -1)){
-                    updatedBooks.push(book); 
+                // .toString().toLowerCase().indexOf(filterText.toLowerCase()
+                if (
+                    !(book.author.toLowerCase().indexOf(query.toLowerCase()) === -1) ||
+                    !(book.title.toLowerCase().indexOf(query.toLowerCase()) === -1)
+                ) {
+                    updatedBooks.push(book);
                 }
             }
             setBooks(updatedBooks);
-        }else{
-            const { data } = await requester.get<EbookResponse>(
-                "/catalog/search", 
-                {
-                    params: {release_year: maxYear,price_min: price_min,price_max: price_max}
-                }
-            );
-            setBooks(data.ebooks);        
+        } else {
+            const { data } = await requester.get<EbookResponse>("/catalog/search", {
+                params: { release_year: maxYear, price_min: price_min, price_max: price_max },
+            });
+            setBooks(data.ebooks);
         }
     };
     return (
         <Grid xs={4} textAlign="center">
-            <Button onClick={handleClick} variant="contained">Buscar</Button>
+            <Button onClick={handleClick} variant="contained">
+                Buscar
+            </Button>
         </Grid>
     );
 }
 
 function GenreSection() {
+    const [genres, setGenres] = useState<Array | null>(null);
+    const requester = useRequest();
+
+    if (!genres) {
+        requester.get("/genre").then((response) => {
+            const { data } = response;
+            setGenres(data);
+        });
+    }
+
     return (
         <Grid container sx={{ fontSize: 10 }}>
             <Grid xs={12} sx={{ fontSize: 12 }}>
@@ -117,23 +127,25 @@ function GenreSection() {
             </Grid>
             <Grid xs={12}>
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="Ação" />
-                    <FormControlLabel control={<Checkbox />} label="Comédia" />
-                    <FormControlLabel control={<Checkbox />} label="Drama" />
-                    <FormControlLabel control={<Checkbox />} label="Romance" />
+                    {genres ? (
+                        genres.map((el) => {
+                            return <FormControlLabel key={el.id} control={<Checkbox />} label={el.name} />;
+                        })
+                    ) : (
+                        <Skeleton sx={{ mb: 1 }} variant="rounded" width={"100%"} height={100}></Skeleton>
+                    )}
                 </FormGroup>
             </Grid>
         </Grid>
     );
 }
 
-
 interface LanguageSectionProps {
     setSelectedLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function LanguageSection({setSelectedLanguage}: LanguageSectionProps) {
-    const handleLabelChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+function LanguageSection({ setSelectedLanguage }: LanguageSectionProps) {
+    const handleLabelChange = (event: { target: { value: React.SetStateAction<string> } }) => {
         setSelectedLanguage(event.target.value);
     };
 
@@ -144,10 +156,10 @@ function LanguageSection({setSelectedLanguage}: LanguageSectionProps) {
             </Grid>
             <Grid xs={12}>
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox onChange={handleLabelChange}/>} label="Português" value={"pt-br"}/>
-                    <FormControlLabel control={<Checkbox onChange={handleLabelChange}/>} label="Inglês" value={"en-us"}/>
-                    <FormControlLabel control={<Checkbox onChange={handleLabelChange}/>} label="Espanhol" value={"esp"}/>
-                    <FormControlLabel control={<Checkbox onChange={handleLabelChange}/>}  label="Francês" value={"fra"}/>
+                    <FormControlLabel control={<Checkbox onChange={handleLabelChange} />} label="Português" value={"pt-br"} />
+                    <FormControlLabel control={<Checkbox onChange={handleLabelChange} />} label="Inglês" value={"en-us"} />
+                    <FormControlLabel control={<Checkbox onChange={handleLabelChange} />} label="Espanhol" value={"esp"} />
+                    <FormControlLabel control={<Checkbox onChange={handleLabelChange} />} label="Francês" value={"fra"} />
                 </FormGroup>
             </Grid>
         </Grid>
@@ -163,22 +175,22 @@ function LanguageSection({setSelectedLanguage}: LanguageSectionProps) {
     <SearchButton> component.  
 */
 interface SettingFilteredBooksProps {
-    books : Ebook[];
+    books: Ebook[];
     setBooks: React.Dispatch<React.SetStateAction<Ebook[]>>;
     fetched: boolean;
 }
 
 // minVal, maxVal, yearInput, setYearInput, fetched}: YearSliderProps
-function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
+function SideBarMenu({ books, setBooks, fetched }: SettingFilteredBooksProps) {
     const [searchBarContent, setSearchBarContent] = useState("");
     const [price_min, setPriceMin] = useState(Number);
     const [price_max, setPriceMax] = useState(Number);
     const [maxYear, setMaxYear] = useState(Number);
     const [language, setLanguage] = useState(String);
-    if(fetched){
+    if (fetched) {
         var year = getYearRange(books);
         var prices = getPriceRange(books);
-        
+
         var minPriceVal = prices[0]; // These are not modified
         var maxPriceVal = prices[1]; // These are not modified
 
@@ -190,7 +202,14 @@ function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
                 <Grid container sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
                     <Grid xs={12} container>
                         <SearchBox setSearchBarContent={setSearchBarContent}></SearchBox>
-                        <SearchButton author_title={searchBarContent} price_min={price_min} price_max={price_max} maxYear={maxYear} language={language} setBooks={setBooks}></SearchButton>
+                        <SearchButton
+                            author_title={searchBarContent}
+                            price_min={price_min}
+                            price_max={price_max}
+                            maxYear={maxYear}
+                            language={language}
+                            setBooks={setBooks}
+                        ></SearchButton>
                     </Grid>
                     <Grid xs={12}>
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
@@ -200,11 +219,11 @@ function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                     </Grid>
                     <Grid xs={12}>
-                        <LanguageSection setSelectedLanguage={setLanguage} ></LanguageSection>
+                        <LanguageSection setSelectedLanguage={setLanguage}></LanguageSection>
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                     </Grid>
                     <Grid xs={12}>
-                        <PriceSection minVal={minPriceVal} maxVal={maxPriceVal} setPriceMin={setPriceMin} setPriceMax={setPriceMax} ></PriceSection>
+                        <PriceSection minVal={minPriceVal} maxVal={maxPriceVal} setPriceMin={setPriceMin} setPriceMax={setPriceMax}></PriceSection>
                         <Divider height={2} width={"90%"} style={{ margin: "auto" }} />
                     </Grid>
                     <Grid xs={12}>
@@ -219,11 +238,11 @@ function SideBarMenu({books, setBooks, fetched}: SettingFilteredBooksProps) {
 interface PriceSectionProps {
     minVal: number;
     maxVal: number;
-    setPriceMin : React.Dispatch<React.SetStateAction<number>>;
-    setPriceMax : React.Dispatch<React.SetStateAction<number>>;
+    setPriceMin: React.Dispatch<React.SetStateAction<number>>;
+    setPriceMax: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function PriceSection({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionProps) {
+function PriceSection({ minVal, maxVal, setPriceMin, setPriceMax }: PriceSectionProps) {
     return (
         <Grid container>
             <Grid xs={12} sx={{ fontSize: 12 }}>
@@ -236,26 +255,24 @@ function PriceSection({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionPr
     );
 }
 
-
 function valuetext(value: number) {
     return `R$ ${value},00`;
 }
 
-
-function getPriceRange(books:Ebook[]) : number[] {
-        
+function getPriceRange(books: Ebook[]): number[] {
     var priceValues: number[] = [];
-    books.forEach(function(book){priceValues.push(book.price)});
-    var min = priceValues.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0);
-    var max = priceValues.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);        
+    books.forEach(function (book) {
+        priceValues.push(book.price);
+    });
+    var min = priceValues.reduce((iMax, x, i, arr) => (x < arr[iMax] ? i : iMax), 0);
+    var max = priceValues.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
     var minPrice = books[min].price;
     var maxPrice = books[max].price;
 
-    return [minPrice, maxPrice];          
+    return [minPrice, maxPrice];
 }
 
-function PriceSlider({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionProps) {
-
+function PriceSlider({ minVal, maxVal, setPriceMin, setPriceMax }: PriceSectionProps) {
     const PriceMarks = [
         {
             value: minVal,
@@ -265,12 +282,11 @@ function PriceSlider({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionPro
             value: maxVal,
             label: "R$" + maxVal.toString(),
         },
-    ];    
+    ];
 
     const [value, setValue] = React.useState<number[]>([minVal, maxVal]);
     setPriceMin(value[0]);
     setPriceMax(value[1]);
-
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -295,19 +311,20 @@ function PriceSlider({minVal, maxVal, setPriceMin, setPriceMax}: PriceSectionPro
     );
 }
 
-function getYearRange(books: Ebook[]) : number[] {
+function getYearRange(books: Ebook[]): number[] {
     var minYear;
     var maxYear;
-    
+
     var yearValues: number[] = [];
-    books.forEach(function(book){yearValues.push(parseInt(book.releaseYear))});
-    var min = yearValues.reduce((iMax, x, i, arr) => x < arr[iMax] ? i : iMax, 0);
-    var max = yearValues.reduce((iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0);        
+    books.forEach(function (book) {
+        yearValues.push(parseInt(book.releaseYear));
+    });
+    var min = yearValues.reduce((iMax, x, i, arr) => (x < arr[iMax] ? i : iMax), 0);
+    var max = yearValues.reduce((iMax, x, i, arr) => (x > arr[iMax] ? i : iMax), 0);
     minYear = parseInt(books[min].releaseYear);
     maxYear = parseInt(books[max].releaseYear);
     return [minYear, maxYear];
 }
-
 
 function yearValueText(value: number) {
     return `${value}`;
@@ -319,9 +336,7 @@ interface YearSliderProps {
     setYearInput: React.Dispatch<React.SetStateAction<number>>;
 }
 
-
-function YearSlider({minVal, maxVal, setYearInput}: YearSliderProps) {
-    
+function YearSlider({ minVal, maxVal, setYearInput }: YearSliderProps) {
     const [value, setValue] = React.useState<number>(maxVal);
     setYearInput(value);
     const handleChange = (event: Event, newValue: number | number[]) => {
@@ -336,10 +351,10 @@ function YearSlider({minVal, maxVal, setYearInput}: YearSliderProps) {
         },
         {
             value: maxVal,
-            label: maxVal.toString()
+            label: maxVal.toString(),
         },
     ];
-    
+
     return (
         <Box>
             <Slider
@@ -357,7 +372,7 @@ function YearSlider({minVal, maxVal, setYearInput}: YearSliderProps) {
     );
 }
 
-function ReleaseYear({minVal, maxVal, setYearInput}: YearSliderProps) {    
+function ReleaseYear({ minVal, maxVal, setYearInput }: YearSliderProps) {
     return (
         <Grid container>
             <Grid xs={12} sx={{ fontSize: 12 }}>
@@ -382,29 +397,25 @@ function BookSectionHeader() {
 }
 
 function listComprehension<T>(list: T[], callback: (item: T) => boolean): T[] {
-    return list.filter(callback).map((item) => item)
-  }
-
+    return list.filter(callback).map((item) => item);
+}
 
 interface BookListProps {
+    books: Ebook[];
+    setBooks: React.Dispatch<React.SetStateAction<Ebook[]>>;
 
-    books : Ebook[];
-    setBooks : React.Dispatch<React.SetStateAction<Ebook[]>>;
-    
     fetched: boolean;
     setFetched: React.Dispatch<React.SetStateAction<boolean>>;
-}  
+}
 
-function BookList({books, setBooks, fetched, setFetched}: BookListProps) {    
+function BookList({ books, setBooks, fetched, setFetched }: BookListProps) {
     const fetchEbooks = async () => {
-        const requester = useRequest()
-        const { data } = await requester.get<EbookResponse>(
-          "/catalog/list",
-        );
+        const requester = useRequest();
+        const { data } = await requester.get<EbookResponse>("/catalog/list");
         setBooks(data.ebooks);
-        setFetched(true);      
+        setFetched(true);
     };
-    if (!(fetched)){
+    if (!fetched) {
         fetchEbooks();
     }
 
@@ -421,11 +432,11 @@ function BookList({books, setBooks, fetched, setFetched}: BookListProps) {
     );
 }
 
-function BookListContainer({books, setBooks, fetched, setFetched}: BookListProps) {
+function BookListContainer({ books, setBooks, fetched, setFetched }: BookListProps) {
     return (
         <>
             <Grid container xs={12} sx={{ backgroundColor: "#F4F2F2", borderRadius: "16px" }}>
-                <BookList books={books} setBooks={setBooks} fetched={fetched} setFetched={setFetched} ></BookList>
+                <BookList books={books} setBooks={setBooks} fetched={fetched} setFetched={setFetched}></BookList>
             </Grid>
             <Grid container mt={2} xs={12} justifyContent="center">
                 <Pagination count={10} color="primary" shape="rounded" />
@@ -434,7 +445,7 @@ function BookListContainer({books, setBooks, fetched, setFetched}: BookListProps
     );
 }
 
-function BookSection({books, setBooks, fetched, setFetched}: BookListProps) {
+function BookSection({ books, setBooks, fetched, setFetched }: BookListProps) {
     return (
         <Grid xs={8}>
             <Grid container>
@@ -445,20 +456,20 @@ function BookSection({books, setBooks, fetched, setFetched}: BookListProps) {
 }
 
 export default function Page() {
-    const [books, setBooks] = useState<(Ebook)[]>([]);
+    const [books, setBooks] = useState<Ebook[]>([]);
     const [fetched, setFetched] = useState(false);
 
-        return (
-            <Container maxWidth={false}>
-                <Grid container spacing={2}>
-                    <PageHeader></PageHeader>
-                    <Grid xs={12}>
-                        <Grid container>
-                            <SideBarMenu books={books} setBooks={setBooks} fetched={fetched}></SideBarMenu>
-                            <BookSection books={books} setBooks={setBooks} fetched={fetched} setFetched={setFetched} ></BookSection>
-                        </Grid>
+    return (
+        <Container maxWidth={false}>
+            <Grid container spacing={2}>
+                <PageHeader></PageHeader>
+                <Grid xs={12}>
+                    <Grid container>
+                        <SideBarMenu books={books} setBooks={setBooks} fetched={fetched}></SideBarMenu>
+                        <BookSection books={books} setBooks={setBooks} fetched={fetched} setFetched={setFetched}></BookSection>
                     </Grid>
                 </Grid>
-            </Container>
-        );
+            </Grid>
+        </Container>
+    );
 }
