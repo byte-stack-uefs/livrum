@@ -30,7 +30,7 @@ class EbookModel:
         self.id = kwargs.get("idEBook")
         self.idAuthor = kwargs.get("idAutor")
         self.title = kwargs.get("nome")
-        self.author = kwargs.get("nomeAutor")
+        self.author = getAuthor(self.idAuthor)
         self.pages: int = kwargs.get("n_paginas")
         self.createdAt = kwargs.get("criadoEm")
         self.languages = kwargs.get("idioma")
@@ -53,10 +53,28 @@ class EbookDTO(BaseModel):
     tamArqEmMb: str
     preco: float
 
+class EbookShowupDTO:
+    def __init__(self, **kwargs):
+        self.id = kwargs.get("idEBook")
+        self.author = getAuthor(kwargs.get("idAutor"))
+        self.title = kwargs.get("nome")
+        self.releaseYear = kwargs.get("anoLancamento")
+        self.price = kwargs.get("preco")
+        self.isAvailable = True
+        self.cover = kwargs.get("capa")
+        self.size = kwargs.get("tamanhoEmMB")
+        if self.size == None:
+            self.size = "-"
+        self.pages = kwargs.get("qtdPaginas")
+        if self.pages == None:
+            self.pages = "-"                    
+        self.summary = kwargs.get("sinopse")
+        self.format = "PDF"
+
 class CatalogEbookDTO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idEBook")
-        self.author = ""
+        self.author = getAuthor(kwargs.get("idAutor"))
         self.title = kwargs.get("nome")
         self.releaseYear = kwargs.get("anoLancamento")
         self.price = kwargs.get("preco")

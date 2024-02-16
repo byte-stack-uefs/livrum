@@ -1,11 +1,13 @@
 from fastapi import APIRouter
+from services.GenreService import GenreService
 
 router = APIRouter(prefix="/genre", tags=["Genre"])
 
 
 @router.get("/", description="Get all genres")
 def list():
-    return {"message": "Get all genres"}
+    service = GenreService()
+    return service.getAllGenres()
 
 
 @router.get("/{id}", description="Get a specific genre")

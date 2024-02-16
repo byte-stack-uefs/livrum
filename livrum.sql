@@ -4,7 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	8.1.0
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */
-;a
+;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */
 ;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */
@@ -300,6 +300,7 @@ CREATE TABLE `pedido` (
     `data` date NOT NULL DEFAULT (curdate()),
     `status` enum('canceled', 'pending', 'approved', 'failed') NOT NULL DEFAULT 'pending',
     `idCliente` int NOT NULL,
+    `txid` VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY (`idPedido`),
     KEY `fk_Pedido_Cliente1_idx` (`idCliente`),
     CONSTRAINT `fk_Pedido_Cliente1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idUsuario`)

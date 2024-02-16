@@ -86,6 +86,7 @@ export default function ListagemEbooks() {
     const [ebooks, setEbooks] = useState([] as Array<AuthorEbook>);
     const [ebooksWithoutSearch, setEbooksWithoutSearch] = useState([] as Array<AuthorEbook>);
     const [searchEbook, setSearchEbook] = useState("");
+    const [downloadError, setDownloadError] = useState(false);
 
     const handleClickOpen = (ebook: AuthorEbook) => {
         setOpenEbook(ebook);
@@ -105,58 +106,79 @@ export default function ListagemEbooks() {
     const handleClose = () => {
         setOpenDialog(false);
     };
-    
+
     const handleApproveEbook = () => {
-        requester.put('/ebook/approve/'+openEbook.id).then(response => {
-            //setOpenDialog(false);
-            window.location.reload();
-        }).catch(err => { })
+        requester
+            .put("/ebook/approve/" + openEbook.id)
+            .then((response) => {
+                setOpenDialog(false);
+                getEbooks();
+            })
+            .catch((err) => {});
     };
-    
+
     const handleRepproveEbook = () => {
         let reasonRefusal = document?.getElementById("refusalReason")?.value;
         if (!reasonRefusal) {
             alert("Motivo de recusa não fornecido.");
-            console.error("Motivo de recusa não fornecido.");
             return;
         }
-        requester.put('/ebook/repprove', {"id": openEbook.id, "reason": reasonRefusal}).then(response => {
-            //setOpenDialog(false);
-            window.location.reload();
-        }).catch(err => { })
+        requester
+            .put("/ebook/repprove", { id: openEbook.id, reason: reasonRefusal })
+            .then((response) => {
+                setRefuseOpenDialog(false);
+                getEbooks();
+            })
+            .catch((err) => {});
     };
-    
+
     const handleDisableEbook = () => {
-        requester.put('/ebook/disable/'+openEbook.id).then(response => {
-            //setOpenDialog(false);
-            window.location.reload();
-        }).catch(err => { })
+        requester
+            .put("/ebook/disable/" + openEbook.id)
+            .then((response) => {
+                setOpenDialog(false);
+                getEbooks();
+            })
+            .catch((err) => {});
     };
+
+    function downloadEbook(id: number) {
+        setDownloadError(false);
+        requester
+            .get("/ebook/download/" + id, { responseType: "blob" })
+            .then((response) => {
+                window.open(URL.createObjectURL(response.data));
+            })
+            .catch((err) => {
+                setDownloadError(true);
+            });
+    }
 
     function searchEbooks(name: string) {
         setSearchEbook(name);
-        let ebooksFiltered = ebooksWithoutSearch.filter(ebook => ebook.nome.toLowerCase().includes(name.toLowerCase()));
+        let ebooksFiltered = ebooksWithoutSearch.filter((ebook) => ebook.nome.toLowerCase().includes(name.toLowerCase()));
         setEbooks(ebooksFiltered);
     }
 
-    
     const requester = useRequest();
 
     useEffect(() => {
         getEbooks();
-    }, [])
+    }, []);
 
     const getEbooks = () => {
-        requester.get('/ebook').then(response => {
-            setEbooks(prev => {
-                return response.data;
-            });
-            setEbooksWithoutSearch(prev => {
-                return response.data;
-            });
-        })
-            .catch(err => { })
-    }
+        requester
+            .get("/ebook")
+            .then((response) => {
+                setEbooks((prev) => {
+                    return response.data;
+                });
+                setEbooksWithoutSearch((prev) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {});
+    };
 
     interface Column {
         id: "link_foto" | "nome" | "data" | "status" | "acao" | "download";
@@ -325,7 +347,7 @@ export default function ListagemEbooks() {
                                     <strong>Quantidade de Páginas:</strong> {openEbook.qtd_pag}
                                 </Typography>
                                 <Typography variant="body2">
-                                    <strong>Gêneros:</strong> {openEbook.genero}
+                                    <strong>Gêneros:</strong> {openEbook.genero?.join(", ")}
                                 </Typography>
                                 <Typography variant="body2">
                                     <strong>Preço:</strong> {openEbook?.preco?.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
@@ -405,11 +427,14 @@ export default function ListagemEbooks() {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase 
-                        placeholder="Buscar por nome" 
-                        inputProps={{ "aria-label": "search" }}
-                        value={searchEbook}
-                        onChange={(e) => {searchEbooks(e.target.value)}}/>
+                        <StyledInputBase
+                            placeholder="Buscar por nome"
+                            inputProps={{ "aria-label": "search" }}
+                            value={searchEbook}
+                            onChange={(e) => {
+                                searchEbooks(e.target.value);
+                            }}
+                        />
                     </Search>
                 </Box>
                 <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "10px" }}>
@@ -438,7 +463,9 @@ export default function ListagemEbooks() {
                                                         ) : column.id === "status" ? (
                                                             getButtonStatus(tableItem)
                                                         ) : column.id == "download" ? (
-                                                            <DownloadIcon />
+                                                            <IconButton onClick={() => downloadEbook(tableItem.id)}>
+                                                                <DownloadIcon />
+                                                            </IconButton>
                                                         ) : (
                                                             tableItem[column.id]
                                                         )}
