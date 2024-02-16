@@ -2,7 +2,7 @@
 
 import { theme } from "@/app/theme";
 import { Card, Select, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DashboardCard from "@/app/components/DashboardCard";
 import { Book, MonetizationOn, Sell } from "@mui/icons-material";
@@ -10,15 +10,34 @@ import { VisualizationChart, getFakeData } from "@/app/components/VisualizationC
 import { PopularityTable } from "@/app/components/PopularityTable";
 import { EbookTableItem, EbooksTable } from "@/app/components/EbooksTable";
 import { TableSelect } from "@/app/components/TableSelect";
+import useRequest from "@/app/services/requester";
+import { useUser } from "@/app/context";
 
 export default function Page() {
     const username = "Almir";
+    const { user, updateUser } = useUser();
 
     const [data, setData] = useState([]);
+    const [items, setItems] = useState([] as Array<EbookTableItem>)
+    const [itemsWithoutSearch, setItemsWithoutSearch] = useState([] as Array<EbookTableItem>)
+    const [categories, setCategories] = useState([]);
+
+    const requester = useRequest();
 
     useEffect(() => {
         setData(getFakeData());
+        requester.get("/ebook/private/best-sellers")
+            .then((response: { data: SetStateAction<EbookTableItem[]>; }) => {
+                let aux = response.data as EbookTableItem[];
+                setItems(response.data);
+                setItemsWithoutSearch(response.data);
+                let cat = [...new Set(aux.flatMap(item => item.genres)) as any].map(genre => ({ title: genre, value: genre }));;
+                setCategories(cat as any);
+            })
+            .catch((err) => {console.log(err)});
     }, []);
+
+
 
     const cards = [
         {
@@ -48,31 +67,6 @@ export default function Page() {
         '#', 'Nome', 'Categoria', 'Preço', 'Vendidos (und)', "Faturamento"
     ];
 
-    const items: Array<EbookTableItem> = [
-        {
-            id: 5,
-            name: 'Teste',
-            price: 51.47,
-            sold: 557,
-            revenue: 557 * 51.47,
-            genres: ['Adventure', 'Terror', 'Comedy']
-        }, {
-            id: 15,
-            name: 'Teste',
-            price: 51.47,
-            sold: 557,
-            revenue: 557 * 51.47,
-            genres: ['Adventure', 'Terror', 'Comedy']
-        }
-    ];
-
-    const categories = [
-        {
-            value: 4,
-            title: 'Terror'
-        }
-    ];
-
     const mostSold = [
         {
             id: 10,
@@ -85,7 +79,7 @@ export default function Page() {
         <Grid container spacing={2}>
             <Grid xs={12}>
                 <Typography variant="h5" sx={{ color: theme.palette.dark.main }}>
-                    Bem-vindo, {username}
+                    Bem-vindo, {user.nome}
                 </Typography>
             </Grid>
             <Grid xs={12} container>
@@ -113,7 +107,10 @@ export default function Page() {
                             </Grid>
                             <Grid xs={3}>
                                 <TableSelect items={categories} title="Categorias" onChange={(e) => {
-                                    console.log(e)
+                                    
+                                    let itemsFiltered = itemsWithoutSearch.filter((item) => item.genres.includes(e as any));
+                                    
+                                    setItems(itemsFiltered);
                                 }} />
                             </Grid>
                         </Grid>

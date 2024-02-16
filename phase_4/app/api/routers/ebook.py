@@ -11,6 +11,8 @@ router = APIRouter(prefix="/ebook", tags=["Ebook"])
 
 access = security.UserHasAccess([UserType.AUTHOR])
 
+access2 = security.UserHasAccess([UserType.AUTHOR, UserType.ADMIN])
+
 
 @router.get("/most-viewed")
 def mostViewed():
@@ -63,7 +65,8 @@ def get():
 
 
 @router.get("/{id}", description="Get an ebook by its ID")
-def get(id: int):
+def get(id: int,
+    user: Annotated[User, Depends(access)],):
     ebook = EbookService.getEbookById(id)
     return ebook
 
@@ -77,27 +80,32 @@ def add(
 
 
 @router.put("/approve/{id}", description="approve an ebook")
-def approve(id: str):
+def approve(id: str,
+    user: Annotated[User, Depends(access)],):
     return EbookService.approveEbook(id)
 
 
 @router.put("/repprove", description="repprove an ebook")
-def approve(reproveEbook: ReproveEbookDTO):
+def approve(reproveEbook: ReproveEbookDTO,
+    user: Annotated[User, Depends(access)],):
     return EbookService.repproveEbook(reproveEbook)
 
 
 @router.put("/disable/{id}", description="approve an ebook")
-def approve(id: str):
+def approve(id: str,
+    user: Annotated[User, Depends(access)],):
     return EbookService.disableEbook(id)
 
 
 @router.patch("/{id}", description="Update an ebook's field")
-def patch(id: int):
+def patch(id: int,
+    user: Annotated[User, Depends(access)],):
     return {"message": "Update ebook", "id": id}
 
 
 @router.get("/download/{id}", description="download an ebook")
-def download(id: str):
+def download(id: str,
+    user: Annotated[User, Depends(access)],):
 
     result = EbookService.downloadEbook(id)
     if result is None:
@@ -106,3 +114,9 @@ def download(id: str):
             "O PDF do Ebook não está disponível, por favor, tente novamente mais tarde",
         )
     return result
+
+@router.get("/private/best-sellers", description="get best sellers ebooks")
+def getBestSellers(user: Annotated[User, Depends(access2)], id=None):
+    print(user.idUsuario)
+    idAutor = id if id is not None else user.idUsuario
+    return EbookService.getBestSellers(idAutor)

@@ -1,5 +1,6 @@
 from models.ebook import (
     AuthorEbookDTO,
+    BestSellerEbookDTO,
     CatalogEbookDTO,
     Ebook,
     EbookDTO,
@@ -133,3 +134,33 @@ class EbookDAO:
             ebookModel = EbookShowupDTO(**data)
         return ebookModel
 
+    def getBestSellers(id = None):
+        ebooks = []
+        parametro = []
+        with DB() as db:
+            if(id):
+                query = """select ebook.idEBook, ebook.nome, sum(itempedido.valorUnitario) as faturamento, ebook.preco, count(itempedido.idEBook) as qtd_pedido from ebook
+                            inner join itempedido on itempedido.idEBook = ebook.idEBook
+                            where ebook.idAutor = %s
+                            group by itempedido.idEBook 
+                            order by qtd_pedido desc 
+                            limit 10"""
+                parametro = [id]
+            else:
+                query = """select ebook.idEBook, ebook.nome, sum(itempedido.valorUnitario) as faturamento, ebook.preco, count(itempedido.idEBook) as qtd_pedido from ebook
+                            inner join itempedido on itempedido.idEBook = ebook.idEBook
+                            group by itempedido.idEBook 
+                            order by qtd_pedido 
+                            limit 10"""
+            db.execute(query, parametro)
+            data = db.fetchall()
+            for ebook in data:
+                ebookModel = BestSellerEbookDTO(**ebook)
+
+                db.execute("""select genero.nome from genero
+                    right join generoebook on genero.idGenero = generoebook.idGenero
+                    right join ebook on generoebook.idEBook = ebook.idEBook where ebook.idEBook = %s""", [ebookModel.id])
+                generos = db.fetchall()
+                ebookModel.genres = [genero["nome"] for genero in generos]
+                ebooks.append(ebookModel)
+        return ebooks
