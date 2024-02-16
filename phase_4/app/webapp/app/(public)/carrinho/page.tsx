@@ -50,18 +50,10 @@ const Cart = () => {
                             <Grid container item xs={12} p={2}>
                                 {cartItems.map((item) => {
                                     return (
-                                        <Grid
-                                            mb={2}
-                                            item
-                                            xs={12}
-                                            key={item.id}
-                                            container
-                                            p={2}
-                                            sx={{ backgroundColor: "secondary.main", borderRadius: 5 }}
-                                        >
+                                        <Grid mb={2} item xs={12} key={item.id} container p={2} sx={{ backgroundColor: "secondary.main", borderRadius: 5 }}>
                                             <Grid xs={3} item>
                                                 <div style={{ width: "100%", height: 250, position: "relative", borderRadius: 5 }}>
-                                                    <Image src={item.cover} fill alt="Ebook cover" objectFit="cover" style={{ borderRadius: 5 }} />
+                                                    {item.cover ? <Image src={item.cover} fill alt="Ebook cover" objectFit="cover" style={{ borderRadius: 5 }} /> : <></>}
                                                 </div>
                                             </Grid>
                                             <Grid xs={7} item p={2} alignSelf="center">
@@ -96,9 +88,7 @@ const Cart = () => {
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <Typography color="primary">
-                                            {cartTotalAmount.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
-                                        </Typography>
+                                        <Typography color="primary">{cartTotalAmount.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}</Typography>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Divider width="90%" style={{ margin: "auto" }} />

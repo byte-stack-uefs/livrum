@@ -44,26 +44,26 @@ function ClientLibraryContainerHeader() {
 }
 
 function ClientLibraryBookContainer() {
-    const {user} = useUser();
+    const { user } = useUser();
     const [fetched, setFetched] = useState(false);
     const [books, setBooks] = useState<Ebook[]>([]);
     const requester = useRequest();
 
     const fetchClientLibrary = async () => {
-        if (!fetched){
+        if (!fetched) {
             const { data } = await requester.get<EbookResponse>("/ebook/userLibrary", {
-                params: { idUsuario: user.idUsuario},
+                params: { idUsuario: user.idUsuario },
             });
             setBooks(data);
             console.log("BOOKS: ", data);
-            if (!(books.length === 0)){
+            if (!(books.length === 0)) {
                 setFetched(true);
             }
         }
     };
-    
+
     fetchClientLibrary();
-    if (fetched){
+    if (fetched) {
         return (
             <Grid container xs={12}>
                 <List sx={{ width: "100%" }}>
@@ -75,11 +75,9 @@ function ClientLibraryBookContainer() {
                 </List>
             </Grid>
         );
-    }else{
-        return<></>
+    } else {
+        return <></>;
     }
-    
-
 }
 
 type InLibraryEbookCardProps = {
@@ -119,9 +117,7 @@ const DisplayBookInfo: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
                                 <ReportProblem />
                             </Grid>
                             <Grid xs>
-                                <Typography variant="caption">
-                                    Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
-                                </Typography>
+                                <Typography variant="caption">Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!</Typography>
                             </Grid>
                         </>
                     </Grid>
@@ -154,16 +150,7 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
     return (
         <Grid container xs={12} sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
             <Grid xs={2}>
-                <Box>
-                    <Image
-                        className="image-zoom"
-                        width={100}
-                        height={125}
-                        style={{ objectFit: "cover", borderRadius: "16px" }}
-                        alt={ebook.title}
-                        src={ebook.cover}
-                    />
-                </Box>
+                <Box>{ebook.cover ? <Image className="image-zoom" width={100} height={125} style={{ objectFit: "cover", borderRadius: "16px" }} alt={ebook.title} src={ebook.cover} /> : <></>}</Box>
             </Grid>
             <Grid xs={10}>
                 <DisplayBookInfo ebook={ebook} />

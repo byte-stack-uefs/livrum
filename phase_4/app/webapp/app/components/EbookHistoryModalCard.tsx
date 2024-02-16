@@ -32,29 +32,17 @@ const DisplayBookInfo: React.FC<EbookHistoryCardModalProps> = ({ ebook }) => {
 };
 
 const EbookHistoryCardModal: React.FC<EbookHistoryCardModalProps> = ({ ebook }) => {
-    return ( 
-        
-        <Grid container sx={{boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
+    return (
+        <Grid container sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
             <Grid item xs={2}>
-                <Box>
-                    <Image
-                        className="image-zoom"
-                        width={100}
-                        height={125}
-                        style={{ objectFit: "cover", borderRadius: "16px" }}
-                        alt={ebook.title}
-                        src={ebook.cover}
-                    />
-                </Box>
+                <Box>{ebook.cover ? <Image className="image-zoom" width={100} height={125} style={{ objectFit: "cover", borderRadius: "16px" }} alt={ebook.title} src={ebook.cover} /> : <></>}</Box>
             </Grid>
             <Grid item xs={8}>
                 <DisplayBookInfo ebook={ebook} />
             </Grid>
-            <Grid item xs = {2}>
+            <Grid item xs={2}>
                 <DynamicDownloadButton isAvailable={ebook.isAvailable}></DynamicDownloadButton>
-                    
             </Grid>
-
         </Grid>
     );
 };
@@ -63,21 +51,20 @@ type DynamicDownloadButtonProps = {
     isAvailable: boolean;
 };
 
-
-const DynamicDownloadButton: React.FC<DynamicDownloadButtonProps> = ({isAvailable}) =>{
-    if (isAvailable){
-        return(
-            <Button variant="contained" startIcon={<CloudDownload/>}>
-                Baixar
-            </Button>                        
-        );
-    }else{
+const DynamicDownloadButton: React.FC<DynamicDownloadButtonProps> = ({ isAvailable }) => {
+    if (isAvailable) {
         return (
-            <Button variant="contained" sx={{backgroundColor: "#B5BDC8"}} startIcon={<CloudDownload/>}>
+            <Button variant="contained" startIcon={<CloudDownload />}>
+                Baixar
+            </Button>
+        );
+    } else {
+        return (
+            <Button variant="contained" sx={{ backgroundColor: "#B5BDC8" }} startIcon={<CloudDownload />}>
                 Baixar
             </Button>
         );
     }
-}
+};
 
 export default EbookHistoryCardModal;

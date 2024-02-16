@@ -102,7 +102,7 @@ class EbookService:
         if not os.path.exists(folder):
             os.makedirs(folder)
 
-        file_path = os.path.join(folder, f"{id}.{ext}")
+        file_path = os.path.join(folder, f"{idEbook}.{ext}")
         with open(file_path, "wb") as dest_file:
             dest_file.write(file.file.read())
 
