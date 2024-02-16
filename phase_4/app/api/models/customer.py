@@ -13,6 +13,7 @@ class Customer:
         self.email = kwargs.get("email")
         self.telefone = kwargs.get("telefone")
         self.dataNascimento = kwargs.get("dataNascimento")
+        self.endereco = kwargs.get("endereco")
 
 
 class CreateCustomerForm(BaseModel):
