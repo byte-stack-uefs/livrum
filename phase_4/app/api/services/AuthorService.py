@@ -3,7 +3,7 @@ from models.author import AuthorQntDataForm
 
 class AuthorService:
     
-    def _convertAutorDataForm(self, item: dict) -> AuthorQntDataForm:
+    def _convertAutorQntDataForm(self, item: dict) -> AuthorQntDataForm:
         return AuthorQntDataForm(**item)
 
     def getFaturamentoAutor(self, idAutor):
@@ -26,8 +26,6 @@ class AuthorService:
                     GROUP BY e.idAutor;", [idAutor, mes]
                 )
                 data_list = db.fetchone() 
-                faturamento_mensal_autor= map(self._convertAutorDataForm, data_list)
-            return faturamento_mensal_autor
         else:
             #listagem de faturamento de todos os autores
             with DB() as db:
@@ -39,5 +37,34 @@ class AuthorService:
                     GROUP BY e.idAutor;", [mes]
                 )
                 data_list = db.fetchall() 
-                faturamento_mensal_todos= map(self._convertAutorDataForm, data_list)
-            return faturamento_mensal_todos
+        
+        faturamento_mensal_autor= map(self._convertAutorQntDataForm, data_list)
+        return faturamento_mensal_autor
+    
+    def getTotalUnidadesVendidasMes(self, mes: int, idAutor=None):
+        if idAutor is not None:
+            with DB() as db:
+                db.execute(
+                    "SELECT e.idAutor, COUNT(*) AS total_registros\
+                    FROM pedido p\
+                    JOIN itempedido ip ON p.idPedido = ip.idPedido\
+                    JOIN ebook e ON ip.idEbook = e.idEbook\
+                    WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s\
+                    GROUP BY e.idAutor;", [idAutor, mes]
+                )
+                data_list = db.fetchone() 
+        else:
+            with DB() as db:
+                db.execute(
+                    "SELECT e.idAutor, COUNT(*) AS total_registros\
+                    FROM pedido p\
+                    JOIN itempedido ip ON p.idPedido = ip.idPedido\
+                    JOIN ebook e ON ip.idEbook = e.idEbook\
+                    WHERE p.status = 'approved' AND MONTH(p.data) = %s\
+                    GROUP BY e.idAutor;", [mes]
+                )
+                data_list = db.fetchall() 
+
+        funidades_vendidas_mes = map(self._convertAutorQntDataForm, data_list)
+        return funidades_vendidas_mes
+
