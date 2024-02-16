@@ -124,7 +124,8 @@ function SimilarEbooks(ebook: Ebook) {
         <div style={{ textAlign: "center", padding: 8 }}>
             <div
                 style={{
-                    height: 250,
+                    height: 400,
+                    width: 300,
                     margin: "auto",
                     overflow: "hidden",
                     position: "relative",

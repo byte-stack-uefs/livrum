@@ -13,7 +13,8 @@ function ContainerBookCard(book: Ebook) {
         <div>
             <div
                 style={{
-                    height: 250,
+                    height: 400,
+                    width: 300,
                     margin: "auto",
                     overflow: "hidden",
                     position: "relative",
