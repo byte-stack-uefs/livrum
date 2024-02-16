@@ -11,15 +11,15 @@ router = APIRouter(prefix="/author", tags=["Authors"])
 service = AuthorService()
      
 
-@router.get('/faturamento/mensal/<int:mes>')
+@router.get('/faturamento/mensal/{mes}')
 def get_faturamento_mensal(mes, user: Annotated[User, Depends(access)]):
     return service.getFaturamentoMensalAutor(mes=mes, idAutor=user.idUsuario)
 
-@router.get('/vendas/mesal/<int:mes>')
+@router.get('/vendas/mesal/{mes}')
 def get_vendas_mes(mes, user: Annotated[User, Depends(access)]):
     return service.getTotalUnidadesVendidasMes(mes=mes, idAutor=user.idUsuario)
 
-@router.get('/obras/mesal/<int:mes>')
+@router.get('/obras/mesal/{mes}')
 def get_obras_criadas_mes(mes, user: Annotated[User, Depends(access)]):
     return service.getTotalObrasCriadasMes(mes=mes, idAutor=user.idUsuario)
 
