@@ -109,7 +109,6 @@ class EbookDAO:
             update = "UPDATE ebook SET status = %s where idEBook = %s"
             db.execute(update, [EbookStatus.ACTIVE.value, id])
 
-
     def repproveEbook(reproveEbook: ReproveEbookDTO):
         with DB() as db:
             update = (
@@ -132,4 +131,3 @@ class EbookDAO:
             data = db.fetchone()
             ebookModel = EbookShowupDTO(**data)
         return ebookModel
-
