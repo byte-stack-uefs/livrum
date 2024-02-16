@@ -15,6 +15,7 @@ export default function Home() {
     const [newer, setNewer] = useState<Ebook[] | null>(null);
     const [mostBuyed, setMostBuyed] = useState<Ebook[] | null>(null);
     const [mostViewed, setMostViewed] = useState<Ebook[] | null>(null);
+    const [genres, setGenres] = useState(null);
 
     const requester = useRequest();
 
@@ -39,33 +40,17 @@ export default function Home() {
         });
     }
 
+    if (!genres) {
+        requester.get("/genre").then((response) => {
+            const { data } = response;
+            setGenres(data);
+        });
+    }
+
     const containers: Array<{ title: string; books: Array<Ebook> | null }> = [
         { title: "Mais Vendidos", books: mostBuyed },
         { title: "Lançamentos", books: newer },
         { title: "Mais Acessados", books: mostViewed },
-    ];
-
-    const categories: Category[] = [
-        {
-            name: "Ação",
-            cover: image,
-        },
-        {
-            name: "Comédia",
-            cover: image,
-        },
-        {
-            name: "Terror",
-            cover: image,
-        },
-        {
-            name: "Aventura",
-            cover: image,
-        },
-        {
-            name: "Romance",
-            cover: image,
-        },
     ];
 
     return (
@@ -78,7 +63,7 @@ export default function Home() {
                         })}
                     </div>
                     <div>
-                        <CategoriesContainer title="Categorias" categories={categories}></CategoriesContainer>
+                        <CategoriesContainer title="Categorias" categories={genres}></CategoriesContainer>
                     </div>
                 </Container>
             </main>
