@@ -89,14 +89,14 @@ class UserService:
         data = map(self._convertDAO, data)
         return list(data)
 
-    def changeStatus(id, t: UserStatus):
-        try:
-            with DB() as db:
-                db.execute(
-                    "UPDATE usuario SET status = %s WHERE idUsuario = %s ", [t, id]
-                )
-        except:
-            return
+    # def changeStatus(id, t: UserStatus):
+    #     try:
+    #         with DB() as db:
+    #             db.execute(
+    #                 "UPDATE usuario SET status = %s WHERE idUsuario = %s ", [t, id]
+    #             )
+    #     except:
+    #         return
 
     def addUser(self, user: CreateUserForm):
         try:
