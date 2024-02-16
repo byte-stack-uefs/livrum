@@ -9,6 +9,18 @@ class CartService():
     
     def _convertDTOCartItem(self, item: dict) -> CartItemDTO:
         return CartItemDTO(**item)
+        
+    def createCart(self, idUsuario: int) -> Cart:
+        try:
+            with DB() as db:
+                db.execute("INSERT INTO carrinho (idUsuario) VALUES (%s)", [idUsuario])
+                db.execute("SELECT * FROM carrinho WHERE idUsuario = %s", [idUsuario])
+                data = db.fetchone()
+        except:
+            return None
+        
+        cart = Cart(**data)
+        return cart
 
     def getCartByClientId(
         self, idUsuario: int
@@ -22,6 +34,8 @@ class CartService():
 
         if data is not None:
             cart = Cart(**data)
+        else:
+            cart = self.createCart(idUsuario)
 
         return cart
 
@@ -35,17 +49,6 @@ class CartService():
 
         items = map(self._convertDTOCartItem, data_list)
         return list(items)
-
-    # def getCartByCartId(self, idCart: int) -> Cart:
-    #     with DB() as db:
-    #         db.execute("SELECT * FROM carrinho WHERE idCarrinho = %s", [idCart])
-    #         data = db.fetchone()
-
-    #     cart = None
-    #     if data is not None:
-    #         cart = Cart(**data)
-
-    #     return cart
 
     def deleteCart(self, idCart: int):
         with DB() as db:
@@ -90,6 +93,7 @@ class CartService():
             except:
                 return False
             return True
+
         
     def hasUnavailableEbooks(self, ebooks: List[EbookModel]) -> bool:
 
