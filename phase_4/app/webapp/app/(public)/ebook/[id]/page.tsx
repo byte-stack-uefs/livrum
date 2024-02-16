@@ -37,6 +37,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
 
     const getEbookByID = async () => {
         const { data } = await requester.get<Ebook>(`/ebook/${id}`);
+        console.log("DAta", data);
         setEbook(data);
         setFetched(true);
     };
