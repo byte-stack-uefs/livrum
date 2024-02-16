@@ -2,7 +2,6 @@
 import {
     Box,
     Button,
-    CircularProgress,
     Grid,
     Paper,
     Table,
@@ -14,7 +13,7 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { theme } from "@/app/theme";
 import createUser, { EnumUserStatus, User } from "@/app/User";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -27,10 +26,28 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { TabSelector } from "@/app/components/TabSelector";
 import { CreditCard } from "@mui/icons-material";
-import useRequest from "@/app/services/requester";
+
+// MuiTab: {
+//     styleOverrides: {
+//         root: {
+//             "&:not(.Mui-selected)": {
+//                 backgroundColor: "white",
+//                 color: "#163760",
+//                 transition: "all 0.5s",
+//                 borderRadius: "10px 10px 0 0"
+//             },
+//             "&.Mui-selected": {
+//                 backgroundColor: "#1E3345",
+//                 color: "#D9D9D9",
+//                 borderRadius: "10px 10px 0 0"
+//             },
+
+//         },
+//     },
+// },
 
 interface Column {
-    id: "name" | "status" | "acao1" | "acao2" | "acao3";
+    id: "nome" | "status" | "acao1" | "acao2" | "acao3";
     label: string;
     minWidth?: number;
     align?: "right" | "left" | "center";
@@ -38,7 +55,7 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-    { id: "name", label: "Nome", minWidth: 200, align: "left" },
+    { id: "nome", label: "Nome", minWidth: 200, align: "left" },
     {
         id: "status",
         label: "Status",
@@ -64,7 +81,60 @@ const columns: readonly Column[] = [
         align: "right",
     },
 ];
-const requester = useRequest();
+
+const admins: Array<User> = [
+    createUser("ADmin 1", "IN", EnumUserStatus.CREATED, 3287263),
+    createUser("Admin 2", "CN", EnumUserStatus.CREATED, 9596961),
+    createUser("Admin 3", "IT", EnumUserStatus.BLOCKED, 301340),
+    createUser("United States", "US", EnumUserStatus.CREATED, 9833520),
+    createUser("Canada", "CA", EnumUserStatus.CREATED, 9984670),
+    createUser("Australia", "AU", EnumUserStatus.BLOCKED, 7692024),
+    createUser("Germany", "DE", EnumUserStatus.CREATED, 357578),
+    createUser("Ireland", "IE", EnumUserStatus.CREATED, 70273),
+    createUser("Mexico", "MX", EnumUserStatus.PENDING, 1972550),
+    createUser("Japan", "JP", EnumUserStatus.CREATED, 377973),
+    createUser("France", "FR", EnumUserStatus.CREATED, 640679),
+    createUser("United Kingdom", "GB", EnumUserStatus.PENDING, 242495),
+    createUser("Russia", "RU", EnumUserStatus.CREATED, 17098246),
+    createUser("Nigeria", "NG", EnumUserStatus.PENDING, 923768),
+    createUser("Brazil", "BR", EnumUserStatus.CREATED, 8515767),
+];
+
+const authors: Array<User> = [
+    createUser("Autor 1", "IN", EnumUserStatus.CREATED, 3287263),
+    createUser("Autor 2", "CN", EnumUserStatus.CREATED, 9596961),
+    createUser("Autor 3", "IT", EnumUserStatus.BLOCKED, 301340),
+    createUser("United States", "US", EnumUserStatus.CREATED, 9833520),
+    createUser("Canada", "CA", EnumUserStatus.CREATED, 9984670),
+    createUser("Australia", "AU", EnumUserStatus.BLOCKED, 7692024),
+    createUser("Germany", "DE", EnumUserStatus.CREATED, 357578),
+    createUser("Ireland", "IE", EnumUserStatus.CREATED, 70273),
+    createUser("Mexico", "MX", EnumUserStatus.PENDING, 1972550),
+    createUser("Japan", "JP", EnumUserStatus.CREATED, 377973),
+    createUser("France", "FR", EnumUserStatus.CREATED, 640679),
+    createUser("United Kingdom", "GB", EnumUserStatus.PENDING, 242495),
+    createUser("Russia", "RU", EnumUserStatus.CREATED, 17098246),
+    createUser("Nigeria", "NG", EnumUserStatus.PENDING, 923768),
+    createUser("Brazil", "BR", EnumUserStatus.CREATED, 8515767),
+];
+
+const clients: Array<User> = [
+    createUser("cliente 1", "IN", EnumUserStatus.CREATED, 3287263),
+    createUser("cliente 2", "CN", EnumUserStatus.CREATED, 9596961),
+    createUser("cliente 3", "IT", EnumUserStatus.BLOCKED, 301340),
+    createUser("United States", "US", EnumUserStatus.CREATED, 9833520),
+    createUser("Canada", "CA", EnumUserStatus.CREATED, 9984670),
+    createUser("Australia", "AU", EnumUserStatus.BLOCKED, 7692024),
+    createUser("Germany", "DE", EnumUserStatus.CREATED, 357578),
+    createUser("Ireland", "IE", EnumUserStatus.CREATED, 70273),
+    createUser("Mexico", "MX", EnumUserStatus.PENDING, 1972550),
+    createUser("Japan", "JP", EnumUserStatus.CREATED, 377973),
+    createUser("France", "FR", EnumUserStatus.CREATED, 640679),
+    createUser("United Kingdom", "GB", EnumUserStatus.PENDING, 242495),
+    createUser("Russia", "RU", EnumUserStatus.CREATED, 17098246),
+    createUser("Nigeria", "NG", EnumUserStatus.PENDING, 923768),
+    createUser("Brazil", "BR", EnumUserStatus.CREATED, 8515767),
+];
 
 //caixa de dialogo
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -82,44 +152,15 @@ const UserManagment = () => {
     const [tableItems, setItems] = useState(admins);
     const [tab, setTab] = useState(0);
 
-    const getAllAdmins = () => {
-        return requester.get("/user/admins").then((response) => {
-            setAdmins(response.data);
-            setItems(response.data);
-        });
-    };
 
-    const getAllAuthors = () => {
-        return requester.get("/user/authors").then((response) => {
-            setAuthors(response.data);
-            setItems(response.data);
-        });
-    };
-
-    const getAllClients = () => {
-        return requester.get("/user/customers").then((response) => {
-            setClients(response.data);
-            setItems(response.data);
-        });
-    };
-
-    const getAllUsers = async () => {
-        await getAllClients();
-        await getAllAuthors();
-        await getAllAdmins();
-    };
-
-    if (!admins || !authors || !clients) {
-        getAllUsers();
-    }
-
-    const handleClickOpen = (user: any) => {
+    const handleClickOpen = () => {
         setOpenDialog(true);
-        setOpenUser(user);
     };
     const handleClose = () => {
         setOpenDialog(false);
     };
+
+    const [tableItems, setItems] = useState(admins);
 
     const handleChange = (event: any, newValue: number) => {
         setTab(newValue);
@@ -197,12 +238,25 @@ const UserManagment = () => {
         if (user.super) {
             return <></>;
         }
-        //setOpenUser(user);
         if (action == 3) {
-            return <ArrowForwardIosIcon color="action" style={{ cursor: "pointer" }} onClick={() => handleClickOpen(user)} />;
+            return <ArrowForwardIosIcon color="action" style={{ cursor: "pointer" }} onClick={handleClickOpen} />;
         }
         switch (user.status) {
             case EnumUserStatus.PENDING:
+                /*return <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6} md={8}>
+                            <Button variant="contained" color="success">
+                                Aprovar
+                            </Button>
+                        </Grid>
+                        <Grid item xs={6} md={4}>
+                            <Button variant="contained" color="error">
+                                Recusar
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Box>*/
                 return action == 1 ? (
                     <Button
                         variant="contained"
@@ -258,19 +312,22 @@ const UserManagment = () => {
                 );
             default:
                 return <></>;
+            /*<Button variant="contained" color="success">
+                    Desbloquear
+                </Button>;*/
         }
     }
 
     const tabOptions = [
         {
-            title: "Admin",
+            title: 'Admin',
         },
         {
-            title: "Autores",
+            title: 'Autores'
         },
         {
-            title: "Clientes",
-        },
+            title: 'Clientes'
+        }
     ];
 
     return (
@@ -278,7 +335,7 @@ const UserManagment = () => {
             <React.Fragment>
                 <BootstrapDialog maxWidth="sm" fullWidth={true} onClose={handleClose} aria-labelledby="customized-dialog-title" open={openDialog}>
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title" style={{ fontSize: 20, textAlign: "left" }}>
-                        Informações Detalhadas
+                        Almir neto
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
@@ -296,42 +353,25 @@ const UserManagment = () => {
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="body2" color="dark.main">
-                                    <strong>Nome:</strong> {openUser.name}
+                                    <strong>Autor:</strong> {"Almir Neto"}
                                 </Typography>
                                 <Typography variant="body2" color="dark.main">
-                                    <strong>Email:</strong> {openUser.email}
+                                    <strong>Email:</strong> {"email"}
                                 </Typography>
-                                {openUser.type == "CLIENTE" || openUser.type == "AUTOR" ? (
-                                    <Typography variant="body2" color="dark.main">
-                                        <strong>Data de Nascimento:</strong> {"dataNascimento"}
-                                    </Typography>
-                                ) : (
-                                    <></>
-                                )}
+                                <Typography variant="body2" color="dark.main">
+                                    <strong>Data de Nascimento:</strong> {"dataNascimento"}
+                                </Typography>
                             </Grid>
                             <Grid item xs={6}>
-                                {openUser.type == "CLIENTE" ? (
-                                    <Typography variant="body2" color="dark.main">
-                                        <strong>Telefone:</strong> {openUser.phone}
-                                    </Typography>
-                                ) : (
-                                    <></>
-                                )}
-                                {openUser.type == "CLIENTE" || openUser.type == "AUTOR" ? (
-                                    <Typography variant="body2" color="dark.main">
-                                        <strong>CPF:</strong> {openUser.cpf}
-                                    </Typography>
-                                ) : (
-                                    <></>
-                                )}
-
-                                {openUser.type == "CLIENTE" || openUser.type == "AUTOR" ? (
-                                    <Typography variant="body2" color="dark.main">
-                                        <strong>Endereço:</strong> {openUser.address}
-                                    </Typography>
-                                ) : (
-                                    <></>
-                                )}
+                                <Typography variant="body2" color="dark.main">
+                                    <strong>Telefone:</strong> {"telefone"}
+                                </Typography>
+                                <Typography variant="body2" color="dark.main">
+                                    <strong>CPF:</strong> {"cpf"}
+                                </Typography>
+                                <Typography variant="body2" color="dark.main">
+                                    <strong>Endereço:</strong> {"endereco"}
+                                </Typography>
                             </Grid>
                         </Grid>
                     </DialogContent>
@@ -356,13 +396,9 @@ const UserManagment = () => {
                 Usuários
             </Typography>
             <Box>
-                <TabSelector
-                    items={tabOptions}
-                    def={0}
-                    onChange={(e) => {
-                        handleChange(null, e);
-                    }}
-                />
+                <TabSelector items={tabOptions} def={0} onChange={(e) => {
+                    handleChange(null, e);
+                }} />
                 <Paper sx={{ width: "100%", overflow: "hidden" }}>
                     <TableContainer sx={{ maxHeight: "100%" }}>
                         <Table stickyHeader size="small" aria-label="sticky table">
@@ -376,41 +412,32 @@ const UserManagment = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tableItems ? (
-                                    tableItems.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tableItem) => {
-                                        return (
-                                            <TableRow hover role="checkbox" tabIndex={-1} key={tableItem.id}>
-                                                {columns.map((column) => {
-                                                    return (
-                                                        <TableCell key={column.id} align={column.align}>
-                                                            {column.id === "acao1"
-                                                                ? getButtonAction(tableItem, 1)
-                                                                : column.id === "acao2"
+                                {tableItems.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((tableItem) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={tableItem.id}>
+                                            {columns.map((column) => {
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.id === "acao1"
+                                                            ? getButtonAction(tableItem, 1)
+                                                            : column.id === "acao2"
                                                                 ? getButtonAction(tableItem, 2)
                                                                 : column.id === "acao3"
-                                                                ? getButtonAction(tableItem, 3)
-                                                                : tableItem[column.id]}
-                                                        </TableCell>
-                                                    );
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })
-                                ) : (
-                                    <TableRow style={{ textAlign: "center" }}>
-                                        <TableCell colSpan={5} sx={{ textAlign: "center" }}>
-                                            <CircularProgress />
-                                            <div>Por favor, aguarde</div>
-                                        </TableCell>
-                                    </TableRow>
-                                )}
+                                                                    ? getButtonAction(tableItem, 3)
+                                                                    : tableItem[column.id]}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
                             </TableBody>
                         </Table>
                     </TableContainer>
                     <TablePagination
                         rowsPerPageOptions={[10, 25, 100]}
                         component="div"
-                        count={tableItems ? tableItems.length : 0}
+                        count={admins.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}

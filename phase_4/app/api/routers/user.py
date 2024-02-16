@@ -12,13 +12,13 @@ router = APIRouter(prefix="/user", tags=["Users"])
 @router.get("/admins")
 def getAdmins(user: Annotated[User, Depends(access)]):
     service = UserService()
-    return service.getAllAdmins()
+    return service.getUsersByType(UserType.ADMIN)
 
 
 @router.get("/authors")
 def getAuthors(user: Annotated[User, Depends(access)]):
     service = UserService()
-    return service.getAllAuthors()
+    return service.getUsersByType(UserType.AUTHOR)
 
 
 @router.get("/customers")
