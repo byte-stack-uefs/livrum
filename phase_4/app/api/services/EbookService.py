@@ -2,7 +2,7 @@ from pathlib import Path
 from fastapi.responses import FileResponse
 from dao.ebookDAO import EbookDAO
 from database.database import DB
-from models.ebook import AuthorEbookDTO, Ebook, EbookModel, EbookDTO, ReproveEbookDTO
+from models.ebook import AuthorEbookDTO, Ebook, EbookModel, EbookDTO, EbookShowupDTO, ReproveEbookDTO
 
 
 class EbookService:
@@ -10,7 +10,6 @@ class EbookService:
         return EbookModel(**item)
 
     def addEbook(self, novoEbook: EbookDTO, idAutor) -> Ebook:
-
         with DB() as db:
             try:
                 db.execute(
@@ -49,7 +48,6 @@ class EbookService:
             )
         except Exception as ex:
             print("Erro ao buscar Ebooks", ex)
-
         return ebooks
 
     def findAll() -> [AuthorEbookDTO]:
@@ -91,36 +89,27 @@ class EbookService:
         return None
 
     def getMoreViewedEbooks(self):
-
         with DB() as db:
-
             db.execute(
                 "SELECT * FROM ebook WHERE status = 'active' ORDER BY visto DESC LIMIT 10"
             )
             data = db.fetchall()
-
         if data is not None:
             return list([EbookModel(**x) for x in data])
-
         return []
 
     def getNewerEbooks(self):
         with DB() as db:
-
             db.execute(
                 "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) AND status = 'active' LIMIT 10"
             )
             data = db.fetchall()
-
         if data is not None:
             return list([EbookModel(**x) for x in data])
-
         return []
 
     def getMostBuyed(self):
-
         with DB() as db:
-
             db.execute(
                 "SELECT \
                     e.*, \
@@ -140,20 +129,15 @@ class EbookService:
                     c DESC \
                 LIMIT 10"
             )
-
             data = db.fetchall()
-
         if data is not None:
             return list([EbookModel(**x) for x in data])
         return []
 
     def getSimilarEbooks(self, idEbook):
-
         with DB() as db:
-
             db.execute("SELECT idAutor FROM ebook WHERE idEBook = %s", [idEbook])
             idAutor = db.fetchone()["idAutor"]
-
             db.execute(
                 "SELECT \
                     * \
@@ -165,9 +149,21 @@ class EbookService:
                     AND e.idAutor = %s",
                 [idEbook, idAutor],
             )
-
             data = db.fetchall()
             if data is not None:
                 return list([EbookModel(**x) for x in data])
-
         return []
+    
+    def getUserLibrary(idCliente):
+        ebooks = []
+        with DB() as db:
+            query = "SELECT * FROM biblioteca WHERE idCliente = %s"
+            db.execute(query, [idCliente])
+            book_ids = db.fetchall()
+            for bookID in book_ids:
+                query = "SELECT * FROM ebook WHERE idEBook = %s"
+                db.execute(query, [bookID['idEBook']])
+                book = db.fetchone()
+                ebooks.append(EbookShowupDTO(**book))                
+        return ebooks
+
