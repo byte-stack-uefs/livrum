@@ -33,7 +33,7 @@ import {
     TextField,
     useMediaQuery,
 } from "@mui/material";
-import axios from "axios";
+import useRequest from "@/app/services/requester";
 
 const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -83,6 +83,10 @@ export default function ListagemEbooks() {
     const [openDialog, setOpenDialog] = useState(false);
     const [openRefuseDialog, setRefuseOpenDialog] = useState(false);
     const [openEbook, setOpenEbook] = useState({} as AuthorEbook);
+    const [ebooks, setEbooks] = useState([] as Array<AuthorEbook>);
+    const [ebooksWithoutSearch, setEbooksWithoutSearch] = useState([] as Array<AuthorEbook>);
+    const [searchEbook, setSearchEbook] = useState("");
+    const [downloadError, setDownloadError] = useState(false);
 
     const handleClickOpen = (ebook: AuthorEbook) => {
         setOpenEbook(ebook);
@@ -103,23 +107,78 @@ export default function ListagemEbooks() {
         setOpenDialog(false);
     };
 
-    // Acho que nao precisa mais dessa funcao
-    const handleRefuse = () => {};
+    const handleApproveEbook = () => {
+        requester
+            .put("/ebook/approve/" + openEbook.id)
+            .then((response) => {
+                setOpenDialog(false);
+                getEbooks();
+            })
+            .catch((err) => {});
+    };
+
+    const handleRepproveEbook = () => {
+        let reasonRefusal = document?.getElementById("refusalReason")?.value;
+        if (!reasonRefusal) {
+            alert("Motivo de recusa não fornecido.");
+            return;
+        }
+        requester
+            .put("/ebook/repprove", { id: openEbook.id, reason: reasonRefusal })
+            .then((response) => {
+                setRefuseOpenDialog(false);
+                getEbooks();
+            })
+            .catch((err) => {});
+    };
+
+    const handleDisableEbook = () => {
+        requester
+            .put("/ebook/disable/" + openEbook.id)
+            .then((response) => {
+                setOpenDialog(false);
+                getEbooks();
+            })
+            .catch((err) => {});
+    };
+
+    function downloadEbook(id: number) {
+        setDownloadError(false);
+        requester
+            .get("/ebook/download/" + id, { responseType: "blob" })
+            .then((response) => {
+                window.open(URL.createObjectURL(response.data));
+            })
+            .catch((err) => {
+                setDownloadError(true);
+            });
+    }
+
+    function searchEbooks(name: string) {
+        setSearchEbook(name);
+        let ebooksFiltered = ebooksWithoutSearch.filter((ebook) => ebook.nome.toLowerCase().includes(name.toLowerCase()));
+        setEbooks(ebooksFiltered);
+    }
+
+    const requester = useRequest();
 
     useEffect(() => {
-        var config = {
-            method: "get",
-            url: "localhost:8010/ebook/list",
-            headers: {},
-        };
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        getEbooks();
     }, []);
+
+    const getEbooks = () => {
+        requester
+            .get("/ebook")
+            .then((response) => {
+                setEbooks((prev) => {
+                    return response.data;
+                });
+                setEbooksWithoutSearch((prev) => {
+                    return response.data;
+                });
+            })
+            .catch((err) => {});
+    };
 
     interface Column {
         id: "link_foto" | "nome" | "data" | "status" | "acao" | "download";
@@ -170,236 +229,6 @@ export default function ListagemEbooks() {
         },
     }));
 
-    const link_image: string = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlhg46xOr5GuE9K0S-8AZqXVatyw4c0jKLCA&usqp=CAU;";
-
-    const ebooks: Array<AuthorEbook> = [
-        createAuthorEbook(
-            1,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            2,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            3,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.BLOCKED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            "Se diz ser um livro de auto ajuda, entretanto leva muito ao pé da letra, pois não ajuda em nada, completamente inutil."
-        ),
-        createAuthorEbook(
-            4,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            5,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            6,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.BLOCKED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            "Se diz ser um livro de auto ajuda, entretanto leva muito ao pé da letra, pois não ajuda em nada, completamente inutil."
-        ),
-        createAuthorEbook(
-            7,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            8,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            9,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.PENDING,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            10,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            11,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            12,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.PENDING,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            13,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            14,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.PENDING,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-        createAuthorEbook(
-            15,
-            "A Sutil Arte de Ligar o F*da-se",
-            "20/02/2012",
-            link_image,
-            EnumAuthorEbookStatus.APPROVED,
-            320,
-            "Mark Manson",
-            "Livro de autoajuda",
-            35.34,
-            EnumIdioma.PORTUGUES,
-            2016,
-            "Chega de tentar buscar um sucesso que só existe na sua cabeça. Chega de se torturar para pensar positivo enquanto sua vida vai ladeira abaixo. Chega de se sentir inferior por não ver o lado bom de estar no fundo do poço.",
-            ""
-        ),
-    ];
-
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -435,7 +264,9 @@ export default function ListagemEbooks() {
         switch (ebook.status) {
             case EnumAuthorEbookStatus.PENDING:
                 return <Chip label="Pendente" />;
-            case EnumAuthorEbookStatus.APPROVED:
+            case EnumAuthorEbookStatus.INACTIVE:
+                return <Chip label="Inativo" />;
+            case EnumAuthorEbookStatus.ACTIVE:
                 return <Chip label="Aprovado" color="success" size="medium" />;
             default:
                 return <Chip label="Negado" color="error" />;
@@ -464,7 +295,7 @@ export default function ListagemEbooks() {
                     </IconButton>
                     <DialogContent sx={{ color: "dark.main", justifyContent: "center" }}>
                         <Box textAlign="center">
-                            <TextField label="Motivo da Recusa" multiline style={{ width: "400px" }} rows={6} />
+                            <TextField label="Motivo da Recusa" id="refusalReason" multiline style={{ width: "400px" }} rows={6} />
                         </Box>
                     </DialogContent>
                     <DialogContent sx={{ color: "dark.main" }}>
@@ -474,10 +305,10 @@ export default function ListagemEbooks() {
                     </DialogContent>
                     <DialogContent>
                         <DialogActions style={{ justifyContent: "center" }}>
-                            <Button variant="contained" color="error" autoFocus>
+                            <Button variant="contained" color="error" autoFocus onClick={handleRefuseClose}>
                                 Cancelar
                             </Button>
-                            <Button variant="contained" color="success" autoFocus>
+                            <Button variant="contained" color="success" autoFocus onClick={handleRepproveEbook}>
                                 Salvar
                             </Button>
                         </DialogActions>
@@ -516,7 +347,7 @@ export default function ListagemEbooks() {
                                     <strong>Quantidade de Páginas:</strong> {openEbook.qtd_pag}
                                 </Typography>
                                 <Typography variant="body2">
-                                    <strong>Gêneros:</strong> {openEbook.genero}
+                                    <strong>Gêneros:</strong> {openEbook.genero?.join(", ")}
                                 </Typography>
                                 <Typography variant="body2">
                                     <strong>Preço:</strong> {openEbook?.preco?.toLocaleString("pt-br", { style: "currency", currency: "BRL" })}
@@ -541,7 +372,7 @@ export default function ListagemEbooks() {
                             <strong style={{ color: theme.palette.dark.main }}>Status: </strong> {getButtonStatus(openEbook)}
                         </Typography>
                     </DialogContent>
-                    {openEbook.status === EnumAuthorEbookStatus.BLOCKED && (
+                    {openEbook.status === EnumAuthorEbookStatus.REJECTED && (
                         <DialogContent sx={{ color: "dark.main", backgroundColor: "secondary.main", mx: 2, borderRadius: 3 }}>
                             <Typography variant="body2">
                                 <strong>{openEbook.motivo_recusa} </strong>
@@ -549,16 +380,23 @@ export default function ListagemEbooks() {
                         </DialogContent>
                     )}
                     <DialogActions style={{ justifyContent: "center" }}>
-                        {openEbook.status === EnumAuthorEbookStatus.APPROVED ? (
+                        {openEbook.status === EnumAuthorEbookStatus.ACTIVE ? (
                             <DialogActions>
-                                <Button variant="contained" color="error" autoFocus onClick={handleClose}>
+                                <Button variant="contained" color="error" autoFocus onClick={handleDisableEbook}>
                                     Inativar EBook
+                                </Button>
+                            </DialogActions>
+                        ) : null}
+                        {openEbook.status === EnumAuthorEbookStatus.INACTIVE ? (
+                            <DialogActions>
+                                <Button variant="contained" color="success" autoFocus onClick={handleApproveEbook}>
+                                    Ativar EBook
                                 </Button>
                             </DialogActions>
                         ) : null}
                         {openEbook.status == EnumAuthorEbookStatus.PENDING ? (
                             <DialogActions>
-                                <Button variant="contained" color="success" autoFocus onClick={handleClose}>
+                                <Button variant="contained" color="success" autoFocus onClick={handleApproveEbook}>
                                     Aprovar
                                 </Button>
                                 <Button variant="contained" color="error" autoFocus onClick={handleRefuseClickOpen}>
@@ -589,7 +427,14 @@ export default function ListagemEbooks() {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase placeholder="Buscar por nome" inputProps={{ "aria-label": "search" }} />
+                        <StyledInputBase
+                            placeholder="Buscar por nome"
+                            inputProps={{ "aria-label": "search" }}
+                            value={searchEbook}
+                            onChange={(e) => {
+                                searchEbooks(e.target.value);
+                            }}
+                        />
                     </Search>
                 </Box>
                 <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "10px" }}>
@@ -618,7 +463,9 @@ export default function ListagemEbooks() {
                                                         ) : column.id === "status" ? (
                                                             getButtonStatus(tableItem)
                                                         ) : column.id == "download" ? (
-                                                            <DownloadIcon />
+                                                            <IconButton onClick={() => downloadEbook(tableItem.id)}>
+                                                                <DownloadIcon />
+                                                            </IconButton>
                                                         ) : (
                                                             tableItem[column.id]
                                                         )}

@@ -95,6 +95,9 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()], response: Respo
     if not verify_password(form.password, user.senha):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
 
+    if user.status != UserStatus.ACTIVE:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Usuário bloqueado")
+
     del user.senha
     access_token = create_access_token({"id": user.idUsuario, "type": user.tipo}, 60)
     response.set_cookie("token", access_token)

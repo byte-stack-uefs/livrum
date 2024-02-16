@@ -7,19 +7,7 @@ import { TabSelector } from "@/app/components/TabSelector";
 import { PixContainer } from "@/app/components/PixContainer";
 import { CheckCircle, CreditCard, Pix } from "@mui/icons-material";
 import { PaymentCreditCardContainer } from "@/app/components/PaymentCreditCardContainer";
-import {
-    Box,
-    Button,
-    Container,
-    Dialog,
-    DialogContent,
-    Grid,
-    TextField,
-    Typography,
-    CircularProgress,
-    Skeleton,
-    Alert,
-} from "@mui/material";
+import { Box, Button, Container, Dialog, DialogContent, Grid, TextField, Typography, CircularProgress, Skeleton, Alert } from "@mui/material";
 import { useUser } from "@/app/context";
 import Ebook from "@/app/interfaces/Ebook";
 import useRequest from "@/app/services/requester";
@@ -135,23 +123,18 @@ export default function Page() {
                 maxWidth="sm"
                 open={showSuccessModal}
                 onClose={(ev, reason) => {
-                    setShowSuccessModal(false);
+                    if (reason != "backdropClick") {
+                        setShowSuccessModal(false);
+                    }
                 }}
             >
                 <DialogContent>
                     <Grid container>
                         <Grid xs={12} item textAlign="center">
-                            <CheckCircle
-                                sx={{ fontSize: 80 }}
-                                color="success"
-                            />
+                            <CheckCircle sx={{ fontSize: 80 }} color="success" />
                         </Grid>
                         <Grid xs={12} item mb={2}>
-                            <Typography
-                                textAlign="center"
-                                color="dark.main"
-                                variant="h4"
-                            >
+                            <Typography textAlign="center" color="dark.main" variant="h4">
                                 Pagamento confirmado
                             </Typography>
                         </Grid>
@@ -184,11 +167,7 @@ export default function Page() {
                 <Divider width="100%" height={2} style={{ margin: "16px 0" }} />
                 <Grid xs={4} item container>
                     <Grid item xs={6}>
-                        <Typography
-                            variant="body1"
-                            color="dark.main"
-                            fontWeight="bold"
-                        >
+                        <Typography variant="body1" color="dark.main" fontWeight="bold">
                             Subtotal:
                         </Typography>
                     </Grid>
@@ -205,11 +184,7 @@ export default function Page() {
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography
-                            variant="body1"
-                            color="dark.main"
-                            fontWeight="bold"
-                        >
+                        <Typography variant="body1" color="dark.main" fontWeight="bold">
                             Desconto:
                         </Typography>
                     </Grid>
@@ -226,11 +201,7 @@ export default function Page() {
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography
-                            variant="body1"
-                            color="dark.main"
-                            fontWeight="bold"
-                        >
+                        <Typography variant="body1" color="dark.main" fontWeight="bold">
                             Total:
                         </Typography>
                     </Grid>
@@ -247,13 +218,7 @@ export default function Page() {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid
-                    container
-                    item
-                    xs={8}
-                    textAlign="right"
-                    justifyContent="end"
-                >
+                <Grid container item xs={8} textAlign="right" justifyContent="end">
                     <Grid item xs={6}>
                         <TextField
                             value={coupon}
@@ -278,27 +243,14 @@ export default function Page() {
                                 checkCoupon();
                             }}
                         >
-                            {loading ? (
-                                <CircularProgress size="1.5rem" />
-                            ) : (
-                                "Aplicar"
-                            )}
+                            {loading ? <CircularProgress size="1.5rem" /> : "Aplicar"}
                         </Button>
                     </Grid>
                     {couponObject != null ? (
                         <Grid item xs={9} mt={1}>
-                            <Alert
-                                variant="filled"
-                                severity="success"
-                                sx={{ textAlign: "left" }}
-                            >
-                                <Typography variant="body1">
-                                    Cupom aplicado: {couponObject.name}
-                                </Typography>
-                                <Typography variant="caption">
-                                    O cupom só é aplicado nos ebooks cujo autor
-                                    disponibilizou o cupom
-                                </Typography>
+                            <Alert variant="filled" severity="success" sx={{ textAlign: "left" }}>
+                                <Typography variant="body1">Cupom aplicado: {couponObject.name}</Typography>
+                                <Typography variant="caption">O cupom só é aplicado nos ebooks cujo autor disponibilizou o cupom</Typography>
                             </Alert>
                         </Grid>
                     ) : (
@@ -324,11 +276,7 @@ export default function Page() {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <Box
-                            sx={{ border: "1px solid #e5e5e5" }}
-                            p={2}
-                            borderRadius={2}
-                        >
+                        <Box sx={{ border: "1px solid #e5e5e5" }} p={2} borderRadius={2}>
                             <Box sx={{ display: tab == 0 ? "block" : "none" }}>
                                 <PaymentCreditCardContainer
                                     onConfirm={() => {
@@ -340,10 +288,7 @@ export default function Page() {
                             </Box>
 
                             <Box sx={{ display: tab == 1 ? "block" : "none" }}>
-                                <PixContainer
-                                    total={total ?? 0}
-                                    userId={user.idUsuario}
-                                />
+                                <PixContainer total={total ?? 0} userId={user.idUsuario} />
                             </Box>
                         </Box>
                     </Grid>

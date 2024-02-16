@@ -1,28 +1,21 @@
 "use client";
-import React, { useState } from "react";
-import {
-    Tab,
-    Tabs,
-    Button,
-    styled,
-    Dialog,
-    Checkbox,
-    TextField,
-    Typography,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    FormControlLabel,
-} from "@mui/material";
+import React, { use, useEffect, useState } from "react";
+import { Tab, Tabs, Button, styled, Dialog, Checkbox, TextField, Typography, DialogTitle, DialogContent, DialogActions, FormControlLabel, Alert } from "@mui/material";
 
 import { theme } from "@/app/theme";
 
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2";
-
+import { useRouter } from "next/navigation";
 import { accountInput, agencyInput, cellphoneInput, cpfInput, operationInput } from "@/app/components/CustomInputs";
-
+import { UserForm, UserLevel } from "@/app/interfaces/User";
+import { CustomerForm } from "@/app/interfaces/Customer";
+import { AuthorForm } from "@/app/interfaces/Author";
+import { EnumUserStatus } from "@/app/User";
+import useRequest from "@/app/services/requester";
 const ClientRegister = () => {
+    const [userStatus, setUserStatus] = useState(EnumUserStatus.CREATED);
+    const [userType, setUserType] = useState(UserLevel.CUSTOMER);
     const [cpf, setCpf] = useState("");
     const [name, setName] = useState("");
     const [value, setValue] = useState(0);
@@ -37,7 +30,14 @@ const ClientRegister = () => {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [operationNumber, setOperationNumber] = useState("");
-
+    const requester = useRequest();
+    const [creationError, setCreationError] = useState("");
+    const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [hasCreationSucess, setHasCreationSucess] = useState(false);
+    const [creationSucess, setCreationSucess] = useState("");
+    const [user, setUser] = useState<UserForm>();
+    const router = useRouter();
+    const [customerOrAuthor, setCustomerOrAuthor] = useState<AuthorForm | CustomerForm>();
     const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         "& .MuiDialogContent-root": {
             padding: theme.spacing(2),
@@ -46,21 +46,23 @@ const ClientRegister = () => {
             padding: theme.spacing(1),
         },
     }));
+    useEffect(() => {
+        handleTabClick(UserLevel.CUSTOMER);
+    }, []);
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-        // Verificar correspondência de senhas quando a senha é alterada
         setPasswordsMatch(e.target.value === passwordConfirm);
     };
 
     const handlePasswordConfirmChange = (e) => {
         setPasswordConfirm(e.target.value);
+
         setPasswordsMatch(e.target.value === password);
     };
     const handleOpen = () => {
         setOpenModal(true);
     };
-
 
     const handleClose = () => {
         setOpenModal(false);
@@ -78,24 +80,131 @@ const ClientRegister = () => {
         setValue(newValue);
     };
 
+    const handleTabClick = (type: UserLevel) => {
+        setUserType(type);
+
+        if (type == UserLevel.CUSTOMER) {
+            setUserStatus(EnumUserStatus.CREATED);
+        } else {
+            setUserStatus(EnumUserStatus.PENDING);
+        }
+    };
+
     const handleSubmitClient = (event) => {
         event.preventDefault();
+        setHasCreationFailed(false);
+        setCreationError("");
+        setHasCreationSucess(false);
+        setCreationSucess("");
+        const validationError = validateFields();
+        if (validationError) {
+            setHasCreationFailed(true);
+            setCreationError(validationError);
+            return;
+        }
+
+        try {
+            const cpfValue = cpf.replace(/\D/g, "");
+
+            const userData = {
+                nome: name,
+                email: email,
+                senha: password,
+                tipo: userType,
+                status: userType === UserLevel.CUSTOMER ? EnumUserStatus.CREATED : EnumUserStatus.PENDING,
+            };
+
+            const customerOrAuthorData =
+                userType === UserLevel.AUTHOR
+                    ? {
+                          cpf: cpfValue,
+                          dataNascimento: birthday,
+                          endereco: address,
+                          numeroAgencia: agencyNumber,
+                          numeroConta: accountNumber,
+                          numeroOperacao: operationNumber,
+                      }
+                    : {
+                          cpf: cpfValue,
+                          dataNascimento: birthday,
+                          endereco: address,
+                          telefone: telephone,
+                      };
+
+            requester
+                .post("/account/create", userType === UserLevel.AUTHOR ? { userForm: userData, authorForm: customerOrAuthorData } : { userForm: userData, customerForm: customerOrAuthorData })
+                .then((response) => {
+                    setAccountNumber("");
+                    setAddress("");
+                    setCpf("");
+                    setName("");
+                    setEmail("");
+                    setBirthday("");
+                    setPassword("");
+                    setTelephone("");
+                    setAgencyNumber("");
+                    setPasswordConfirm("");
+                    setOperationNumber("");
+                    setHasCreationSucess(true);
+                    setCreationSucess("Usuário cadastrado com sucesso");
+                    router.push("/login");
+                })
+                .catch((err) => {
+                    if (err.response && err.response.data && err.response.data.detail) {
+                        setHasCreationFailed(true);
+                        setCreationError(err.response.data.detail);
+                    } else {
+                        setHasCreationFailed(true);
+                        setCreationError("Erro desconhecido ao criar conta.");
+                    }
+                });
+        } catch (err) {
+            setHasCreationFailed(true);
+            setCreationError(err.message || "Erro ao processar os dados.");
+        }
+    };
+
+    const validateFields = () => {
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isCpfValid = cpf.replace(/\D/g, "").length === 11;
+        const isAgencyNumberValid = agencyNumber.replace(/\D/g, "").length >= 4;
+        const isAccountNumberValid = accountNumber.replace(/\D/g, "").length >= 6;
+        const isOperationNumberValid = operationNumber.replace(/\D/g, "").length === 3;
+        const isTelephoneValid = telephone.replace(/\D/g, "").length === 11;
+        const isDateOfBirthValid = /\d{4}-\d{2}-\d{2}/.test(birthday);
+
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+        if (!isCpfValid) {
+            return "Por favor, preencha o CPF corretamente.";
+        }
+        if (!isAgencyNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número da agência corretamente.";
+        }
+        if (!isAccountNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número da conta corretamente.";
+        }
+        if (!isOperationNumberValid && userType == UserLevel.AUTHOR) {
+            return "Por favor, preencha o número de operação corretamente.";
+        }
+        if (!isTelephoneValid) {
+            return "Por favor, preencha o telefone corretamente.";
+        }
+        if (!isDateOfBirthValid) {
+            return "Por favor, preencha a data de nascimento corretamente.";
+        }
+
+        return null;
     };
 
     return (
         <>
             <Grid container>
                 <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
-                    <Tabs
-                        value={value}
-                        variant="fullWidth"
-                        scrollButtons={false}
-                        onChange={handleChange}
-                        centered
-                        TabIndicatorProps={{ style: { display: "none" } }}
-                    >
-                        <Tab label="Cliente" />
-                        <Tab label="Autor" />
+                    <Tabs value={value} variant="fullWidth" scrollButtons={false} onChange={handleChange} centered TabIndicatorProps={{ style: { display: "none" } }}>
+                        <Tab label="Cliente" onClick={() => handleTabClick(UserLevel.CUSTOMER)} />
+                        <Tab label="Autor" onClick={() => handleTabClick(UserLevel.AUTHOR)} />
                     </Tabs>
                     <form onSubmit={handleSubmitClient}>
                         <Grid
@@ -114,15 +223,7 @@ const ClientRegister = () => {
                                 <label style={{ color: theme.palette.dark.main }}>Dados obrigatórios *</label>
                             </Grid>
                             <Grid xs={7}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    value={name}
-                                    size="small"
-                                    variant="outlined"
-                                    label="Nome Completo"
-                                    onChange={(e) => setName(e.target.value)}
-                                />
+                                <TextField required fullWidth value={name} size="small" variant="outlined" label="Nome Completo" onChange={(e) => setName(e.target.value)} />
                             </Grid>
                             <Grid xs={5}>
                                 <TextField
@@ -169,28 +270,10 @@ const ClientRegister = () => {
                             </Grid>
 
                             <Grid xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    type="email"
-                                    size="small"
-                                    value={email}
-                                    label="E-mail"
-                                    variant="outlined"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
+                                <TextField required fullWidth type="email" size="small" value={email} label="E-mail" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
                             </Grid>
                             <Grid xs={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    size="small"
-                                    label="Senha"
-                                    type="password"
-                                    value={password}
-                                    variant="outlined"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <TextField required fullWidth size="small" label="Senha" type="password" value={password} variant="outlined" onChange={(e) => setPassword(e.target.value)} />
                             </Grid>
                             <Grid xs={6}>
                                 <TextField
@@ -208,16 +291,7 @@ const ClientRegister = () => {
                             </Grid>
 
                             <Grid xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    type="text"
-                                    size="small"
-                                    value={address}
-                                    label="Endereço"
-                                    variant="outlined"
-                                    onChange={(e) => setAddress(e.target.value)}
-                                />
+                                <TextField required fullWidth type="text" size="small" value={address} label="Endereço" variant="outlined" onChange={(e) => setAddress(e.target.value)} />
                             </Grid>
                             {value === 1 && (
                                 <>
@@ -295,6 +369,20 @@ const ClientRegister = () => {
                                     }
                                 />
                             </Grid>
+                            {hasCreationFailed && (
+                                <Grid xs={12}>
+                                    <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+                                        {creationError}
+                                    </Alert>
+                                </Grid>
+                            )}
+                            {hasCreationSucess && (
+                                <Grid xs={12}>
+                                    <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                                        {creationSucess}
+                                    </Alert>
+                                </Grid>
+                            )}
                             <Grid xs={12} lg={4}>
                                 <Button
                                     type="submit"
@@ -311,23 +399,15 @@ const ClientRegister = () => {
                         </Grid>
                     </form>
 
-                    <BootstrapDialog
-                        open={openModal}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
+                    <BootstrapDialog open={openModal} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                         <StyledDialogTitle id="customized-dialog-title">
                             <strong>Políticas de Privacidade</strong>
                         </StyledDialogTitle>
                         <DialogContent dividers>
                             <Typography gutterBottom>
-                                Agradecemos por utilizar nossos serviços. Esta Política de Privacidade descreve como coletamos, usamos, compartilhamos
-                                e protegemos suas informações quando você utiliza nossos produtos e serviços. Ao acessar ou utilizar nossos Serviços,
-                                você concorda com os termos desta Política de Privacidade. Se você não concorda com os termos desta política, não
-                                utilize nossos Serviços.
+                                Agradecemos por utilizar nossos serviços. Esta Política de Privacidade descreve como coletamos, usamos, compartilhamos e protegemos suas informações quando você utiliza
+                                nossos produtos e serviços. Ao acessar ou utilizar nossos Serviços, você concorda com os termos desta Política de Privacidade.
                             </Typography>
-                            <Typography gutterBottom>Se tiver qualquer problema, não se acanhe, contate Almir</Typography>
                         </DialogContent>
                         <DialogActions>
                             <Button autoFocus onClick={handleClose} sx={{ backgroundColor: "#E5E2E2", color: "black" }}>

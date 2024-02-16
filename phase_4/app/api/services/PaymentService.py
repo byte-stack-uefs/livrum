@@ -1,5 +1,8 @@
 from efipay import EfiPay
 from dependencies.settings import Settings
+from forms.PaymentForm import PaymentForm
+from models.creditCard import CreditCardPaymentForm, CreditCard
+from models.customer import Customer
 
 
 class PaymentService:
@@ -55,5 +58,52 @@ class PaymentService:
             and len(response["pix"][0].get("devolucoes", [])) == 0
         )
 
-    def payByCreditCard(self):
-        pass
+    def payByCreditCard(
+        self,
+        customer: Customer,
+        creditCard: CreditCard,
+        ebooks: list,
+        data: CreditCardPaymentForm,
+    ):
+
+        efi = EfiPay(self._getCredentials())
+
+        try:
+            body = {
+                "items": [
+                    {"name": x.title, "value": int(x.price * 100), "amount": 1}
+                    for x in ebooks
+                ],
+                "payment": {
+                    "credit_card": {
+                        "customer": {
+                            "name": customer.nome,
+                            "cpf": customer.cpf,
+                            "email": customer.email,
+                            "birth": str(customer.dataNascimento),
+                            "phone_number": customer.telefone,
+                        },
+                        "installments": data.installments,
+                        "payment_token": creditCard.token,
+                        "billing_address": {
+                            "street": "SOME STREET",
+                            "number": "99",
+                            "city": "FEIRA DE SANTANA",
+                            "zipcode": "44036900",
+                            "complement": "",
+                            "state": "BA",
+                            "neighborhood": "Novo Horizonte",
+                        },
+                    }
+                },
+            }
+
+            response = efi.create_one_step_charge(body=body)
+
+            if response.get("error_description", None) is not None:
+                ex = Exception()
+                ex.message = response["error_description"]
+                raise ex
+            return response["data"]["charge_id"]
+        except Exception as e:
+            raise e

@@ -20,6 +20,7 @@ export type Ebook = {
 export type EbookResponse = {
     ebooks: Ebook[];
 };  
-  export default Ebook;
+
+export default Ebook;
 
 
