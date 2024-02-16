@@ -148,7 +148,34 @@ const UserManagment = () => {
         setPage(0);
     };
 
+    const updateUser = (user, body) => {
+        requester
+            .patch(`/user/${user.idUsuario}`, body)
+            .then((response) => {})
+            .catch((err) => {})
+            .finally(() => {});
+    };
+
+    const approveUser = (user) => {
+        updateUser(user, {
+            status: "active",
+        });
+    };
+    const refuseUser = (user) => {
+        updateUser(user, {
+            status: "inactive",
+        });
+    };
+    const blockUser = (user) => {
+        updateUser(user, {
+            status: "blocked",
+        });
+    };
+
     function getButtonAction(user: User, action: number): any {
+        if (user.super) {
+            return <></>;
+        }
         //setOpenUser(user);
         if (action == 3) {
             return <ArrowForwardIosIcon color="action" style={{ cursor: "pointer" }} onClick={() => handleClickOpen(user)} />;
@@ -156,19 +183,40 @@ const UserManagment = () => {
         switch (user.status) {
             case EnumUserStatus.PENDING:
                 return action == 1 ? (
-                    <Button variant="contained" color="success" fullWidth>
+                    <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        onClick={() => {
+                            approveUser(user);
+                        }}
+                    >
                         Aprovar
                     </Button>
                 ) : (
-                    <Button variant="contained" color="error" fullWidth>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        fullWidth
+                        onClick={() => {
+                            refuseUser(user);
+                        }}
+                    >
                         Recusar
                     </Button>
                 );
-            case EnumUserStatus.CREATED:
+            case EnumUserStatus.ACTIVE:
                 return action == 1 ? (
                     <></>
                 ) : (
-                    <Button variant="contained" color="error" fullWidth>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        fullWidth
+                        onClick={() => {
+                            blockUser(user);
+                        }}
+                    >
                         Bloquear
                     </Button>
                 );
