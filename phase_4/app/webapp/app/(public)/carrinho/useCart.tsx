@@ -31,7 +31,7 @@ export const CartContextProvider = (props: Props) => {
 
     const getCart = () => {
         requester
-            .get("/carrinho/")
+            .get("/cart/")
             .then((response) => {
                 setcartItems((prev) => {
                     return response.data;
@@ -77,7 +77,7 @@ export const CartContextProvider = (props: Props) => {
                 updatedCart = [item];
             }
             requester
-                .post(`/carrinho/${item.id}`)
+                .post(`/cart/${item.id}`)
                 .then((response) => {
                     localStorage.setItem("shopCartItens", JSON.stringify(updatedCart));
                     getCart();
@@ -95,7 +95,7 @@ export const CartContextProvider = (props: Props) => {
                 // Filtrar os produtos para remover apenas o produto atual
                 const filteredProducts = cartItems.filter((item) => item.id !== product.id);
                 requester
-                    .delete(`/carrinho/${product.id}`)
+                    .delete(`/cart/${product.id}`)
                     .then((response) => {
                         setcartItems(filteredProducts);
                         localStorage.setItem("shopCartItens", JSON.stringify(filteredProducts));
@@ -110,7 +110,7 @@ export const CartContextProvider = (props: Props) => {
 
     const handleClearCart = useCallback(() => {
         requester
-            .delete("/carrinho/")
+            .delete("/cart/")
             .then((response) => {
                 setcartItems([]);
                 localStorage.setItem("shopCartItens", JSON.stringify(null));
