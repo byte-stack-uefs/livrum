@@ -1,14 +1,15 @@
 "use client";
 
 import { DateTime } from "luxon";
-import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { Add } from "@mui/icons-material";
 import Divider from "@/app/components/Divider";
 import TextField from "@mui/material/TextField";
 import useRequest from "@/app/services/requester";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { FormProvider, useForm } from "react-hook-form";
+import { CreditCard } from "@/app/interfaces/CreditCard";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
@@ -30,29 +31,11 @@ export default function Page() {
     const [creationError, setCreationError] = useState("");
     const [hasCreationFailed, setHasCreationFailed] = useState(false);
 
-    const [creditCards, setCreditCards] = useState([
-        {
-            id: 0,
-            num: "**** **** **** 1234",
-            expiryDate: "11/2030",
-            cvc: 110,
-            name: "Alguem da Silva",
-        },
-        {
-            id: 1,
-            num: "**** **** **** 4321",
-            expiryDate: "11/2040",
-            cvc: 852,
-            name: "Alguem dos Santos",
-        },
-        {
-            id: 2,
-            num: "**** **** **** 4567",
-            expiryDate: "11/2035",
-            cvc: 951,
-            name: "Alguem de Jesus",
-        },
-    ]);
+    const [creditCards, setCreditCards] = useState<CreditCard[]>([]);
+
+    useEffect(() => {
+        getCreditCards();
+    }, [])
 
     const methods = useForm();
     const {
@@ -63,15 +46,31 @@ export default function Page() {
 
     const requester = useRequest();
 
+    const deleteCreditCard = (creditCardId: Number) => {
+        requester.delete(`/credit-card/${creditCardId}`).then(response => {
+            getCreditCards()
+        })
+            .catch(err => {})
+    }
+
+    const getCreditCards = () => {
+        requester.get('/credit-card').then(response => {
+            setCreditCards(prev => {
+                return response.data;
+            });
+        })
+            .catch(err => { })
+    }
+
     const handleSave = handleSubmit(async (data) => {
         setIsLoading(true);
         setHasCreationFailed(false);
         setCreationError("");
 
-        console.log(data);
         const token = await tokenizeCard();
 
         if (!token) {
+            setIsLoading(false);
             return;
         }
 
@@ -80,7 +79,7 @@ export default function Page() {
         requester
             .post("/credit-card", {
                 cvv: cvv,
-                token: cardToken,
+                token: token,
                 namePrinted: cardHolder,
                 cardNumber: cardNumber.slice(12),
                 expiryDate: cardExpiration?.toFormat("yyyy-LL"),
@@ -95,6 +94,8 @@ export default function Page() {
                 setCardExpiration(null);
                 setHasCreationFailed(false);
                 setCreationError("");
+
+                getCreditCards();
             })
             .catch((err) => {
                 setHasCreationFailed(true);
@@ -130,7 +131,7 @@ export default function Page() {
         const expirationMonth = cardExpiration?.month;
         const expirationYear = cardExpiration?.year;
 
-        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth;
+        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth + "";
 
         const brand = await getBrand()
             .then((response) => {
@@ -221,27 +222,32 @@ export default function Page() {
                             </Grid>
 
                             <Grid xs={12} container mt={2}>
-                                <Stack direction="column" width="100%" divider={<Divider width="85%" height={2} style={{ margin: "auto" }} />}>
+
+                                {creditCards == null || creditCards.length == 0 ? (<Alert sx={{ width: '100%' }} severity="warning" variant="filled">
+                                    Nenhum cartão de crédito cadastrado
+                                </Alert>) : (<Stack direction="column" width="100%" divider={<Divider width="85%" height={2} style={{ margin: "auto" }} />}>
                                     {creditCards.map((creditcard) => (
-                                        <Grid key={creditcard.id} xs={12} sx={{ backgroundColor: "white" }} py={2}>
+                                        <Grid key={creditcard.idCard} xs={12} sx={{ backgroundColor: "white" }} py={2}>
                                             <Grid container>
                                                 <Grid xs={4} textAlign="center">
                                                     <CreditCardIcon color="dark" sx={{ fontSize: 80 }} />
                                                 </Grid>
                                                 <Grid xs={4}>
-                                                    <Typography variant="body1">{creditcard.name}</Typography>
+                                                    <Typography variant="body1">{creditcard.namePrinted}</Typography>
                                                     <Typography variant="body2">Válido até {creditcard.expiryDate}</Typography>
-                                                    <Typography>{creditcard.num}</Typography>
+                                                    <Typography>**** **** **** {creditcard.cardNumber}</Typography>
                                                 </Grid>
                                                 <Grid xs={4} textAlign="right">
-                                                    <Button variant="contained" color="error">
+                                                    <Button variant="contained" color="error" onClick={() => deleteCreditCard(creditcard.idCard)}>
                                                         Excluir
                                                     </Button>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
                                     ))}
-                                </Stack>
+                                </Stack>)}
+
+
                             </Grid>
                         </Grid>
                     </Box>

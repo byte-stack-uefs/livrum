@@ -5,6 +5,7 @@ from models.user import User, CreateUserForm, UserStatus, UserType, UserDAO
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 class UserService:
     def _convertDAO(self, item: dict) -> UserDAO:
         return UserDAO(**item)
@@ -41,6 +42,43 @@ class UserService:
 
         return user
 
+    def getAllAdmins(self):
+        query = "SELECT *, u.nome AS name FROM usuario u JOIN administrador a ON a.idUsuario = u.idUsuario"
+        data = None
+        with DB() as db:
+
+            db.execute(query)
+            data = db.fetchall()
+
+        if data is not None:
+            return list([x for x in data])
+        return []
+
+    def getAllAuthors(self):
+        query = "SELECT *, u.nome AS name FROM usuario u JOIN autor a ON a.idUsuario = u.idUsuario"
+        data = None
+        with DB() as db:
+
+            db.execute(query)
+            data = db.fetchall()
+
+        if data is not None:
+            return list([x for x in data])
+        return []
+
+    def getAllCustomers(self):
+
+        query = "SELECT *, u.nome AS name FROM usuario u JOIN cliente c ON c.idUsuario = u.idUsuario"
+        data = None
+        with DB() as db:
+
+            db.execute(query)
+            data = db.fetchall()
+
+        if data is not None:
+            return list([x for x in data])
+        return []
+
     def getUsersByType(self, t: UserType) -> list[UserDAO]:
         data = []
 
@@ -50,29 +88,59 @@ class UserService:
 
         data = map(self._convertDAO, data)
         return list(data)
-   
-   
+
     def changeStatus(id, t: UserStatus):
         try:
             with DB() as db:
-                db.execute("UPDATE usuario SET status = %s WHERE idUsuario = %s ", [t, id])
+                db.execute(
+                    "UPDATE usuario SET status = %s WHERE idUsuario = %s ", [t, id]
+                )
         except:
-            return 
-
+            return
 
     def addUser(self, user: CreateUserForm):
         try:
             with DB() as db:
 
-                db.execute("INSERT INTO usuario (nome, email, senha, status, tipo) VALUES (%s, %s, %s, %s, %s)", 
-                        [user.nome, user.email, get_password_hash(user.senha), str(user.status.value), str(user.tipo.value)])
-                
+                db.execute(
+                    "INSERT INTO usuario (nome, email, senha, status, tipo) VALUES (%s, %s, %s, %s, %s)",
+                    [
+                        user.nome,
+                        user.email,
+                        get_password_hash(user.senha),
+                        str(user.status.value),
+                        str(user.tipo.value),
+                    ],
+                )
+
                 last_insert_id = db.lastrowid
                 return last_insert_id
 
-        except:    
-            
+        except:
+
             return False
+
+    def updateUser(self, user: User):
+
+        with DB() as db:
+
+            try:
+                db.execute(
+                    "UPDATE usuario SET status = %s, \
+                        nome = %s, email = %s, senha = %s \
+                        WHERE idUsuario = %s \
+                        ",
+                    [
+                        user.status.value,
+                        user.nome,
+                        user.email,
+                        user.senha,
+                        user.idUsuario,
+                    ],
+                )
+            except Exception as e:
+                raise Exception(("Não foi possível atualizar o usuário"))
+
 
 def get_password_hash(plain: str) -> str:
     return passwordContext.hash(plain)

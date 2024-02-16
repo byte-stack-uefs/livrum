@@ -2,6 +2,7 @@ from fastapi import Query
 from pydantic import BaseModel
 from datetime import datetime, date
 from typing_extensions import Annotated
+from typing import Union
 
 
 class CreditCard:
@@ -12,6 +13,7 @@ class CreditCard:
         self.cardNumber = kwargs.get("numero")
         self.expiryDate = kwargs.get("dataVencimento")
         self.namePrinted = kwargs.get("nomeImpresso")
+        self.token = kwargs.get("token")
 
 
 class BackToFrontEndCreditCardDTO:
@@ -42,3 +44,10 @@ class FrontToBackEndCreditCardDTO(BaseModel):
     cvv: Annotated[str, Query(pattern=r"^\d{3}$", examples=["591"])]
     cardNumber: Annotated[str, Query(pattern=r"^\d{4}$", examples=["4817"])]
     expiryDate: Annotated[str, Query(pattern=r"^\d{4}-\d{2}$", examples=["2040-11"])]
+
+
+class CreditCardPaymentForm(BaseModel):
+    cvv: int
+    installments: int
+    idCreditCard: int
+    idCoupon: Union[int | None] = None

@@ -1,16 +1,20 @@
 from enum import Enum
 from pydantic import BaseModel
+from typing import Any, Optional
+
 
 class UserType(str, Enum):
     ADMIN = "ADM"
     AUTHOR = "AUTOR"
     CUSTOMER = "CLIENTE"
 
+
 class UserStatus(str, Enum):
     ACTIVE = "active"
     BLOCKED = "blocked"
     PENDING = "pending"
     INACTIVE = "inactive"
+
 
 class User:
     def __init__(self, **kwargs):
@@ -21,13 +25,15 @@ class User:
         self.senha = kwargs.get("senha")
         self.tipo: UserType = kwargs.get("tipo")
 
+
 class CreateUserForm(BaseModel):
-    
+
     nome: str
     email: str
     status: UserStatus
     senha: str
     tipo: UserType
+
 
 class UserDAO:
     def __init__(self, **kwargs):
@@ -36,3 +42,14 @@ class UserDAO:
         self.email = kwargs.get("email")
         self.type = kwargs.get("type")
         self.status = kwargs.get("status")
+
+
+class UpdateUserModel:
+    def __init__(self, **kwargs):
+        self.nome = kwargs.get("name")
+        self.email = kwargs.get("email")
+        self.status = kwargs.get("status")
+
+
+class UpdateUserForm(BaseModel):
+    status: Optional[UserStatus]

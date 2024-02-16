@@ -2,68 +2,118 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { theme } from '@/app/theme';
+import { theme } from "@/app/theme";
 import AccountHeader from "./AccountHeader";
 import { Person, Search, ShoppingCart } from "@mui/icons-material";
-import { Badge, Box, Container, FormControl, Grid, InputAdornment, MenuItem, OutlinedInput, Select, SelectChangeEvent, Toolbar, Tooltip } from "@mui/material";
+import {
+    Badge,
+    Box,
+    Button,
+    Container,
+    Fade,
+    FormControl,
+    Grid,
+    InputAdornment,
+    Menu,
+    MenuItem,
+    OutlinedInput,
+    Select,
+    SelectChangeEvent,
+    Toolbar,
+} from "@mui/material";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { useCart } from "../(public)/carrinho/useCart";
+import React from "react";
+import LivrumLink from "./LivrumLink";
+import { useUser } from "../context";
+import Divider from "./Divider";
+import { useRouter } from "next/navigation";
+import { logout } from "../helpers/login";
+import useRequest from "../services/requester";
 
 export function TopMain() {
-
-    const [category, setCategory] = useState('all');
-    const { cartTotalQnt} = useCart();
-    const [numCartItems, setNumCartItems] = useState(0);
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setCategory(event.target.value as string);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
-    const categories = [
+    const [category, setCategory] = useState("all");
+    const { cartTotalQnt } = useCart();
+    const { user, clearUser } = useUser();
+    const [genres, setGenres] = useState([
         {
-            title: 'Todos',
-            value: 'all'
+            id: "all",
+            name: "Todos",
         },
-        {
-            title: 'Aventura',
-            value: 'aventura'
-        },
-        {
-            title: "Comédia",
-            value: 'comedia'
-        }
-    ];
+    ]);
+    const router = useRouter();
+    const requester = useRequest();
 
-    const searchSelect = (<InputAdornment position="start">
-        <Select
-            size="small"
-            value={category}
-            onChange={handleChange}
-            sx={
-                {
-                    border: 'none',
+    if (genres.length == 1) {
+        requester.get("/genre").then((response) => {
+            const { data } = response;
+            setGenres((prev) => {
+                for (const el of data) {
+                    let g = prev.filter((e) => {
+                        e.id == el.id;
+                    });
+                    if (g.length > 0) {
+                        continue;
+                    }
+                    prev.push(el);
+                }
+                return prev;
+            });
+        });
+    }
+
+    function handleChange(event: SelectChangeEvent) {
+        setCategory(event.target.value as string);
+    }
+
+    const handleLogout = () => {
+        logout().then(() => {
+            clearUser();
+            router.push("/");
+        });
+    };
+
+    const searchSelect = (
+        <InputAdornment position="start">
+            <Select
+                size="small"
+                value={category}
+                onChange={handleChange}
+                sx={{
+                    border: "none",
                     borderRadius: 8,
                     borderTopRightRadius: 0,
                     borderBottomRightRadius: 0,
                     borderLeft: 0,
-                    width: '150px'
-                }
-            }
-        >
-            {categories.map((e) => {
-                return <MenuItem key={e.value} value={e.value}>
-                    {e.title}
-                </MenuItem>
-            })}
-        </Select>
-    </InputAdornment>);
+                    width: "150px",
+                }}
+            >
+                {genres.map((e) => {
+                    return (
+                        <MenuItem key={"genre" + e.id} value={e.id}>
+                            {e.name}
+                        </MenuItem>
+                    );
+                })}
+            </Select>
+        </InputAdornment>
+    );
 
     return (
         <Container maxWidth={false}>
             <Toolbar sx={{ textTransform: "uppercase" }}>
-
-                <Grid container sx={{ justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+                <Grid container sx={{ justifyContent: "center", alignItems: "center", textAlign: "center" }}>
                     <Grid item sm={3}>
-                        <Link href="/" style={{ display: 'flex', justifyContent: 'space-evenly', textDecoration: 'none' }}>
+                        <Link href="/" style={{ display: "flex", justifyContent: "space-evenly", textDecoration: "none" }}>
                             <AccountHeader logoScale={0.17} fontSize={42} />
                         </Link>
                     </Grid>
@@ -71,35 +121,104 @@ export function TopMain() {
                         <FormControl fullWidth>
                             <OutlinedInput
                                 size="small"
-                                sx={{ paddingLeft: 0, borderRadius: 8, backgroundColor: '#F4F2F2' }}
+                                sx={{ paddingLeft: 0, borderRadius: 8, backgroundColor: "#F4F2F2" }}
                                 startAdornment={searchSelect}
-                                endAdornment={<InputAdornment position="end">
-                                    <Search />
-                                </InputAdornment>}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <Search />
+                                    </InputAdornment>
+                                }
                             />
                         </FormControl>
                     </Grid>
-                    <Grid item sm={4} md={2} sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+                    <Grid item sm={4} md={2} sx={{ display: "inline", justifyContent: "space-evenly", px: 2 }}>
                         <Link href="/carrinho">
-                            <Tooltip title="Ver carrinho" arrow>
-                                <Badge anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'right'
-                                }} badgeContent={cartTotalQnt} color="primary">
+                            <Tooltip
+                                title="Ver carrinho"
+                                arrow
+                                slotProps={{
+                                    popper: {
+                                        sx: {
+                                            [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]: {
+                                                marginTop: "0px",
+                                            },
+                                        },
+                                    },
+                                }}
+                            >
+                                <Badge
+                                    anchorOrigin={{
+                                        vertical: "bottom",
+                                        horizontal: "right",
+                                    }}
+                                    badgeContent={cartTotalQnt}
+                                    color="primary"
+                                >
                                     <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
                                 </Badge>
                             </Tooltip>
                         </Link>
-                        <Person sx={{ fontSize: 40 }} color="darker" />
+
+                        {user.status == "" ? (
+                            <Button
+                                variant="contained"
+                                onClick={() => {
+                                    router.push("/login");
+                                }}
+                            >
+                                Fazer Login
+                            </Button>
+                        ) : (
+                            <>
+                                <Button
+                                    id="fade-button"
+                                    sx={{ ml: 4 }}
+                                    aria-controls={open ? "fade-menu" : undefined}
+                                    aria-haspopup="true"
+                                    aria-expanded={open ? "true" : undefined}
+                                    onClick={handleClick}
+                                >
+                                    <Person sx={{ fontSize: 40 }} color="darker" />
+                                </Button>
+                                <Menu
+                                    id="fade-menu"
+                                    MenuListProps={{
+                                        "aria-labelledby": "fade-button",
+                                    }}
+                                    anchorEl={anchorEl}
+                                    open={open}
+                                    onClose={handleClose}
+                                    TransitionComponent={Fade}
+                                >
+                                    <div style={{ padding: "0.5rem", textAlign: "center" }}>{user.nome}</div>
+                                    <Divider width="100%" height={0.1} />
+                                    <MenuItem>
+                                        <LivrumLink style={{ color: "black" }} href="/cliente/meus-dados">
+                                            Meus Dados
+                                        </LivrumLink>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <LivrumLink style={{ color: "black" }} href="/cliente/meus-cartoes">
+                                            Meus Cartões
+                                        </LivrumLink>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <LivrumLink style={{ color: "black" }} href="/cliente/biblioteca">
+                                            Biblioteca
+                                        </LivrumLink>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleLogout}>Sair</MenuItem>
+                                </Menu>
+                            </>
+                        )}
                     </Grid>
                 </Grid>
-
             </Toolbar>
         </Container>
     );
 }
 
-export function TopSecond(props: { pros: Array<any>; }) {
+export function TopSecond(props: { pros: Array<any> }) {
     const { pros } = props;
 
     return (

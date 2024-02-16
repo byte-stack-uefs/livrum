@@ -1,59 +1,56 @@
-import { Metadata } from "next";
+"use client";
+
+import { useState } from "react";
 import Ebook from "./interfaces/Ebook";
 import { Container } from "@mui/material";
-import { makeid } from "./helpers/helpers";
+import useRequest from "./services/requester";
 import { Category } from "./interfaces/Category";
 import PublicLayout from "./components/layouts/PublicLayout";
 import CategoriesContainer from "./components/CategoriesContainer";
 import HomePageBooksContainer from "./components/HomePageBooksContainer";
 
-export const metadata: Metadata = {
-    title: "Home | " + process.env.APP_NAME,
-};
-
 export default function Home() {
     const image = "https://m.media-amazon.com/images/I/61zBhzjS4LL._AC_UF1000,1000_QL80_.jpg";
 
-    const containers: Array<{ title: string; books: Array<Ebook> }> = [
-        { title: "Mais Vendidos", books: [] },
-        { title: "Lançamentos", books: [] },
-        { title: "Mais Acessados", books: [] },
-    ];
+    const [newer, setNewer] = useState<Ebook[] | null>(null);
+    const [mostBuyed, setMostBuyed] = useState<Ebook[] | null>(null);
+    const [mostViewed, setMostViewed] = useState<Ebook[] | null>(null);
+    const [genres, setGenres] = useState(null);
 
-    // Example
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 10; j++) {
-            containers[i].books.push({
-                title: makeid(10),
-                author: makeid(6),
-                releaseDate: "01/11/2023",
-                cover: image,
-                id: 15
-            });
-        }
+    const requester = useRequest();
+
+    if (!mostViewed) {
+        requester.get("/ebook/most-viewed").then((response) => {
+            const { data } = response;
+            setMostViewed(data);
+        });
     }
 
-    const categories: Category[] = [
-        {
-            name: "Ação",
-            cover: image
-        },
-        {
-            name: "Comédia",
-            cover: image
-        },
-        {
-            name: "Terror",
-            cover: image
-        },
-        {
-            name: "Aventura",
-            cover: image
-        },
-        {
-            name: "Romance",
-            cover: image
-        }
+    if (!newer) {
+        requester.get("/ebook/newer").then((response) => {
+            const { data } = response;
+            setNewer(data);
+        });
+    }
+
+    if (!mostBuyed) {
+        requester.get("/ebook/most-buyed").then((response) => {
+            const { data } = response;
+            setMostBuyed(data);
+        });
+    }
+
+    if (!genres) {
+        requester.get("/genre").then((response) => {
+            const { data } = response;
+            setGenres(data);
+        });
+    }
+
+    const containers: Array<{ title: string; books: Array<Ebook> | null }> = [
+        { title: "Mais Vendidos", books: mostBuyed },
+        { title: "Lançamentos", books: newer },
+        { title: "Mais Acessados", books: mostViewed },
     ];
 
     return (
@@ -66,7 +63,7 @@ export default function Home() {
                         })}
                     </div>
                     <div>
-                        <CategoriesContainer title="Categorias" categories={categories}></CategoriesContainer>
+                        <CategoriesContainer title="Categorias" categories={genres}></CategoriesContainer>
                     </div>
                 </Container>
             </main>

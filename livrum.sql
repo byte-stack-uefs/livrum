@@ -65,6 +65,7 @@ CREATE TABLE `autor` (
     `endereço` varchar(255) NOT NULL,
     `numeroAgencia` varchar(16) NOT NULL,
     `numeroConta` varchar(16) NOT NULL,
+    `numeroOperacao` VARCHAR(4) NOT NULL,
     PRIMARY KEY (`idUsuario`),
     UNIQUE KEY `cpf_UNIQUE` (`cpf`),
     KEY `fk_Autor_Usuario1_idx` (`idUsuario`),
@@ -141,7 +142,7 @@ DROP TABLE IF EXISTS `cliente`;
 /*!50503 SET character_set_client = utf8mb4 */
 ;
 CREATE TABLE `cliente` (
-    `idUsuario` int NOT NULL AUTO_INCREMENT,
+    `idUsuario` int NOT NULL,
     `cpf` varchar(11) NOT NULL,
     `dataNascimento` date NOT NULL,
     `endereco` varchar(255) DEFAULT NULL,
@@ -299,6 +300,7 @@ CREATE TABLE `pedido` (
     `data` date NOT NULL DEFAULT (curdate()),
     `status` enum('canceled', 'pending', 'approved', 'failed') NOT NULL DEFAULT 'pending',
     `idCliente` int NOT NULL,
+    `txid` VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY (`idPedido`),
     KEY `fk_Pedido_Cliente1_idx` (`idCliente`),
     CONSTRAINT `fk_Pedido_Cliente1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idUsuario`)
@@ -374,7 +376,7 @@ VALUES(
         1,
         'Livrum Admin',
         'admin@livrum.com.br',
-        '$2a$12$XxaiyU6Cgz5jnSfFCPSXpewkpGdoA5LklYieiBPzN6gveeki32p4W',
+        '$2a$12$pf0VmXpOunFCdQUdgwVssu/plIMUgmfURDZ9HfgVPg9IQ0M.y9eMS',
         'active',
         'ADM'
     );

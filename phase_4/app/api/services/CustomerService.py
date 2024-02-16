@@ -1,5 +1,7 @@
 from database.database import DB
+
 from models.customer import CreateCustomerForm, Customer
+
 
 class CustomerService:
 
@@ -20,7 +22,7 @@ class CustomerService:
 
                 return True
             except:
-               return False
+                return False
 
     def findCustomerByCpf(self, cpf: int) -> Customer:
 
@@ -33,5 +35,20 @@ class CustomerService:
 
         return customer
 
+    def getCustomerById(self, id: int):
 
+        data = None
+        with DB() as db:
 
+            db.execute(
+                "SELECT * FROM cliente c JOIN usuario u ON u.idUsuario = c.idUsuario WHERE u.idUsuario = %s",
+                [id],
+            )
+
+            data = db.fetchone()
+
+        customer = None
+        if data is not None:
+            customer = Customer(**data)
+
+        return customer

@@ -1,5 +1,4 @@
-from http.client import HTTPException
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from typing import Annotated
 from dependencies import security
 from models.user import User, UserType
@@ -13,46 +12,53 @@ serviceUser = UserService()
 serviceAuthor = AuthorService()
 serviceCustomer = CustomerService()
 
+
 @router.post("/login")
 def login():
     return {"message": "Login"}
 
 
 @router.post("/logout")
-def logout():
-    return {"message": "logout"}
+def logout(response: Response):
+    response.delete_cookie("token")
+    return {}
 
 
 @router.get("/isAuthenticated")
 def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
-    return {"message": "uau"}
+    return {}
+
 
 @router.post("/create")
 def createAccount(createAccountForm: CreateAccount):
-    
-    if(createAccountForm.authorForm is not None):
+
+    if createAccountForm.authorForm is not None:
 
         isExistingCpf = serviceAuthor.findAuthorByCpf(createAccountForm.authorForm.cpf)
 
-    else: 
+    else:
 
-        isExistingCpf = serviceCustomer.findCustomerByCpf(createAccountForm.customerForm.cpf)
+        isExistingCpf = serviceCustomer.findCustomerByCpf(
+            createAccountForm.customerForm.cpf
+        )
 
-    if(not isExistingCpf):
+    if not isExistingCpf:
 
         isExistingEmail = serviceUser.findUserByEmail(createAccountForm.userForm.email)
 
-        if(not isExistingEmail):
+        if not isExistingEmail:
 
             idUser = serviceUser.addUser(createAccountForm.userForm)
 
-            if(createAccountForm.userForm.tipo == UserType.AUTHOR):
+            if createAccountForm.userForm.tipo == UserType.AUTHOR:
 
-                response = serviceAuthor.addAuthor(createAccountForm.authorForm,idUser)
+                response = serviceAuthor.addAuthor(createAccountForm.authorForm, idUser)
 
             else:
 
-                response = serviceCustomer.addCustomer(createAccountForm.customerForm,idUser)
+                response = serviceCustomer.addCustomer(
+                    createAccountForm.customerForm, idUser
+                )
 
         else:
 
@@ -60,17 +66,4 @@ def createAccount(createAccountForm: CreateAccount):
 
     else:
 
-         raise HTTPException(400, "CPF já cadastrado.")
-
-
-    
-    
-
-    
-
-
-    
-
-
-
-
+        raise HTTPException(400, "CPF já cadastrado.")
