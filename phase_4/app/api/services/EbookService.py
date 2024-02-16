@@ -1,8 +1,10 @@
+import os
 from pathlib import Path
+from fastapi import File, UploadFile
 from fastapi.responses import FileResponse
 from dao.ebookDAO import EbookDAO
 from database.database import DB
-from models.ebook import AuthorEbookDTO, Ebook, EbookModel, EbookDTO, ReproveEbookDTO
+from models.ebook import AuthorEbookDTO, Ebook, EbookCreate, EbookModel, EbookDTO, ReproveEbookDTO
 
 
 class EbookService:
@@ -89,3 +91,22 @@ class EbookService:
         if file_path.is_file():
             return FileResponse(file_path, filename=id + ".pdf")
         return None
+
+
+    def save_file(file: UploadFile, idEbook: int, ext: str, folder: str = 'files'):
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        file_path = os.path.join(folder, f"{id}.{ext}")
+        with open(file_path, "wb") as dest_file:
+            dest_file.write(file.file.read())
+
+        return file_path
+    
+    def submit(ebook: EbookCreate, 
+    capa: UploadFile = File(...),
+    pdf: UploadFile = File(...)):
+        ebookSalvo = EbookDAO.save(ebook)
+        capa_path = EbookService.save_file(capa, ebookSalvo.id, "jpeg")
+        pdf_path = EbookService.save_file(pdf, ebookSalvo.id, "pdf")
+

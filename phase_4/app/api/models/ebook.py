@@ -113,3 +113,18 @@ class EbookStatus(str, Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
     REJECTED = "rejected"
+
+class EbookCreate(BaseModel):
+    idAutor: int
+    nome: str
+    status: EbookStatus
+    preco: float
+    sinopse: str
+    capa: str = None
+    qtdPaginas: int = None
+    idioma: str = None
+    formato: str = 'PDF'
+    tamanhoEmMB: int = None
+    anoLancamento: str = None
+    motivoRejeicao: str = None
+    outrosAutores: str = None

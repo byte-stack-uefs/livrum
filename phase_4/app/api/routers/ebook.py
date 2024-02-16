@@ -1,9 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile
 from typing import Annotated
 from dependencies import security
 from models.user import User, UserType
 from fastapi import APIRouter, Depends, HTTPException
-from models.ebook import EbookDTO
+from models.ebook import EbookCreate, EbookDTO
 from models.ebook import ReproveEbookDTO
 from services.EbookService import EbookService
 
@@ -76,3 +76,13 @@ def download(id: str):
             "O PDF do Ebook não está disponível, por favor, tente novamente mais tarde",
         )
     return result
+
+@router.post("/submit")
+def submit(
+    user: Annotated[User, Depends(access)], 
+    ebook: EbookCreate, 
+    capa: UploadFile = File(...),
+    pdf: UploadFile = File(...)):
+
+    ebook.idAutor = user.idUsuario
+    EbookService.submit(ebook, capa, pdf)

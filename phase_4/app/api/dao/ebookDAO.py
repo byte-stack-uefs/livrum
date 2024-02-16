@@ -2,6 +2,7 @@ from models.ebook import (
     AuthorEbookDTO,
     CatalogEbookDTO,
     Ebook,
+    EbookCreate,
     EbookDTO,
     EbookStatus,
     ReproveEbookDTO,
@@ -127,3 +128,22 @@ class EbookDAO:
             data = db.fetchone()
             ebookModel = EbookShowupDTO(**data)
         return ebookModel
+    
+    def save(ebook: EbookCreate) -> Ebook:
+        with DB() as db:
+            db.execute("INSERT INTO EBook (nome,idAutor,qtdPaginas,anoLancamento,idioma,sinopse,capa,tamanhoEmMB,preco, status)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s)", 
+                       [ebook.nome,
+                        ebook.idAutor,
+                        ebook.qtdPaginas,
+                        ebook.anoLancamento,
+                        ebook.idioma,
+                        ebook.sinopse,
+                        ebook.capa,
+                        ebook.tamanhoEmMB,
+                        ebook.preco,
+                        EbookStatus.PENDING])
+            data = db.commit()
+
+        ebook = None
+        if data is not None:
+            ebook = Ebook(**data)
