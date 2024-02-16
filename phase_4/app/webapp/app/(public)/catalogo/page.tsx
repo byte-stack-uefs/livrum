@@ -19,6 +19,7 @@ import {
     Pagination,
     Typography,
     FormControlLabel,
+    Skeleton,
 } from "@mui/material";
 import axios from "axios";
 import Ebook, { EbookResponse } from "@/app/interfaces/Ebook";
@@ -109,6 +110,16 @@ function SearchButton({ author_title, price_min, price_max, maxYear, language, s
 }
 
 function GenreSection() {
+    const [genres, setGenres] = useState<Array | null>(null);
+    const requester = useRequest();
+
+    if (!genres) {
+        requester.get("/genre").then((response) => {
+            const { data } = response;
+            setGenres(data);
+        });
+    }
+
     return (
         <Grid container sx={{ fontSize: 10 }}>
             <Grid xs={12} sx={{ fontSize: 12 }}>
@@ -116,10 +127,13 @@ function GenreSection() {
             </Grid>
             <Grid xs={12}>
                 <FormGroup>
-                    <FormControlLabel control={<Checkbox />} label="Ação" />
-                    <FormControlLabel control={<Checkbox />} label="Comédia" />
-                    <FormControlLabel control={<Checkbox />} label="Drama" />
-                    <FormControlLabel control={<Checkbox />} label="Romance" />
+                    {genres ? (
+                        genres.map((el) => {
+                            return <FormControlLabel key={el.id} control={<Checkbox />} label={el.name} />;
+                        })
+                    ) : (
+                        <Skeleton sx={{ mb: 1 }} variant="rounded" width={"100%"} height={100}></Skeleton>
+                    )}
                 </FormGroup>
             </Grid>
         </Grid>
