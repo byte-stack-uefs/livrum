@@ -16,9 +16,9 @@ def get(id: int):
 
 
 @router.post("/", description="Create an ebook")
-def add(newEbook: EbookDTO,user: Annotated[User, Depends(access)],):
-    service = CreditCardService()
-    success = service.addCreditCard(newEbook, user.idUsuario)
+def add(newEbook: EbookDTO,user: Annotated[User, Depends(access)], pdf: str):
+    service = EbookService()
+    success = service.addEbook(newEbook, user.idUsuario,pdf)
     if not success:
         raise HTTPException(500, "Não foi possível cadastrar o ebook")
 
