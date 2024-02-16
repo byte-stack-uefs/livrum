@@ -2,10 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from typing import Annotated
 from dependencies import security
 from models.user import User, UserType
+import random
+import string
+from dependencies.recoverEmail import RecoverEmail
 from models.account import CreateAccount
 from services.UserService import UserService
 from services.CustomerService import CustomerService
 from services.AuthorService import AuthorService
+from pydantic import BaseModel
 
 router = APIRouter(prefix="/account", tags=["Account"])
 serviceUser = UserService()
@@ -27,6 +31,35 @@ def logout(response: Response):
 @router.get("/isAuthenticated")
 def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
     return {}
+
+
+class PasswordRecoverForm(BaseModel):
+    email: str
+
+
+@router.patch("/recuperar-senha")
+def passwordRecover(form: PasswordRecoverForm):
+
+    service = UserService()
+    user = service.findUserByEmail(form.email)
+
+    if user is None:
+        raise HTTPException(404, "Usuário não encontrado")
+
+    length = 12
+    alphabet = string.ascii_letters + string.digits + string.punctuation
+    newPass = "".join(random.choice(alphabet) for i in range(length))
+    response = UserService.recoverPass(form.email, newPass)
+    if response:
+        operation = RecoverEmail.emailRecover(form.email, newPass)
+        return {
+            "status": "success",
+            "message": f"Solicitação de recuperação de senha recebida. Verifique seu e-mail para instruções adicionais.",
+        }, 200
+    return {
+        "status": "error",
+        "message": f"Erro ao enviar e-mail de recuperação de senha",
+    }, 500
 
 
 @router.post("/create")

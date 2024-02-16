@@ -1,20 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import {
-    Tab,
-    Tabs,
-    Button,
-    styled,
-    Dialog,
-    Checkbox,
-    TextField,
-    Typography,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    FormControlLabel,
-    Alert,
-} from "@mui/material";
+import { Tab, Tabs, Button, styled, Dialog, Checkbox, TextField, Typography, DialogTitle, DialogContent, DialogActions, FormControlLabel, Alert } from "@mui/material";
 
 import { theme } from "@/app/theme";
 
@@ -77,6 +63,7 @@ const ClientRegister = () => {
     const handleOpen = () => {
         setOpenModal(true);
     };
+
     const handleClose = () => {
         setOpenModal(false);
     };
@@ -145,12 +132,7 @@ const ClientRegister = () => {
                       };
 
             requester
-                .post(
-                    "/account/create",
-                    userType === UserLevel.AUTHOR
-                        ? { userForm: userData, authorForm: customerOrAuthorData }
-                        : { userForm: userData, customerForm: customerOrAuthorData }
-                )
+                .post("/account/create", userType === UserLevel.AUTHOR ? { userForm: userData, authorForm: customerOrAuthorData } : { userForm: userData, customerForm: customerOrAuthorData })
                 .then((response) => {
                     setAccountNumber("");
                     setAddress("");
@@ -220,14 +202,7 @@ const ClientRegister = () => {
         <>
             <Grid container>
                 <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
-                    <Tabs
-                        value={value}
-                        variant="fullWidth"
-                        scrollButtons={false}
-                        onChange={handleChange}
-                        centered
-                        TabIndicatorProps={{ style: { display: "none" } }}
-                    >
+                    <Tabs value={value} variant="fullWidth" scrollButtons={false} onChange={handleChange} centered TabIndicatorProps={{ style: { display: "none" } }}>
                         <Tab label="Cliente" onClick={() => handleTabClick(UserLevel.CUSTOMER)} />
                         <Tab label="Autor" onClick={() => handleTabClick(UserLevel.AUTHOR)} />
                     </Tabs>
@@ -248,15 +223,7 @@ const ClientRegister = () => {
                                 <label style={{ color: theme.palette.dark.main }}>Dados obrigatórios *</label>
                             </Grid>
                             <Grid xs={7}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    value={name}
-                                    size="small"
-                                    variant="outlined"
-                                    label="Nome Completo"
-                                    onChange={(e) => setName(e.target.value)}
-                                />
+                                <TextField required fullWidth value={name} size="small" variant="outlined" label="Nome Completo" onChange={(e) => setName(e.target.value)} />
                             </Grid>
                             <Grid xs={5}>
                                 <TextField
@@ -303,28 +270,10 @@ const ClientRegister = () => {
                             </Grid>
 
                             <Grid xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    type="email"
-                                    size="small"
-                                    value={email}
-                                    label="E-mail"
-                                    variant="outlined"
-                                    onChange={(e) => setEmail(e.target.value)}
-                                />
+                                <TextField required fullWidth type="email" size="small" value={email} label="E-mail" variant="outlined" onChange={(e) => setEmail(e.target.value)} />
                             </Grid>
                             <Grid xs={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    size="small"
-                                    label="Senha"
-                                    type="password"
-                                    value={password}
-                                    variant="outlined"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
+                                <TextField required fullWidth size="small" label="Senha" type="password" value={password} variant="outlined" onChange={(e) => setPassword(e.target.value)} />
                             </Grid>
                             <Grid xs={6}>
                                 <TextField
@@ -342,16 +291,7 @@ const ClientRegister = () => {
                             </Grid>
 
                             <Grid xs={12}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    type="text"
-                                    size="small"
-                                    value={address}
-                                    label="Endereço"
-                                    variant="outlined"
-                                    onChange={(e) => setAddress(e.target.value)}
-                                />
+                                <TextField required fullWidth type="text" size="small" value={address} label="Endereço" variant="outlined" onChange={(e) => setAddress(e.target.value)} />
                             </Grid>
                             {value === 1 && (
                                 <>
@@ -459,20 +399,14 @@ const ClientRegister = () => {
                         </Grid>
                     </form>
 
-                    <BootstrapDialog
-                        open={openModal}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                    >
+                    <BootstrapDialog open={openModal} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                         <StyledDialogTitle id="customized-dialog-title">
                             <strong>Políticas de Privacidade</strong>
                         </StyledDialogTitle>
                         <DialogContent dividers>
                             <Typography gutterBottom>
-                                Agradecemos por utilizar nossos serviços. Esta Política de Privacidade descreve como coletamos, usamos, compartilhamos
-                                e protegemos suas informações quando você utiliza nossos produtos e serviços. Ao acessar ou utilizar nossos Serviços,
-                                você concorda com os termos desta Política de Privacidade.
+                                Agradecemos por utilizar nossos serviços. Esta Política de Privacidade descreve como coletamos, usamos, compartilhamos e protegemos suas informações quando você utiliza
+                                nossos produtos e serviços. Ao acessar ou utilizar nossos Serviços, você concorda com os termos desta Política de Privacidade.
                             </Typography>
                         </DialogContent>
                         <DialogActions>

@@ -1,6 +1,18 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
+from typing_extensions import Annotated
 from typing import Any, Optional
+
+
+class User:
+    def __init__(self, **kwargs):
+        self.idUsuario = kwargs.get("idUsuario")
+        self.nome = kwargs.get("nome")
+        self.email = kwargs.get("email")
+        self.status: UserStatus = kwargs.get("status")
+        self.senha = kwargs.get("senha")
+        self.tipo: UserType = kwargs.get("tipo")
+
 
 class UserType(str, Enum):
     ADMIN = "ADM"
@@ -37,6 +49,8 @@ class CreateUserForm(BaseModel):
 class UserDAO:
     def __init__(self, **kwargs):
         self.id = kwargs.get("idUsuario")
+        self.type: UserType = kwargs.get("tipo")
+        self.status: UserStatus = kwargs.get("status")
         self.name = kwargs.get("name")
         self.email = kwargs.get("email")
         self.type = kwargs.get("type")
@@ -52,3 +66,7 @@ class UpdateUserModel:
 
 class UpdateUserForm(BaseModel):
     status: Optional[UserStatus]
+
+
+class RecoveryEmailForm(BaseModel):
+    email: EmailStr

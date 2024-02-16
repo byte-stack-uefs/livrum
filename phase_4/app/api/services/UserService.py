@@ -91,6 +91,17 @@ class UserService:
         data = map(self._convertDAO, data)
         return list(data)
 
+    def updatePasswordByEmail(email: str, password: str):
+        with DB() as db:
+            try:
+                db.execute(
+                    "UPDATE usuario SET senha = %s WHERE email = %s", (password, email)
+                )
+            except:
+                return False
+
+            return True
+
     def updateUserById(self, id: int, user: User):
 
         with DB() as db:
@@ -162,6 +173,18 @@ class UserService:
                 )
             except Exception as e:
                 raise Exception(("Não foi possível atualizar o usuário"))
+
+    def recoverPass(email, senha):
+
+        with DB() as db:
+            try:
+                db.execute(
+                    "UPDATE usuario SET senha = %s WHERE email = %s",
+                    [get_password_hash(senha), email],
+                )
+            except:
+                return False
+        return True
 
 
 def get_password_hash(plain: str) -> str:
