@@ -85,3 +85,24 @@ class UserService:
 
         data = map(self._convertDAO, data)
         return list(data)
+
+    def updateUser(self, user: User):
+
+        with DB() as db:
+
+            try:
+                db.execute(
+                    "UPDATE usuario SET status = %s, \
+                        nome = %s, email = %s, senha = %s \
+                        WHERE idUsuario = %s \
+                        ",
+                    [
+                        user.status.value,
+                        user.nome,
+                        user.email,
+                        user.senha,
+                        user.idUsuario,
+                    ],
+                )
+            except Exception as e:
+                raise Exception(("Não foi possível atualizar o usuário"))

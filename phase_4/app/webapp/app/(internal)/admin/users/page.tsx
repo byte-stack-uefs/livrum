@@ -80,6 +80,7 @@ const UserManagment = () => {
     const [authors, setAuthors] = useState(null);
     const [clients, setClients] = useState(null);
     const [tableItems, setItems] = useState(admins);
+    const [tab, setTab] = useState(0);
 
     const getAllAdmins = () => {
         return requester.get("/user/admins").then((response) => {
@@ -121,6 +122,7 @@ const UserManagment = () => {
     };
 
     const handleChange = (event: any, newValue: number) => {
+        setTab(newValue);
         switch (newValue) {
             case 0:
                 setItems(admins);
@@ -151,7 +153,21 @@ const UserManagment = () => {
     const updateUser = (user, body) => {
         requester
             .patch(`/user/${user.idUsuario}`, body)
-            .then((response) => {})
+            .then((response) => {
+                switch (tab) {
+                    case 0:
+                        getAllAdmins();
+                        break;
+                    case 1:
+                        getAllAuthors();
+                        break;
+                    case 2:
+                        getAllClients();
+                        break;
+                    default:
+                        getAllUsers();
+                }
+            })
             .catch((err) => {})
             .finally(() => {});
     };
