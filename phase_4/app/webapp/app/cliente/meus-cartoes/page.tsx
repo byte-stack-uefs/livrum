@@ -92,7 +92,6 @@ export default function Page() {
                 setCardNumber("");
                 setCardToken("");
                 setCardExpiration(null);
-
                 setHasCreationFailed(false);
                 setCreationError("");
 

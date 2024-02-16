@@ -1,5 +1,9 @@
+from typing import Union
 from database.database import DB
-from models.user import User, UserType, UserDAO
+from passlib.context import CryptContext
+from models.user import User, CreateUserForm, UserStatus, UserType, UserDAO
+
+passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
@@ -32,7 +36,6 @@ class UserService:
         with DB() as db:
             db.execute("SELECT * FROM usuario WHERE idUsuario = %s", [id])
             data = db.fetchone()
-
         user = None
         if data is not None:
             user = User(**data)
@@ -86,6 +89,37 @@ class UserService:
         data = map(self._convertDAO, data)
         return list(data)
 
+    # def changeStatus(id, t: UserStatus):
+    #     try:
+    #         with DB() as db:
+    #             db.execute(
+    #                 "UPDATE usuario SET status = %s WHERE idUsuario = %s ", [t, id]
+    #             )
+    #     except:
+    #         return
+
+    def addUser(self, user: CreateUserForm):
+        try:
+            with DB() as db:
+
+                db.execute(
+                    "INSERT INTO usuario (nome, email, senha, status, tipo) VALUES (%s, %s, %s, %s, %s)",
+                    [
+                        user.nome,
+                        user.email,
+                        get_password_hash(user.senha),
+                        str(user.status.value),
+                        str(user.tipo.value),
+                    ],
+                )
+
+                last_insert_id = db.lastrowid
+                return last_insert_id
+
+        except:
+
+            return False
+
     def updateUser(self, user: User):
 
         with DB() as db:
@@ -106,3 +140,7 @@ class UserService:
                 )
             except Exception as e:
                 raise Exception(("Não foi possível atualizar o usuário"))
+
+
+def get_password_hash(plain: str) -> str:
+    return passwordContext.hash(plain)

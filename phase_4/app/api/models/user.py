@@ -3,16 +3,6 @@ from pydantic import BaseModel
 from typing import Any, Optional
 
 
-class User:
-    def __init__(self, **kwargs):
-        self.idUsuario = kwargs.get("idUsuario")
-        self.nome = kwargs.get("nome")
-        self.email = kwargs.get("email")
-        self.status: UserStatus = kwargs.get("status")
-        self.senha = kwargs.get("senha")
-        self.tipo: UserType = kwargs.get("tipo")
-
-
 class UserType(str, Enum):
     ADMIN = "ADM"
     AUTHOR = "AUTOR"
@@ -26,13 +16,32 @@ class UserStatus(str, Enum):
     INACTIVE = "inactive"
 
 
+class User:
+    def __init__(self, **kwargs):
+        self.idUsuario = kwargs.get("idUsuario")
+        self.nome = kwargs.get("nome")
+        self.email = kwargs.get("email")
+        self.status: UserStatus = kwargs.get("status")
+        self.senha = kwargs.get("senha")
+        self.tipo: UserType = kwargs.get("tipo")
+
+
+class CreateUserForm(BaseModel):
+
+    nome: str
+    email: str
+    status: UserStatus
+    senha: str
+    tipo: UserType
+
+
 class UserDAO:
     def __init__(self, **kwargs):
-        self.name = kwargs.get("nome")
-        self.email = kwargs.get("email")
         self.id = kwargs.get("idUsuario")
-        self.type: UserType = kwargs.get("tipo")
-        self.status: UserStatus = kwargs.get("status")
+        self.name = kwargs.get("name")
+        self.email = kwargs.get("email")
+        self.type = kwargs.get("type")
+        self.status = kwargs.get("status")
 
 
 class UpdateUserModel:
