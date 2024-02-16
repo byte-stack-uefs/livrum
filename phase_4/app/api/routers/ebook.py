@@ -12,6 +12,27 @@ router = APIRouter(prefix="/ebook", tags=["Ebook"])
 access = security.UserHasAccess([UserType.AUTHOR])
 
 
+@router.get("/most-viewed")
+def mostViewed():
+    service = EbookService()
+
+    return service.getMoreViewedEbooks()
+
+
+@router.get("/newer")
+def getNewer():
+    service = EbookService()
+
+    return service.getNewerEbooks()
+
+
+@router.get("/most-buyed")
+def getMostBuyed():
+    service = EbookService()
+
+    return service.getMostBuyed()
+
+
 @router.get("/search", description="Get ebooks by optional filters")
 def searchWithOptionalFilters(
     id=None,
@@ -39,6 +60,7 @@ def get(id: int):
     ebook = EbookService.getEbookById(id)
     return ebook
 
+
 @router.post("/", description="Create an ebook")
 def add(
     newEbook: EbookDTO,
@@ -60,6 +82,7 @@ def approve(reproveEbook: ReproveEbookDTO):
 @router.put("/disable/{id}", description="approve an ebook")
 def approve(id: str):
     return EbookService.disableEbook(id)
+
 
 @router.patch("/{id}", description="Update an ebook's field")
 def patch(id: int):
