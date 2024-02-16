@@ -65,6 +65,7 @@ CREATE TABLE `autor` (
     `endereço` varchar(255) NOT NULL,
     `numeroAgencia` varchar(16) NOT NULL,
     `numeroConta` varchar(16) NOT NULL,
+    `numeroOperacao` VARCHAR(4) NOT NULL,
     PRIMARY KEY (`idUsuario`),
     UNIQUE KEY `cpf_UNIQUE` (`cpf`),
     KEY `fk_Autor_Usuario1_idx` (`idUsuario`),
@@ -299,6 +300,7 @@ CREATE TABLE `pedido` (
     `data` date NOT NULL DEFAULT (curdate()),
     `status` enum('canceled', 'pending', 'approved', 'failed') NOT NULL DEFAULT 'pending',
     `idCliente` int NOT NULL,
+    `txid` VARCHAR(100) DEFAULT NULL,
     PRIMARY KEY (`idPedido`),
     KEY `fk_Pedido_Cliente1_idx` (`idCliente`),
     CONSTRAINT `fk_Pedido_Cliente1` FOREIGN KEY (`idCliente`) REFERENCES `cliente` (`idUsuario`)

@@ -46,6 +46,13 @@ export default function Page() {
 
     const requester = useRequest();
 
+    const deleteCreditCard = (creditCardId: Number) => {
+        requester.delete(`/credit-card/${creditCardId}`).then(response => {
+            getCreditCards()
+        })
+            .catch(err => {})
+    }
+
     const getCreditCards = () => {
         requester.get('/credit-card').then(response => {
             setCreditCards(prev => {
@@ -63,6 +70,7 @@ export default function Page() {
         const token = await tokenizeCard();
 
         if (!token) {
+            setIsLoading(false);
             return;
         }
 
@@ -71,7 +79,7 @@ export default function Page() {
         requester
             .post("/credit-card", {
                 cvv: cvv,
-                token: cardToken,
+                token: token,
                 namePrinted: cardHolder,
                 cardNumber: cardNumber.slice(12),
                 expiryDate: cardExpiration?.toFormat("yyyy-LL"),
@@ -84,7 +92,6 @@ export default function Page() {
                 setCardNumber("");
                 setCardToken("");
                 setCardExpiration(null);
-
                 setHasCreationFailed(false);
                 setCreationError("");
 
@@ -124,7 +131,7 @@ export default function Page() {
         const expirationMonth = cardExpiration?.month;
         const expirationYear = cardExpiration?.year;
 
-        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth;
+        const month = expirationMonth < 10 ? "0" + expirationMonth : expirationMonth + "";
 
         const brand = await getBrand()
             .then((response) => {
@@ -231,7 +238,7 @@ export default function Page() {
                                                     <Typography>**** **** **** {creditcard.cardNumber}</Typography>
                                                 </Grid>
                                                 <Grid xs={4} textAlign="right">
-                                                    <Button variant="contained" color="error">
+                                                    <Button variant="contained" color="error" onClick={() => deleteCreditCard(creditcard.idCard)}>
                                                         Excluir
                                                     </Button>
                                                 </Grid>

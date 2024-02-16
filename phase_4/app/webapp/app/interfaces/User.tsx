@@ -7,14 +7,21 @@ export interface UserAttributes {
     idUsuario: any;
     nome: any;
     email: any;
-    status:any;
+    status: any;
     senha: any;
     tipo: UserLevel;
 }
-export interface CustomerAttributes{
+export interface CustomerAttributes {
     idUsuario: any;
-    cpf:any;
-    dataNascimento:any 
+    cpf: any;
+    dataNascimento: any;
     endereco: any;
     telefone: any;
+}
+export interface UserForm {
+    nome: any;
+    email: any;
+    senha: any;
+    status: any;
+    tipo: UserLevel;
 }

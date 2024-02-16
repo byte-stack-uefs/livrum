@@ -1,7 +1,8 @@
 export enum EnumAuthorEbookStatus {
-    APPROVED = 'Aprovado',
-    BLOCKED = 'Bloqueado',
-    PENDING = 'Pendente'
+    ACTIVE = 'active',
+    REJECTED = 'rejected',
+    PENDING = 'pending',
+    INACTIVE = 'inactive'
 }
 
 export enum EnumIdioma {
