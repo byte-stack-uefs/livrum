@@ -1,18 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Ebook from "@/app/interfaces/Ebook";
+import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Divider from "@/app/components/Divider";
 import Carousel from "@/app/components/Carousel";
 import { useCart } from "../../carrinho/useCart";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { Container, Typography } from "@mui/material";
-import EbookDetails from "@/app/components/EbookDetails";
 import useRequest from "@/app/services/requester";
-import { Ebook } from "@/stories/Ebook.stories";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { CircularProgress, Container, Skeleton, Typography } from "@mui/material";
+import EbookDetails from "@/app/components/EbookDetails";
 
 interface EbookPageParams {
     id: number;
@@ -32,20 +31,19 @@ export default function Page({ params }: { params: EbookPageParams }) {
     const [isAlertVisible, setIsAlertVisible] = useState(false);
     const { id } = params;
 
-    const requester = useRequest()
+    const requester = useRequest();
 
     const getEbookByID = async () => {
-        const { data } = await requester.get<Ebook>(
-            `/ebook/${id}`, 
-        );
+        const { data } = await requester.get<Ebook>(`/ebook/${id}`);
+        setEbook(data);
         setFetched(true);
-    }
-    
-    if (!fetched){
+    };
+
+    if (!fetched) {
         getEbookByID();
     }
 
-    // TODO: find similars given this ebook's ID. 
+    // TODO: find similars given this ebook's ID.
     const similars = [
         {
             title: "AAA",
@@ -74,7 +72,6 @@ export default function Page({ params }: { params: EbookPageParams }) {
         },
     ];
 
-        
     const { handleAddEbookToCart } = useCart();
 
     function checkIsProductInCart(item: CartItemType) {
@@ -101,54 +98,35 @@ export default function Page({ params }: { params: EbookPageParams }) {
         setIsAlertVisible(false);
     };
 
-    if (fetched){
-        return (
-            <Container maxWidth={false}>
-                <Grid container>
+    return (
+        <Container maxWidth={false}>
+            <Grid container>
+                {ebook ? (
                     <EbookDetails ebook={ebook} onAddCart={handleClickAddCart} shouldDisableAddCart={checkIsProductInCart} />
-                    <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
-                        <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-                            Ebook adicionado ao carrinho
-                        </Alert>
-                    </Snackbar>
-                    <Grid xs={12} container>
-                        <Grid xs={12} textAlign="center">
-                            <Typography variant="h4" color="dark.main">
-                                Títulos semelhantes
-                            </Typography>
-                            <Divider width={"15%"} style={{ margin: "auto" }} />
-                        </Grid>
-                        <Grid xs={12} my={3}>
-                            <Carousel items={similars} Child={SimilarEbooks} />
-                        </Grid>
+                ) : (
+                    <Grid xs={12} justifyContent={"center"} mt={2}>
+                        <Skeleton sx={{ margin: "auto" }} variant="rounded" height={500} width={"75%"}></Skeleton>
+                    </Grid>
+                )}
+                <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
+                    <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                        Ebook adicionado ao carrinho
+                    </Alert>
+                </Snackbar>
+                <Grid xs={12} container>
+                    <Grid xs={12} textAlign="center">
+                        <Typography variant="h4" color="dark.main">
+                            Títulos semelhantes
+                        </Typography>
+                        <Divider width={"15%"} style={{ margin: "auto" }} />
+                    </Grid>
+                    <Grid xs={12} my={3}>
+                        <Carousel items={similars} Child={SimilarEbooks} />
                     </Grid>
                 </Grid>
-            </Container>     
-        );   
-    }else{
-        return (
-            <Container maxWidth={false}>
-                <Grid container>
-                    <Snackbar open={isAlertVisible} autoHideDuration={5000} onClose={handleClose}>
-                        <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
-                            Ebook adicionado ao carrinho
-                        </Alert>
-                    </Snackbar>
-                    <Grid xs={12} container>
-                        <Grid xs={12} textAlign="center">
-                            <Typography variant="h4" color="dark.main">
-                                Títulos semelhantes
-                            </Typography>
-                            <Divider width={"15%"} style={{ margin: "auto" }} />
-                        </Grid>
-                        <Grid xs={12} my={3}>
-                            <Carousel items={similars} Child={SimilarEbooks} />
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Container>
-        );
-    }
+            </Grid>
+        </Container>
+    );
 }
 
 function SimilarEbooks(ebook: Ebook) {
