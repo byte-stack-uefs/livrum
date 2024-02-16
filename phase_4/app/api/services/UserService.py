@@ -174,6 +174,18 @@ class UserService:
             except Exception as e:
                 raise Exception(("Não foi possível atualizar o usuário"))
 
+    def recoverPass(email, senha):
+
+        with DB() as db:
+            try:
+                db.execute(
+                    "UPDATE usuario SET senha = %s WHERE email = %s",
+                    [get_password_hash(senha), email],
+                )
+            except:
+                return False
+        return True
+
 
 def get_password_hash(plain: str) -> str:
     return passwordContext.hash(plain)

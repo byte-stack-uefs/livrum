@@ -4,11 +4,12 @@ from dependencies import security
 from models.user import User, UserType
 import random
 import string
-from services.RecoverEmail import RecoverEmail
+from dependencies.recoverEmail import RecoverEmail
 from models.account import CreateAccount
 from services.UserService import UserService
 from services.CustomerService import CustomerService
 from services.AuthorService import AuthorService
+from pydantic import BaseModel
 
 router = APIRouter(prefix="/account", tags=["Account"])
 serviceUser = UserService()
@@ -32,14 +33,25 @@ def isAuth(user: Annotated[User, Depends(security.get_current_active_user)]):
     return {}
 
 
+class PasswordRecoverForm(BaseModel):
+    email: str
+
+
 @router.patch("/recuperar-senha")
-def passwordRecover(emailUser: str):
+def passwordRecover(form: PasswordRecoverForm):
+
+    service = UserService()
+    user = service.findUserByEmail(form.email)
+
+    if user is None:
+        raise HTTPException(404, "Usuário não encontrado")
+
     length = 12
     alphabet = string.ascii_letters + string.digits + string.punctuation
     newPass = "".join(random.choice(alphabet) for i in range(length))
-    response = UserService.recoverPass(emailUser, newPass)
+    response = UserService.recoverPass(form.email, newPass)
     if response:
-        operation = RecoverEmail.emailRecover(emailUser, newPass)
+        operation = RecoverEmail.emailRecover(form.email, newPass)
         return {
             "status": "success",
             "message": f"Solicitação de recuperação de senha recebida. Verifique seu e-mail para instruções adicionais.",
