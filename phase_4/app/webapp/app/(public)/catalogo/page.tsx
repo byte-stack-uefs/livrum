@@ -84,7 +84,6 @@ function SearchButton({ author_title, price_min, price_max, maxYear, language, s
             let updatedBooks: Ebook[] = [];
             for (const book of data.ebooks) {
                 let query = author_title;
-                // .toString().toLowerCase().indexOf(filterText.toLowerCase()
                 if (
                     !(book.author.toLowerCase().indexOf(query.toLowerCase()) === -1) ||
                     !(book.title.toLowerCase().indexOf(query.toLowerCase()) === -1)
@@ -128,7 +127,7 @@ function GenreSection() {
             <Grid xs={12}>
                 <FormGroup>
                     {genres ? (
-                        genres.map((el) => {
+                        genres.map((el: { id: React.Key | null | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; }) => {
                             return <FormControlLabel key={el.id} control={<Checkbox />} label={el.name} />;
                         })
                     ) : (
