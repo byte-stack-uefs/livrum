@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from fastapi import Query
 from typing_extensions import Annotated
 from datetime import date
+from typing import Optional
 
 
 class Customer:
@@ -12,6 +13,7 @@ class Customer:
         self.email = kwargs.get("email")
         self.telefone = kwargs.get("telefone")
         self.dataNascimento = kwargs.get("dataNascimento")
+        self.endereco = kwargs.get("endereco")
 
 
 class CreateCustomerForm(BaseModel):

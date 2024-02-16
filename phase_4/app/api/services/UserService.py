@@ -1,12 +1,14 @@
 from typing import Union
 from database.database import DB
-from passlib.context import CryptContext
 from models.user import User, CreateUserForm, UserStatus, UserType, UserDAO
+from passlib.context import CryptContext
+
 
 passwordContext = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserService:
+
     def _convertDAO(self, item: dict) -> UserDAO:
         return UserDAO(**item)
 
@@ -88,6 +90,26 @@ class UserService:
 
         data = map(self._convertDAO, data)
         return list(data)
+
+    def updateUserById(self, id: int, user: User):
+
+        with DB() as db:
+            try:
+                db.execute(
+                    "UPDATE usuario SET nome = %s, email = %s, senha = %s, status = %s, tipo = %s WHERE idUsuario = %s",
+                    [
+                        user.nome,
+                        user.email,
+                        get_password_hash(user.senha),
+                        user.status,
+                        user.tipo,
+                        id,
+                    ],
+                )
+                return True
+            except Exception as e:
+                print(f"Erro ao atualizar o usuário: {e}")
+                return False
 
     # def changeStatus(id, t: UserStatus):
     #     try:

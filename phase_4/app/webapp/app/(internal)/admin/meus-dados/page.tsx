@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Button, InputAdornment, Typography, FormControl, IconButton } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, InputAdornment, Typography, FormControl, IconButton, Alert } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -8,7 +8,8 @@ import Divider from "@/app/components/Divider";
 import { theme } from "@/app/theme";
 // @ts-ignore
 import BootstrapInput from "@/app/theme";
-
+import useRequest from '@/app/services/requester';
+import { UserAttributes } from '@/app/interfaces/User';
 import { alpha } from "@mui/material/styles";
 
 import Box from "@mui/material/Box";
@@ -24,8 +25,12 @@ const AdminData = () => {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [passwordsMatch, setPasswordsMatch] = useState(true);
     const [oldPassword, setOldPassword] = useState("");
-
     const [showPassword, setShowPassword] = React.useState(false);
+    const [creationError, setCreationError] = useState("");
+    const [hasCreationFailed, setHasCreationFailed] = useState(false);
+    const [hasCreationSucess, setHasCreationSucess] = useState(false);
+    const [creationSucess, setCreationSucess] = useState("");
+    const requester = useRequest();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -53,8 +58,62 @@ const AdminData = () => {
         e.preventDefault();
     };
 
+    useEffect(() => {
+        getDataUserObject();
+    }, [])
+
+    const getDataUserObject = () => {
+
+        requester.get(`/user/`).then((response: { data: UserAttributes; }) => {
+            const userData = response.data;
+            setName(userData.nome);
+            setEmail(userData.email);
+            setOldPassword(userData.senha);
+
+        }).catch((err: any) => { })
+        
+    }
+
+    const handleSubmitClient = async (event: { preventDefault: () => void; }) => {
+        setHasCreationFailed(false);
+        setCreationError("");
+        setHasCreationSucess(false);
+        setCreationSucess(""); 
+        const validationError = validateFields();
+        if (validationError) {
+            setHasCreationFailed(true);
+            setCreationError(validationError);
+            return;
+        }
+        await requester.patch(`/user/`,{nome: name, email:email, senha:password}).then((response: any) => {
+            getDataUserObject();
+            setHasCreationSucess(true);
+            setCreationSucess("Atualização efetuada com sucesso"); 
+        }).catch((err: any) => {
+            
+            setHasCreationFailed(true);
+            setCreationError("Não foi possível realizar a atualização dos dados"); 
+        
+        })
+    };
+
+    const validateFields = () => {
+        const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const isPasswordValid = password.length >= 4;
+    
+        if (!isEmailValid) {
+            return "Por favor, preencha o e-mail corretamente.";
+        }
+    
+        if (!isPasswordValid) {
+            return "A senha deve ter no mínimo 4 caracteres.";
+        }
+    
+        return null;
+    };
+   
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmitClient}>
             <Grid xs={11} sm={9} md={7} lg={5} margin="auto">
                 <Typography
                     variant="h5"
@@ -137,6 +196,7 @@ const AdminData = () => {
                                     <strong>Nova Senha:</strong>
                                 </div>
                                 <TextField
+                                    required
                                     fullWidth
                                     size="small"
                                     type={showPassword ? "text" : "password"}
@@ -163,6 +223,7 @@ const AdminData = () => {
                                     <strong>Confirmar Senha:</strong>
                                 </div>
                                 <TextField
+                                    required
                                     fullWidth
                                     size="small"
                                     type={showPassword ? "text" : "password"}
@@ -185,7 +246,20 @@ const AdminData = () => {
                                 />
                             </Grid>
                         </Grid>
-
+                        {hasCreationFailed && (
+                                <Grid xs={12}>
+                                    <Alert severity="error" variant="filled" sx={{ width: "100%" }}>
+                                        {creationError}
+                                    </Alert>
+                                </Grid>
+                        )}
+                        {hasCreationSucess && (
+                        <Grid xs={12}>
+                            <Alert severity="success" variant="filled" sx={{ width: "100%" }}>
+                                    {creationSucess}
+                            </Alert>
+                        </Grid>
+                        )}
                         <Grid xs={12} sm={6} md={4} lg={2}>
                             <Button
                                 type="submit"

@@ -2,7 +2,6 @@ from enum import Enum
 from pydantic import BaseModel
 from typing import Any, Optional
 
-
 class UserType(str, Enum):
     ADMIN = "ADM"
     AUTHOR = "AUTOR"
