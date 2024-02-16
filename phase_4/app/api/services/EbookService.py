@@ -28,10 +28,8 @@ class EbookService:
                     ],
                 )
                 data = db.commit()
-
             except:
                 return False
-
         return True
 
     def findEbookByOptionalFilters(
@@ -60,7 +58,6 @@ class EbookService:
             ebooks = EbookDAO.findAll()
         except Exception as ex:
             print("Erro ao buscar Ebooks", ex)
-
         return ebooks
 
     def approveEbook(id):
@@ -80,11 +77,15 @@ class EbookService:
             EbookDAO.disableEbook(id)
         except Exception as ex:
             print("Erro ao inativar Ebook com id:", id, ex)
+            
+    def getEbookById(id):
+        try:
+            return EbookDAO.getEbookById(id)
+        except Exception as ex:
+            print("Erro ao aprovar Ebook com id:", id, ex)
 
     def downloadEbook(id: int):
         file_path = Path(f"files/{id}.pdf")
-
         if file_path.is_file():
             return FileResponse(file_path, filename=id + ".pdf")
-
         return None

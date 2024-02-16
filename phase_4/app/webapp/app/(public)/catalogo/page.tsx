@@ -70,10 +70,6 @@ interface SearchButtonProps {
 
 function SearchButton({author_title ,price_min,price_max,maxYear,language, setBooks}: SearchButtonProps) {
     const requester = useRequest()
-    console.log("Release Year:", maxYear);
-    console.log("Min Price:", price_min);
-    console.log("Max Price:", price_max);
-    console.log("Str", author_title);
 
     var name = author_title;
     var author = author_title;

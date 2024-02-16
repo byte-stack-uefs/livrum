@@ -36,8 +36,8 @@ def get():
 
 @router.get("/{id}", description="Get an ebook by its ID")
 def get(id: int):
-    return {"message": "Get ebook", "id": id}
-
+    ebook = EbookService.getEbookById(id)
+    return ebook
 
 @router.post("/", description="Create an ebook")
 def add(
@@ -60,7 +60,6 @@ def approve(reproveEbook: ReproveEbookDTO):
 @router.put("/disable/{id}", description="approve an ebook")
 def approve(id: str):
     return EbookService.disableEbook(id)
-
 
 @router.patch("/{id}", description="Update an ebook's field")
 def patch(id: int):
