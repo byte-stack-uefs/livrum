@@ -13,10 +13,8 @@ class EbookService:
                 db.execute("INSERT INTO EBook (nome,idAutor,qtdPaginas,anoLancamento,idioma,sinopse,capa,tamanhoEmMB,preco)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s)", 
                         [novoEbook.nome,idAutor,novoEbook.n_paginas,novoEbook.anoLancamento,novoEbook.idioma,novoEbook.sinopse,novoEbook.img,novoEbook.tamArqEmMb,novoEbook.preco])
                 data = db.commit()
-
             except:
                 return False
-
         return True
     
     def findEbookByOptionalFilters(id = None, name = None, author = None, title = None, release_year = None, price_min = None, price_max = None, id_client = None) -> [EbookDTO]:
@@ -34,7 +32,6 @@ class EbookService:
             ebooks = EbookDAO.findAll()
         except Exception as ex:
             print("Erro ao buscar Ebooks", ex)
-
         return ebooks
     
     def approveEbook(id):
@@ -55,4 +52,9 @@ class EbookService:
         except Exception as ex:
             print("Erro ao inativar Ebook com id:", id, ex)
 
+    def getEbookById(id):
+        try:
+            return EbookDAO.getEbookById(id)
+        except Exception as ex:
+            print("Erro ao aprovar Ebook com id:", id, ex)
 

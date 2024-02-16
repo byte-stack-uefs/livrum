@@ -1,4 +1,4 @@
-from models.ebook import AuthorEbookDTO, CatalogEbookDTO, Ebook, EbookDTO, EbookStatus, ReproveEbookDTO
+from models.ebook import AuthorEbookDTO, CatalogEbookDTO, Ebook, EbookDTO, EbookStatus, ReproveEbookDTO, EbookShowupDTO
 from database.database import DB
 
 class EbookDAO:
@@ -42,8 +42,6 @@ class EbookDAO:
                     db.execute("SELECT * FROM Biblioteca WHERE idCliente = %s and idEBook = %s", [id_client, ebookDTO.id])
                     response = db.fetchone()
                     ebookDTO.isAvailable = response is None
-
-
         return ebooks
 
     def findAll() -> [AuthorEbookDTO]:
@@ -86,3 +84,11 @@ class EbookDAO:
         with DB() as db:
             update = "UPDATE Ebook SET status = %s where idEBook = %s"
             db.execute(update, [EbookStatus.INACTIVE, id])
+
+    def getEbookById(id):
+        with DB() as db:
+            query = "SELECT * FROM ebook WHERE idEBook = %s"
+            db.execute(query, [id])
+            data = db.fetchone()
+            ebookModel = EbookShowupDTO(**data)
+        return ebookModel

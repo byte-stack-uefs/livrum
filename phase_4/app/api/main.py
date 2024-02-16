@@ -23,7 +23,7 @@ logging.getLogger("passlib").setLevel(logging.ERROR)
 
 app = FastAPI()
 
-origins = ["http://localhost", "http://localhost:80", "http://localhost:8000", "0.0.0.0"]
+origins = ["http://localhost", "http://localhost:80", "http://localhost:8000", "0.0.0.0","*"]
 
 app.add_middleware(
     CORSMiddleware,
