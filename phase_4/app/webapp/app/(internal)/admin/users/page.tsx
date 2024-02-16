@@ -187,6 +187,11 @@ const UserManagment = () => {
             status: "blocked",
         });
     };
+    const reactiveUser = (user) => {
+        updateUser(user, {
+            status: "active",
+        });
+    };
 
     function getButtonAction(user: User, action: number): any {
         if (user.super) {
@@ -235,6 +240,21 @@ const UserManagment = () => {
                     >
                         Bloquear
                     </Button>
+                );
+            case EnumUserStatus.BLOCKED:
+                return action == 2 ? (
+                    <Button
+                        variant="contained"
+                        color="success"
+                        fullWidth
+                        onClick={() => {
+                            reactiveUser(user);
+                        }}
+                    >
+                        Reativar
+                    </Button>
+                ) : (
+                    <></>
                 );
             default:
                 return <></>;
