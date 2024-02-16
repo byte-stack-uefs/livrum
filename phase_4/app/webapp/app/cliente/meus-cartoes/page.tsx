@@ -48,7 +48,6 @@ export default function Page() {
 
     const deleteCreditCard = (creditCardId: Number) => {
         requester.delete(`/credit-card/${creditCardId}`).then(response => {
-            console.log("PASSOU")
             getCreditCards()
         })
             .catch(err => {})
