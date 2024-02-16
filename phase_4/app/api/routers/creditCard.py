@@ -39,7 +39,7 @@ def delete(id: int, user: Annotated[User, Depends(access)]):
     if creditCard.idClient != user.idUsuario:
         raise HTTPException(403, "O cartão não pertence ao usuário logado")
 
-    success = service.deleteCreditCardById(id)
+    success = service.deleteCreditCardById(id, user.idUsuario)
 
     if not success:
         raise HTTPException(500, "Não foi possível remover o cartão")
