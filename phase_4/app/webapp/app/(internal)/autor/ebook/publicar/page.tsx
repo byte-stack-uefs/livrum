@@ -7,6 +7,7 @@ import { Button, Grid, TextField, Typography, styled, Box } from "@mui/material"
 import { numberInput, priceInput } from "@/app/components/CustomInputs";
 import PreviewDialog from "@/app/components/PreviewDialog";
 import useRequest from "@/app/services/requester";
+import { DialogError } from "@/app/components/DialogError";
 
 const DashedInput = styled(TextField)(({ theme }) => ({
     borderRadius: 0,
@@ -48,6 +49,9 @@ export default function Page() {
         pages: "0",
     });
 
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
     const requester = useRequest();
 
     const updateEbook = (key: string, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -61,7 +65,27 @@ export default function Page() {
         }));
     };
 
+    const setAttr = (key: string, value: any) => {
+        let eb = {};
+        // @ts-ignore
+        eb[key] = value;
+
+        setEbook((ebook) => ({
+            ...ebook,
+            ...eb,
+        }));
+    };
+
     function submit() {
+        setShowError(false);
+        setErrorMessage("");
+
+        if (document.querySelector("#raised-button-file")?.files.length == 0) {
+            setErrorMessage("O PDF do ebook é obrigatório");
+            setShowError(true);
+            return;
+        }
+
         requester
             .post("/ebook/submit", {
                 preco: 41,
@@ -82,13 +106,21 @@ export default function Page() {
                     releaseYear: "",
                     pages: "0",
                     genre: "",
+                    author: "",
                 });
 
                 const id = response.data;
-                requester.postForm(`/ebook/submit-images/${id}`, {
-                    capa: document.querySelector("#image-in")?.files[0],
-                    pdf: document.querySelector("#raised-button-file")?.files[0],
-                });
+                requester
+                    .postForm(`/ebook/submit-images/${id}`, {
+                        capa: document.querySelector("#image-in")?.files[0],
+                        pdf: document.querySelector("#raised-button-file")?.files[0],
+                    })
+                    .then((response) => {
+                        document.querySelector("#image-in").value = null;
+                        document.querySelector("#raised-button-file").value = null;
+                        setAttr("arq", null);
+                        setAttr("cover", null);
+                    });
             });
     }
 
@@ -125,6 +157,13 @@ export default function Page() {
 
     return (
         <Grid container>
+            <DialogError
+                message={errorMessage}
+                onClose={() => {
+                    setShowError(false);
+                }}
+                open={showError}
+            />
             <PreviewDialog
                 ebook={ebook}
                 open={openPreview}
