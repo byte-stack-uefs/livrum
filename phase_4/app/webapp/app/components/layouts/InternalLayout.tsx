@@ -16,6 +16,7 @@ import Loading from "@/app/loading";
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const { user, updateUser } = useUser();
+    const [userLevel, setUserLevel] = useState(user.tipo);
 
     if (user.status == "") {
         return <Loading />;
@@ -23,7 +24,6 @@ export default function InternalLayout({ children }: { children: React.ReactNode
 
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
-    const [userLevel, setUserLevel] = useState(user.tipo);
 
     const base = UserLevel.ADMIN ? "/admin" : "/autor";
 
