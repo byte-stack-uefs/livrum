@@ -9,6 +9,8 @@ from services.EbookService import EbookService
 
 router = APIRouter(prefix="/ebook", tags=["Ebook"])
 
+allAccess = security.UserHasAccess([UserType.CUSTOMER, UserType.AUTHOR, UserType.ADMIN])
+
 access = security.UserHasAccess([UserType.AUTHOR])
 
 
@@ -98,7 +100,10 @@ def patch(id: int):
 
 
 @router.get("/download/{id}", description="download an ebook")
-def download(id: str):
+def download(id: str, user: Annotated[User, Depends(allAccess)]):
+    ebook = EbookService.getEbookById(id)
+    if not ebook.isAvailable and user.tipo != UserType.ADMIN:
+        raise HTTPException(403, "Você não tem permissão para realizar essa ação")
     result = EbookService.downloadEbook(id)
     if result is None:
         raise HTTPException(
