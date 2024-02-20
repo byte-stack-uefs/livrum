@@ -62,7 +62,7 @@ CREATE TABLE `autor` (
     `idUsuario` int NOT NULL,
     `cpf` varchar(11) NOT NULL,
     `dataNascimento` date NOT NULL,
-    `endereço` varchar(255) NOT NULL,
+    `endereco` varchar(255) NOT NULL,
     `numeroAgencia` varchar(16) NOT NULL,
     `numeroConta` varchar(16) NOT NULL,
     `numeroOperacao` VARCHAR(4) NOT NULL,
