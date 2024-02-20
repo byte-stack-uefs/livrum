@@ -65,7 +65,7 @@ export default function Page() {
         requester
             .post("/ebook/submit", {
                 preco: 41,
-                qtdPaginas: ebook.pages,
+                qtdPaginas: parseInt(ebook.pages),
                 nome: ebook.title,
                 sinopse: ebook.summary,
                 idioma: ebook.languages,
@@ -76,11 +76,11 @@ export default function Page() {
                 setEbook({
                     ...ebook,
                     title: "",
-                    price: "",
+                    price: "0",
                     summary: "",
                     languages: "",
                     releaseYear: "",
-                    pages: "",
+                    pages: "0",
                     genre: "",
                 });
 

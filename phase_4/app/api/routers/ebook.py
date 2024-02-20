@@ -128,8 +128,8 @@ def submit(
 def submitImages(
     user: Annotated[User, Depends(access)],
     id: int,
-    capa: UploadFile = File(...),
-    pdf: UploadFile = File(...),
+    capa: UploadFile,
+    pdf: UploadFile,
 ):
     capa_path = EbookService.save_file(capa, id, "jpeg")
     pdf_path = EbookService.save_file(pdf, id, "pdf")
