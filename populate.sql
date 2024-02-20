@@ -51,7 +51,7 @@ VALUES
     (9, 'Rumo ao Desconhecido', 'active', 20.99, 'Uma expedição rumo ao desconhecido.', 'https://m.media-amazon.com/images/I/41RTZ9XsYnL.jpg', 350, 'Espanhol', 'MOBI', 7, '2020', NULL, 'Autor35, Autor36', 80),
     (10, 'Ecos do Passado', 'active', 17.99, 'Ecos que ressoam através do tempo e do espaço.', 'https://m.media-amazon.com/images/I/61fvqTlI7lL._AC_UF1000,1000_QL80_.jpg', 320, 'Francês', 'PDF', 6, '2024', NULL, 'Autor37, Autor38', 65);
 
-INSERT INTO `livrum`.`GeneroEBook` (`idGenero`, `idEBook`)
+INSERT INTO `livrum`.`generoebook` (`idGenero`, `idEBook`)
 VALUES
   (1, 1),
   (2, 1),
