@@ -189,3 +189,14 @@ class EbookService:
                 book = db.fetchone()
                 ebooks.append(EbookShowupDTO(**book))
         return ebooks
+
+    def setEbookSize(self, idEbook):
+
+        file_path = Path(f"files/{idEbook}.pdf")
+        result = os.stat(str(file_path.absolute()))
+
+        with DB() as db:
+            db.execute(
+                "UPDATE ebook SET tamanhoEmMB = %s WHERE idEBook = %s",
+                [result.st_size / (1024 * 1024), idEbook],
+            )

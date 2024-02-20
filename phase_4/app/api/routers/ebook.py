@@ -133,3 +133,6 @@ def submitImages(
 ):
     capa_path = EbookService.save_file(capa, id, "jpeg")
     pdf_path = EbookService.save_file(pdf, id, "pdf")
+
+    service = EbookService()
+    service.setEbookSize(id)
