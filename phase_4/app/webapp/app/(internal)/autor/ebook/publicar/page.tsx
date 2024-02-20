@@ -45,6 +45,7 @@ export default function Page() {
         releaseYear: "",
         isAvailable: false,
         arq: "",
+        pages: "0",
     });
 
     const requester = useRequest();
@@ -69,17 +70,18 @@ export default function Page() {
                 sinopse: ebook.summary,
                 idioma: ebook.languages,
                 anoLancamento: ebook.releaseYear,
-                outrosAutores: ebook.author
+                outrosAutores: ebook.author,
             })
             .then((response) => {
                 setEbook({
                     ...ebook,
                     title: "",
-                    price: "0",
+                    price: "",
                     summary: "",
                     languages: "",
                     releaseYear: "",
-                    pages: 0,
+                    pages: "",
+                    genre: "",
                 });
 
                 const id = response.data;
@@ -192,7 +194,7 @@ export default function Page() {
                                             inputComponent: priceInput as any,
                                         }}
                                         fullWidth
-                                        value={ebook.price}
+                                        value={ebook.price ?? ""}
                                         onChange={(e) => {
                                             updateEbook("price", e);
                                         }}
@@ -243,7 +245,7 @@ export default function Page() {
                                         }}
                                         fullWidth
                                         size="small"
-                                        value={ebook.pages}
+                                        value={ebook.pages ?? ""}
                                         onChange={(e) => {
                                             updateEbook("pages", e);
                                         }}
