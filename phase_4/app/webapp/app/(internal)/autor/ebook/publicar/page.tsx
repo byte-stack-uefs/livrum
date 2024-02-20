@@ -69,6 +69,7 @@ export default function Page() {
                 sinopse: ebook.summary,
                 idioma: ebook.languages,
                 anoLancamento: ebook.releaseYear,
+                outrosAutores: ebook.author
             })
             .then((response) => {
                 setEbook({
@@ -212,7 +213,7 @@ export default function Page() {
                         <Grid xs={6} item container>
                             <Grid xs={12} item container alignItems="center" py={1}>
                                 <Grid xs={4} item>
-                                    <Typography color="dark.main">Autor: </Typography>
+                                    <Typography color="dark.main">Outros autores: </Typography>
                                 </Grid>
                                 <Grid xs={6} item>
                                     <DashedInput
@@ -223,6 +224,12 @@ export default function Page() {
                                             updateEbook("author", e);
                                         }}
                                     />
+                                </Grid>
+                                <Grid xs={12} item>
+                                    <Typography variant="caption" color="GrayText">
+                                        Você será cadastrado como autor principal. Para uma melhor experiência, separe os nomes dos autores por
+                                        vírgula
+                                    </Typography>
                                 </Grid>
                             </Grid>
                             <Grid xs={12} item container alignItems="center" py={1}>

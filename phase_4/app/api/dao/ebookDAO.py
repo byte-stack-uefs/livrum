@@ -136,7 +136,7 @@ class EbookDAO:
     def save(ebook: EbookCreate) -> int:
         with DB() as db:
             db.execute(
-                "INSERT INTO ebook (nome,idAutor,qtdPaginas,anoLancamento,idioma,sinopse,capa,tamanhoEmMB,preco, status)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s, %s)",
+                "INSERT INTO ebook (nome, idAutor, qtdPaginas, anoLancamento, idioma, sinopse, capa, tamanhoEmMB, preco, status, outrosAutores)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s)",
                 [
                     ebook.nome,
                     ebook.idAutor,
@@ -148,6 +148,7 @@ class EbookDAO:
                     ebook.tamanhoEmMB,
                     ebook.preco,
                     EbookStatus.PENDING.value,
+                    ebook.outrosAutores
                 ],
             )
 
