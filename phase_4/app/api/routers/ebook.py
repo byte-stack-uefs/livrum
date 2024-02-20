@@ -12,6 +12,7 @@ router = APIRouter(prefix="/ebook", tags=["Ebook"])
 allAccess = security.UserHasAccess([UserType.CUSTOMER, UserType.AUTHOR, UserType.ADMIN])
 
 access = security.UserHasAccess([UserType.AUTHOR])
+adminAccess = security.UserHasAccess([UserType.ADMIN])
 
 
 @router.get("/most-viewed")
@@ -80,17 +81,17 @@ def add(
 
 
 @router.put("/approve/{id}", description="approve an ebook")
-def approve(id: str):
+def approve(id: str, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.approveEbook(id)
 
 
 @router.put("/repprove", description="repprove an ebook")
-def approve(reproveEbook: ReproveEbookDTO):
+def approve(reproveEbook: ReproveEbookDTO, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.repproveEbook(reproveEbook)
 
 
 @router.put("/disable/{id}", description="approve an ebook")
-def approve(id: str):
+def approve(id: str, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.disableEbook(id)
 
 
@@ -131,5 +132,4 @@ def submitImages(
     pdf: UploadFile = File(...),
 ):
     capa_path = EbookService.save_file(capa, id, "jpeg")
-
     pdf_path = EbookService.save_file(pdf, id, "pdf")
