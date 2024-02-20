@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import Ebook from "@/app/interfaces/Ebook";
-import { Image } from "@mui/icons-material";
-import { Button, Grid, TextField, Typography, styled, Box } from "@mui/material";
+import { Check, Image } from "@mui/icons-material";
+import { Button, Grid, TextField, Typography, styled, Box, Icon } from "@mui/material";
 import { numberInput, priceInput } from "@/app/components/CustomInputs";
 import PreviewDialog from "@/app/components/PreviewDialog";
 import useRequest from "@/app/services/requester";
 import { DialogError } from "@/app/components/DialogError";
+import { IconModal } from "@/app/components/IconModal";
 
 const DashedInput = styled(TextField)(({ theme }) => ({
     borderRadius: 0,
@@ -50,7 +51,9 @@ export default function Page() {
     });
 
     const [showError, setShowError] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const requester = useRequest();
 
@@ -85,6 +88,8 @@ export default function Page() {
             setShowError(true);
             return;
         }
+
+        setLoading(true);
 
         requester
             .post("/ebook/submit", {
@@ -121,6 +126,11 @@ export default function Page() {
                         setAttr("arq", null);
                         setAttr("cover", null);
                     });
+
+                setShowSuccess(true);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     }
 
@@ -164,6 +174,21 @@ export default function Page() {
                 }}
                 open={showError}
             />
+            <IconModal
+                show={showSuccess}
+                onClose={() => {
+                    setShowSuccess(false);
+                }}
+            >
+                <IconModal.Icon>
+                    <Check color="success" sx={{ fontSize: "4rem" }} />
+                </IconModal.Icon>
+                <IconModal.Content>
+                    <Typography textAlign="center" color="dark.main" variant="h5">
+                        Ebook cadastrado com sucesso
+                    </Typography>
+                </IconModal.Content>
+            </IconModal>
             <PreviewDialog
                 ebook={ebook}
                 open={openPreview}
@@ -388,7 +413,7 @@ export default function Page() {
                 </Grid>
 
                 <Grid item xs={12} textAlign="center">
-                    <Button onClick={submit} variant="contained" color="success">
+                    <Button onClick={submit} variant="contained" color="success" disabled={loading}>
                         Publicar e-Book
                     </Button>
                 </Grid>
