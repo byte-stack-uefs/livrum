@@ -2,7 +2,7 @@
 
 import Cookies from "js-cookie";
 import LivrumLink from "../LivrumLink";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUser, defaultUser } from "@/app/context";
 import { useRouter } from "next/navigation";
 import AccountHeader from "../AccountHeader";
@@ -17,6 +17,10 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     const router = useRouter();
     const { user, updateUser } = useUser();
     const [userLevel, setUserLevel] = useState(user.tipo);
+
+    useEffect(() => {
+        setUserLevel(user.tipo);
+    }, [user]);
 
     if (user.status == "") {
         return <Loading />;
