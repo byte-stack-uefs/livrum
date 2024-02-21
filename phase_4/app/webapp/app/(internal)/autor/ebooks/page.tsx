@@ -85,10 +85,14 @@ export default function ListagemEbooks() {
 
     const requester = useRequest();
 
-    useState(() => {
+    const load = () => {
         requester.get(`/ebook/author/${4}`).then((response) => {
             setEbooks(response.data);
         });
+    };
+
+    useState(() => {
+        load();
     }, []);
 
     const handleClickOpen = (ebook: AuthorEbook) => {
@@ -194,6 +198,17 @@ export default function ListagemEbooks() {
         return d.toFormat("dd/LL/yyyy");
     }
 
+    function inactiveEbook(ebook) {
+        requester
+            .put(`/ebook/disable/${ebook.id}`)
+            .then((response) => {
+                load();
+            })
+            .finally(() => {
+                handleClose();
+            });
+    }
+
     return (
         <>
             <React.Fragment>
@@ -261,7 +276,14 @@ export default function ListagemEbooks() {
                     <DialogActions style={{ justifyContent: "center" }}>
                         {openEbook.status === EnumAuthorEbookStatus.ACTIVE ? (
                             <DialogActions>
-                                <Button variant="contained" color="error" autoFocus onClick={handleClose}>
+                                <Button
+                                    variant="contained"
+                                    color="error"
+                                    autoFocus
+                                    onClick={() => {
+                                        inactiveEbook(openEbook);
+                                    }}
+                                >
                                     Inativar EBook
                                 </Button>
                             </DialogActions>

@@ -105,8 +105,8 @@ def approve(reproveEbook: ReproveEbookDTO, user: Annotated[User, Depends(adminAc
     return EbookService.repproveEbook(reproveEbook)
 
 
-@router.put("/disable/{id}", description="approve an ebook")
-def approve(id: str, user: Annotated[User, Depends(adminAccess)]):
+@router.put("/disable/{id}", description="disable an ebook")
+def approve(id: str, user: Annotated[User, Depends(accessAdminAuthor)]):
     return EbookService.disableEbook(id)
 
 

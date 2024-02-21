@@ -123,7 +123,7 @@ class EbookDAO:
     def disableEbook(id):
         with DB() as db:
             update = "UPDATE ebook SET status = %s where idEBook = %s"
-            db.execute(update, [EbookStatus.INACTIVE, id])
+            db.execute(update, [EbookStatus.INACTIVE.value, id])
 
     def getEbookById(id):
         with DB() as db:
