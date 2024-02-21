@@ -10,76 +10,140 @@ import { VisualizationChart, getFakeData } from "@/app/components/VisualizationC
 import { PopularityTable } from "@/app/components/PopularityTable";
 import { EbookTableItem, EbooksTable } from "@/app/components/EbooksTable";
 import { TableSelect } from "@/app/components/TableSelect";
+import useRequest from "@/app/services/requester";
+import { DateTime } from "luxon";
 
 export default function Page() {
     const username = "Almir";
 
+    const [faturamento, setfaturamento] = useState<{ total_valor: number }>({ total_valor: 0 });
+    const [totalVendidos, settotalVendidos] = useState<{ total_registros: number }>({ total_registros: 0 });
+    const [totalObrasCadastradas, settotalObrasCadastradas] = useState<{ total_registros: number }>({ total_registros: 0 });
     const [data, setData] = useState([]);
+
+    const [date, setDate] = useState(DateTime.now());
+    const [dateLocalized, setDateLocalized] = useState(date.setLocale("pt-br"));
+    const [monthAsStr, setMonthAsStr] = useState<string>(
+        dateLocalized.toFormat("LLLL").charAt(0).toUpperCase() + dateLocalized.toFormat("LLLL").slice(1)
+    );
+
+    const requester = useRequest();
 
     useEffect(() => {
         setData(getFakeData());
+        getCardsData(dateLocalized.month, dateLocalized.year);
     }, []);
+
+    useEffect(() => {
+        setDateLocalized(date.setLocale("pt-br"));
+    }, [date]);
+
+    useEffect(() => {
+        setMonthAsStr(dateLocalized.toFormat("LLLL").charAt(0).toUpperCase() + dateLocalized.toFormat("LLLL").slice(1));
+        getCardsData(dateLocalized.month, dateLocalized.year);
+    }, [dateLocalized]);
+
+    const getCardFaturamento = (mes, ano) => {
+        requester
+            .get(`/author/faturamento/mensal/${mes}/${ano}`)
+            .then((response) => {
+                setfaturamento((prev) => {
+                    return response.data.length > 0 ? response.data[0] : { total_valor: 0 };
+                });
+            })
+            .catch((err) => {});
+    };
+
+    const getCardUnidades = (mes, ano) => {
+        requester
+            .get(`/author/vendas/mensal/${mes}/${ano}`)
+            .then((response) => {
+                settotalVendidos((prev) => {
+                    return response.data.length > 0 ? response.data[0] : { total_registros: 0 };
+                });
+            })
+            .catch((err) => {});
+    };
+
+    const getCardObras = (mes, ano) => {
+        requester
+            .get(`/author/obras/mensal/${mes}/${ano}`)
+            .then((response) => {
+                settotalObrasCadastradas((prev) => {
+                    return response.data.length > 0 ? response.data[0] : { total_registros: 0 };
+                });
+            })
+            .catch((err) => {});
+    };
+
+    const getCardsData = (month: number, year: number) => {
+        getCardFaturamento(month, year);
+        getCardUnidades(month, year);
+        getCardObras(month, year);
+    };
 
     const cards = [
         {
             header: "Faturamento",
             Icon: <MonetizationOn color="darker" fontSize="large" />,
-            title: "R$ 450,00",
-            month: "Julho",
+            title: `${faturamento.total_valor.toLocaleString("pt-br", {
+                currency: "BRL",
+                style: "currency",
+            })}`,
+            month: monthAsStr,
             subtitle: "",
         },
         {
             header: "Vendidos",
             Icon: <Sell color="darker" fontSize="large" />,
-            title: "431",
+            title: totalVendidos.total_registros,
             subtitle: "unidades",
-            month: "Julho",
+            month: monthAsStr,
         },
         {
             header: "Obras",
             Icon: <Book color="darker" fontSize="large" />,
-            title: "31",
+            title: totalObrasCadastradas.total_registros,
             subtitle: "títulos",
-            month: "Julho",
+            month: monthAsStr,
         },
     ];
 
-    const ebooksTableHeaders = [
-        '#', 'Nome', 'Categoria', 'Preço', 'Vendidos (und)', "Faturamento"
-    ];
+    const ebooksTableHeaders = ["#", "Nome", "Categoria", "Preço", "Vendidos (und)", "Faturamento"];
 
     const items: Array<EbookTableItem> = [
         {
             id: 5,
-            name: 'Teste',
+            name: "Teste",
             price: 51.47,
             sold: 557,
             revenue: 557 * 51.47,
-            genres: ['Adventure', 'Terror', 'Comedy']
-        }, {
+            genres: ["Adventure", "Terror", "Comedy"],
+        },
+        {
             id: 15,
-            name: 'Teste',
+            name: "Teste",
             price: 51.47,
             sold: 557,
             revenue: 557 * 51.47,
-            genres: ['Adventure', 'Terror', 'Comedy']
-        }
+            genres: ["Adventure", "Terror", "Comedy"],
+        },
     ];
 
     const categories = [
         {
             value: 4,
-            title: 'Terror'
-        }
+            title: "Terror",
+        },
     ];
 
     const mostSold = [
         {
             id: 10,
-            name: 'Teste Ebook',
-            popularity: 85
-        }
-    ]
+            name: "Teste Ebook",
+            popularity: 85,
+        },
+    ];
 
     return (
         <Grid container spacing={2}>
@@ -98,7 +162,13 @@ export default function Page() {
                     <Typography color="darker.main">Visualizações</Typography>
                 </Grid>
                 <Grid xs={7}>
-                    <VisualizationChart data={data} />
+                    <VisualizationChart
+                        onChange={(val) => {
+                            console.log(val);
+                            setDate(val);
+                        }}
+                        data={data}
+                    />
                 </Grid>
                 <Grid xs={5}>
                     <PopularityTable selectItems={[]} selectTitle="Ebook" title="Mais vendidos" items={mostSold} />
@@ -112,9 +182,13 @@ export default function Page() {
                                 <Typography color="darker.main">eBooks</Typography>
                             </Grid>
                             <Grid xs={3}>
-                                <TableSelect items={categories} title="Categorias" onChange={(e) => {
-                                    console.log(e)
-                                }} />
+                                <TableSelect
+                                    items={categories}
+                                    title="Categorias"
+                                    onChange={(e) => {
+                                        console.log(e);
+                                    }}
+                                />
                             </Grid>
                         </Grid>
                         <Grid xs={12}>

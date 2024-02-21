@@ -50,12 +50,6 @@ class OrderService:
                 "UPDATE pedido SET txid = %s WHERE idPedido = %s", [txid, orderId]
             )
 
-    def getFaturamentoAutor(self, idAutor):
-        with DB() as db:
-            db.execute(
-                "SELECT SUM(ip.valorTotal) AS total_valor FROM pedido p JOIN itempedido ip ON p.idPedido = ip.idPedido JOIN ebook e ON ip.idEbook = e.idEbook WHERE p.status = 'approved' AND e.idAutor = %s;", [idAutor]
-            )
-            faturamento_total = db.fetchone() 
-            
-        return faturamento_total
+                
+    
 
