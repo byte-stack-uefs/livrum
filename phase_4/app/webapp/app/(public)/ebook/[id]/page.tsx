@@ -12,6 +12,7 @@ import useRequest from "@/app/services/requester";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Container, Skeleton, Typography } from "@mui/material";
 import EbookDetails from "@/app/components/EbookDetails";
+import "../../../styles/image-zoom.css";
 
 interface EbookPageParams {
     id: number;
@@ -30,6 +31,7 @@ export default function Page({ params }: { params: EbookPageParams }) {
     const [ebook, setEbook] = useState<Ebook>();
     const [isAlertVisible, setIsAlertVisible] = useState(false);
     const { id } = params;
+    const [similar, setSimilar] = useState(null);
 
     const requester = useRequest();
 
@@ -43,34 +45,12 @@ export default function Page({ params }: { params: EbookPageParams }) {
         getEbookByID();
     }
 
-    // TODO: find similars given this ebook's ID.
-    const similars = [
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-        {
-            title: "AAA",
-            author: "Almir",
-            cover: "https://cdn.kobo.com/book-images/6750d058-29cb-4626-9c12-a62e816a80cc/1200/1200/False/harry-potter-and-the-philosopher-s-stone-3.jpg",
-        },
-    ];
+    if (!similar) {
+        requester.get(`/ebook/similar/${id}`).then((response) => {
+            const { data } = response;
+            setSimilar(data);
+        });
+    }
 
     const { handleAddEbookToCart } = useCart();
 
@@ -98,6 +78,8 @@ export default function Page({ params }: { params: EbookPageParams }) {
         setIsAlertVisible(false);
     };
 
+    const skeletons = [1, 2, 3, 4];
+
     return (
         <Container maxWidth={false}>
             <Grid container>
@@ -121,7 +103,15 @@ export default function Page({ params }: { params: EbookPageParams }) {
                         <Divider width={"15%"} style={{ margin: "auto" }} />
                     </Grid>
                     <Grid xs={12} my={3}>
-                        <Carousel items={similars} Child={SimilarEbooks} />
+                        {similar ? (
+                            <Carousel items={similar} Child={SimilarEbooks} />
+                        ) : (
+                            <Grid container xs={12} sx={{ justifyContent: "space-between" }}>
+                                {skeletons.map((e) => {
+                                    return <Skeleton key={"similar-" + e} variant="rounded" width={"20%"} height={350}></Skeleton>;
+                                })}
+                            </Grid>
+                        )}
                     </Grid>
                 </Grid>
             </Grid>
@@ -132,7 +122,17 @@ export default function Page({ params }: { params: EbookPageParams }) {
 function SimilarEbooks(ebook: Ebook) {
     return (
         <div style={{ textAlign: "center", padding: 8 }}>
-            <Image src={ebook.cover} width={3000} height={3000} style={{ width: "100%", height: "100%", objectFit: "contain" }} alt="book cover" />
+            <div
+                style={{
+                    height: 400,
+                    width: 300,
+                    margin: "auto",
+                    overflow: "hidden",
+                    position: "relative",
+                }}
+            >
+                {ebook.cover ? <Image className="image-zoom" fill objectFit="cover" src={ebook.cover} alt="book cover" /> : <></>}
+            </div>
             <Typography fontWeight="bold" color="dark.main">
                 {ebook.title}
             </Typography>

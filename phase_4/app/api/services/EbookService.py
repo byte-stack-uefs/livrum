@@ -1,8 +1,18 @@
+import os
 from pathlib import Path
+from fastapi import File, UploadFile
 from fastapi.responses import FileResponse
 from dao.ebookDAO import EbookDAO
 from database.database import DB
-from models.ebook import AuthorEbookDTO, Ebook, EbookModel, EbookDTO, ReproveEbookDTO
+from models.ebook import (
+    AuthorEbookDTO,
+    Ebook,
+    EbookModel,
+    EbookDTO,
+    EbookShowupDTO,
+    ReproveEbookDTO,
+    EbookCreate,
+)
 
 
 class EbookService:
@@ -10,7 +20,6 @@ class EbookService:
         return EbookModel(**item)
 
     def addEbook(self, novoEbook: EbookDTO, idAutor) -> Ebook:
-
         with DB() as db:
             try:
                 db.execute(
@@ -49,7 +58,6 @@ class EbookService:
             )
         except Exception as ex:
             print("Erro ao buscar Ebooks", ex)
-
         return ebooks
 
     def findAll() -> [AuthorEbookDTO]:
@@ -90,35 +98,41 @@ class EbookService:
             return FileResponse(file_path, filename=id + ".pdf")
         return None
 
+    def save_file(file: UploadFile, idEbook: int, ext: str, folder: str = "files"):
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        file_path = os.path.join(folder, f"{idEbook}.{ext}")
+        with open(file_path, "wb") as dest_file:
+            dest_file.write(file.file.read())
+
+        return file_path
+
+    def submit(ebook: EbookCreate):
+        return EbookDAO.save(ebook)
+
     def getMoreViewedEbooks(self):
-
         with DB() as db:
-
-            db.execute("SELECT * FROM ebook ORDER BY visto DESC LIMIT 10")
+            db.execute(
+                "SELECT * FROM ebook WHERE status = 'active' ORDER BY visto DESC LIMIT 10"
+            )
             data = db.fetchall()
-
         if data is not None:
             return list([EbookModel(**x) for x in data])
-
         return []
 
     def getNewerEbooks(self):
         with DB() as db:
-
             db.execute(
-                "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) LIMIT 10"
+                "SELECT * FROM ebook WHERE criadoEm > DATE_SUB(NOW(), INTERVAL 1 MONTH) AND status = 'active' LIMIT 10"
             )
             data = db.fetchall()
-
         if data is not None:
             return list([EbookModel(**x) for x in data])
-
         return []
 
     def getMostBuyed(self):
-
         with DB() as db:
-
             db.execute(
                 "SELECT \
                     e.*, \
@@ -131,15 +145,58 @@ class EbookService:
                     p.idPedido = i.idPedido \
                 WHERE \
                     p.status = 'approved' \
+                    AND e.status = 'active' \
                 GROUP BY \
                     e.idEBook \
                 ORDER BY \
                     c DESC \
                 LIMIT 10"
             )
-
             data = db.fetchall()
-
         if data is not None:
             return list([EbookModel(**x) for x in data])
         return []
+
+    def getSimilarEbooks(self, idEbook):
+        with DB() as db:
+            db.execute("SELECT idAutor FROM ebook WHERE idEBook = %s", [idEbook])
+            idAutor = db.fetchone()["idAutor"]
+            db.execute(
+                "SELECT \
+                    * \
+                FROM \
+                    ebook e \
+                WHERE \
+                    e.status = 'active' \
+                    AND e.idEBook != %s \
+                    AND e.idAutor = %s",
+                [idEbook, idAutor],
+            )
+            data = db.fetchall()
+            if data is not None:
+                return list([EbookModel(**x) for x in data])
+        return []
+
+    def getUserLibrary(idCliente):
+        ebooks = []
+        with DB() as db:
+            query = "SELECT * FROM biblioteca WHERE idCliente = %s"
+            db.execute(query, [idCliente])
+            book_ids = db.fetchall()
+            for bookID in book_ids:
+                query = "SELECT * FROM ebook WHERE idEBook = %s"
+                db.execute(query, [bookID["idEBook"]])
+                book = db.fetchone()
+                ebooks.append(EbookShowupDTO(**book))
+        return ebooks
+
+    def setEbookSize(self, idEbook):
+
+        file_path = Path(f"files/{idEbook}.pdf")
+        result = os.stat(str(file_path.absolute()))
+
+        with DB() as db:
+            db.execute(
+                "UPDATE ebook SET tamanhoEmMB = %s WHERE idEBook = %s",
+                [result.st_size / (1024 * 1024), idEbook],
+            )

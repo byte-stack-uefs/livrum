@@ -46,6 +46,13 @@ export default function Page() {
 
     const requester = useRequest();
 
+    const deleteCreditCard = (creditCardId: Number) => {
+        requester.delete(`/credit-card/${creditCardId}`).then(response => {
+            getCreditCards()
+        })
+            .catch(err => {})
+    }
+
     const getCreditCards = () => {
         requester.get('/credit-card').then(response => {
             setCreditCards(prev => {
@@ -85,7 +92,6 @@ export default function Page() {
                 setCardNumber("");
                 setCardToken("");
                 setCardExpiration(null);
-
                 setHasCreationFailed(false);
                 setCreationError("");
 
@@ -232,7 +238,7 @@ export default function Page() {
                                                     <Typography>**** **** **** {creditcard.cardNumber}</Typography>
                                                 </Grid>
                                                 <Grid xs={4} textAlign="right">
-                                                    <Button variant="contained" color="error">
+                                                    <Button variant="contained" color="error" onClick={() => deleteCreditCard(creditcard.idCard)}>
                                                         Excluir
                                                     </Button>
                                                 </Grid>

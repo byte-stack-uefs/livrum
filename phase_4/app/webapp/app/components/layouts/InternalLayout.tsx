@@ -11,16 +11,21 @@ import LivrumButtonMenu from "../LivrumButtonMenu";
 import { LivrumButtonMenuItems } from "@/app/interfaces/LivrumButtonMenuProps";
 import { Avatar, Button, Container, Grid, Paper, Typography } from "@mui/material";
 import { Discount, Groups, Home, LibraryBooks, Logout, Person, SubdirectoryArrowRight } from "@mui/icons-material";
+import Loading from "@/app/loading";
 
 export default function InternalLayout({ children }: { children: React.ReactNode }) {
-    const { user, updateUser } = useUser();
     const router = useRouter();
+    const { user, updateUser } = useUser();
+    const [userLevel, setUserLevel] = useState(user.tipo);
+
+    if (user.status == "") {
+        return <Loading />;
+    }
 
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
-    const [userLevel, setUserLevel] = useState(user.tipo);
 
-    const base = UserLevel.ADMIN ? "/admin" : "/autor";
+    const base = user.tipo == UserLevel.ADMIN ? "/admin" : "/autor";
 
     const buttons: LivrumButtonMenuItems[] = [
         {

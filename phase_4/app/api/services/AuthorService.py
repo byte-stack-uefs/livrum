@@ -1,8 +1,10 @@
 from database.database import DB
 from models.author import AuthorQntDataForm
+from models.author import CreateAuthorForm, Author
+
 
 class AuthorService:
-    
+
     def _convertAutorQntDataForm(self, item: dict) -> AuthorQntDataForm:
         return AuthorQntDataForm(**item)
 
@@ -13,13 +15,16 @@ class AuthorService:
                 FROM pedido p \
                 JOIN itempedido ip ON p.idPedido = ip.idPedido \
                 JOIN ebook e ON ip.idEbook = e.idEbook \
-                WHERE p.status = 'approved' AND e.idAutor = %s;", [idAutor]
+                WHERE p.status = 'approved' AND e.idAutor = %s;",
+                [idAutor],
             )
-            faturamento_total = db.fetchone() 
-            
+            faturamento_total = db.fetchone()
+
         return faturamento_total
-    
-    def getFaturamentoMensalAutor(self, mes: int, idAutor=None) -> list[AuthorQntDataForm]:
+
+    def getFaturamentoMensalAutor(
+        self, mes: int, idAutor=None
+    ) -> list[AuthorQntDataForm]:
         if idAutor is not None:
             with DB() as db:
                 db.execute(
@@ -27,24 +32,26 @@ class AuthorService:
                     FROM pedido p JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
                     WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s \
-                    GROUP BY e.idAutor;", [idAutor, mes]
+                    GROUP BY e.idAutor;",
+                    [idAutor, mes],
                 )
-                data_list = db.fetchone() 
+                data_list = db.fetchone()
         else:
-            #listagem de faturamento de todos os autores
+            # listagem de faturamento de todos os autores
             with DB() as db:
                 db.execute(
                     "SELECT e.idAutor, SUM(ip.valorTotal) AS total_valor \
                     FROM pedido p JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
                     WHERE p.status = 'approved' AND MONTH(p.data) = %s \
-                    GROUP BY e.idAutor;", [mes]
+                    GROUP BY e.idAutor;",
+                    [mes],
                 )
-                data_list = db.fetchall() 
-        
-        faturamento_mensal_autor= map(self._convertAutorQntDataForm, data_list)
+                data_list = db.fetchall()
+
+        faturamento_mensal_autor = map(self._convertAutorQntDataForm, data_list)
         return faturamento_mensal_autor
-    
+
     def getTotalUnidadesVendidasMes(self, mes: int, idAutor=None):
         if idAutor is not None:
             with DB() as db:
@@ -54,9 +61,10 @@ class AuthorService:
                     JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
                     WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s \
-                    GROUP BY e.idAutor;", [idAutor, mes]
+                    GROUP BY e.idAutor;",
+                    [idAutor, mes],
                 )
-                data_list = db.fetchone() 
+                data_list = db.fetchone()
         else:
             with DB() as db:
                 db.execute(
@@ -65,9 +73,10 @@ class AuthorService:
                     JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
                     WHERE p.status = 'approved' AND MONTH(p.data) = %s \
-                    GROUP BY e.idAutor;", [mes]
+                    GROUP BY e.idAutor;",
+                    [mes],
                 )
-                data_list = db.fetchall() 
+                data_list = db.fetchall()
 
         unidades_vendidas_mes = map(self._convertAutorQntDataForm, data_list)
         return unidades_vendidas_mes
@@ -79,19 +88,52 @@ class AuthorService:
                     "SELECT idAutor, COUNT(*) AS total_registros \
                     FROM Ebook \
                     WHERE idAutor = %s AND MONTH(criadoEm) = %s \
-                    GROUP BY idAutor;", [idAutor, mes]
+                    GROUP BY idAutor;",
+                    [idAutor, mes],
                 )
-                data_list = db.fetchone() 
-        
+                data_list = db.fetchone()
+
         else:
             with DB() as db:
                 db.execute(
                     "SELECT idAutor, COUNT(*) AS total_registros \
                     FROM Ebook \
                     WHERE MONTH(criadoEm) = %s \
-                    GROUP BY idAutor;", [mes]
+                    GROUP BY idAutor;",
+                    [mes],
                 )
-                data_list = db.fetchall() 
-        
+                data_list = db.fetchall()
+
         obras_criadas_mes = map(self._convertAutorQntDataForm, data_list)
         return obras_criadas_mes
+
+    def addAuthor(self, author: CreateAuthorForm, idUser):
+
+        with DB() as db:
+            try:
+                db.execute(
+                    "INSERT INTO autor (idUsuario, cpf, dataNascimento, endereco, numeroAgencia, numeroConta, numeroOperacao) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    [
+                        idUser,
+                        author.cpf,
+                        author.dataNascimento,
+                        author.endereco,
+                        author.numeroAgencia,
+                        author.numeroConta,
+                        author.numeroOperacao,
+                    ],
+                )
+                return True
+            except:
+                return False
+
+    def findAuthorByCpf(self, cpf: int) -> Author:
+
+        with DB() as db:
+            db.execute("SELECT * FROM autor WHERE cpf = %s", [cpf])
+            data = db.fetchone()
+        author = None
+        if data is not None:
+            author = Author(**data)
+
+        return author

@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import Ebook from "@/app/interfaces/Ebook";
+import { useContext, useState } from "react";
+import Ebook, { EbookResponse } from "@/app/interfaces/Ebook";
 import Divider from "@/app/components/Divider";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { CloudDownload, CheckCircle, ReportProblem } from "@mui/icons-material";
 import { Alert, Box, Button, List, ListItem, Pagination, Stack, Typography } from "@mui/material";
 import useRequest from "@/app/services/requester";
+import { useUser } from "@/app/context";
 
 type DynamicDownloadButtonProps = {
     isAvailable: boolean;
@@ -43,73 +44,40 @@ function ClientLibraryContainerHeader() {
 }
 
 function ClientLibraryBookContainer() {
-    const [books, setBooks] = useState([
-        {
-            id: 2,
-            author: "Fiodor Dostoievski",
-            title: "Os irmãos Karamazov",
-            releaseYear: "1880",
-            price: 110,
-            summary: "Lorem ipsum",
-            genre: "",
-            isAvailable: false,
-            cover: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpz_PGgi7jqYjc-QQ554j02VSA6G_TOT6w3FBlk2Zd9YFV64FvyVGkSatjDrBJWlOnRnK-jfRE0ws0BRoq2jLFF83dVRIdo9SlpHQzCUZOEpGTPeIXLFWTkA",
-        },
-        {
-            id: 2,
-            author: "Plato",
-            price: 220,
-            title: "The Republic",
-            releaseYear: "2023",
-            summary: "Lorem ipsum",
-            genre: "",
-            isAvailable: true,
-            cover: "https://m.media-amazon.com/images/I/612q-zfRD9L._AC_UF1000,1000_QL80_.jpg",
-        },
-        {
-            id: 2,
-            author: "Andrew Hodges",
-            price: 20,
-            title: "Turing: Um filósofo da natureza",
-            releaseYear: "2023",
-            summary: "Lorem ipsum",
-            genre: "",
-            isAvailable: true,
-            cover: "https://m.media-amazon.com/images/I/819ACs3AuzL._AC_AA360_.jpg",
-        },
-        {
-            id: 2,
-            author: "Austin Wright",
-            title: "Tony & Susan",
-            releaseYear: "1990",
-            price: 50,
-            summary: "Lorem ipsum",
-            isAvailable: true,
-            cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg",
-        },
-        {
-            id: 2,
-            author: "Austin Wright",
-            title: "Tony & Susan",
-            releaseYear: "1990",
-            price: 50,
-            summary: "Lorem ipsum",
-            genre: "",
-            isAvailable: false,
-            cover: "https://m.media-amazon.com/images/I/71R8HmaGC5L._AC_AA440_.jpg",
-        },
-    ]);
-    return (
-        <Grid container xs={12}>
-            <List sx={{ width: "100%" }}>
-                {books.map((book) => (
-                    <ListItem key={book.id}>
-                        <InLibraryEbookCard ebook={book}></InLibraryEbookCard>
-                    </ListItem>
-                ))}
-            </List>
-        </Grid>
-    );
+    const { user } = useUser();
+    const [fetched, setFetched] = useState(false);
+    const [books, setBooks] = useState<Ebook[]>([]);
+    const requester = useRequest();
+
+    const fetchClientLibrary = async () => {
+        if (!fetched) {
+            const { data } = await requester.get<EbookResponse>("/ebook/userLibrary", {
+                params: { idUsuario: user.idUsuario },
+            });
+            setBooks(data);
+            console.log("BOOKS: ", data);
+            if (!(books.length === 0)) {
+                setFetched(true);
+            }
+        }
+    };
+
+    fetchClientLibrary();
+    if (fetched) {
+        return (
+            <Grid container xs={12}>
+                <List sx={{ width: "100%" }}>
+                    {books.map((book) => (
+                        <ListItem key={book.id}>
+                            <InLibraryEbookCard ebook={book}></InLibraryEbookCard>
+                        </ListItem>
+                    ))}
+                </List>
+            </Grid>
+        );
+    } else {
+        return <></>;
+    }
 }
 
 type InLibraryEbookCardProps = {
@@ -149,9 +117,7 @@ const DisplayBookInfo: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
                                 <ReportProblem />
                             </Grid>
                             <Grid xs>
-                                <Typography variant="caption">
-                                    Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!
-                                </Typography>
+                                <Typography variant="caption">Este livro estará disponível para download assim que recebermos a confirmação do seu pagamento!</Typography>
                             </Grid>
                         </>
                     </Grid>
@@ -184,16 +150,7 @@ const InLibraryEbookCard: React.FC<InLibraryEbookCardProps> = ({ ebook }) => {
     return (
         <Grid container xs={12} sx={{ boxShadow: 3, backgroundColor: "#FFF", borderRadius: "16px", p: 2 }}>
             <Grid xs={2}>
-                <Box>
-                    <Image
-                        className="image-zoom"
-                        width={100}
-                        height={125}
-                        style={{ objectFit: "cover", borderRadius: "16px" }}
-                        alt={ebook.title}
-                        src={ebook.cover}
-                    />
-                </Box>
+                <Box>{ebook.cover ? <Image className="image-zoom" width={100} height={125} style={{ objectFit: "cover", borderRadius: "16px" }} alt={ebook.title} src={ebook.cover} /> : <></>}</Box>
             </Grid>
             <Grid xs={10}>
                 <DisplayBookInfo ebook={ebook} />

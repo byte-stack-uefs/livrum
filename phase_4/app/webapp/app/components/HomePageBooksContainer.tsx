@@ -13,13 +13,14 @@ function ContainerBookCard(book: Ebook) {
         <div>
             <div
                 style={{
-                    height: 250,
+                    height: 400,
+                    width: 300,
                     margin: "auto",
                     overflow: "hidden",
                     position: "relative",
                 }}
             >
-                <Image className="image-zoom" fill objectFit="cover" alt={book.title} src={book.cover} />
+                {book.cover ? <Image className="image-zoom" fill objectFit="cover" alt={book.title} src={book.cover} /> : <></>}
             </div>
 
             <Typography color="darker.main" sx={{ fontWeight: "bold" }}>

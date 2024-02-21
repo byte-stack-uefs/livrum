@@ -24,7 +24,7 @@ class Token(BaseModel):
 def verify_password(plain: str, hashed: str) -> bool:
     return passwordContext.verify(plain, hashed)
 
-
+@staticmethod
 def get_password_hash(plain: str) -> str:
     return passwordContext.hash(plain)
 
@@ -94,6 +94,9 @@ def token(form: Annotated[OAuth2PasswordRequestForm, Depends()], response: Respo
 
     if not verify_password(form.password, user.senha):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Wrong password")
+
+    if user.status != UserStatus.ACTIVE:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED, detail="Usuário bloqueado")
 
     del user.senha
     access_token = create_access_token({"id": user.idUsuario, "type": user.tipo}, 60)

@@ -82,6 +82,13 @@ export function TopMain() {
         });
     };
 
+    let base = "/cliente";
+    if (user.tipo == "ADM") {
+        base = "/admin";
+    } else if (user.tipo == "AUTOR") {
+        base = "/autor";
+    }
+
     const searchSelect = (
         <InputAdornment position="start">
             <Select
@@ -132,32 +139,34 @@ export function TopMain() {
                         </FormControl>
                     </Grid>
                     <Grid item sm={4} md={2} sx={{ display: "inline", justifyContent: "space-evenly", px: 2 }}>
-                        <Link href="/carrinho">
-                            <Tooltip
-                                title="Ver carrinho"
-                                arrow
-                                slotProps={{
-                                    popper: {
-                                        sx: {
-                                            [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]: {
-                                                marginTop: "0px",
+                        {user.tipo == "CLIENTE" && (
+                            <Link href="/carrinho">
+                                <Tooltip
+                                    title="Ver carrinho"
+                                    arrow
+                                    slotProps={{
+                                        popper: {
+                                            sx: {
+                                                [`&.${tooltipClasses.popper}[data-popper-placement*="bottom"] .${tooltipClasses.tooltip}`]: {
+                                                    marginTop: "0px",
+                                                },
                                             },
                                         },
-                                    },
-                                }}
-                            >
-                                <Badge
-                                    anchorOrigin={{
-                                        vertical: "bottom",
-                                        horizontal: "right",
                                     }}
-                                    badgeContent={cartTotalQnt}
-                                    color="primary"
                                 >
-                                    <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
-                                </Badge>
-                            </Tooltip>
-                        </Link>
+                                    <Badge
+                                        anchorOrigin={{
+                                            vertical: "bottom",
+                                            horizontal: "right",
+                                        }}
+                                        badgeContent={cartTotalQnt}
+                                        color="primary"
+                                    >
+                                        <ShoppingCart sx={{ fontSize: 40 }} color="darker" />
+                                    </Badge>
+                                </Tooltip>
+                            </Link>
+                        )}
 
                         {user.status == "" ? (
                             <Button
@@ -193,20 +202,24 @@ export function TopMain() {
                                     <div style={{ padding: "0.5rem", textAlign: "center" }}>{user.nome}</div>
                                     <Divider width="100%" height={0.1} />
                                     <MenuItem>
-                                        <LivrumLink style={{ color: "black" }} href="/cliente/meus-dados">
+                                        <LivrumLink style={{ color: "black" }} href={`${base}/meus-dados`}>
                                             Meus Dados
                                         </LivrumLink>
                                     </MenuItem>
-                                    <MenuItem>
-                                        <LivrumLink style={{ color: "black" }} href="/cliente/meus-cartoes">
-                                            Meus Cartões
-                                        </LivrumLink>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <LivrumLink style={{ color: "black" }} href="/cliente/biblioteca">
-                                            Biblioteca
-                                        </LivrumLink>
-                                    </MenuItem>
+                                    {user.tipo == "CLIENTE" && (
+                                        <>
+                                            <MenuItem>
+                                                <LivrumLink style={{ color: "black" }} href="/cliente/meus-cartoes">
+                                                    Meus Cartões
+                                                </LivrumLink>
+                                            </MenuItem>
+                                            <MenuItem>
+                                                <LivrumLink style={{ color: "black" }} href="/cliente/biblioteca">
+                                                    Biblioteca
+                                                </LivrumLink>
+                                            </MenuItem>
+                                        </>
+                                    )}
                                     <MenuItem onClick={handleLogout}>Sair</MenuItem>
                                 </Menu>
                             </>

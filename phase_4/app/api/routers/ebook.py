@@ -1,36 +1,47 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, File, UploadFile, Request
 from typing import Annotated
 from dependencies import security
 from models.user import User, UserType
 from fastapi import APIRouter, Depends, HTTPException
-from models.ebook import EbookDTO
+from models.ebook import EbookCreate, EbookDTO
 from models.ebook import ReproveEbookDTO
 from services.EbookService import EbookService
 
 router = APIRouter(prefix="/ebook", tags=["Ebook"])
 
+allAccess = security.UserHasAccess([UserType.CUSTOMER, UserType.AUTHOR, UserType.ADMIN])
+
 access = security.UserHasAccess([UserType.AUTHOR])
+adminAccess = security.UserHasAccess([UserType.ADMIN])
 
 
 @router.get("/most-viewed")
 def mostViewed():
     service = EbookService()
-
     return service.getMoreViewedEbooks()
 
 
 @router.get("/newer")
 def getNewer():
     service = EbookService()
-
     return service.getNewerEbooks()
 
 
 @router.get("/most-buyed")
 def getMostBuyed():
     service = EbookService()
-
     return service.getMostBuyed()
+
+
+@router.get("/userLibrary")
+def getUserLibrary(idUsuario):
+    return EbookService.getUserLibrary(idUsuario)
+
+
+@router.get("/similar/{id}")
+def getSimilar(id: int):
+    service = EbookService()
+    return service.getSimilarEbooks(id)
 
 
 @router.get("/search", description="Get ebooks by optional filters")
@@ -70,17 +81,17 @@ def add(
 
 
 @router.put("/approve/{id}", description="approve an ebook")
-def approve(id: str):
+def approve(id: str, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.approveEbook(id)
 
 
 @router.put("/repprove", description="repprove an ebook")
-def approve(reproveEbook: ReproveEbookDTO):
+def approve(reproveEbook: ReproveEbookDTO, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.repproveEbook(reproveEbook)
 
 
 @router.put("/disable/{id}", description="approve an ebook")
-def approve(id: str):
+def approve(id: str, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.disableEbook(id)
 
 
@@ -90,8 +101,10 @@ def patch(id: int):
 
 
 @router.get("/download/{id}", description="download an ebook")
-def download(id: str):
-
+def download(id: str, user: Annotated[User, Depends(allAccess)]):
+    ebook = EbookService.getEbookById(id)
+    if not ebook.isAvailable and user.tipo != UserType.ADMIN:
+        raise HTTPException(403, "Você não tem permissão para realizar essa ação")
     result = EbookService.downloadEbook(id)
     if result is None:
         raise HTTPException(
@@ -99,3 +112,27 @@ def download(id: str):
             "O PDF do Ebook não está disponível, por favor, tente novamente mais tarde",
         )
     return result
+
+
+@router.post("/submit")
+def submit(
+    user: Annotated[User, Depends(access)],
+    ebook: EbookCreate,
+):
+
+    ebook.idAutor = user.idUsuario
+    return EbookService.submit(ebook)
+
+
+@router.post("/submit-images/{id}")
+def submitImages(
+    user: Annotated[User, Depends(access)],
+    id: int,
+    capa: UploadFile,
+    pdf: UploadFile,
+):
+    capa_path = EbookService.save_file(capa, id, "jpeg")
+    pdf_path = EbookService.save_file(pdf, id, "pdf")
+
+    service = EbookService()
+    service.setEbookSize(id)

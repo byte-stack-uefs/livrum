@@ -2,10 +2,11 @@ from models.ebook import (
     AuthorEbookDTO,
     CatalogEbookDTO,
     Ebook,
+    EbookCreate,
     EbookDTO,
     EbookStatus,
     ReproveEbookDTO,
-    EbookShowupDTO
+    EbookShowupDTO,
 )
 
 from database.database import DB
@@ -33,9 +34,11 @@ class EbookDAO:
                 consulta += " AND nome like %s"
                 valores.append(f"%{name}%")
             if author is not None:
+
                 db.execute(
                     "SELECT idUsuario FROM usuario WHERE nome like %s", [f"%{author}%"]
                 )
+
                 autor = db.fetchone()
                 if not autor:
                     pass
@@ -61,10 +64,12 @@ class EbookDAO:
                 ebooks.append(ebookDTO)
 
                 if id_client is not None:
+
                     db.execute(
                         "SELECT * FROM biblioteca WHERE idCliente = %s and idEBook = %s",
                         [id_client, ebookDTO.id],
                     )
+
                     response = db.fetchone()
                     ebookDTO.isAvailable = response is None
         return ebooks
@@ -117,7 +122,7 @@ class EbookDAO:
 
     def disableEbook(id):
         with DB() as db:
-            update = "UPDATE Ebook SET status = %s where idEBook = %s"
+            update = "UPDATE ebook SET status = %s where idEBook = %s"
             db.execute(update, [EbookStatus.INACTIVE, id])
 
     def getEbookById(id):
@@ -127,3 +132,24 @@ class EbookDAO:
             data = db.fetchone()
             ebookModel = EbookShowupDTO(**data)
         return ebookModel
+
+    def save(ebook: EbookCreate) -> int:
+        with DB() as db:
+            db.execute(
+                "INSERT INTO ebook (nome, idAutor, qtdPaginas, anoLancamento, idioma, sinopse, capa, tamanhoEmMB, preco, status, outrosAutores)VALUES (%s, %s, %s, %s, %s, %s,%s,%s,%s, %s, %s)",
+                [
+                    ebook.nome,
+                    ebook.idAutor,
+                    ebook.qtdPaginas,
+                    ebook.anoLancamento,
+                    ebook.idioma,
+                    ebook.sinopse,
+                    ebook.capa,
+                    ebook.tamanhoEmMB,
+                    ebook.preco,
+                    EbookStatus.PENDING.value,
+                    ebook.outrosAutores
+                ],
+            )
+
+            return db.lastrowid
