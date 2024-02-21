@@ -15,11 +15,11 @@ service = AuthorService()
 def get_faturamento_mensal(mes, user: Annotated[User, Depends(access)]):
     return service.getFaturamentoMensalAutor(mes=mes, idAutor=user.idUsuario)
 
-@router.get('/vendas/mesal/{mes}')
+@router.get('/vendas/mensal/{mes}')
 def get_vendas_mes(mes, user: Annotated[User, Depends(access)]):
     return service.getTotalUnidadesVendidasMes(mes=mes, idAutor=user.idUsuario)
 
-@router.get('/obras/mesal/{mes}')
+@router.get('/obras/mensal/{mes}')
 def get_obras_criadas_mes(mes, user: Annotated[User, Depends(access)]):
     return service.getTotalObrasCriadasMes(mes=mes, idAutor=user.idUsuario)
 

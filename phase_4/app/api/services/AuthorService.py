@@ -22,9 +22,7 @@ class AuthorService:
 
         return faturamento_total
 
-    def getFaturamentoMensalAutor(
-        self, mes: int, idAutor=None
-    ) -> list[AuthorQntDataForm]:
+    def getFaturamentoMensalAutor(self, mes: int, idAutor=None):
         if idAutor is not None:
             with DB() as db:
                 db.execute(
@@ -35,7 +33,8 @@ class AuthorService:
                     GROUP BY e.idAutor;",
                     [idAutor, mes],
                 )
-                data_list = db.fetchone()
+                d = db.fetchone()
+                data_list = [] if d is None else [d]
         else:
             # listagem de faturamento de todos os autores
             with DB() as db:
@@ -48,9 +47,7 @@ class AuthorService:
                     [mes],
                 )
                 data_list = db.fetchall()
-
-        faturamento_mensal_autor = map(self._convertAutorQntDataForm, data_list)
-        return faturamento_mensal_autor
+        return data_list
 
     def getTotalUnidadesVendidasMes(self, mes: int, idAutor=None):
         if idAutor is not None:
@@ -64,7 +61,8 @@ class AuthorService:
                     GROUP BY e.idAutor;",
                     [idAutor, mes],
                 )
-                data_list = db.fetchone()
+                d = db.fetchone()
+                data_list = [] if d is None else [d]
         else:
             with DB() as db:
                 db.execute(
@@ -78,34 +76,33 @@ class AuthorService:
                 )
                 data_list = db.fetchall()
 
-        unidades_vendidas_mes = map(self._convertAutorQntDataForm, data_list)
-        return unidades_vendidas_mes
+        return data_list
 
     def getTotalObrasCriadasMes(self, mes: int, idAutor=None):
         if idAutor is not None:
             with DB() as db:
                 db.execute(
                     "SELECT idAutor, COUNT(*) AS total_registros \
-                    FROM Ebook \
+                    FROM ebook \
                     WHERE idAutor = %s AND MONTH(criadoEm) = %s \
                     GROUP BY idAutor;",
                     [idAutor, mes],
                 )
-                data_list = db.fetchone()
+                d = db.fetchone()
+                data_list = [] if d is None else [d]
 
         else:
             with DB() as db:
                 db.execute(
                     "SELECT idAutor, COUNT(*) AS total_registros \
-                    FROM Ebook \
+                    FROM ebook \
                     WHERE MONTH(criadoEm) = %s \
                     GROUP BY idAutor;",
                     [mes],
                 )
                 data_list = db.fetchall()
 
-        obras_criadas_mes = map(self._convertAutorQntDataForm, data_list)
-        return obras_criadas_mes
+        return data_list
 
     def addAuthor(self, author: CreateAuthorForm, idUser):
 
