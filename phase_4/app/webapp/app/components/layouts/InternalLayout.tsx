@@ -25,7 +25,7 @@ export default function InternalLayout({ children }: { children: React.ReactNode
     const avatarSrc =
         "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg";
 
-    const base = UserLevel.ADMIN ? "/admin" : "/autor";
+    const base = user.tipo == UserLevel.ADMIN ? "/admin" : "/autor";
 
     const buttons: LivrumButtonMenuItems[] = [
         {
