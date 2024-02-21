@@ -31,18 +31,21 @@ export default function Page() {
 
     useEffect(() => {
         setData(getFakeData());
-        getCardsData();
+        getCardsData(dateLocalized.month, dateLocalized.year);
     }, []);
 
     useEffect(() => {
         setDateLocalized(date.setLocale("pt-br"));
-        setMonthAsStr(dateLocalized.toFormat("LLLL").charAt(0).toUpperCase() + dateLocalized.toFormat("LLLL").slice(1));
-        getCardsData(dateLocalized.month, dateLocalized.year);
     }, [date]);
 
-    const getCardFaturamento = () => {
+    useEffect(() => {
+        setMonthAsStr(dateLocalized.toFormat("LLLL").charAt(0).toUpperCase() + dateLocalized.toFormat("LLLL").slice(1));
+        getCardsData(dateLocalized.month, dateLocalized.year);
+    }, [dateLocalized]);
+
+    const getCardFaturamento = (mes, ano) => {
         requester
-            .get(`/author/faturamento/mensal/${dateLocalized.month}`)
+            .get(`/author/faturamento/mensal/${mes}/${ano}`)
             .then((response) => {
                 setfaturamento((prev) => {
                     return response.data.length > 0 ? response.data[0] : { total_valor: 0 };
@@ -51,9 +54,9 @@ export default function Page() {
             .catch((err) => {});
     };
 
-    const getCardUnidades = () => {
+    const getCardUnidades = (mes, ano) => {
         requester
-            .get(`/author/vendas/mensal/${dateLocalized.month}`)
+            .get(`/author/vendas/mensal/${mes}/${ano}`)
             .then((response) => {
                 settotalVendidos((prev) => {
                     return response.data.length > 0 ? response.data[0] : { total_registros: 0 };
@@ -62,9 +65,9 @@ export default function Page() {
             .catch((err) => {});
     };
 
-    const getCardObras = () => {
+    const getCardObras = (mes, ano) => {
         requester
-            .get(`/author/obras/mensal/${dateLocalized.month}`)
+            .get(`/author/obras/mensal/${mes}/${ano}`)
             .then((response) => {
                 settotalObrasCadastradas((prev) => {
                     return response.data.length > 0 ? response.data[0] : { total_registros: 0 };
@@ -74,9 +77,9 @@ export default function Page() {
     };
 
     const getCardsData = (month: number, year: number) => {
-        getCardFaturamento();
-        getCardUnidades();
-        getCardObras();
+        getCardFaturamento(month, year);
+        getCardUnidades(month, year);
+        getCardObras(month, year);
     };
 
     const cards = [

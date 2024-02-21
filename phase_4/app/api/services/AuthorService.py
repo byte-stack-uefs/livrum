@@ -22,16 +22,16 @@ class AuthorService:
 
         return faturamento_total
 
-    def getFaturamentoMensalAutor(self, mes: int, idAutor=None):
+    def getFaturamentoMensalAutor(self, mes: int, ano: int, idAutor=None):
         if idAutor is not None:
             with DB() as db:
                 db.execute(
                     "SELECT e.idAutor, SUM(ip.valorTotal) AS total_valor \
                     FROM pedido p JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
-                    WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s \
+                    WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s AND YEAR(p.data) = %s \
                     GROUP BY e.idAutor;",
-                    [idAutor, mes],
+                    [idAutor, mes, ano],
                 )
                 d = db.fetchone()
                 data_list = [] if d is None else [d]
@@ -42,14 +42,14 @@ class AuthorService:
                     "SELECT e.idAutor, SUM(ip.valorTotal) AS total_valor \
                     FROM pedido p JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
-                    WHERE p.status = 'approved' AND MONTH(p.data) = %s \
+                    WHERE p.status = 'approved' AND MONTH(p.data) = %s AND YEAR(p.data) = %s \
                     GROUP BY e.idAutor;",
-                    [mes],
+                    [mes, ano],
                 )
                 data_list = db.fetchall()
         return data_list
 
-    def getTotalUnidadesVendidasMes(self, mes: int, idAutor=None):
+    def getTotalUnidadesVendidasMes(self, mes: int, ano: int, idAutor=None):
         if idAutor is not None:
             with DB() as db:
                 db.execute(
@@ -57,9 +57,9 @@ class AuthorService:
                     FROM pedido p \
                     JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
-                    WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s \
+                    WHERE p.status = 'approved' AND e.idAutor = %s AND MONTH(p.data) = %s AND YEAR(p.data) = %s \
                     GROUP BY e.idAutor;",
-                    [idAutor, mes],
+                    [idAutor, mes, ano],
                 )
                 d = db.fetchone()
                 data_list = [] if d is None else [d]
@@ -70,23 +70,23 @@ class AuthorService:
                     FROM pedido p \
                     JOIN itempedido ip ON p.idPedido = ip.idPedido \
                     JOIN ebook e ON ip.idEbook = e.idEbook \
-                    WHERE p.status = 'approved' AND MONTH(p.data) = %s \
+                    WHERE p.status = 'approved' AND MONTH(p.data) = %s AND YEAR(p.data) = %s \
                     GROUP BY e.idAutor;",
-                    [mes],
+                    [mes, ano],
                 )
                 data_list = db.fetchall()
 
         return data_list
 
-    def getTotalObrasCriadasMes(self, mes: int, idAutor=None):
+    def getTotalObrasCriadasMes(self, mes: int, ano: int, idAutor=None):
         if idAutor is not None:
             with DB() as db:
                 db.execute(
                     "SELECT idAutor, COUNT(*) AS total_registros \
                     FROM ebook \
-                    WHERE idAutor = %s AND MONTH(criadoEm) = %s \
+                    WHERE idAutor = %s AND MONTH(criadoEm) = %s AND YEAR(criadoEm) = %s \
                     GROUP BY idAutor;",
-                    [idAutor, mes],
+                    [idAutor, mes, ano],
                 )
                 d = db.fetchone()
                 data_list = [] if d is None else [d]
@@ -96,9 +96,9 @@ class AuthorService:
                 db.execute(
                     "SELECT idAutor, COUNT(*) AS total_registros \
                     FROM ebook \
-                    WHERE MONTH(criadoEm) = %s \
+                    WHERE MONTH(criadoEm) = %s AND YEAR(criadoEm) = %s \
                     GROUP BY idAutor;",
-                    [mes],
+                    [mes, ano],
                 )
                 data_list = db.fetchall()
 
