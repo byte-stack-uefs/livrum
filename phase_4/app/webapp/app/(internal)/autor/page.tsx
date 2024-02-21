@@ -12,9 +12,10 @@ import { EbookTableItem, EbooksTable } from "@/app/components/EbooksTable";
 import { TableSelect } from "@/app/components/TableSelect";
 import useRequest from "@/app/services/requester";
 import { DateTime } from "luxon";
+import { useUser } from "@/app/context";
 
 export default function Page() {
-    const username = "Almir";
+    const { user } = useUser();
 
     const [faturamento, setfaturamento] = useState<{ total_valor: number }>({ total_valor: 0 });
     const [totalVendidos, settotalVendidos] = useState<{ total_registros: number }>({ total_registros: 0 });
@@ -149,7 +150,7 @@ export default function Page() {
         <Grid container spacing={2}>
             <Grid xs={12}>
                 <Typography variant="h5" sx={{ color: theme.palette.dark.main }}>
-                    Bem-vindo, {username}
+                    Bem-vindo, {user.nome}
                 </Typography>
             </Grid>
             <Grid xs={12} container>
