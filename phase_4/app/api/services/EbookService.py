@@ -90,7 +90,7 @@ class EbookService:
         try:
             return EbookDAO.getEbookById(id)
         except Exception as ex:
-            print("Erro ao aprovar Ebook com id:", id, ex)
+            print("Erro ao Recuperar Ebook com id:", id, ex)
 
     def downloadEbook(id: int):
         file_path = Path(f"files/{id}.pdf")

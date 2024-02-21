@@ -204,6 +204,19 @@ export default function ListagemEbooks() {
             .then((response) => {
                 load();
             })
+            .catch((err) => {})
+            .finally(() => {
+                handleClose();
+            });
+    }
+
+    function reactiveEbook(ebook) {
+        requester
+            .put(`/ebook/reactive/${ebook.id}`)
+            .then((response) => {
+                load();
+            })
+            .catch((err) => {})
             .finally(() => {
                 handleClose();
             });
@@ -266,7 +279,7 @@ export default function ListagemEbooks() {
                             <strong style={{ color: theme.palette.dark.main }}>Status: </strong> {getButtonStatus(openEbook)}
                         </Typography>
                     </DialogContent>
-                    {openEbook.status === EnumAuthorEbookStatus.INACTIVE && (
+                    {openEbook.status === EnumAuthorEbookStatus.REJECTED && (
                         <DialogContent sx={{ color: "dark.main", backgroundColor: "secondary.main", mx: 2, borderRadius: 3 }}>
                             <Typography variant="body2">
                                 <strong>{openEbook.motivo_recusa} </strong>
@@ -285,6 +298,20 @@ export default function ListagemEbooks() {
                                     }}
                                 >
                                     Inativar EBook
+                                </Button>
+                            </DialogActions>
+                        ) : null}
+                        {true ? (
+                            <DialogActions>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    autoFocus
+                                    onClick={() => {
+                                        reactiveEbook(openEbook);
+                                    }}
+                                >
+                                    Reativar EBook
                                 </Button>
                             </DialogActions>
                         ) : null}

@@ -95,19 +95,29 @@ def add(
     pass
 
 
-@router.put("/approve/{id}", description="approve an ebook")
+@router.put("/approve/{id}", description="Approve an ebook")
 def approve(id: str, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.approveEbook(id)
 
 
-@router.put("/repprove", description="repprove an ebook")
+@router.put("/repprove", description="Repprove an ebook")
 def approve(reproveEbook: ReproveEbookDTO, user: Annotated[User, Depends(adminAccess)]):
     return EbookService.repproveEbook(reproveEbook)
 
 
-@router.put("/disable/{id}", description="disable an ebook")
+@router.put("/disable/{id}", description="Disable an ebook")
 def approve(id: str, user: Annotated[User, Depends(accessAdminAuthor)]):
     return EbookService.disableEbook(id)
+
+
+@router.put("/reactive/{id}", description="Reactivate an ebook")
+def approve(id: str, user: Annotated[User, Depends(accessAdminAuthor)]):
+
+    ebook = EbookService.getEbookById(id)
+    if user.tipo == "AUTOR" and ebook.status == "rejected":
+        raise HTTPException(409, "Um ebook depois de rejeitado não pode ser atualizado")
+
+    return EbookService.approveEbook(id)
 
 
 @router.patch("/{id}", description="Update an ebook's field")
@@ -115,7 +125,7 @@ def patch(id: int):
     return {"message": "Update ebook", "id": id}
 
 
-@router.get("/download/{id}", description="download an ebook")
+@router.get("/download/{id}", description="Download an ebook")
 def download(id: str, user: Annotated[User, Depends(allAccess)]):
     ebook = EbookService.getEbookById(id)
     if not ebook.isAvailable and user.tipo != UserType.ADMIN:
