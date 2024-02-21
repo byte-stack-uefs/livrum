@@ -5,6 +5,18 @@ from models.author import CreateAuthorForm, Author
 
 class AuthorService:
 
+    def findAuthorById(self, id):
+
+        with DB() as db:
+
+            db.execute("SELECT * FROM autor WHERE idUsuario = %s", [id])
+            data = db.fetchone()
+
+        if data is None:
+            return None
+
+        return Author(**data)
+
     def _convertAutorQntDataForm(self, item: dict) -> AuthorQntDataForm:
         return AuthorQntDataForm(**item)
 

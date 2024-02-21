@@ -200,3 +200,15 @@ class EbookService:
                 "UPDATE ebook SET tamanhoEmMB = %s WHERE idEBook = %s",
                 [result.st_size / (1024 * 1024), idEbook],
             )
+
+    def findAllByAuthorId(self, id):
+
+        with DB() as db:
+
+            db.execute("SELECT * FROM ebook where idAutor = %s", [id])
+            data = db.fetchall()
+
+        if data is None:
+            return None
+
+        return list(map(lambda x: EbookModel(**x), data))

@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from models.ebook import EbookCreate, EbookDTO
 from models.ebook import ReproveEbookDTO
 from services.EbookService import EbookService
+from services.AuthorService import AuthorService
 
 router = APIRouter(prefix="/ebook", tags=["Ebook"])
 
@@ -13,6 +14,20 @@ allAccess = security.UserHasAccess([UserType.CUSTOMER, UserType.AUTHOR, UserType
 
 access = security.UserHasAccess([UserType.AUTHOR])
 adminAccess = security.UserHasAccess([UserType.ADMIN])
+
+accessAdminAuthor = security.UserHasAccess([UserType.AUTHOR, UserType.ADMIN])
+
+
+@router.get("/author/{id}")
+def getByAuthor(id, user: Annotated[User, Depends(accessAdminAuthor)]):
+
+    service = AuthorService()
+    author = service.findAuthorById(id)
+    if author is None:
+        raise HTTPException(404, "Autor não encontrado")
+
+    ebookService = EbookService()
+    return ebookService.findAllByAuthorId(id)
 
 
 @router.get("/most-viewed")

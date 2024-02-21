@@ -45,6 +45,7 @@ class EbookModel:
         self.releaseYear = kwargs.get("anoLancamento")
         self.status: EbookStatus = kwargs.get("status")
         self.isAvailable: bool = self.status == EbookStatus.ACTIVE
+        self.reasonRejected = kwargs.get('motivoRecusa')
 
 
 class EbookDTO(BaseModel):
